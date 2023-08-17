@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      presentacion: {
+      tipo: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
@@ -43,6 +43,10 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       combustible: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      colorDisponible:{
         type: DataTypes.STRING,
         allowNull: true,
       },
