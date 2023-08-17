@@ -17,13 +17,14 @@ async function loadApiDataInDb() {
         id,
         marca,
         modelo,
-        presentacion,
+        tipo,
         precio,
         estado,
         year,
         imageUrl,
         kilometraje,
         combustible,
+        colorDisponible,
         fichaTecnica,
       } = motoData;
 
@@ -42,7 +43,7 @@ async function loadApiDataInDb() {
 
       // Cargar Moto si no existe
       const [newCar, carCreated] = await Moto.findOrCreate({
-        where: { presentacion },
+        where: { tipo },
         defaults: {
           carModelId: modeloBd.id,
           brandId: marcaBd.id,
@@ -52,6 +53,7 @@ async function loadApiDataInDb() {
           imageUrl,
           kilometraje,
           combustible,
+          colorDisponible,
           fichaTecnica,
         },
       });
