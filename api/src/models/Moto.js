@@ -19,17 +19,14 @@ module.exports = (sequelize) => {
       },
       tipo: {
         type: DataTypes.STRING,
-        unique: true,
+        
         allowNull: false,
       },
       precio: {
         type: DataTypes.DECIMAL(8, 2),
         allowNull: true,
       },
-      estado: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
+      
       year: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -47,7 +44,7 @@ module.exports = (sequelize) => {
         allowNull: true,
       },
       colorDisponible:{
-        type: DataTypes.STRING,
+        type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
       },
       fichaTecnica: {

@@ -115,7 +115,6 @@ async function getAllMoto(req, res) {
       totalPages: totalPages,
       totalItems: totalItems,
     });
-    console.log("Results:", dbMotos);
 
   } catch (error) {
     console.error(error);

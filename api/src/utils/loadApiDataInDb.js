@@ -43,12 +43,11 @@ async function loadApiDataInDb() {
 
       // Cargar Moto si no existe
       const [newMoto, motoCreated] = await Moto.findOrCreate({
-        where: { tipo },
-        defaults: {
+        where: { id },
+        defaults: {tipo,
           motoModelId: modeloBd.id,
           brandId: marcaBd.id,
           precio,
-          estado,
           year,
           imageUrl,
           kilometraje,
