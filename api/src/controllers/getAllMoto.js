@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Car, Brand, CarModel } = require("../db"); // Asegurarse de importar los modelos moto, brands desde db.js
+const { Moto, Brand, MotoModel } = require("../db"); // Asegurarse de importar los modelos moto, brands desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -12,7 +12,7 @@ async function getAllMoto(req, res) {
 
     const {
       brand,
-      carModel,
+      motoModel,
       state,
       minPrice,
       maxPrice,
@@ -20,6 +20,8 @@ async function getAllMoto(req, res) {
       maxYear,
       minKm,
       maxKm,
+      sortByBrand,
+      sortByPrice,
     } = req.query;
 
     let filterOptions = {};
@@ -32,13 +34,13 @@ async function getAllMoto(req, res) {
       });
       filterOptions = { ...filterOptions, brandId: brandFound.id };
     }
-    if (carModel) {
-      // Si carModel está presente en la solicitud
-      // Realizamos la consulta para obtener los modelos filtrados por el carModel
-      const carModelFound = await CarModel.findOne({
-        where: { name: { [Op.iLike]: carModel } },
+    if (motoModel) {
+      // SimotoModel está presente en la solicitud
+      // Realizamos la consulta para obtener los modelos filtrados por elmotoModel
+      const motoModelFound = await MotoModel.findOne({
+        where: { name: { [Op.iLike]: motoModel } },
       });
-      filterOptions = { ...filterOptions, carModelId: carModelFound.id };
+      filterOptions = { ...filterOptions,motoModelId: motoModelFound.id };
     }
     if (state) {
       // Si state está presente en la solicitud
@@ -82,14 +84,23 @@ async function getAllMoto(req, res) {
       filterOptions = { ...filterOptions, kilometraje: { [Op.lte]: maxKm } };
     }
 
+    let orderOptions = [];
+
+    if (sortByBrand) {
+      orderOptions.push([{ model: Brand }, "name", sortByBrand]);
+    }
+    if (sortByPrice) {
+      orderOptions.push(["precio", sortByPrice]);
+    }
+
     // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
-    const { rows: dbCars, count: totalItems } = await Car.findAndCountAll({
+    const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
       limit: limit,
       offset: offset,
       where: filterOptions,
       include: [
         { model: Brand, attributes: ["name"] },
-        { model: CarModel, attributes: ["name"] },
+        { model:MotoModel, attributes: ["name"] },
       ],
     });
 
@@ -98,14 +109,17 @@ async function getAllMoto(req, res) {
 
     // Responder con la lista paginada de autos y la información de paginación
     res.status(200).json({
-      data: dbCars,
+      
+      data: dbMotos,
       currentPage: page,
       totalPages: totalPages,
       totalItems: totalItems,
     });
+    console.log("Results:", dbMotos);
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Error al obtener los autos" });
+    res.status(500).json({ error: "Error al obtener las motos" });
   }
 }
 
