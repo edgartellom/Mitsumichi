@@ -1,16 +1,16 @@
 require("dotenv").config();
 const { Sequelize } = require("sequelize");
 const models = require("./models");
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_DEPLOY } = process.env;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_DEPLOY,DB_PORT } = process.env;
 
 let sequelize;
 DB_DEPLOY
   ? (sequelize = new Sequelize(DB_DEPLOY, {
       logging: false,
-      native: false,
+      native: false, 
     }))
   : (sequelize = new Sequelize(
-      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/mitsumichi`,
+      `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/mitsumichi`,
       {
         logging: false,
         native: false,
