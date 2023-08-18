@@ -2,6 +2,8 @@ export { default as About } from "./About/About";
 export { default as Cart } from "./Cart/Cart";
 export { default as Checkout } from "./Checkout/Checkout";
 export { default as Contact } from "./Contact/Contact";
+export * from "./Dashboard/components";
+export * from "./Dashboard/pages";
 export { default as Detail } from "./Detail/Detail";
 export { default as Home } from "./Home/Home";
 export { default as LandingPage } from "./LandingPage/LandingPage";
