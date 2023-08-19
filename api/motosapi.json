@@ -403,7 +403,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -425,7 +425,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -447,7 +447,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -470,7 +470,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca", "Azul"],
+    "colorDisponible": ["Negra", "Roja", "Blanca", "Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -490,7 +490,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Azul"],
+    "colorDisponible": ["Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -510,7 +510,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Azul"],
+    "colorDisponible": ["Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -532,7 +532,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -552,7 +552,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Blanca"],
+    "colorDisponible": ["Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -572,7 +572,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negro"],
+    "colorDisponible": ["Negro"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -594,7 +594,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -616,7 +616,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -628,7 +628,7 @@
     "id": "030",
     "marca": "Honda",
     "modelo": "CG 110",
-    "tipo": "street",
+    "tipo": "Street",
     "year": "2023",
     "precio": "1590",
     "imageUrl": [

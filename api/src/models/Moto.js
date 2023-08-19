@@ -35,10 +35,7 @@ module.exports = (sequelize) => {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
       },
-      kilometraje: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
+
       combustible: {
         type: DataTypes.STRING,
         allowNull: true,

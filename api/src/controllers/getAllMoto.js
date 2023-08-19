@@ -13,13 +13,10 @@ async function getAllMoto(req, res) {
     const {
       brand,
       motoModel,
-      state,
       minPrice,
       maxPrice,
       minYear,
       maxYear,
-      minKm,
-      maxKm,
       sortByBrand,
       sortByPrice,
     } = req.query;
@@ -42,11 +39,7 @@ async function getAllMoto(req, res) {
       });
       filterOptions = { ...filterOptions,motoModelId: motoModelFound.id };
     }
-    if (state) {
-      // Si state está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el estado
-      filterOptions = { ...filterOptions, estado: { [Op.iLike]: state } };
-    }
+    
     if (minPrice && maxPrice) {
       // Ambos minPrice y maxPrice están presentes en la solicitud
       // Realizamos la consulta para obtener los autos filtrados por el rango de precios
@@ -71,18 +64,7 @@ async function getAllMoto(req, res) {
     } else if (maxYear) {
       filterOptions = { ...filterOptions, year: { [Op.lte]: maxYear } };
     }
-    if (minKm && maxKm) {
-      // Ambos minKm y maxKm están presentes en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el rango de kilometraje
-      filterOptions = {
-        ...filterOptions,
-        kilometraje: { [Op.between]: [minKm, maxKm] },
-      };
-    } else if (minKm) {
-      filterOptions = { ...filterOptions, kilometraje: { [Op.gte]: minKm } };
-    } else if (maxKm) {
-      filterOptions = { ...filterOptions, kilometraje: { [Op.lte]: maxKm } };
-    }
+   
 
     let orderOptions = [];
 

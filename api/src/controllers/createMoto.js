@@ -3,26 +3,28 @@ const { Moto, Brand, MotoModel } = require("../db.js");
 async function createMoto (req, res){
     try {
         const {
+          id,
           marca,
           modelo,
           tipo,
           precio,
           year,
           imageUrl,
-          kilometraje,
           combustible,
+          colorDisponible,
           fichaTecnica,
         } = req.body;
     
         //validacion
         if (
+          !id ||
           !marca ||
           !modelo ||
           !tipo ||
           !precio ||
           !year ||
           !imageUrl ||
-          !kilometraje ||
+          !colorDisponible ||
           !combustible ||
           !fichaTecnica
         ) {
@@ -40,12 +42,6 @@ async function createMoto (req, res){
             .json({ error: "El precio debe ser un número positivo" });
         }
     
-        // const estadoRegex = /^(nuevo|usado)$/i;
-        // if (!estadoRegex.test(estado)) {
-        //   return res
-        //     .status(400)
-        //     .json({ error: "El estado debe ser 'nuevo' o 'usado'" });
-        // }
     
         const currentYear = new Date().getFullYear();
         if (typeof year !== "number" || year < 2010 || year > currentYear) {
@@ -85,7 +81,7 @@ async function createMoto (req, res){
     
         // Crear la nueva moto en la base de datos
         const [newMoto, motoCreated] = await Moto.findOrCreate({
-          where: { tipo },
+          where: { id },
           defaults: {
             motoModelId: modeloBd.id,
             brandId: marcaBd.id,
@@ -93,13 +89,14 @@ async function createMoto (req, res){
             precio,
             year,
             imageUrl,
-            kilometraje,
+            colorDisponible,
             combustible,
             fichaTecnica,
           },
         });
-    
+     
         res.status(201).json(newMoto);
+        console.log(newMoto);
       }catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error al crear la moto" });
