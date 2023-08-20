@@ -88,8 +88,15 @@ Address.belongsTo(User);
 // };
 
 module.exports ={
-  MotoModel,
-  Moto,
+  Address,
   Brand,
+  Cart,
+  CartItem,
+  Moto,
+  MotoModel,
+  Order,
+  OrderItem,
+  Review,
+  User,
   conn: sequelize,
 }

@@ -14,6 +14,7 @@ async function getAllMoto(req, res) {
       brand,
       motoModel,
       state,
+      tipo,
       minPrice,
       maxPrice,
       minYear,
@@ -25,6 +26,12 @@ async function getAllMoto(req, res) {
     } = req.query;
 
     let filterOptions = {};
+
+    if (tipo) {
+
+      // Realizamos la consulta para obtener los autos filtrados por el tipo
+      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
+    }
 
     if (brand) {
       // Si brand está presente en la solicitud
