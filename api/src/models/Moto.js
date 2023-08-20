@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       precio: {
-        type: DataTypes.DECIMAL(8, 2),
+        type: DataTypes.FLOAT,
         allowNull: true,
       },
       

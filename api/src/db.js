@@ -82,7 +82,14 @@ Review.belongsTo(Moto);
 User.hasMany(Address);
 Address.belongsTo(User);
 
-module.exports = {
-  ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
-  conn: sequelize, // para importar la conexión { conn } = require('./db.js');
-};
+// module.exports = {
+//   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
+//   conn: sequelize, // para importar la conexión { conn } = require('./db.js');
+// };
+
+module.exports ={
+  MotoModel,
+  Moto,
+  Brand,
+  conn: sequelize,
+}

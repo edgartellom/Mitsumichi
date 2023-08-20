@@ -3,6 +3,7 @@ const { Moto, Brand, MotoModel } = require("../db.js");
 async function createMoto (req, res){
     try {
         const {
+          // id,
           marca,
           modelo,
           tipo,
@@ -13,16 +14,18 @@ async function createMoto (req, res){
           combustible,
           fichaTecnica,
         } = req.body;
+        console.log(req.body)
     
         //validacion
         if (
+          // !id ||
           !marca ||
           !modelo ||
           !tipo ||
           !precio ||
           !year ||
           !imageUrl ||
-          !kilometraje ||
+          // !kilometraje ||
           !combustible ||
           !fichaTecnica
         ) {
@@ -98,7 +101,7 @@ async function createMoto (req, res){
             fichaTecnica,
           },
         });
-    
+        console.log("result", newMoto)
         res.status(201).json(newMoto);
       }catch (error) {
         console.error(error);
