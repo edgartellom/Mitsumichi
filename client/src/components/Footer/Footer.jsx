@@ -1,4 +1,4 @@
-import logo from '../../assets/footer_img/Logo_Mitsumichi.png';
+import logo from '../../assets/footer_img/Logo_Mitsumichi_Cat.png';
 import face from '../../assets/footer_img/face.gif';
 import insta from '../../assets/footer_img/insta.gif';
 import mail from '../../assets/footer_img/mail.gif';
@@ -6,30 +6,15 @@ import mail from '../../assets/footer_img/mail.gif';
 const Footer = () => {
   return (
     <footer>
-      <div
-        style={{
-          backgroundColor: '#1a202c',
-          borderTop: '3px solid #f6e05e',
-          color: 'white',
-        }}
-        className="widgets_wrapper"
-      >
-        <div className="container mx-auto py-8 grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="widgets_wrapper bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200">  {/* Div ppal */}
+        <div className="container mx-auto py-4 grid grid-cols-1 md:grid-cols-4 gap-4 ">
           {/* Columna 1 */}
           <div className="column one-fourth">
             <aside className="widget_text widget widget_custom_html">
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: '10px',
-                }}
-              >
+              <div className="flex justify-center items-center py-10 ">
                 <img
                   src={logo}
-                  width="350px"
-                  height="350px"
+                  width="100%"
                   alt="Nuestro logo"
                   style={{ borderRadius: '10px' }}
                 />
@@ -38,7 +23,7 @@ const Footer = () => {
           </div>
 
           {/* Columna 2 */}
-          <div className="column one-fourth">
+          <div className="column one-fourth py-10">
             <aside className="widget widget_block">
               <h5>Enlaces de interés</h5>
               <br />
@@ -64,7 +49,7 @@ const Footer = () => {
           </div>
 
           {/* Columna 3 */}
-          <div className="column one-fourth">
+          <div className="column one-fourth py-10">
             <aside className="widget_text widget widget_custom_html">
               <div className="textwidget custom-html-widget">
                 <h5>Enlaces de interés</h5>
@@ -95,7 +80,7 @@ const Footer = () => {
           {/* Columna 4 */}
           <div className="widget_text widget widget_custom_html flex justify-center">
             <aside className="widget_text widget widget_custom_html">
-              <div className="textwidget custom-html-widget">
+              <div className="textwidget custom-html-widget py-10">
                 <a
                   href="http://qr.afip.gob.ar/?qr=TXIfi4ZgHPHLJcmO2azGzA,,"
                   target="_F9GOAFIPINfo"
@@ -103,8 +88,8 @@ const Footer = () => {
                 >
                   <img
                     src="https://www.carone.com.ar/wp-content/uploads/2023/05/DATAWEB.jpeg"
-                    width={100}
-                    height={100}
+                    width={115}
+                    height={115}
                     alt="Nuestro logo"
                   />
                 </a>
@@ -115,24 +100,8 @@ const Footer = () => {
       </div>
 
       {/* Redes Sociales */}
-      <div
-        className="Redes_sociales"
-        style={{
-          backgroundColor: '#1a202c',
-          borderTop: '1px solid #f6e05e',
-          borderBottom: '1px solid #f6e05e',
-        }}
-      >
-        <div
-          className="widget_text widget widget_custom_html flex justify-center"
-          style={{
-            backgroundColor: '#2d3748',
-            color: 'white',
-            borderTop: '1px solid #f6e05e',
-            borderBottom: '1px solid #f6e05e',
-            padding: '10px',
-          }}
-        >
+      <div className="Redes_sociales">
+        <div className="widget_text widget widget_custom_html flex justify-center bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200">
           <div className="column one">
             <ul className="mt-4 flex space-x-4">
               <li>
@@ -166,14 +135,7 @@ const Footer = () => {
             <br />
           </div>
         </div>
-        <div
-          className="text-center"
-          style={{
-            backgroundColor: '#1a202c',
-            color: 'white',
-            padding: '10px',
-          }}
-        >
+        <div className="text-center bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200">
           © 2023 MITSUMISHI MOTOS S.A. Todos los derechos reservados.
         </div>
       </div>
