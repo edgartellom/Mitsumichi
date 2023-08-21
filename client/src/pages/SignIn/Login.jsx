@@ -52,7 +52,9 @@ const Login = () => {
               },
             })}
             type="text"
-            className="p-1.5 w-72  rounded border-solid border-2 border-zinc-600"
+            className={`p-1.5 w-72  rounded border-solid border-2 ${
+              errors.email ? `bg-red-200` : ""
+            } border-zinc-600`}
             placeholder="Enter your email"
           />
           <p className=" text-red-500 font-medium">{errors.email?.message}</p>
@@ -72,7 +74,9 @@ const Login = () => {
               },
             })}
             type="password"
-            className="p-1.5 w-72 rounded border-solid border-2 border-zinc-600"
+            className={`p-1.5 w-72  rounded border-solid border-2 ${
+              errors.password ? `bg-red-200` : ""
+            } border-zinc-600`}
             placeholder="********"
           />
           <p className=" text-red-500 font-medium">

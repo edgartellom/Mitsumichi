@@ -69,7 +69,9 @@ const SignUp = () => {
                   },
                 })}
                 type="text"
-                className="p-1.5 w-72  rounded border-solid border-2 border-zinc-600 max-sm:w-screen"
+                className={`p-1.5 w-72  rounded border-solid border-2 ${
+                  errors.name ? `bg-red-200` : ""
+                } border-zinc-600`}
                 placeholder="nombre"
               />
               <p className=" text-red-500 font-medium">
@@ -90,7 +92,9 @@ const SignUp = () => {
                   },
                 })}
                 type="text"
-                className="p-1.5 w-72 rounded border-solid border-2 border-zinc-600  max-sm:w-screen"
+                className={`p-1.5 w-72  rounded border-solid border-2 ${
+                  errors.apellido ? `bg-red-200` : ""
+                } border-zinc-600`}
                 placeholder="apellido"
               />
               <p className=" text-red-500 font-medium">
@@ -109,7 +113,9 @@ const SignUp = () => {
                 },
               })}
               type="username"
-              className="p-1.5 w-72 rounded border-solid border-2 border-zinc-600  max-sm:w-screen"
+              className={`p-1.5 w-72  rounded border-solid border-2 ${
+                errors.username ? `bg-red-200` : ""
+              } border-zinc-600`}
               placeholder="username"
             />
             <p className=" text-red-500 font-medium">
@@ -132,7 +138,9 @@ const SignUp = () => {
               })}
               type="number"
               min={1}
-              className="p-1.5 w-72 rounded border-solid border-2 border-zinc-600  max-sm:w-screen"
+              className={`p-1.5 w-72  rounded border-solid border-2 ${
+                errors.edad ? `bg-red-200` : ""
+              } border-zinc-600`}
               placeholder="edad"
             />
             <p className=" text-red-500 font-medium">{errors.edad?.message}</p>
@@ -152,7 +160,9 @@ const SignUp = () => {
                 },
               })}
               type="text"
-              className="p-1.5 w-72 rounded border-solid border-2 border-zinc-600  max-sm:w-screen"
+              className={`p-1.5 w-72  rounded border-solid border-2 ${
+                errors.telefono ? `bg-red-200` : ""
+              } border-zinc-600`}
               placeholder="+573245271273"
             />
             <p className=" text-red-500 font-medium">
@@ -174,7 +184,9 @@ const SignUp = () => {
                 },
               })}
               type="text"
-              className="p-1.5 w-72 rounded border-solid border-2 border-zinc-600  max-sm:w-screen"
+              className={`p-1.5 w-72  rounded border-solid border-2 ${
+                errors.documento ? `bg-red-200` : ""
+              } border-zinc-600`}
               placeholder="numero de documento"
             />
             <p className=" text-red-500 font-medium">
@@ -196,7 +208,9 @@ const SignUp = () => {
                 },
               })}
               type="text"
-              className="p-1.5 w-72 rounded border-solid border-2 border-zinc-600  max-sm:w-screen"
+              className={`p-1.5 w-72  rounded border-solid border-2 ${
+                errors.direccion ? `bg-red-200` : ""
+              } border-zinc-600`}
               placeholder="direccion"
             />
             <p className=" text-red-500 font-medium">
