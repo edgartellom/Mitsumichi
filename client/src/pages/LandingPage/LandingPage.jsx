@@ -4,6 +4,8 @@ import SideBar from "../../components/SideBar/SideBar";
 import Button from "../../components/UI/Button";
 import logo from "../../assets/Logo_Mitsumichi.png";
 
+const routes = ["MOTOCICLETAS", "ABOUT US", "SERVICIOS Y SOPORTE"];
+
 const LandingPage = () => {
   return (
     <div className="bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200 h-screen w-screen flex flex-col">
@@ -12,7 +14,7 @@ const LandingPage = () => {
           <div className=" px-20  max-md:px-10 ">
             <img className=" " src={logo} alt="" width={100} />
           </div>
-          <SideBar />
+          <SideBar routesArray={routes} />
           <ul className=" flex gap-10 px-10 flex-wrap max-md:hidden ">
             <li>Motocicletas</li>
             <li>About us</li>
