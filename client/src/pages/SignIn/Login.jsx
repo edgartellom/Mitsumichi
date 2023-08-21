@@ -2,10 +2,10 @@ import Wrapper from "../../helper/Wrapper";
 import Button from "../../components/UI/Button";
 import Logo from "../../assets/Logo_Mitsumichi_Cat.png";
 import google from "../../assets/search.png";
-import loginWithGoogle from "../../functions/loginWithGoogle";
+import loginWithGoogle from "../../firebase/loginWithGoogle";
 import { useState } from "react";
-import registerUser from "../../functions/registerUser";
-import loginWithEmailAndPassword from "../../functions/loginWithEmailPassword";
+import registerUser from "../../firebase/registerUser";
+import loginWithEmailAndPassword from "../../firebase/loginWithEmailPassword";
 
 import { useForm } from "react-hook-form";
 
@@ -87,13 +87,13 @@ const Login = () => {
           <Button
             type="submit"
             text={!isLoggingIn ? "Ingresar" : "Registrarse"}
-            className=" rounded-full  py-1 font-normal shadow-sm mx-0 "
+            className=" rounded-full  py-1 font-normal shadow-sm mx-1 "
           />
           <Button
             text="Continuar con google"
             image={google}
             onClick={googleHandler}
-            className=" mx-auto rounded-full bg-white text-[#000]  py-1 font-normal shadow "
+            className=" mx-auto rounded-full bg-white text-[#001]  py-1 font-normal shadow "
           />
         </section>
         {!isLoggingIn ? (

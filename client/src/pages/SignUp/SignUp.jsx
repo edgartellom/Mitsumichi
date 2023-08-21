@@ -2,12 +2,12 @@ import { useContext } from "react";
 import Button from "../../components/UI/Button";
 import { userAuth } from "../../context/Auth-context";
 import { useForm } from "react-hook-form";
-import existsUsername from "../../functions/existsUsername";
-import updateUser from "../../functions/updateUser";
-import registerNewUser from "../../functions/registerNewUser";
+import existsUsername from "../../firebase/existsUsername";
+import updateUser from "../../firebase/updateUser";
+import registerNewUser from "../../firebase/registerNewUser";
 import Wrapper from "../../helper/Wrapper";
 import { useNavigate } from "react-router-dom";
-import logOut from "../../functions/logOut";
+import logOut from "../../firebase/logOut";
 
 const SignUp = () => {
   const navigate = useNavigate();

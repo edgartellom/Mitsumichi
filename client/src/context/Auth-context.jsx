@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/credenciales";
-import getUser from "../functions/getUser";
+import getUser from "../firebase/getUser";
 export const userAuth = createContext();
 
 const UserContext = ({ children }) => {

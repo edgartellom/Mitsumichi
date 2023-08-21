@@ -1,5 +1,5 @@
 import Button from "../../components/UI/Button";
-import logOut from "../../functions/logOut";
+import logOut from "../../firebase/logOut";
 import SignIn from "../SignIn/SignIn";
 import { useContext, useEffect } from "react";
 import { userAuth } from "../../context/Auth-context";
