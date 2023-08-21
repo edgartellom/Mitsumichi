@@ -1,5 +1,6 @@
 import RootLayot from "./helper/RootLayout";
 import Home from "./pages/Home";
+import { Dashboard } from "./pages";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -15,6 +16,8 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+        path: "/dashboard",
+        element: <Dashboard />,
       },
     ],
   },
