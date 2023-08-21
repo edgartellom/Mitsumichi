@@ -1,27 +1,30 @@
-
-import Error404 from './pages/Error404';
-
-
+import RootLayot from "./helper/RootLayout";
+import Home from "./pages/Home";
+import LandingPage from "./pages/LandingPage/LandingPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayot />,
+    children: [
+      {
+        path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/home",
+        element: <Home />,
+      },
+    ],
+  },
+]);
 
 function App() {
-
-  const root = createBrowserRouter([
-    {
-      path: "/",
-      element: <div></div>,
-      errorElement : <Error404/>,
-      children: [
-        
-        { path: "/home", element: <Home /> },
-      ],
-    },
-  ]);
   return (
-    <>
-      <RouterProvider router={root} />
-    </>
+    <div className="App">
+      <RouterProvider router={router} />
+    </div>
   );
 }
 
