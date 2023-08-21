@@ -2,13 +2,12 @@ import React from "react";
 import videoHome from "../../assets/video.mp4";
 import Navbar from "../../components/Navbar/Navbar";
 import DropdownMenu from "../../components/DropdownMenu";
+import Card from "../../components/Card";
 
 const Home = () => {
   return (
       <div>
-        <div className="fixed w-full bg-white p-1">
         <Navbar/>
-        </div>
           <video autoPlay muted loop src={videoHome} className=""></video>
         <section className="p-1 bg-black w-full">
           <div className="  flex gap-4 items-center">
@@ -20,6 +19,12 @@ const Home = () => {
           
           </div>
         </section>
+        {<div className="flex flex-wrap gap-4 justify-center z-40">
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+        </div>}
       </div>);
 };
 

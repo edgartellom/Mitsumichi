@@ -4,7 +4,7 @@ import logo from "./../../assets/Logo_Mitsumichi.png"
 
 const Navbar = () => {
   return (
-    <div className="flex flex-row justify-between ml-12">
+    <div className="flex flex-row justify-between ml-12 p-1">
       <div className="flex items-center text-zinc-900 font-bold">
         <img src={logo} alt="login" width="66" height="66" />
         <ul className=" flex gap-10 px-10 flex-wrap max-md:hidden ">
