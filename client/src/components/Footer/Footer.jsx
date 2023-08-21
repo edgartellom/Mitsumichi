@@ -6,7 +6,7 @@ import mail from '../../assets/footer_img/mail.gif';
 const Footer = () => {
   return (
     <footer>
-      <div className="widgets_wrapper bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200">  {/* Div ppal */}
+      <div className="widgets_wrapper bg-gradient-to-bl from-gray-100 via-gray-50 to-yellow-200">  {/* Div ppal */}
         <div className="container mx-auto py-4 grid grid-cols-1 md:grid-cols-4 gap-4 ">
           {/* Columna 1 */}
           <div className="column one-fourth">
@@ -101,7 +101,7 @@ const Footer = () => {
 
       {/* Redes Sociales */}
       <div className="Redes_sociales">
-        <div className="widget_text widget widget_custom_html flex justify-center bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200">
+        <div className="widget_text widget widget_custom_html flex justify-center  from-gray-100 via-gray-50 to-yellow-200">
           <div className="column one">
             <ul className="mt-4 flex space-x-4">
               <li>
@@ -135,7 +135,7 @@ const Footer = () => {
             <br />
           </div>
         </div>
-        <div className="text-center bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200">
+        <div className="text-center bg-gradient-to-bl  from-gray-100 via-gray-50 to-yellow-200">
           © 2023 MITSUMISHI MOTOS S.A. Todos los derechos reservados.
         </div>
       </div>
