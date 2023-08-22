@@ -16,7 +16,7 @@ const Footer = () => {
                   src={logo}
                   width="100%"
                   alt="Nuestro logo"
-                  style={{ borderRadius: '10px' }}
+                  
                 />
               </div>
             </aside>
@@ -24,7 +24,8 @@ const Footer = () => {
 
           {/* Columna 2 */}
           <div className="column one-fourth py-10">
-            <aside className="widget widget_block">
+            <aside className="widget_text widget widget_custom_html flex justify-center items-center h-full ">
+              <div  >
               <h5>Enlaces de interés</h5>
               <br />
               <ul>
@@ -45,12 +46,13 @@ const Footer = () => {
                   <a>Formulario</a>
                 </li>
               </ul>
+              </div>
             </aside>
           </div>
 
           {/* Columna 3 */}
           <div className="column one-fourth py-10">
-            <aside className="widget_text widget widget_custom_html">
+            <aside className="widget_text widget widget_custom_html flex justify-center items-center h-full ">
               <div className="textwidget custom-html-widget">
                 <h5>Enlaces de interés</h5>
                 <br />
