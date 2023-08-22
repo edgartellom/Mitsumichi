@@ -17,13 +17,12 @@ async function loadApiDataInDb() {
         id,
         marca,
         modelo,
-        presentacion,
+        tipo,
         precio,
-        estado,
         year,
         imageUrl,
-        kilometraje,
         combustible,
+        colorDisponible,
         fichaTecnica,
       } = motoData;
 
@@ -41,22 +40,21 @@ async function loadApiDataInDb() {
       });
 
       // Cargar Moto si no existe
-      const [newCar, carCreated] = await Moto.findOrCreate({
-        where: { presentacion },
-        defaults: {
-          carModelId: modeloBd.id,
+      const [newMoto, motoCreated] = await Moto.findOrCreate({
+        where: { id },
+        defaults: {tipo,
+          motoModelId: modeloBd.id,
           brandId: marcaBd.id,
           precio,
-          estado,
           year,
           imageUrl,
-          kilometraje,
           combustible,
+          colorDisponible,
           fichaTecnica,
         },
       });
 
-      if (carCreated) {
+      if (motoCreated) {
         // Si el registro ya existe, aumentar el contador de creados
         createdCount++;
       } else {
