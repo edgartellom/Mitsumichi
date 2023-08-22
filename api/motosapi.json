@@ -603,28 +603,6 @@
     }
   },
   {
-    "id": "029",
-    "marca": "Zanella",
-    "modelo": "Sapucai 125",
-    "tipo": "Street",
-    "year": "2023",
-    "precio": "1499",
-    "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-negra-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-roja-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-blanca-scaled-1.jpg"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
-    }
-  },
-  {
     "id": "030",
     "marca": "Honda",
     "modelo": "CG 110",
