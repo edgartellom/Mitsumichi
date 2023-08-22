@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SideBar = () => {
+const SideBar = ({ routesArray }) => {
   const [open, setOpen] = useState(false);
   return (
     <div className=" py-3 fixed top-0 left-0 right-0  hidden max-md:block z-10">
@@ -53,21 +53,14 @@ const SideBar = () => {
               />
             </svg>
           </button>
-          <div className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2">
-            MOTOCICLETAS
-          </div>
-          <div className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2">
-            ABOUT US
-          </div>
-          <div className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2">
-            SERVICIO Y SOPORTE
-          </div>
-          {/* <div className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2">
-            Link 4
-          </div>
-          <div className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2">
-            Link 5
-          </div> */}
+          {routesArray?.map((route) => (
+            <div
+              key={route}
+              className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
+            >
+              {route}
+            </div>
+          ))}
         </div>
       </div>
     </div>

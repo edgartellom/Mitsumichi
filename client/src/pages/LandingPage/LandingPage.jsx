@@ -2,16 +2,21 @@ import React from "react";
 import motorcycle from "../../assets/kawasaki.png";
 import SideBar from "../../components/SideBar/SideBar";
 import Button from "../../components/UI/Button";
+import logo from "../../assets/Logo_Mitsumichi.png";
+import { useNavigate } from "react-router-dom";
+
+const routes = ["MOTOCICLETAS", "ABOUT US", "SERVICIOS Y SOPORTE"];
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   return (
-    <body className="bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200 h-screen w-screen flex flex-col">
+    <div className="bg-gradient-to-bl from-gray-300 via-gray-100 h-screen to-orange-200  flex flex-col">
       <header>
         <nav className=" flex justify-between py-5 font-bold uppercase flex-wrap max-md:flex-row-reverse">
-          <div className=" px-20 max-md:px-10">
-            <h1>Marca y logo</h1>
+          <div className=" px-20  max-md:px-10 ">
+            <img className=" " src={logo} alt="" width={100} />
           </div>
-          <SideBar />
+          <SideBar routesArray={routes} />
           <ul className=" flex gap-10 px-10 flex-wrap max-md:hidden ">
             <li>Motocicletas</li>
             <li>About us</li>
@@ -35,8 +40,9 @@ const LandingPage = () => {
             compañera perfecta en nuestra selección.
           </p>
           <Button
+            onClick={() => navigate("/home")}
             text="Comprar"
-            className=" hover:scale-110 hover:bg-[#161616] duration-300"
+            className=" hover:scale-110 mx-72 text-white hover:bg-[#161616] duration-300"
           />
         </section>
         <picture className="  overflow-hidden">
@@ -47,7 +53,7 @@ const LandingPage = () => {
           />
         </picture>
       </main>
-    </body>
+    </div>
   );
 };
 
