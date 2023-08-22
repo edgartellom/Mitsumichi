@@ -14,6 +14,7 @@ async function getAllMoto(req, res) {
       brand,
       motoModel,
       state,
+      tipo,
       minPrice,
       maxPrice,
       minYear,
@@ -25,68 +26,12 @@ async function getAllMoto(req, res) {
     } = req.query;
 
     let filterOptions = {};
-    //--------------------------------------------------------------------------------
-    if (brand) {
-      // Si brand está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el brand
-      const brandFound = await Brand.findOne({
-        where: { name: { [Op.iLike]: brand } },
-      });
-      filterOptions = { ...filterOptions, brandIds: brandFound.id };
+
+    if (tipo) {
+
+      // Realizamos la consulta para obtener los autos filtrados por el tipo
+      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
     }
-    //--------------------------------------------------------------------------------
-
-    // if(brand){
-    //   console.log(brand, "antes del split");
-    //   const brandNames = brand.split(',');
-    //   console.log(brandNames, "despues del split");
-    //   const brandIds = await Brand.findAll({
-    //     attributes: ["name"],
-    //     where: { name: { [Op.in]: brandNames } },
-    //   });
-    //   console.log(brandIds, "respuesta del findAll");
-    //   const brandIdsArray = brandIds.map(brand => brand.id);
-    //   filterOptions = { ...filterOptions, brandIds: {[Op.in]: brandIdsArray} };
-    //   console.log(filterOptions, "respuesta del filterOptions");
-    // }
-    //realizar la consulta para obtener las motos filtradas por marca, con opcion de buscar mas de una marca
-    // if (brand) {
-    //   console.log(brand, "antes del split");
-    //   // Separa los nombres de las marcas por comas y crea un arreglo
-    //   const brandNames = brand.split(", ");
-    //   console.log(brand, "despues del split");
-    
-    //   // Realiza la consulta para obtener las marcas cuyos nombres estén en la lista de nombres
-    //   const brandData = await Brand.findAll({
-    //     attributes: ["name"],
-    //     where: { name: brandNames },
-    //   })
-    //   console.log(brandData, "respuesta del findAll");
-
-    //   const brandIds = brandData.map((brand) => brand.id);
-    //   console.log(brandIds, "respuesta del map");
-      
-    //   filterOptions = {
-    //     ...filterOptions,
-    //     brandIds: brandIds,
-    //   };
-    // }
-
-    // if (brand) {
-    //   // Separa los nombres de las marcas por comas y crea un arreglo
-    //   const brandNames = brand.split(",");
-
-    //   // Realiza la consulta para obtener las motos cuya marca esté en la lista de marcas
-    //   filterOptions = {
-    //     ...filterOptions,
-    //     brandIds: {
-    //       [Op.or]: await Brand.findAll({
-    //         where: { name: { [Op.iLike]: brandNames } },
-    //       }).map((brand) => brand.name),
-    //     },
-    //   };
-    // }
-
 
     if (motoModel) {
       // SimotoModel está presente en la solicitud
@@ -96,11 +41,17 @@ async function getAllMoto(req, res) {
       });
       filterOptions = { ...filterOptions,motoModelId: motoModelFound.id };
     }
-    if (state) {
-      // Si state está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el estado
-      filterOptions = { ...filterOptions, estado: { [Op.iLike]: state } };
+
+    // Si brand está presente en la solicitud
+    if (brand) {
+      const brandNames = brand.split(','); // Convertir la lista de marcas en un arreglo
+      const brandIds = await Brand.findAll({
+        where: { name: { [Op.in]: brandNames } },
+      });
+      const brandIdsArray = brandIds.map(brand => brand.id);
+      filterOptions = { ...filterOptions, brandId: { [Op.in]: brandIdsArray } };
     }
+
     if (minPrice && maxPrice) {
       // Ambos minPrice y maxPrice están presentes en la solicitud
       // Realizamos la consulta para obtener los autos filtrados por el rango de precios
