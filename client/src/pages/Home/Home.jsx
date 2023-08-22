@@ -27,7 +27,8 @@ const Home = () => {
   return (
     <div>
       {!currentUser ? <SignIn /> : !isRegistered && <SignUp />}
-      Home <Button text="Salir" onClick={logOutHandler} />
+      Home{" "}
+      <Button className=" text-white" text="Salir" onClick={logOutHandler} />
     </div>
   );
 };

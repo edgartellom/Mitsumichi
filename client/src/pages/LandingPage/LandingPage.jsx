@@ -42,7 +42,7 @@ const LandingPage = () => {
           <Button
             onClick={() => navigate("/home")}
             text="Comprar"
-            className=" hover:scale-110 hover:bg-[#161616] duration-300"
+            className=" hover:scale-110 mx-72 text-white hover:bg-[#161616] duration-300"
           />
         </section>
         <picture className="  overflow-hidden">

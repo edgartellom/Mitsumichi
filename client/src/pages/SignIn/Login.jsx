@@ -89,7 +89,7 @@ const Login = () => {
           <Button
             type="submit"
             text={!isLoggingIn ? "Ingresar" : "Registrarse"}
-            className=" rounded-full  py-1 font-normal shadow-sm mx-0 "
+            className=" rounded-full text-white py-1 font-normal shadow-sm mx-0 "
           />
           <Button
             text="Continuar con google"
