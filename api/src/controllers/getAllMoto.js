@@ -33,31 +33,6 @@ async function getAllMoto(req, res) {
       filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
     }
 
-    // if (brand) {
-    //   // Separamos los nombres de las marcas por comas y creamos un arreglo
-    //   const brandNames = brand.split(",");
-    
-    //   // Realizamos la consulta para obtener las marcas cuyos nombres coinciden con los nombres en el arreglo
-    //   const brandsFound = await Brand.findAll({
-    //     where: { name: { [Op.iLike]: brandNames } },
-    //   });
-    
-    //   // Obtenemos los IDs de las marcas encontradas
-    //   const brandIds = brandsFound.map(brand => brand.id);
-    
-    //   // Utilizamos el operador [Op.or] para buscar registros que coincidan con cualquiera de los IDs de las marcas
-    //   filterOptions = { ...filterOptions, brandId: { [Op.or]: brandIds } };
-    // }
-    
-    
-    if (brand) {
-      // Si brand está presente en la solicitud
-      // Realizamos la consulta para obtener los motos filtrados por el brand
-      const brandFound = await Brand.findOne({
-        where: { name: { [Op.iLike]: brand } },
-      });
-      filterOptions = { ...filterOptions, brandId: brandFound.id };
-    }
     if (motoModel) {
       // SimotoModel está presente en la solicitud
       // Realizamos la consulta para obtener los modelos filtrados por elmotoModel
@@ -66,11 +41,17 @@ async function getAllMoto(req, res) {
       });
       filterOptions = { ...filterOptions,motoModelId: motoModelFound.id };
     }
-    if (state) {
-      // Si state está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el estado
-      filterOptions = { ...filterOptions, estado: { [Op.iLike]: state } };
+
+    // Si brand está presente en la solicitud
+    if (brand) {
+      const brandNames = brand.split(','); // Convertir la lista de marcas en un arreglo
+      const brandIds = await Brand.findAll({
+        where: { name: { [Op.in]: brandNames } },
+      });
+      const brandIdsArray = brandIds.map(brand => brand.id);
+      filterOptions = { ...filterOptions, brandId: { [Op.in]: brandIdsArray } };
     }
+
     if (minPrice && maxPrice) {
       // Ambos minPrice y maxPrice están presentes en la solicitud
       // Realizamos la consulta para obtener los autos filtrados por el rango de precios
