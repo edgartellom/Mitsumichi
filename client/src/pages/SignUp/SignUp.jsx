@@ -42,7 +42,7 @@ const SignUp = () => {
 
   return (
     <Wrapper>
-      <form className=" bg-white flex flex-col justify-center  items-center pb-7 pt-2 w-[700px]   gap-6 rounded-lg max-sm:w-screen ">
+      <form className=" bg-white flex flex-col justify-center  items-center pb-7 pt-2 w-[700px] max-sm:h-screen   gap-6 rounded-lg max-sm:w-screen ">
         <h1 className=" text-center text-3xl font-bold">
           Hola {currentUser?.displayName}!, continuemos con tu registro
         </h1>
@@ -214,7 +214,11 @@ const SignUp = () => {
             </p>
           </section>
         </section>
-        <Button text="Finalizar" onClick={handleSubmit(handleFinish)} />
+        <Button
+          className=" text-white"
+          text="Finalizar"
+          onClick={handleSubmit(handleFinish)}
+        />
         <h4 className=" font-semibold text-gray-500">
           Ya tienes cuenta?{" "}
           <span
