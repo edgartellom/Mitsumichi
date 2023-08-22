@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand, MotoModel } = require("../db"); // Asegurarse de importar los modelos moto, brands desde db.js
+const { Moto, Brand, MotoModel } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -25,15 +25,34 @@ async function getAllMoto(req, res) {
     } = req.query;
 
     let filterOptions = {};
+    //--------------------------------------------------------------------------------
+    // if (brand) {
+    //   // Si brand está presente en la solicitud
+    //   // Realizamos la consulta para obtener los autos filtrados por el brand
+    //   const brandFound = await Brand.findOne({
+    //     where: { name: { [Op.iLike]: brand } },
+    //   });
+    //   filterOptions = { ...filterOptions, brandIds: brandFound.id };
+    // }
+    //--------------------------------------------------------------------------------
 
+    
     if (brand) {
-      // Si brand está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el brand
-      const brandFound = await Brand.findOne({
-        where: { name: { [Op.iLike]: brand } },
-      });
-      filterOptions = { ...filterOptions, brandId: brandFound.id };
+      // Separa los nombres de las marcas por comas y crea un arreglo
+      const brandNames = brand.split(",");
+
+      // Realiza la consulta para obtener las motos cuya marca esté en la lista de marcas
+      filterOptions = {
+        ...filterOptions,
+        brandIds: {
+          [Op.or]: await Brand.findAll({
+            where: { name: { [Op.iLike]: brandNames } },
+          }).map((brand) => brand.name),
+        },
+      };
     }
+
+
     if (motoModel) {
       // SimotoModel está presente en la solicitud
       // Realizamos la consulta para obtener los modelos filtrados por elmotoModel
