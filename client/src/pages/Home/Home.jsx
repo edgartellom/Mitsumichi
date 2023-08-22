@@ -6,11 +6,10 @@ import { userAuth } from "../../context/Auth-context";
 import Wrapper from "../../helper/Wrapper";
 import SignUp from "../SignUp/SignUp";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-
+import { useNavigate } from "react-router-dom";
 const Home = () => {
   const { currentUser, isRegistered, loading } = useContext(userAuth);
-
-  const loggedIn = currentUser !== null && !isRegistered;
+  const navigate = useNavigate();
 
   if (loading) {
     return (
@@ -20,18 +19,15 @@ const Home = () => {
     );
   }
 
-  // if (loggedIn) {
-  //   return (
-  //     <Wrapper>
-  //       <SignUp />
-  //     </Wrapper>
-  //   );
-  // }
+  const logOutHandler = () => {
+    logOut();
+    navigate("/");
+  };
 
   return (
     <div>
       {!currentUser ? <SignIn /> : !isRegistered && <SignUp />}
-      Home <Button text="Salir" onClick={logOut} />
+      Home <Button text="Salir" onClick={logOutHandler} />
     </div>
   );
 };

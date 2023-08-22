@@ -6,42 +6,37 @@ import existsUsername from "../../firebase/existsUsername";
 import updateUser from "../../firebase/updateUser";
 import registerNewUser from "../../firebase/registerNewUser";
 import Wrapper from "../../helper/Wrapper";
-import { useNavigate } from "react-router-dom";
 import logOut from "../../firebase/logOut";
 
 const SignUp = () => {
-  const navigate = useNavigate();
   const { currentUser } = useContext(userAuth);
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm();
 
   const handleFinish = async (data) => {
     if (data) {
-      const exists = await existsUsername(data.username);
-      if (exists) {
-        console.log("Ya existe");
-      } else {
-        const tmp = { ...currentUser };
-        tmp.processCompleted = true;
-        await updateUser(tmp);
-        await registerNewUser({
-          data,
-          id: currentUser.uid,
-          email: currentUser.email,
-        });
-      }
+      const tmp = { ...currentUser };
+      tmp.processCompleted = true;
+      await updateUser(tmp);
+      await registerNewUser({
+        data,
+        id: currentUser.uid,
+        email: currentUser.email,
+      });
     }
-    reset();
-    navigate("/home");
+    window.location.reload();
+  };
+
+  const validateUsername = async (username) => {
+    const exists = await existsUsername(username);
+    return exists ? "Este username ya está en uso" : true;
   };
 
   const signInHandler = () => {
     logOut();
-    navigate("/home");
     window.location.reload();
   };
 
@@ -111,6 +106,7 @@ const SignUp = () => {
                   value: true,
                   message: "El campo es obligatorio",
                 },
+                validate: validateUsername,
               })}
               type="username"
               className={`p-1.5 w-72  rounded border-solid border-2 ${
