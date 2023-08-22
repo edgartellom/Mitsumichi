@@ -1,4 +1,5 @@
 [
+  
   {
     "id": "001",
     "marca": "Yumbo",
@@ -97,7 +98,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Azul, Rojo"],
+    "colorDisponible": ["Azul", "Rojo"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -403,7 +404,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -425,7 +426,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -447,7 +448,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -470,7 +471,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca", "Azul"],
+    "colorDisponible": ["Negra", "Roja", "Blanca", "Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -490,7 +491,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Azul"],
+    "colorDisponible": ["Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -510,7 +511,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Azul"],
+    "colorDisponible": ["Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -532,7 +533,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -552,7 +553,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Blanca"],
+    "colorDisponible": ["Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -572,7 +573,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negro"],
+    "colorDisponible": ["Negro"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -594,29 +595,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
-    }
-  },
-  {
-    "id": "029",
-    "marca": "Zanella",
-    "modelo": "Sapucai 125",
-    "tipo": "Street",
-    "year": "2023",
-    "precio": "1499",
-    "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-negra-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-roja-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-blanca-scaled-1.jpg"
-    ],
-
-    "combustible": "Nafta",
-    "colorDiponible": ["Negra", "Roja", "Blanca"],
+    "colorDisponible": ["Negra", "Roja", "Blanca"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
