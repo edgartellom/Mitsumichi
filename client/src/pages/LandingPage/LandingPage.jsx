@@ -2,8 +2,15 @@ import React from "react";
 import motorcycle from "../../assets/kawasaki.png";
 import SideBar from "../../components/SideBar/SideBar";
 import Button from "../../components/UI/Button";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
+  const handleButtonBuy = () =>{
+    navigate("/home")
+  }
+
   return (
     <body className="bg-gradient-to-bl from-gray-300 via-gray-100 to-orange-200 h-screen w-screen flex flex-col">
       <header>
@@ -37,7 +44,8 @@ const LandingPage = () => {
           <Button
             text="Comprar"
             className=" hover:scale-110 hover:bg-[#161616] duration-300"
-          />
+            onfunction={handleButtonBuy}
+            />
         </section>
         <picture className="  overflow-hidden">
           <img
