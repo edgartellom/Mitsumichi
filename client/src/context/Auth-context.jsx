@@ -16,6 +16,7 @@ const UserContext = ({ children }) => {
         const isRegistered = await getUser(userFirebase.uid);
         isRegistered && setIsRegistered(true);
       }
+      setLoading(false);
     });
   }, []);
 

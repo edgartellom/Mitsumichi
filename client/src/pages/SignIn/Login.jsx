@@ -3,13 +3,14 @@ import Button from "../../components/UI/Button";
 import Logo from "../../assets/Logo_Mitsumichi_Cat.png";
 import google from "../../assets/search.png";
 import loginWithGoogle from "../../firebase/loginWithGoogle";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import registerUser from "../../firebase/registerUser";
 import loginWithEmailAndPassword from "../../firebase/loginWithEmailPassword";
-
 import { useForm } from "react-hook-form";
+import { userAuth } from "../../context/Auth-context";
 
 const Login = () => {
+  const { setLoading } = useContext(userAuth);
   const [isLoggingIn, setIsloggingIn] = useState(false);
 
   const {
@@ -20,6 +21,7 @@ const Login = () => {
 
   const googleHandler = async (e) => {
     await loginWithGoogle();
+    setLoading(false);
   };
 
   const sumbitHandler = async ({ email, password }) => {
@@ -87,13 +89,13 @@ const Login = () => {
           <Button
             type="submit"
             text={!isLoggingIn ? "Ingresar" : "Registrarse"}
-            className=" rounded-full  py-1 font-normal shadow-sm mx-1 "
+            className=" rounded-full  py-1 font-normal shadow-sm mx-0 "
           />
           <Button
             text="Continuar con google"
             image={google}
             onClick={googleHandler}
-            className=" mx-auto rounded-full bg-white text-[#001]  py-1 font-normal shadow "
+            className=" mx-auto rounded-full bg-white text-[#000]  py-1 font-normal shadow "
           />
         </section>
         {!isLoggingIn ? (
