@@ -1,8 +1,8 @@
 import RootLayot from "./helper/RootLayout";
+import Home from "./pages/Home";
 import { Dashboard } from "./pages";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home/Home";
 import UserContext from "./context/Auth-context";
 
 const router = createBrowserRouter([
@@ -18,7 +18,6 @@ const router = createBrowserRouter([
 
         path: "/home",
         element: <Home />,
-
 //         path: "/dashboard",
 //         element: <Dashboard />,
 
