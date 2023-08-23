@@ -1,7 +1,8 @@
-import React from "react";
+import ReactDOM from "react-dom";
+import Login from "./Login";
 
 const SignIn = () => {
-  return <div>SignIn</div>;
+  return ReactDOM.createPortal(<Login />, document.getElementById("modals"));
 };
 
 export default SignIn;

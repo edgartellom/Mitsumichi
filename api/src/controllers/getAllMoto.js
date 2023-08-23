@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand, MotoModel } = require("../db"); // Asegurarse de importar los modelos moto, brands desde db.js
+const { Moto, Brand, MotoModel } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -14,6 +14,7 @@ async function getAllMoto(req, res) {
       brand,
       motoModel,
       state,
+      tipo,
       minPrice,
       maxPrice,
       minYear,
@@ -26,14 +27,12 @@ async function getAllMoto(req, res) {
 
     let filterOptions = {};
 
-    if (brand) {
-      // Si brand está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el brand
-      const brandFound = await Brand.findOne({
-        where: { name: { [Op.iLike]: brand } },
-      });
-      filterOptions = { ...filterOptions, brandId: brandFound.id };
+    if (tipo) {
+
+      // Realizamos la consulta para obtener los autos filtrados por el tipo
+      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
     }
+
     if (motoModel) {
       // SimotoModel está presente en la solicitud
       // Realizamos la consulta para obtener los modelos filtrados por elmotoModel
@@ -42,11 +41,36 @@ async function getAllMoto(req, res) {
       });
       filterOptions = { ...filterOptions,motoModelId: motoModelFound.id };
     }
-    if (state) {
-      // Si state está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el estado
-      filterOptions = { ...filterOptions, estado: { [Op.iLike]: state } };
+
+    // Si brand está presente en la solicitud
+    // if (brand) {
+    //   const brandNames = brand.split(','); // Convertir la lista de marcas en un arreglo
+    //   const brandIds = await Brand.findAll({
+    //     where: { name: { [Op.in]: brandNames } },
+    //   });
+    //   const brandIdsArray = brandIds.map(brand => brand.id);
+    //   filterOptions = { ...filterOptions, brandId: { [Op.in]: brandIdsArray } };
+    // }
+
+    if (brand) {
+      const brandNames = brand.split(',');
+    
+      // Realiza una consulta para cada marca y luego combina los resultados
+      const brandIdsArray = await Promise.all(
+        brandNames.map(async (brandName) => {
+          const brand = await Brand.findOne({
+            where: { name: { [Op.iLike]: brandName } },
+          });
+          return brand ? brand.id : null;
+        })
+      );
+    
+      // Filtra los resultados nulos y crea un arreglo de IDs válidos
+      const validBrandIds = brandIdsArray.filter((id) => id !== null);
+    
+      filterOptions = { ...filterOptions, brandId: validBrandIds };
     }
+
     if (minPrice && maxPrice) {
       // Ambos minPrice y maxPrice están presentes en la solicitud
       // Realizamos la consulta para obtener los autos filtrados por el rango de precios
