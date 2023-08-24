@@ -1,5 +1,5 @@
 import RootLayot from "./helper/RootLayout";
-import { Dashboard } from "./pages";
+import { AppDashboard } from "./pages";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -13,8 +13,8 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: "/dashboard",
-        element: <Dashboard />,
+        path: "/dashboard/*",
+        element: <AppDashboard />,
       },
     ],
   },
