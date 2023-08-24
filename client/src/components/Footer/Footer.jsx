@@ -35,7 +35,7 @@ const Footer = () => {
                   </a>
                   </li>
                   <li>
-                    <a>Preguntas frecuentes</a>
+                    <a>Preguntas frecuentes </a>
                   </li>
                   <li>
                   <a href="mailto:busquedas@elixircars.com" target="_blank" rel="noreferrer">
