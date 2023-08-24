@@ -9,5 +9,8 @@ export { default as OrderHistory } from "./OrderHistory/OrderHistory";
 export { default as OurTeam } from "./OurTeam/OurTeam";
 export { default as SignIn } from "./SignIn/SignIn";
 export { default as SignUp } from "./SignUp/SignUp";
+export { default as Moto_Create } from "./dashboard/components/Moto_Create/Moto_Create";
 export * from "./dashboard/components";
+export * from "./dashboard/helper";
+export * from "./dashboard";
 export * from "./dashboard/pages";
