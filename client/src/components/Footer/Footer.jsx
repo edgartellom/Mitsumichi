@@ -48,7 +48,9 @@ const Footer = () => {
                     </a>
                   </li>
                   <li>
-                    <a>Facturas</a>
+                    <a>
+                      Facturas                    
+                    </a>
                   </li>
                 </ul>
               </div>
