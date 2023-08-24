@@ -66,7 +66,7 @@ const Footer = () => {
                     <a>Términos y Condiciones</a>
                   </li>
                   <li>
-                    <a>Política de privacidad</a>
+                    <a>Política de privacidad </a>
                   </li>
                   <li>
                     <a>Cookies</a>
