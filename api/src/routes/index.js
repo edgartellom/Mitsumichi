@@ -3,6 +3,7 @@ const getAllMoto = require("../controllers/getAllMoto")
 const createMoto = require("../controllers/createMoto")
 const getAllBrands = require("../controllers/getAllBrands")
 const getAllMotoModels = require("../controllers/getAllMotoModels")
+const deleteMoto = require("../controllers/deleteMoto.js")
 
 const router = Router();
 
@@ -11,6 +12,7 @@ router.get("/motos", getAllMoto);
 router.get("/marcas", getAllBrands);
 router.get("/modelos", getAllMotoModels)
 router.get("/tipo", getAllMoto)
+router.delete("/motos/:id", deleteMoto)
 
 
 //ruta para publicar motos
