@@ -1,6 +1,5 @@
 import RootLayot from "./helper/RootLayout";
-import Home from "./pages/Home";
-import { Dashboard } from "./pages";
+import Home from "./pages/Home/Home";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
@@ -15,12 +14,8 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-
         path: "/home",
         element: <Home />,
-//         path: "/dashboard",
-//         element: <Dashboard />,
-
       },
     ],
   },
@@ -28,7 +23,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="App">
+    <div className="App flex flex-col h-screen">
       <UserContext>
         <RouterProvider router={router} />
       </UserContext>
