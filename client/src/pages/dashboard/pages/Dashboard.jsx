@@ -1,10 +1,12 @@
 import React from "react";
-import { Moto_Create } from "../components";
+import { Create } from "../components";
 
 const Dashboard = () => {
   return (
-    <div className=" flex m-auto my-10 min-w-[100%]">
-      <Moto_Create />
+    <div className=" flex m-auto my-10 min-w-[100%] justify-center">
+      <div className="w-full">
+        <Create />
+      </div>
     </div>
   );
 };
