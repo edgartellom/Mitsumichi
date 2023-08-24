@@ -3,7 +3,7 @@ import Card from "../Card/Card";
 
 const Cards = ({ data }) => {
   return (
-    <div className="grid grid-cols-3 p-4">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(350px,1fr))] gap-20 p-20 justify-center">
       {data.map((product) => (
         <Card key={product.id} data={product} />
       ))}

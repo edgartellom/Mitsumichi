@@ -56,10 +56,7 @@ const Home = () => {
           <DropdownMenu name={"Storage"} />
         </div>
       </section>
-      <div className="flex flex-wrap gap-4 justify-center z-40">
-        <Cards data={motos} />
-      </div>
-
+      <Cards data={motos} />
       <Paginate
         currentPage={currentPage}
         totalPages={totalPages}
