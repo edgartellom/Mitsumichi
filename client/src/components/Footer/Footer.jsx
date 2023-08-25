@@ -1,120 +1,102 @@
-import logo from '../../assets/footer_img/Logo_Mitsumichi_Cat.png';
-import face from '../../assets/footer_img/face.gif';
-import insta from '../../assets/footer_img/insta.gif';
-import mail from '../../assets/footer_img/mail.gif';
+import logo from "../../assets/footer_img/Logo_Mitsumichi_Cat.png";
+import face from "../../assets/footer_img/face.gif";
+import insta from "../../assets/footer_img/insta.gif";
+import mail from "../../assets/footer_img/mail.gif";
 
 const Footer = () => {
   return (
-    <footer>
-      <div className="widgets_wrapper bg-gradient-to-bl from-gray-100 via-gray-50 to-yellow-200">  {/* Div ppal */}
-        <div className="container mx-auto py-4 grid grid-cols-1 md:grid-cols-4 gap-4 ">
-          {/* Columna 1 */}
-          <div className="column one-fourth">
-            <aside className="widget_text widget widget_custom_html">
-              <div className="flex justify-center items-center py-10 ">
-                <img
-                  src={logo}
-                  width="100%"
-                  alt="Nuestro logo"
-                  
-                />
-              </div>
-            </aside>
-          </div>
-
-          {/* Columna 2 */}
-          <div className="column one-fourth py-10">
-            <aside className="widget_text widget widget_custom_html flex justify-center items-center h-full ">
-              <div className="textwidget custom-html-widget">
-                <h5>Enlaces de interés</h5>
-                <br />
-                <ul>
-                  <li>
+    <footer className="bg-gradient-to-bl from-gray-300 via-gray-100 h-screen to-orange-200  flex flex-col">
+      <section>
+        <div className=" flex flex-wrap justify-around items-center">
+          <aside>
+            <image className="flex justify-center mb-5 items-center pt-10 ">
+              <img src={logo} width={170} alt="logo" />
+            </image>
+          </aside>
+          <table className="  flex flex-col gap- justify-center max-sm:pl-10">
+            <thead className="">
+              <th className=" text-xl">Enlaces de interés</th>
+            </thead>
+            <tbody className=" flex  gap-20 max-sm:gap-2">
+              <td>
+                <tr>
                   <a href="/about" target="_blank">
                     Empresa
                   </a>
-                  </li>
-                  <li>
-                    <a>Preguntas frecuentes </a>
-                  </li>
-                  <li>
-                  <a href="mailto:busquedas@elixircars.com" target="_blank" rel="noreferrer">
+                </tr>
+                <tr>
+                  <a>Preguntas frecuentes </a>
+                </tr>
+                <tr>
+                  <a
+                    href="mailto:busquedas@elixircars.com"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
                     ¿Quieres trabajar con nosotros?
                   </a>
-                  </li>
-                  <li>
-                    <a >
-                      Formularios
-                    </a>
-                  </li>
-                  <li>
-                    <a>
-                      Facturas                    
-                    </a>
-                  </li>
-                </ul>
-              </div>
+                </tr>
+                <tr>
+                  <a>Formularios</a>
+                </tr>
+                <tr>
+                  <a>Facturas</a>
+                </tr>
+              </td>
+              <td>
+                <tr>
+                  <a>Términos y Condiciones</a>
+                </tr>
+                <tr>
+                  <a>Política de privacidad </a>
+                </tr>
+                <tr>
+                  <a>Cookies</a>
+                </tr>
+                <tr>
+                  <a
+                    href="https://outlook.office.com/mail/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Acceso empleados
+                  </a>
+                </tr>
+                <tr>
+                  <a>Atención a publicaciones fraudulentas</a>
+                </tr>
+              </td>
+            </tbody>
+          </table>
+          <section className=" flex justify-center max-sm:hidden max-lg:hidden max-md:hidden">
+            <aside>
+              <a
+                href="http://qr.afip.gob.ar/?qr=TXIfi4ZgHPHLJcmO2azGzA,,"
+                target="_F9GOAFIPINfo"
+                rel="noopener"
+              >
+                <img
+                  className=" rounded-xl filter grayscale"
+                  src="https://www.carone.com.ar/wp-content/uploads/2023/05/DATAWEB.jpeg"
+                  width={115}
+                  height={115}
+                  alt="Nuestro logo"
+                />
+              </a>
             </aside>
-          </div>
-          
-          {/* Columna 3 */}
-          <div className="column one-fourth py-10">
-            <aside className="widget_text widget widget_custom_html flex justify-center items-center h-full ">
-              <div className="textwidget custom-html-widget">
-                <h5>Enlaces de interés</h5>
-                <br />
-                <ul>
-                  <li>
-                    <a>Términos y Condiciones</a>
-                  </li>
-                  <li>
-                    <a>Política de privacidad </a>
-                  </li>
-                  <li>
-                    <a>Cookies</a>
-                  </li>
-                  <li>
-                    <a href="https://outlook.office.com/mail/" target="_blank" rel="noreferrer">
-                      Acceso empleados
-                    </a>
-                  </li>
-                  <li>
-                    <a>Atención a publicaciones fraudulentas</a>
-                  </li>
-                </ul>
-              </div>
-            </aside>
-          </div>
-
-          {/* Columna 4 */}
-          <div className="widget_text widget widget_custom_html flex justify-center">
-            <aside className="widget_text widget widget_custom_html">
-              <div className="textwidget custom-html-widget py-10">
-                <a
-                  href="http://qr.afip.gob.ar/?qr=TXIfi4ZgHPHLJcmO2azGzA,,"
-                  target="_F9GOAFIPINfo"
-                  rel="noopener"
-                >
-                  <img
-                    src="https://www.carone.com.ar/wp-content/uploads/2023/05/DATAWEB.jpeg"
-                    width={115}
-                    height={115}
-                    alt="Nuestro logo"
-                  />
-                </a>
-              </div>
-            </aside>
-          </div>
+          </section>
         </div>
-      </div>
-
-      {/* Redes Sociales */}
-      <div className="Redes_sociales">
-        <div className="widget_text widget widget_custom_html flex justify-center  from-gray-100 via-gray-50 to-yellow-200">
-          <div className="column one">
-            <ul className="mt-4 flex space-x-4">
+      </section>
+      <section>
+        <article className=" flex justify-center max-sm:hidden ">
+          <div>
+            <ul className="mt-4 flex space-x-4 mb-4">
               <li>
-                <a href="https://es-la.facebook.com/" target="_blank" rel="noreferrer">
+                <a
+                  href="https://es-la.facebook.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img
                     src={face}
                     className="w-8 h-8 rounded-lg"
@@ -123,7 +105,11 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img
                     src={insta}
                     className="w-8 h-8 rounded-lg"
@@ -141,13 +127,12 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-            <br />
           </div>
-        </div>
-        <div className="text-center bg-gradient-to-bl  from-gray-100 via-gray-50 to-yellow-200">
+        </article>
+        <div className="text-center pb-5 max-sm:mt-5">
           © 2023 MITSUMISHI MOTOS S.A. Todos los derechos reservados.
         </div>
-      </div>
+      </section>
     </footer>
   );
 };

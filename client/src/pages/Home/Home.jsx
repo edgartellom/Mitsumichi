@@ -45,7 +45,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gradient-to-bl from-gray-400 via-gray-400  to-gray-400">
       <video autoPlay muted loop src={videoHome} className=""></video>
       <section className="p-1 bg-black w-full">
         <div className="  flex gap-4 items-center">
