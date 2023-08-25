@@ -1,13 +1,16 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import { BsCheckCircle, BsXCircle } from "react-icons/bs";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import { BsXCircle, BsCheckCircle } from "react-icons/bs";
 import Select from "react-select";
 
-import "./carousel.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
+import Swal from "sweetalert2";
+
+import axios from "axios";
+
 const optionsTipo = [
+  // Opciones de tipo de moto
   { value: "scooter", label: "Scooter" },
   { value: "naked", label: "Naked" },
   { value: "enduro", label: "Enduro" },
@@ -22,167 +25,512 @@ const optionsCombustible = [
   { value: "electrico", label: "Eléctrico" },
 ];
 
-const optionsColor = [
-  { value: "rojo", label: "Rojo" },
-  { value: "azul", label: "Azul" },
-  // Agregar las demás opciones de color
+const optionsMotor = [
+  { value: "2 tiempos", label: "2 Tiempos" },
+  { value: "4 tiempos", label: "4 Tiempos" },
 ];
 
-const optionsMotor = [
-  { value: "motor1", label: "Motor 1" },
-  { value: "motor2", label: "Motor 2" },
-  // Agregar las demás opciones de motor
+const optionsVelocidades = [
+  { value: "N/A", label: "N/A" },
+  { value: "4", label: "4 Velocidades" },
+  { value: "5", label: "5 Velocidades" },
+  { value: "6", label: "6 Velocidades" },
+];
+
+const optionsColor = [
+  { value: "yellow", label: "Amarillo" },
+  { value: "white", label: "Blanco" },
+  { value: "black", label: "Negro" },
+  { value: "gray", label: "Gris" },
+  { value: "red", label: "Rojo" },
+  { value: "pink", label: "Rosa" },
+  { value: "blue", label: "Azul" },
+  { value: "green", label: "Verde" },
+  { value: "orange", label: "Naranja" },
+  { value: "brown", label: "Marrón" },
+  { value: "silver", label: "Plata" },
+  { value: "gold", label: "Oro" },
+  { value: "purple", label: "Morado" },
+  { value: "beige", label: "Beige" },
 ];
 
 const Moto_Create = () => {
-  const [validationState, setValidationState] = useState({});
-  const [imagePreviews, setImagePreviews] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [selectedColors, setSelectedColors] = useState([]);
+  console.log("Colores:", selectedColors);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm();
+  const [image, setImage] = useState([""]);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+
+  const [imageUploaded, setImageUploaded] = useState(false);
+  const [modalSpin, setModalSpin] = useState(false);
+
+  const [formData, setFormData] = useState({
+    marca: "",
+    modelo: "",
+    tipo: "",
+    year: 0,
+    precio: 0,
+    imageUrl: [],
+    combustible: "",
+    colorDisponible: [],
+    fichaTecnica: {
+      motor: "",
+      pasajeros: "",
+      cilindrada: "",
+      velocidades: "",
+    },
+  });
+
+  const [isButtonActive, setIsButtonActive] = useState(false); // Variable para activar el boton de añadir si el formulario es valido
+
+  // Variables de validación
+  const [isBrandValid, setIsBrandValid] = useState(true);
+  const [isModelValid, setIsModelValid] = useState(true);
+  const [isYearValid, setIsYearValid] = useState(true);
+  const [isTipoValid, setIsTipoValid] = useState(true);
+  const [isPrecioValid, setIsPrecioValid] = useState(true);
+  const [isColorValid, setIsColorValid] = useState(true);
+  const [isCombustibleValid, setIsCombustibleValid] = useState(true);
+  const [isImageUrlValid, setIsImageUrlValid] = useState(true);
+
+  //Ficha Tecnica
+  const [isMotorValid, setIsMotorValid] = useState(true);
+  const [isPasajerosValid, setIsPasajerosValid] = useState(true);
+  const [isCilindradaValid, setIsCilindradaValid] = useState(true);
+  const [isVelocidadesValid, setIsVelocidadesValid] = useState(true);
+
+  useLayoutEffect(() => {
+    const {
+      marca,
+      modelo,
+      tipo,
+      year,
+      precio,
+      imageUrl,
+      combustible,
+      colorDisponible,
+      fichaTecnica,
+    } = formData;
+
+    // Validación de propiedad marca
+    const brandRegex = /^[A-Za-z\s]*[A-Za-z][A-Za-z\s]*(?!\s*$)/;
+    const validBrand =
+      brandRegex.test(marca) &&
+      marca.trim().length >= 3 &&
+      marca.trim().length <= 15;
+    setIsBrandValid(validBrand);
+
+    console.log("Marca", validBrand, marca);
+
+    // Validación de propiedad modelo
+    const modeloRegex = /^[A-Za-z0-9]+(\s[A-Za-z0-9]+)*$/;
+    const validCarModel =
+      modeloRegex.test(modelo) &&
+      modelo.trim().length >= 5 &&
+      modelo.trim().length <= 25;
+    setIsModelValid(validCarModel);
+
+    // Validación de propiedad tipo
+    const validTipo = ["scooter", "naked", "enduro", "street", "cub"].includes(
+      tipo
+    );
+    setIsTipoValid(validTipo);
+    console.log("Tipo", validTipo);
+
+    // Validación del rango de los años
+    const currentYear = new Date().getFullYear();
+    const minYear = 2010;
+    const validYear = year >= minYear && year <= currentYear;
+    setIsYearValid(validYear);
+
+    // Validación de propiedad precio
+    const precioRegex = /^\d[0-9]+$/;
+    const validPrecio = precioRegex.test(precio) && parseInt(precio) >= 500;
+    setIsPrecioValid(validPrecio);
+    console.log("Precio:", validPrecio, precio);
+
+    // Validación de propiedad combustible
+    const validCombustible = ["nafta", "gasolina", "electrico"].includes(
+      combustible
+    );
+    setIsCombustibleValid(validCombustible);
+    console.log("Combustible", validCombustible, combustible);
+
+    // Validación de propiedad color
+    const validColorDisponible = colorDisponible && colorDisponible.length > 0;
+    setIsColorValid(validColorDisponible);
+    console.log("Colors:", validColorDisponible, colorDisponible);
+
+    /*--------------------------------------------------------------------------------------------*/
+    // Validación de propiedad fichaTecnica:
+    // Motor
+    const validMotor = ["2 tiempos", "4 tiempos"].includes(fichaTecnica.motor);
+    setIsMotorValid(validMotor);
+    console.log("Motor: ", validMotor, fichaTecnica.motor);
+
+    // Pasajeros
+    const validPasajeros =
+      fichaTecnica.pasajeros !== "" && parseInt(fichaTecnica.pasajeros) >= 1;
+    setIsPasajerosValid(validPasajeros);
+    console.log("Pasajeros: ", validPasajeros, fichaTecnica.pasajeros);
+
+    // Cilindrada
+    const validCilindrada =
+      fichaTecnica.cilindrada !== "" && parseInt(fichaTecnica.cilindrada) >= 1;
+    setIsCilindradaValid(validCilindrada);
+    console.log("Cilindrada: ", validCilindrada, fichaTecnica.cilindrada);
+
+    // Velocidades
+    const validVelocidades = ["N/A", "4", "5", "6"].includes(
+      fichaTecnica.velocidades
+    );
+    setIsVelocidadesValid(validVelocidades);
+    console.log("Velocidades", validVelocidades, fichaTecnica.velocidades);
+
+    // Validación de propiedad imageUrl
+    const imageUrlRegex =
+      /(http|https|ftp|ftps):\/\/[a-zA-Z0-9-.]+\.[a-zA-Z]{2,3}(\/\S+)?\.(png|jpg|jpeg|gif)$/;
+    const validImageUrl =
+      (typeof imageUrl === "string" && imageUrl !== "") ||
+      (Array.isArray(imageUrl) &&
+        imageUrl.length > 0 &&
+        imageUrl.every((url) => imageUrlRegex.test(url)));
+    setIsImageUrlValid(validImageUrl);
+
+    console.log("Imagenes: ", validImageUrl, imageUrl);
+
+    // Validaciónes de formulario completo
+    const isFormDataValid =
+      isBrandValid &&
+      isModelValid &&
+      isTipoValid &&
+      isCombustibleValid &&
+      isImageUrlValid &&
+      isPrecioValid &&
+      isYearValid &&
+      isColorValid &&
+      isMotorValid &&
+      isPasajerosValid &&
+      isCilindradaValid &&
+      isVelocidadesValid;
+
+    console.log("Formulario", isFormDataValid);
+    setIsButtonActive(isFormDataValid);
+  }, [
+    formData,
+    isBrandValid,
+    isModelValid,
+    isCombustibleValid,
+    isImageUrlValid,
+    isPrecioValid,
+    isTipoValid,
+    isYearValid,
+    isColorValid,
+    isMotorValid,
+    isPasajerosValid,
+    isCilindradaValid,
+    isVelocidadesValid,
+  ]);
+
+  const sortedColorOptions = optionsColor
+    .slice()
+    .sort((a, b) => a.label.localeCompare(b.label));
 
   const customStyles = {
-    control: (provided) => ({
+    multiValue: (provided, state) => ({
       ...provided,
-      boxShadow:
-        validationState.colorDisponible === false
-          ? "0 0 0 1px #e53e3e"
-          : "none",
+      backgroundColor: state.data.value, // Usa el valor como color de fondo
+      border: "1px ridge gray", // Borde redondeado
+    }),
+    multiValueLabel: (provided, state) => ({
+      ...provided,
+      color: state.data.value === "black" ? "white" : "black", // Cambia el color del texto para que sea visible
+      fontWeight: "bold",
+    }),
+    multiValueRemove: (provided, state) => ({
+      ...provided,
+      color: state.data.value === "black" ? "white" : "black", // Cambia el color del icono para que sea visible
+
+      ":hover": {
+        backgroundColor: "rgba(0, 0, 0, 0.2)",
+        color: state.data.value === "white" ? "black" : "white",
+      },
     }),
   };
 
-  const isFieldValid = (fieldName, value) => {
-    switch (fieldName) {
-      case "marca":
-        return (
-          /^[A-Za-z]+(\s[A-Za-z]+)*(?!\s*$)/.test(value) &&
-          value.trim().length >= 5 &&
-          value.trim().length <= 15
-        );
-      case "modelo":
-        return (
-          /^[A-Za-z0-9]+(\s[A-Za-z0-9]+)*$/.test(value) &&
-          value.trim().length >= 5 &&
-          value.trim().length <= 25
-        );
-      case "year":
-        return (
-          /^[0-9]+$/.test(value) &&
-          parseInt(value) >= 2010 &&
-          parseInt(value) <= new Date().getFullYear()
-        );
-      case "precio":
-        return /^[0-9]+$/.test(value) && parseInt(value) >= 500;
-      case "combustible":
-        return !!value;
-      case "colorDisponible":
-        return selectedColors.length > 0;
-      // Agregar casos para otros campos aquí
-      default:
-        return true;
-    }
+  const handleTipoSelection = (selectedOptions) => {
+    const tipo = selectedOptions.value;
+    console.log(tipo);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      tipo: tipo,
+    }));
   };
 
-  const handleInputChange = (fieldName, value) => {
-    console.log("", fieldName, value);
-    const isValid = isFieldValid(fieldName, value);
-    console.log(isValid);
-    setValidationState({
-      ...validationState,
-      [fieldName]: isValid,
-    });
-
-    //setSelectedImage(null); // Reiniciar la vista previa de imagen
-  };
-  const handleImageChange = (event) => {
-    const selectedFiles = event.target.files;
-    const previews = [];
-
-    if (selectedFiles.length > 0) {
-      setSelectedImage(null);
-      setImagePreviews([]);
-
-      for (let i = 0; i < selectedFiles.length; i++) {
-        const reader = new FileReader();
-
-        reader.onload = () => {
-          previews.push(reader.result);
-          if (previews.length === selectedFiles.length) {
-            setImagePreviews(previews);
-            if (previews.length === 1) {
-              setSelectedImage(previews[0]);
-            }
-            setValidationState({
-              ...validationState,
-              imageUrl: true, // Imagen seleccionada correctamente
-            });
-          }
-        };
-
-        reader.readAsDataURL(selectedFiles[i]);
-      }
-    } else {
-      // No se seleccionó ninguna imagen, mostrar icono de error y mensaje de error
-      setSelectedImage(null);
-      setImagePreviews([]);
-      setValidationState({
-        ...validationState,
-        imageUrl: false, // Error: No se seleccionó ninguna imagen
-      });
-    }
-  };
-
-  const handleTipoSelection = (selectedOption) => {
-    handleInputChange("tipo", selectedOption.value);
+  const handleCombustibleSelection = (selectedOptions) => {
+    const combustible = selectedOptions.value;
+    console.log(combustible);
+    setFormData((prevData) => ({
+      ...prevData,
+      combustible: combustible,
+    }));
   };
 
   const handleColorSelection = (selectedOptions) => {
-    console.log("", selectedOptions);
-    setSelectedColors(selectedOptions.map((option) => option.value));
-    handleInputChange("colorDisponible", selectedOptions);
+    const selectedColors = selectedOptions.map((option) => option.value);
+    // console.log(selectedColors);
+
+    setSelectedColors(selectedColors);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      colorDisponible: selectedColors,
+    }));
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const handleMotorSelection = (selectedOptions) => {
+    const motor = selectedOptions.value;
+    console.log(motor);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      fichaTecnica: {
+        ...prevData.fichaTecnica, // Mantén los campos existentes
+        motor: motor, // Modifica el campo motor
+      },
+    }));
+  };
+
+  const handleVelocidadesSelection = (selectedOptions) => {
+    const velocidades = selectedOptions.value;
+    console.log(velocidades);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      fichaTecnica: {
+        ...prevData.fichaTecnica, // Mantén los campos existentes
+        velocidades: velocidades, // Modifica el campo velocidades
+      },
+    }));
+  };
+
+  const handleImageChange = (event) => {
+    const files = event.target.files;
+    console.log(files);
+    const previews = [];
+
+    for (let i = 0; i < files.length; i++) {
+      previews.push(URL.createObjectURL(files[i]));
+    }
+    setImage(files);
+    setSelectedImages(files);
+    setImagePreviews(previews);
+    handleImageUploadCloudinary(files);
+  };
+
+  const handleImageUploadCloudinary = async (images) => {
+    const cloudName = "dwfinmexa"; // Reemplaza por tu Cloud Name de Cloudinary
+    const uploadPreset = "hengersrosario"; // Reemplaza por tu Upload Preset de Cloudinary
+    const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
+    console.log(images);
+
+    Swal.fire({
+      title: "Deseas subir la imagen?",
+      text: "Al presionar SUBIR se subirá la imagen",
+      icon: "question",
+      iconColor: "#0250B6",
+      showCancelButton: true,
+      width: 400,
+      background: "#FFF9EB",
+      color: "#161616",
+      confirmButtonColor: "#0250B6",
+      cancelButtonColor: "#8D0106",
+      confirmButtonText: "SUBIR",
+      cancelButtonText: "CANCELAR",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const imageUrls = [];
+
+          setImageUploaded(true);
+
+          for (const image of images) {
+            const formData = new FormData();
+            formData.append("file", image);
+            formData.append("upload_preset", uploadPreset);
+            formData.append("cloud_name", cloudName);
+
+            const response = await axios.post(apiUrl, formData);
+
+            if (response.data && response.data.secure_url) {
+              imageUrls.push(response.data.secure_url);
+            } else {
+              console.log("Error al subir la imagen:", response.data);
+            }
+          }
+
+          setImageUploaded(false);
+
+          await Swal.fire({
+            title: "¡Imagen Subida!",
+            text: "La imagen se ha subido correctamente",
+            icon: "success",
+            iconColor: "#0250B6",
+            background: "#FFF9EB",
+            color: "#161616",
+            confirmButtonColor: "#0250B6",
+            width: 400,
+          });
+
+          // Aquí puedes manejar el array de URLs como desees, por ejemplo, guardar en el estado
+          console.log("URLs de las imágenes:", imageUrls);
+
+          setFormData((prevFormValues) => ({
+            ...prevFormValues,
+            imageUrl: imageUrls,
+          }));
+        } catch (error) {
+          setImageUploaded(false);
+
+          await Swal.fire({
+            title: "Error",
+            text: "Error al subir la imagen",
+            icon: "error",
+            iconColor: "#0250B6",
+            background: "#FFF9EB",
+            color: "#161616",
+            confirmButtonColor: "#0250B6",
+            width: 400,
+          });
+          console.error("Error al subir la imagen:", error);
+        }
+      }
+    });
+  };
+
+  const handleSubmiMoto = async (e) => {
+    e.preventDefault();
+    console.log(e.target);
+
+    const jsonData = JSON.stringify(formData);
+    console.log(jsonData);
+
+    Swal.fire({
+      title: "¿Deseas añadir esta nueva moto?",
+      text: "Al confirmar, se añadirá la nueva moto.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "AÑADIR",
+      cancelButtonText: "CANCELAR",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios.post(
+            "http://localhost:3001/motos",
+            jsonData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          Swal.fire({
+            title: "Creación exitosa",
+            text: "La moto se ha creado correctamente.",
+            icon: "success",
+          });
+
+          console.log("Nueva moto:", response.data);
+
+          // "https://pf-elixir-cars-back-production.up.railway.app/cars"
+          // Limpio los campos después de confirmar
+
+          setFormData({
+            marca: "",
+            modelo: "",
+            presentacion: "",
+            precio: 0,
+            estado: "",
+            year: 0,
+            imageUrl: [""],
+            kilometraje: "",
+            combustible: "",
+            fichaTecnica: {
+              Motor: "",
+              Pasajeros: "",
+              Carroceria: "",
+              Transmision: "",
+              Traccion: "",
+              Llantas: "",
+              Potencia: "",
+              Puertas: "",
+              Baul: "",
+              airbag: "",
+            },
+          });
+          // console.log("Nuevo auto:", formData);
+        } catch (error) {
+          Swal.fire({
+            title: "Error al publicar la moto",
+            text: "Se ah producido un error al enviar los datos de la moto.",
+            icon: "error",
+          });
+          console.error(error);
+        }
+      }
+    });
   };
 
   return (
-    <div className="m-auto flex flex-col gap-4 w-1/3 py-5 px-10 border-2 rounded-lg">
-      <h1 className="bold text-2xl">Add New Moto</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
-        {/* Resto de los campos de entrada aquí */}
+    <div className="m-auto flex flex-col min-w-[30%] max-w-[500px] gap-4 py-5 px-10 border-2 rounded-lg">
+      {imageUploaded && (
+        <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-slate-100 bg-opacity-50">
+          <svg
+            className=" text-gray-500 animate-moto "
+            xmlns="http://www.w3.org/2000/svg"
+            height="150"
+            viewBox="0 0 640 512"
+          >
+            <path d="M280 32c-13.3 0-24 10.7-24 24s10.7 24 24 24h57.7l16.4 30.3L256 192l-45.3-45.3c-12-12-28.3-18.7-45.3-18.7H64c-17.7 0-32 14.3-32 32v32h96c88.4 0 160 71.6 160 160c0 11-1.1 21.7-3.2 32h70.4c-2.1-10.3-3.2-21-3.2-32c0-52.2 25-98.6 63.7-127.8l15.4 28.6C402.4 276.3 384 312 384 352c0 70.7 57.3 128 128 128s128-57.3 128-128s-57.3-128-128-128c-13.5 0-26.5 2.1-38.7 6L418.2 128H480c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32H459.6c-7.5 0-14.7 2.6-20.5 7.4L391.7 78.9l-14-26c-7-12.9-20.5-21-35.2-21H280zM462.7 311.2l28.2 52.2c6.3 11.7 20.9 16 32.5 9.7s16-20.9 9.7-32.5l-28.2-52.2c2.3-.3 4.7-.4 7.1-.4c35.3 0 64 28.7 64 64s-28.7 64-64 64s-64-28.7-64-64c0-15.5 5.5-29.7 14.7-40.8zM187.3 376c-9.5 23.5-32.5 40-59.3 40c-35.3 0-64-28.7-64-64s28.7-64 64-64c26.9 0 49.9 16.5 59.3 40h66.4C242.5 268.8 190.5 224 128 224C57.3 224 0 281.3 0 352s57.3 128 128 128c62.5 0 114.5-44.8 125.8-104H187.3zM128 384a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
+          </svg>
+        </div>
+      )}
+      <h1 className="bold text-2xl text-center">ADD NEW MOTO</h1>
+      <form
+        onSubmit={handleSubmiMoto}
+        className="flex flex-col gap-2 min-w-full"
+      >
         <div className="input-wrapper flex flex-col">
           <label htmlFor="marca">Marca</label>
-
           <div className="relative">
             <input
               type="text"
-              {...register("marca", {
-                pattern: {
-                  value: /^[A-Za-z\s]*[A-Za-z][A-Za-z\s]*(?!\s*$)/,
-                  message: "Solo letras y espacios son permitidos",
-                },
-              })}
-              onChange={(e) => handleInputChange("marca", e.target.value)}
+              placeholder="Ingrese la marca"
+              //value={formData.marca}
+              onChange={(e) => {
+                const marca = e.target.value;
+
+                setFormData((prevData) => ({
+                  ...prevData,
+                  marca: marca,
+                }));
+              }}
               className={`border rounded px-3 py-2 w-full ${
-                validationState.marca === false ? "border-red-500" : ""
-              } ${validationState.marca === true ? "border-green-500" : ""}`}
+                isBrandValid === false ? "border-red-500" : ""
+              } ${isBrandValid === true ? "border-green-500" : ""}`}
             />
-            {validationState.marca === false && (
-              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 right-3" />
+            {isBrandValid === false && (
+              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
-            {validationState.marca === true && (
-              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 right-3" />
+            {isBrandValid === true && (
+              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
           </div>
-
-          {validationState.marca === false && (
+          {isBrandValid === false && (
             <p className="text-xs italic text-red-500">
               Debe tener entre 5 y 15 caracteres (sin contar espacios)
             </p>
@@ -191,123 +539,59 @@ const Moto_Create = () => {
 
         <div className="input-wrapper flex flex-col">
           <label htmlFor="modelo">Modelo</label>
-
           <div className="relative">
             <input
               type="text"
-              {...register("modelo", {
-                pattern: {
-                  value: /^[A-Za-z0-9\s-]+(?!\s*$)/,
-                  message: "Solo letras, números y guiones son permitidos",
-                },
-              })}
-              onChange={(e) => handleInputChange("modelo", e.target.value)}
+              placeholder="Ingrese el modelo"
+              //value={formData.modelo}
+              onChange={(e) => {
+                const modelo = e.target.value;
+
+                setFormData((prevData) => ({
+                  ...prevData,
+                  modelo: modelo,
+                }));
+              }}
               className={`border rounded px-3 py-2 w-full ${
-                validationState.modelo === false ? "border-red-500" : ""
-              } ${validationState.modelo === true ? "border-green-500" : ""}`}
+                isModelValid === false ? "border-red-500" : ""
+              } ${isModelValid === true ? "border-green-500" : ""}`}
             />
-            {validationState.modelo === false && (
-              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 right-3" />
+            {isModelValid === false && (
+              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
-            {validationState.modelo === true && (
-              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 right-3" />
+            {isModelValid === true && (
+              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
           </div>
-
-          {validationState.modelo === false && (
+          {isModelValid === false && (
             <p className="text-xs italic text-red-500">
-              Debe tener entre 5 y 25 caracteres (sin contar espacios)
+              Debe tener entre 5 y 15 caracteres (sin contar espacios)
             </p>
           )}
         </div>
 
         <div className="input-wrapper flex flex-col">
           <label htmlFor="tipo">Tipo</label>
-          <Select
-            {...register("tipo", {
-              required: "Selecciona un tipo",
-            })}
-            options={optionsTipo}
-            className={`border rounded ${
-              validationState.tipo === false ? "border-red-500" : ""
-            } ${validationState.tipo === true ? "border-green-500" : ""}`}
-            onChange={handleTipoSelection}
-          />
-          {validationState.tipo === false && (
+          <div className="relative">
+            <Select
+              options={optionsTipo}
+              placeholder="Selecciona un Modelo de Moto"
+              className={`border rounded w-full ${
+                isTipoValid === false ? "border-red-500" : ""
+              } ${isTipoValid === true ? "border-green-500" : ""}`}
+              onChange={handleTipoSelection}
+            />
+            {isTipoValid === false && (
+              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+            )}
+            {isTipoValid === true && (
+              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+            )}
+          </div>
+          {isTipoValid === false && (
             <p className="text-xs italic text-red-500">
               Selecciona una opción válida
             </p>
-          )}
-        </div>
-
-        <div className="input-wrapper flex flex-col">
-          <label htmlFor="imageUrl" className="mb-1">
-            Imagen
-          </label>
-
-          <div className="flex items-center w-full">
-            {selectedImage ? (
-              <img
-                src={selectedImage}
-                alt="Vista previa"
-                className="w-20 h-20"
-              />
-            ) : null}
-
-            {imagePreviews.length > 1 ? (
-              <Carousel>
-                {imagePreviews.map((preview, index) => (
-                  <div key={index}>
-                    <img src={preview} alt={`Vista previa ${index + 1}`} />
-                  </div>
-                ))}
-              </Carousel>
-            ) : null}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <input
-              type="file"
-              accept=".jpg, .jpeg, .png, .gif"
-              {...register("imageUrl", {
-                validate: {
-                  validFiles: (value) => {
-                    if (!value[0]) {
-                      setSelectedImage(null); // Reset the selected image preview
-                      return "Selecciona al menos una imagen";
-                    }
-                    return true;
-                  },
-                },
-              })}
-              onChange={handleImageChange}
-              className="hidden"
-              id="imageUrl"
-              multiple
-            />
-            <label
-              htmlFor="imageUrl"
-              className="cursor-pointer bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-300"
-            >
-              Seleccionar Imagen
-            </label>
-          </div>
-
-          {errors.imageUrl && (
-            <div className="flex items-center">
-              <BsXCircle className="text-red-500 mr-2" />
-              <p className="text-xs italic text-red-500">
-                {errors.imageUrl.message}
-              </p>
-            </div>
-          )}
-          {selectedImage && !errors.imageUrl && (
-            <div className="flex items-center">
-              <BsCheckCircle className="text-green-500 mr-2" />
-              <p className="text-xs italic text-green-500">
-                Imagen seleccionada
-              </p>
-            </div>
           )}
         </div>
 
@@ -316,29 +600,30 @@ const Moto_Create = () => {
           <div className="relative">
             <input
               type="number"
-              {...register("year", {
-                validate: {
-                  validNumber: (value) =>
-                    /^[0-9]+$/.test(value) &&
-                    parseInt(value) >= 2010 &&
-                    parseInt(value) <= new Date().getFullYear(),
-                },
-              })}
-              onChange={(e) => handleInputChange("year", e.target.value)}
+              //value={formData.year}
+              placeholder="Ingrese un año"
+              onChange={(e) => {
+                const year = e.target.value;
+
+                setFormData((prevData) => ({
+                  ...prevData,
+                  year: Number(year),
+                }));
+              }}
               className={`border rounded px-3 py-2 w-full ${
-                validationState.year === false ? "border-red-500" : ""
-              } ${validationState.year === true ? "border-green-500" : ""}`}
+                isYearValid === false ? "border-red-500" : ""
+              } ${isYearValid === true ? "border-green-500" : ""}`}
             />
-            {validationState.year === false && (
-              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 right-10" />
+            {isYearValid === false && (
+              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
-            {validationState.year === true && (
-              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 right-10" />
+            {isYearValid === true && (
+              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
           </div>
-          {validationState.year === false && (
+          {isYearValid === false && (
             <p className="text-xs italic text-red-500">
-              Debe ser un número entre 2010 y el año actual
+              El año debe estar entre 2010 y el año actual
             </p>
           )}
         </div>
@@ -348,50 +633,54 @@ const Moto_Create = () => {
           <div className="relative">
             <input
               type="number"
-              {...register("precio", {
-                validate: {
-                  validNumber: (value) =>
-                    /^[0-9]+$/.test(value) && parseInt(value) >= 500,
-                },
-              })}
-              onChange={(e) => handleInputChange("precio", e.target.value)}
+              //value={formData.precio}
+              placeholder="Ingrese un monto"
+              onChange={(e) => {
+                const precio = e.target.value;
+
+                setFormData((prevData) => ({
+                  ...prevData,
+                  precio: Number(precio),
+                }));
+              }}
               className={`border rounded px-3 py-2 w-full ${
-                validationState.precio === false ? "border-red-500" : ""
-              } ${validationState.precio === true ? "border-green-500" : ""}`}
+                isPrecioValid === false ? "border-red-500" : ""
+              } ${isPrecioValid === true ? "border-green-500" : ""}`}
             />
-            {validationState.precio === false && (
-              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 right-10" />
+            {isPrecioValid === false && (
+              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
-            {validationState.precio === true && (
-              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 right-10" />
+            {isPrecioValid === true && (
+              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
             )}
           </div>
-          {validationState.precio === false && (
+          {isPrecioValid === false && (
             <p className="text-xs italic text-red-500">
-              Debe ser un número mayor o igual a 500
+              El precio debe ser un monto válido (mayor 500)
             </p>
           )}
         </div>
 
         <div className="input-wrapper flex flex-col">
-          <label htmlFor="combustible">Combustible</label>
-          <Select
-            {...register("combustible", {
-              validate: {
-                validOption: (value) => !!value,
-              },
-            })}
-            options={optionsCombustible}
-            className={`border rounded ${
-              validationState.combustible === false ? "border-red-500" : ""
-            } ${
-              validationState.combustible === true ? "border-green-500" : ""
-            }`}
-            onChange={(selectedOption) =>
-              handleInputChange("combustible", selectedOption.value)
-            }
-          />
-          {validationState.combustible === false && (
+          <label htmlFor="tipo">Combustible</label>
+          <div className="relative">
+            <Select
+              options={optionsCombustible}
+              placeholder="Selecciona el tipo de combustible"
+              className={`border rounded ${
+                isCombustibleValid === false ? "border-red-500" : ""
+              } ${isCombustibleValid === true ? "border-green-500" : ""}`}
+              onChange={handleCombustibleSelection}
+            />
+
+            {isCombustibleValid === false && (
+              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+            )}
+            {isCombustibleValid === true && (
+              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+            )}
+          </div>
+          {isCombustibleValid === false && (
             <p className="text-xs italic text-red-500">
               Selecciona una opción válida
             </p>
@@ -399,39 +688,223 @@ const Moto_Create = () => {
         </div>
 
         <div className="input-wrapper flex flex-col">
-          <label htmlFor="colorDisponible">Colores Disponibles</label>
-          <Select
-            {...register("colorDisponible", {
-              validate: {
-                validOption: (value) => selectedColors.length > 0,
-              },
-            })}
-            options={optionsColor}
-            className="mt-2"
-            isMulti
-            value={selectedColors.map((color) => ({
-              value: color,
-              label: color,
-            }))}
-            onChange={handleColorSelection}
-            styles={customStyles}
-            placeholder="Selecciona o agrega colores"
-            creatable
-            formatCreateLabel={(inputValue) => `Agregar color "${inputValue}"`}
-          />
-          {validationState.colorDisponible === false && (
+          <label htmlFor="colorDisposible">Color de la Moto</label>
+          <div className="relative">
+            <Select
+              options={sortedColorOptions}
+              placeholder="Selecciona o agrega un color"
+              className={`border rounded ${
+                isColorValid === false ? "border-red-500" : ""
+              } ${isColorValid === true ? "border-green-500" : ""}`}
+              styles={customStyles}
+              isMulti
+              creatable
+              formatCreateLabel={(inputValue) =>
+                `Agregar color "${inputValue}"`
+              }
+              onChange={handleColorSelection}
+            />
+            {isColorValid === false && (
+              <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+            )}
+            {isColorValid === true && (
+              <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+            )}
+          </div>
+          {isColorValid === false && (
             <p className="text-xs italic text-red-500">
               Selecciona al menos un color
             </p>
           )}
         </div>
-        {/* Resto de los campos de entrada aquí */}
-        <button
-          type="submit"
-          className="focus:shadow-outline rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700 focus:outline-none"
-        >
-          Enviar
-        </button>
+        {/* Barra divisoria */}
+        <div className="w-full h-0.5 border rounded-lg bg-gray-400 my-4"></div>
+
+        <div className="input-wrapper flex flex-col">
+          <label htmlFor="imageUrl" className="mb-1">
+            Imagen
+          </label>
+
+          {selectedImages.length > 0 && (
+            <div className="image-preview m-4">
+              {selectedImages.length === 1 ? (
+                <img
+                  src={imagePreviews[0]}
+                  alt="Vista previa"
+                  className=" rounded-lg w-50 h-50"
+                />
+              ) : (
+                <Carousel>
+                  {imagePreviews.map((preview, index) => (
+                    <div key={index}>
+                      <img src={preview} alt={`Vista previa ${index + 1}`} />
+                    </div>
+                  ))}
+                </Carousel>
+              )}
+            </div>
+          )}
+          <div className="flex flex-row justify-center">
+            <div className="flex items-center gap-2 mr-2">
+              <input
+                type="file"
+                accept=".jpg, .jpeg, .png, .gif"
+                onChange={handleImageChange}
+                className="hidden"
+                id="imageUrl"
+                multiple // Asegúrate de que está habilitado el modo de selección múltiple
+              />
+              <label
+                htmlFor="imageUrl"
+                className="cursor-pointer bg-black text-white px-4 py-2 rounded-lg hover:bg-[#FFD700] hover:text-gray-900 transition duration-300"
+              >
+                Seleccionar Imagen
+              </label>
+            </div>
+            {imagePreviews.length > 0 ? (
+              <button
+                type="button"
+                onClick={() => handleImageUploadCloudinary(selectedImages)}
+                className=" p-0 w-32 text-center bg-blue-500 text-white m-1 px-4 py-2 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700]"
+              >
+                Subir Imagen
+              </button>
+            ) : null}
+          </div>
+        </div>
+
+        {/* Barra divisoria */}
+        <div className="w-full h-0.5 border rounded-lg bg-gray-400 my-4"></div>
+
+        <div className="input-wrapper flex flex-col">
+          <div className="input-wrapper flex flex-col">
+            <label htmlFor="motor">Motor</label>
+            <div className="relative">
+              <Select
+                options={optionsMotor}
+                placeholder="Selecciona el motor"
+                className={`border rounded ${
+                  isMotorValid === false ? "border-red-500" : ""
+                } ${isMotorValid === true ? "border-green-500" : ""}`}
+                onChange={handleMotorSelection}
+              />
+
+              {isMotorValid === false && (
+                <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+              {isMotorValid === true && (
+                <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+            </div>
+            {isMotorValid === false && (
+              <p className="text-xs italic text-red-500">
+                Selecciona una opción válida
+              </p>
+            )}
+          </div>
+
+          <div className="input-wrapper flex flex-col">
+            <label htmlFor="velocidades">Velocidades de la Moto</label>
+            <div className="relative">
+              <Select
+                options={optionsVelocidades}
+                placeholder="Selecciona las velocides"
+                onChange={handleVelocidadesSelection}
+                className={`border rounded ${
+                  isVelocidadesValid === false ? "border-red-500" : ""
+                } ${isVelocidadesValid === true ? "border-green-500" : ""}`}
+              />
+              {isVelocidadesValid === false && (
+                <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+              {isVelocidadesValid === true && (
+                <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+            </div>
+          </div>
+
+          <div className="input-wrapper flex flex-col">
+            <label htmlFor="pasajeros">Pasajeros</label>
+            <div className="relative">
+              <input
+                type="number"
+                //value={formData.pasajeros}
+                placeholder="Ingrese el número de pasajeros"
+                onChange={(e) => {
+                  const pasajeros = e.target.value;
+
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    fichaTecnica: {
+                      ...prevData.fichaTecnica, // Mantén los campos existentes
+                      pasajeros: pasajeros, // Modifica el campo cilindrada
+                    },
+                  }));
+                }}
+                className={`border rounded px-3 py-2 w-full ${
+                  isPasajerosValid === false ? "border-red-500" : ""
+                } ${isPasajerosValid === true ? "border-green-500" : ""}`}
+              />
+              {isPasajerosValid === false && (
+                <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+              {isPasajerosValid === true && (
+                <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+            </div>
+            {isPasajerosValid === false && (
+              <p className="text-xs italic text-red-500">
+                El número de pasajeros debe ser un número válido
+              </p>
+            )}
+          </div>
+
+          <div className="input-wrapper flex flex-col">
+            <label htmlFor="cilindrada">Cilindrada</label>
+            <div className="relative">
+              <input
+                type="number"
+                //value={formData.pasajeros}
+                placeholder="Ingrese el valor la cilindrada"
+                onChange={(e) => {
+                  const cilindrada = e.target.value;
+
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    fichaTecnica: {
+                      ...prevData.fichaTecnica, // Mantén los campos existentes
+                      cilindrada: cilindrada, // Modifica el campo cilindrada
+                    },
+                  }));
+                }}
+                className={`border rounded px-3 py-2 w-full ${
+                  isCilindradaValid === false ? "border-red-500" : ""
+                } ${isCilindradaValid === true ? "border-green-500" : ""}`}
+              />
+              {isCilindradaValid === false && (
+                <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+              {isCilindradaValid === true && (
+                <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+            </div>
+            {isCilindradaValid === false && (
+              <p className="text-xs italic text-red-500">
+                El número de cilindrada debe ser un número válido
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="input-wrapper flex flex-col">
+          <button
+            type="submit"
+            disabled={!isButtonActive} // Desactiva el botón si isButtonActive es falso
+            className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md disabled:bg-gray-300"
+          >
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );
