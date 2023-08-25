@@ -1,7 +1,9 @@
 import RootLayot from "./helper/RootLayout";
 import { AppDashboard } from "./pages";
+import Home from "./pages/Home/Home";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import UserContext from "./context/Auth-context";
 
 const router = createBrowserRouter([
   {
@@ -16,14 +18,20 @@ const router = createBrowserRouter([
         path: "/dashboard/*",
         element: <AppDashboard />,
       },
+      {
+        path: "/home",
+        element: <Home />,
+      },
     ],
   },
 ]);
 
 function App() {
   return (
-    <div className="App">
-      <RouterProvider router={router} />
+    <div className="App flex flex-col h-screen">
+      <UserContext>
+        <RouterProvider router={router} />
+      </UserContext>
     </div>
   );
 }
