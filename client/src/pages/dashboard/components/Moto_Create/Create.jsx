@@ -1,8 +1,12 @@
 import React, { useState, useLayoutEffect } from "react";
 import { BsXCircle, BsCheckCircle } from "react-icons/bs";
-
 import Select from "react-select";
+
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 import Swal from "sweetalert2";
+
 import axios from "axios";
 
 const optionsTipo = [
@@ -26,6 +30,13 @@ const optionsMotor = [
   { value: "4 tiempos", label: "4 Tiempos" },
 ];
 
+const optionsVelocidades = [
+  { value: "N/A", label: "N/A" },
+  { value: "4", label: "4 Velocidades" },
+  { value: "5", label: "5 Velocidades" },
+  { value: "6", label: "6 Velocidades" },
+];
+
 const optionsColor = [
   { value: "yellow", label: "Amarillo" },
   { value: "white", label: "Blanco" },
@@ -46,6 +57,13 @@ const optionsColor = [
 const Create = () => {
   const [selectedColors, setSelectedColors] = useState([]);
   console.log("Colores:", selectedColors);
+
+  const [image, setImage] = useState([""]);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
+
+  //const cloudinaryName = "dwfinmexa";
+
   const [formData, setFormData] = useState({
     marca: "",
     modelo: "",
@@ -142,17 +160,32 @@ const Create = () => {
     const validColorDisponible = colorDisponible.length > 0;
     setIsColorValid(validColorDisponible);
     console.log("Colors:", validColorDisponible, colorDisponible);
+
     /*--------------------------------------------------------------------------------------------*/
     // Validación de propiedad fichaTecnica:
-
     // Motor
     const validMotor = ["2 tiempos", "4 tiempos"].includes(fichaTecnica.motor);
     setIsMotorValid(validMotor);
     console.log("Motor: ", validMotor, fichaTecnica.motor);
+
     // Pasajeros
-    const validPasajeros = fichaTecnica.pasajeros.length !== "";
+    const validPasajeros =
+      fichaTecnica.pasajeros !== "" && parseInt(fichaTecnica.pasajeros) >= 1;
     setIsPasajerosValid(validPasajeros);
     console.log("Pasajeros: ", validPasajeros, fichaTecnica.pasajeros);
+
+    // Cilindrada
+    const validCilindrada =
+      fichaTecnica.cilindrada !== "" && parseInt(fichaTecnica.cilindrada) >= 1;
+    setIsCilindradaValid(validCilindrada);
+    console.log("Cilindrada: ", validCilindrada, fichaTecnica.cilindrada);
+
+    // Velocidades
+    const validVelocidades = ["N/A", "4", "5", "6"].includes(
+      fichaTecnica.velocidades
+    );
+    setIsVelocidadesValid(validVelocidades);
+    console.log("Velocidades", validVelocidades, fichaTecnica.velocidades);
 
     // Validación de propiedad imageUrl
     const imageUrlRegex =
@@ -176,9 +209,10 @@ const Create = () => {
       isColorValid &&
       isMotorValid &&
       isPasajerosValid &&
-      fichaTecnica.cilindrada !== "" &&
-      fichaTecnica.velocidades !== "";
+      isCilindradaValid &&
+      isVelocidadesValid;
 
+    console.log("Formulario", isFormDataValid);
     setIsButtonActive(isFormDataValid);
   }, [
     formData,
@@ -192,6 +226,8 @@ const Create = () => {
     isColorValid,
     isMotorValid,
     isPasajerosValid,
+    isCilindradaValid,
+    isVelocidadesValid,
   ]);
 
   const sortedColorOptions = optionsColor
@@ -223,19 +259,20 @@ const Create = () => {
   const handleTipoSelection = (selectedOptions) => {
     const tipo = selectedOptions.value;
     console.log(tipo);
-    setFormData({
-      ...formData,
+
+    setFormData((prevData) => ({
+      ...prevData,
       tipo: tipo,
-    });
+    }));
   };
 
   const handleCombustibleSelection = (selectedOptions) => {
     const combustible = selectedOptions.value;
     console.log(combustible);
-    setFormData({
-      ...formData,
+    setFormData((prevData) => ({
+      ...prevData,
       combustible: combustible,
-    });
+    }));
   };
 
   const handleColorSelection = (selectedOptions) => {
@@ -252,15 +289,117 @@ const Create = () => {
 
   const handleMotorSelection = (selectedOptions) => {
     const motor = selectedOptions.value;
-
     console.log(motor);
-    setFormData({
-      ...formData,
+
+    setFormData((prevData) => ({
+      ...prevData,
       fichaTecnica: {
-        ...formData.fichaTecnica,
-        motor: motor,
+        ...prevData.fichaTecnica, // Mantén los campos existentes
+        motor: motor, // Modifica el campo motor
       },
-    });
+    }));
+  };
+
+  const handleVelocidadesSelection = (selectedOptions) => {
+    const velocidades = selectedOptions.value;
+    console.log(velocidades);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      fichaTecnica: {
+        ...prevData.fichaTecnica, // Mantén los campos existentes
+        velocidades: velocidades, // Modifica el campo velocidades
+      },
+    }));
+  };
+
+  const handleImageChange = (event) => {
+    const files = event.target.files;
+    const previews = [];
+
+    for (let i = 0; i < files.length; i++) {
+      previews.push(URL.createObjectURL(files[i]));
+    }
+    setImage(files);
+    setSelectedImages(files);
+    setImagePreviews(previews);
+    handleImageUploadCloudinary(files);
+  };
+
+  const handleImageUploadCloudinary = async (image) => {
+    const cloudName = "dwfinmexa"; // Reemplaza por tu Cloud Name de Cloudinary
+    const uploadPreset = "hengersrosario"; // Reemplaza por tu Upload Preset de Cloudinary
+    const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+
+    try {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", uploadPreset);
+      formData.append("cloud_name", cloudName);
+
+      const response = await axios.post(apiUrl, formData);
+      console.log(response);
+
+      if (response.data && response.data.secure_url) {
+        const imageUrl = response.data.secure_url;
+
+        setFormData((prevFormValues) => ({
+          ...prevFormValues,
+          imageUrl: [imageUrl],
+        }));
+      } else {
+        console.log("Error: No se pudo obtener la URL de la imagen");
+      }
+    } catch (error) {
+      console.error("Error al subir la imagen:", error);
+    }
+
+    // Swal.fire({
+    //   title: "¿Estás seguro?",
+    //   text: "Los cambios no se pueden deshacer",
+    //   icon: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#3085d6",
+    //   cancelButtonColor: "#d33",
+    //   confirmButtonText: "Sí, estoy seguro",
+    //   cancelButtonText: "Cancelar",
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     const data = new FormData();
+    //     data.append("file", image);
+    //     data.append("upload_preset", uploadPreset);
+    //     data.append("cloud_name", cloudName);
+
+    //     fetch(apiUrl, {
+    //       method: "post",
+    //       body: data,
+    //     })
+    //       .then((res) => res.json())
+    //       .then((data) => {
+    //         console.log(data);
+    //         if (data && data.secure_url) {
+    //           const imageUrl = data.secure_url;
+    //           console.log(imageUrl);
+
+    //           setFormData((prevFormValues) => ({
+    //             ...prevFormValues,
+    //             imageUrl: [imageUrl],
+    //           }));
+
+    //           Swal.fire(
+    //             "¡Imagen Añadida!",
+    //             "La imagen ha sido adjuntada correctamente en cloudinary",
+    //             "success"
+    //           );
+    //         } else {
+    //           console.log("Error: No se pudo obtener la URL de la imagen");
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }
+    // });
   };
 
   const handleSubmiMoto = async (e) => {
@@ -352,10 +491,11 @@ const Create = () => {
               placeholder="Ingrese la marca"
               //value={formData.marca}
               onChange={(e) => {
-                const inputValue = e.target.value;
+                const marca = e.target.value;
+
                 setFormData((prevData) => ({
                   ...prevData,
-                  marca: inputValue,
+                  marca: marca,
                 }));
               }}
               className={`border rounded px-3 py-2 w-full ${
@@ -384,10 +524,11 @@ const Create = () => {
               placeholder="Ingrese el modelo"
               //value={formData.modelo}
               onChange={(e) => {
-                const inputValue = e.target.value;
+                const modelo = e.target.value;
+
                 setFormData((prevData) => ({
                   ...prevData,
-                  modelo: inputValue,
+                  modelo: modelo,
                 }));
               }}
               className={`border rounded px-3 py-2 w-full ${
@@ -441,10 +582,11 @@ const Create = () => {
               //value={formData.year}
               placeholder="Ingrese un año"
               onChange={(e) => {
-                const inputValue = e.target.value;
+                const year = e.target.value;
+
                 setFormData((prevData) => ({
                   ...prevData,
-                  year: inputValue,
+                  year: Number(year),
                 }));
               }}
               className={`border rounded px-3 py-2 w-full ${
@@ -473,10 +615,11 @@ const Create = () => {
               //value={formData.precio}
               placeholder="Ingrese un monto"
               onChange={(e) => {
-                const inputValue = e.target.value;
+                const precio = e.target.value;
+
                 setFormData((prevData) => ({
                   ...prevData,
-                  precio: inputValue,
+                  precio: Number(precio),
                 }));
               }}
               className={`border rounded px-3 py-2 w-full ${
@@ -553,11 +696,64 @@ const Create = () => {
             </p>
           )}
         </div>
+        {/* Barra divisoria */}
+        <div className="w-full h-0.5 border rounded-lg bg-gray-400 my-4"></div>
+
+        <div className="input-wrapper flex flex-col">
+          <label htmlFor="imageUrl" className="mb-1">
+            Imagen
+          </label>
+
+          {selectedImages.length > 0 && (
+            <div className="image-preview m-4">
+              {selectedImages.length === 1 ? (
+                <img
+                  src={imagePreviews[0]}
+                  alt="Vista previa"
+                  className=" rounded-lg w-50 h-50"
+                />
+              ) : (
+                <Carousel>
+                  {imagePreviews.map((preview, index) => (
+                    <div key={index}>
+                      <img src={preview} alt={`Vista previa ${index + 1}`} />
+                    </div>
+                  ))}
+                </Carousel>
+              )}
+            </div>
+          )}
+          <div className="flex flex-row justify-center">
+            <div className="flex items-center gap-2 mr-2">
+              <input
+                type="file"
+                accept=".jpg, .jpeg, .png, .gif"
+                onChange={handleImageChange}
+                className="hidden"
+                id="imageUrl"
+                multiple // Asegúrate de que está habilitado el modo de selección múltiple
+              />
+              <label
+                htmlFor="imageUrl"
+                className="cursor-pointer bg-black text-white px-4 py-2 rounded-lg hover:bg-[#FFD700] hover:text-gray-900 transition duration-300"
+              >
+                Seleccionar Imagen
+              </label>
+            </div>
+            {imagePreviews && (
+              <button
+                type="button"
+                onClick={handleImageUploadCloudinary}
+                className=" p-0 w-32 text-center bg-blue-500 text-white m-1 px-4 py-2 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700]"
+              >
+                Subir Imagen
+              </button>
+            )}
+          </div>
+        </div>
 
         {/* Barra divisoria */}
-        <div className="w-full h-0.5 border rounded-lg bg-gray-400 my-4">
-          <h1 className="bold text-2xl "></h1>
-        </div>
+        <div className="w-full h-0.5 border rounded-lg bg-gray-400 my-4"></div>
 
         <div className="input-wrapper flex flex-col">
           <div className="input-wrapper flex flex-col">
@@ -585,9 +781,106 @@ const Create = () => {
               </p>
             )}
           </div>
+
+          <div className="input-wrapper flex flex-col">
+            <label htmlFor="velocidades">Velocidades de la Moto</label>
+            <div className="relative">
+              <Select
+                options={optionsVelocidades}
+                placeholder="Selecciona las velocides"
+                onChange={handleVelocidadesSelection}
+                className={`border rounded ${
+                  isVelocidadesValid === false ? "border-red-500" : ""
+                } ${isVelocidadesValid === true ? "border-green-500" : ""}`}
+              />
+              {isVelocidadesValid === false && (
+                <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+              {isVelocidadesValid === true && (
+                <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+            </div>
+          </div>
+
+          <div className="input-wrapper flex flex-col">
+            <label htmlFor="pasajeros">Pasajeros</label>
+            <div className="relative">
+              <input
+                type="number"
+                //value={formData.pasajeros}
+                placeholder="Ingrese el número de pasajeros"
+                onChange={(e) => {
+                  const pasajeros = e.target.value;
+
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    fichaTecnica: {
+                      ...prevData.fichaTecnica, // Mantén los campos existentes
+                      pasajeros: pasajeros, // Modifica el campo cilindrada
+                    },
+                  }));
+                }}
+                className={`border rounded px-3 py-2 w-full ${
+                  isPasajerosValid === false ? "border-red-500" : ""
+                } ${isPasajerosValid === true ? "border-green-500" : ""}`}
+              />
+              {isPasajerosValid === false && (
+                <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+              {isPasajerosValid === true && (
+                <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+            </div>
+            {isPasajerosValid === false && (
+              <p className="text-xs italic text-red-500">
+                El número de pasajeros debe ser un número válido
+              </p>
+            )}
+          </div>
+
+          <div className="input-wrapper flex flex-col">
+            <label htmlFor="cilindrada">Cilindrada</label>
+            <div className="relative">
+              <input
+                type="number"
+                //value={formData.pasajeros}
+                placeholder="Ingrese el valor la cilindrada"
+                onChange={(e) => {
+                  const cilindrada = e.target.value;
+
+                  setFormData((prevData) => ({
+                    ...prevData,
+                    fichaTecnica: {
+                      ...prevData.fichaTecnica, // Mantén los campos existentes
+                      cilindrada: cilindrada, // Modifica el campo cilindrada
+                    },
+                  }));
+                }}
+                className={`border rounded px-3 py-2 w-full ${
+                  isCilindradaValid === false ? "border-red-500" : ""
+                } ${isCilindradaValid === true ? "border-green-500" : ""}`}
+              />
+              {isCilindradaValid === false && (
+                <BsXCircle className="text-red-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+              {isCilindradaValid === true && (
+                <BsCheckCircle className="text-green-500 absolute top-1/2 transform -translate-y-1/2 -right-5" />
+              )}
+            </div>
+            {isCilindradaValid === false && (
+              <p className="text-xs italic text-red-500">
+                El número de cilindrada debe ser un número válido
+              </p>
+            )}
+          </div>
         </div>
+
         <div className="input-wrapper flex flex-col">
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            disabled={!isButtonActive} // Desactiva el botón si isButtonActive es falso
+            className="px-4 py-2 mt-4 bg-blue-500 text-white rounded-md disabled:bg-gray-300"
+          >
             Save
           </button>
         </div>
