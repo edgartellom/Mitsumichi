@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const SideBar = ({ routesArray }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className=" py-3 fixed top-0 left-0 right-0  hidden max-md:block z-10">
+    <div className=" py-3   hidden max-md:block z-10">
       <button className="ml-5" onClick={() => setOpen(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
