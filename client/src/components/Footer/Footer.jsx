@@ -129,9 +129,10 @@ const Footer = () => {
             </ul>
           </div>
         </article>
-        <div className="text-center pb-5 max-sm:mt-5">
-          © 2023 MITSUMISHI MOTOS S.A. Todos los derechos reservados.
-        </div>
+        <summary className="text-center pb-5 max-sm:mt-5">
+          <p>© 2023 MITSUMISHI MOTOS S.A.</p>
+          <p>Todos los derechos reservados.</p>
+        </summary>
       </section>
     </footer>
   );
