@@ -5,7 +5,7 @@ import SideBar from "../SideBar/SideBar";
 
 const Navbar = () => {
   return (
-    <nav className="bg-[#ECB365] flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
+    <nav className="   flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
       <section className="flex items-center text-zinc-900  font-bold">
         <div className=" px-5  max-md:px-10 ">
           <img src={logo} alt="login" width="66" height="66" />

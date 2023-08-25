@@ -5,7 +5,7 @@ import mail from "../../assets/footer_img/mail.gif";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#ECB365]  flex flex-col">
+    <footer className="bg-gradient-to-bl from-[#000000] text-white   via-[#000000c7]  to-[#000000c0]  flex flex-col">
       <section>
         <div className=" flex flex-wrap justify-around items-center">
           <aside>
@@ -130,7 +130,7 @@ const Footer = () => {
           </div>
         </article>
         <summary className="text-center pb-5 max-sm:mt-5">
-          <p>© 2023 MITSUMISHI MOTOS S.A.</p>
+          <p>© 2023 MITSUMISHI S.A.</p>
           <p>Todos los derechos reservados.</p>
         </summary>
       </section>

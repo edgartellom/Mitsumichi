@@ -45,7 +45,7 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-[#526D82]">
+    <div className=" ">
       <video autoPlay muted loop src={videoHome} className=""></video>
       <section className="p-1 bg-black w-full">
         <div className="  flex gap-4 items-center">

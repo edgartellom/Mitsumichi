@@ -50,7 +50,7 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
     <div className="flex flex-row pb-2 m-auto justify-center items-center text-black">
       <div className="flex items-center space-x-2">
         <button
-          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
+          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#ff9100] hover:text-black shadow transition duration-300 hover:bg-gold"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -60,8 +60,9 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
         {getPageNumbers().map((page) => (
           <button
             key={page}
-            className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 ${currentPage === page ? "bg-gold" : "hover:bg-gold"
-              }`}
+            className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#2020207e] hover:text-black shadow transition duration-300 ${
+              currentPage === page ? "bg-gold" : "hover:bg-gold"
+            }`}
             onClick={() => onPageChange(page)}
             disabled={currentPage === page}
           >
@@ -70,7 +71,7 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
         ))}
 
         <button
-          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
+          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#ff9100] hover:text-black shadow transition duration-300 hover:bg-gold"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
@@ -78,7 +79,7 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
         </button>
       </div>
     </div>
-    );
-}
+  );
+};
 
 export default Paginate;
