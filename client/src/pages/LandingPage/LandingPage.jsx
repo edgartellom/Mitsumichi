@@ -10,7 +10,7 @@ const routes = ["MOTOCICLETAS", "ABOUT US", "SERVICIOS Y SOPORTE"];
 const LandingPage = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-gradient-to-bl from-gray-300 via-gray-100 h-screen to-orange-200  flex flex-col">
+    <div className="bg-gradient-to-bl from-gray-300 via-gray-100 h-screen overflow-auto  to-orange-200  flex flex-col">
       <header>
         <nav className=" flex justify-between py-5 font-bold uppercase flex-wrap max-md:flex-row-reverse">
           <div className=" px-20  max-md:px-10 ">
