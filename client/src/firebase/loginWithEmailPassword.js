@@ -3,10 +3,9 @@ import { auth } from "../firebase/credenciales";
 
 const loginWithEmailAndPassword = async (email, password) => {
   try {
-    const user = await signInWithEmailAndPassword(auth, email, password);
-    console.log(user);
+    await signInWithEmailAndPassword(auth, email, password);
   } catch (error) {
-    console.log(error.message);
+    console.log("Registrate primero");
   }
 };
 

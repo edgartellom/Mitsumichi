@@ -12,6 +12,7 @@ import { userAuth } from "../../context/Auth-context";
 const Login = ({ onClose }) => {
   const { setLoading } = useContext(userAuth);
   const [isLoggingIn, setIsloggingIn] = useState(false);
+  const [loginErro, setLoginError] = useState(null);
 
   const {
     register,
@@ -28,7 +29,11 @@ const Login = ({ onClose }) => {
     if (isLoggingIn) {
       await registerUser(email, password);
     } else {
-      await loginWithEmailAndPassword(email, password);
+      const response = await loginWithEmailAndPassword(email, password);
+      if (!response) {
+        setLoginError("Parece que aun no estas registrado");
+        return;
+      }
       setLoading(true);
     }
   };
@@ -106,6 +111,7 @@ const Login = ({ onClose }) => {
             className=" mx-auto rounded-full bg-white text-[#000]  py-1 font-normal shadow "
           />
         </section>
+        <p className=" text-red-500 font-medium">{loginErro}</p>
         {!isLoggingIn ? (
           <h4 className=" font-semibold text-gray-500">
             No tienes una cuenta?{" "}
