@@ -2,7 +2,7 @@ import RootLayot from "./helper/RootLayout";
 import { Home, LandingPage } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
-
+import About from "./pages/About/About";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -15,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
+      },
+      {
+        path: "/about us",
+        element: <About />,
       },
     ],
   },
