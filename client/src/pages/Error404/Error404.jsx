@@ -1,5 +1,5 @@
 import { useNavigate, useRouteError } from "react-router-dom";
-// import logo from "../../assets/Logo_Mitsumichi_Cat_white.png";
+import logo from "../../assets/Logo_Mitsumichi_Cat_White.png";
 import Button from "../../components/UI/Button";
 
 const Error404 = () => {
