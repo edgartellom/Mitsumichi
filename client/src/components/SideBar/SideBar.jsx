@@ -35,6 +35,7 @@ const SideBar = ({ routesArray }) => {
     } else {
       navigate(`/${route}`.toLowerCase());
     }
+    setOpen(false);
   };
 
   return (
