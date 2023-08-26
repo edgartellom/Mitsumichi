@@ -16,6 +16,7 @@ router.delete("/motos/:id", deleteMoto);
 //ruta para publicar motos
 router.post("/motos", createMoto);
 
+
 //Rutas para las Reviews
 router.get("/reviews", getAllReviews);
 router.post("/reviews", createReview);
