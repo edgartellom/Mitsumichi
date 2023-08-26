@@ -1,6 +1,5 @@
 import RootLayot from "./helper/RootLayout";
-import Home from "./pages/Home/Home";
-import LandingPage from "./pages/LandingPage/LandingPage";
+import { Home, LandingPage } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
 import About from "./pages/About/About";

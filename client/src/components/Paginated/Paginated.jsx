@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-const Paginate = ({ currentPage, totalPages, onPageChange }) => {
-  const [inputPage, setInputPage] = useState(currentPage);
+const Paginated = ({ currentPage, totalPages, onPageChange }) => {
+  const [inputdInputPage] = useState(currentPage);
 
   useEffect(() => {
-    setInputPage(currentPage);
+    // setInputPage;
   }, [currentPage]);
 
   function handlePageInput(event) {
     let page = parseInt(event.target.value);
     page = isNaN(page) ? 1 : Math.max(1, Math.min(page, totalPages));
-    setInputPage(page);
+    // setInputPage(page);
   }
 
   function handlePageSubmit(event) {
@@ -47,10 +47,10 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
   }
 
   return (
-    <div className="flex pb-2 m-auto justify-center items-center text-black">
-      <div className="flex flex-wrap items-center space-x-2">
+    <div className="flex flex-row pb-2 m-auto justify-center items-center text-black">
+      <div className="flex items-center space-x-2">
         <button
-          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-700 hover:text-black shadow transition duration-300 hover:bg-gold"
+          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -60,7 +60,7 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
         {getPageNumbers().map((page) => (
           <button
             key={page}
-            className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#2020207e] hover:text-black shadow transition duration-300 ${
+            className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 ${
               currentPage === page ? "bg-gold" : "hover:bg-gold"
             }`}
             onClick={() => onPageChange(page)}
@@ -71,7 +71,7 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
         ))}
 
         <button
-          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-700 hover:text-black shadow transition duration-300 hover:bg-gold"
+          className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
@@ -82,4 +82,4 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-export default Paginate;
+export default Paginated;

@@ -7,8 +7,8 @@ const Card = ({ data }) => {
     motoModel,
   } = data;
 
-  console.log(name);
-  console.log(data);
+  // console.log(name)
+  // console.log(data)
   return (
     <div className="bg-gray-300 flex flex-col justify-center m-4">
       <div className="relative m-3 flex flex-wrap mx-auto justify-center">
@@ -21,6 +21,7 @@ const Card = ({ data }) => {
             />
 
             <div className="absolute z-10 border-4 border-primary w-[95%] h-[95%] invisible group-hover:visible opacity-0 group-hover:opacity-100 group-hover:scale-90 transition-all duration-500"></div>
+            <div className="absolute z-10 border-4 border-primary w-[95%] h-[95%] invisible group-hover:visible opacity-0 group-hover:opacity-100 group-hover:scale-90 transition-all duration-500"></div>
           </div>
           <a
             href="#"
@@ -30,6 +31,7 @@ const Card = ({ data }) => {
             <span className=" text-lg">{motoModel.name}</span>
           </a>
 
+          <p className="mb-4 font-light  text-sm md:text-sm text-center text-gray-400"></p>
           <p className="mb-4 font-light  text-sm md:text-sm text-center text-gray-400"></p>
 
           <div className="flex justify-center gap-x-3">
