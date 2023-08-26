@@ -2,7 +2,7 @@ import React from "react";
 
 const DropdownMenu = ({ name, data }) => {
   return (
-    <div className="group inline-block">
+    <div className="group">
       <button className="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32">
         <span className="pr-1 font-semibold flex-1">{name}</span>
         <span>
