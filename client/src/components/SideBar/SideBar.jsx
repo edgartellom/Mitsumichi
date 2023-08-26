@@ -84,7 +84,9 @@ const SideBar = ({ routesArray }) => {
           </button>
           {routesArray?.map((route) => (
             <div
-              onClick={() => onClickHandler(route)}
+              onClick={() =>
+                onClickHandler(route) || navigate(`/${route}`.toLowerCase())
+              }
               key={route}
               className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
             >
