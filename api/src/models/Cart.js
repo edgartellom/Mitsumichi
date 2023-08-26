@@ -4,10 +4,9 @@ module.exports = (sequelize) => {
   sequelize.define(
     "cart",
     {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      userId: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       items: {
         type: DataTypes.INTEGER,

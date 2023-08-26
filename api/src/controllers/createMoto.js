@@ -1,4 +1,4 @@
-const { Moto, Brand, MotoModel } = require("../db.js");
+const { Moto, Brand } = require("../db.js");
 
 const Sequelize = require("sequelize");
 
@@ -93,9 +93,11 @@ async function createMoto(req, res) {
       ),
     });
 
-    const existingModel = await MotoModel.findOne({
+    // const existingModel = await MotoModel.findOne({
+    const existingModel = await Moto.findOne({
       where: Sequelize.where(
-        Sequelize.fn("lower", Sequelize.col("name")),
+        // Sequelize.fn("lower", Sequelize.col("name")),
+        Sequelize.fn("lower", Sequelize.col("motoModel")),
         Sequelize.fn("lower", modelo)
       ),
     });
@@ -115,19 +117,19 @@ async function createMoto(req, res) {
     }
 
     // Crear el modelo si no existe
-    let motoModelId;
-    if (!existingModel) {
-      const newModel = await MotoModel.create({ name: modelo, brandId });
-      motoModelId = newModel.id;
-    } else {
-      motoModelId = existingModel.id;
-    }
+    // let motoModelId;
+    // if (!existingModel) {
+    //   const newModel = await MotoModel.create({ name: modelo, brandId });
+    //   motoModelId = newModel.id;
+    // } else {
+    //   motoModelId = existingModel.id;
+    // }
 
     // Crear la nueva moto en la base de datos
     const newMoto = await Moto.create({
       id: newId,
-      motoModelId,
       brandId,
+      motoModel: modelo,
       tipo,
       precio,
       year,
