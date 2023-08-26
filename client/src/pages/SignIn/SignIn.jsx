@@ -1,8 +1,11 @@
 import ReactDOM from "react-dom";
 import Login from "./Login";
 
-const SignIn = () => {
-  return ReactDOM.createPortal(<Login />, document.getElementById("modals"));
+const SignIn = ({ onClose }) => {
+  return ReactDOM.createPortal(
+    <Login onClose={onClose} />,
+    document.getElementById("modals")
+  );
 };
 
 export default SignIn;

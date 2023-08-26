@@ -1,16 +1,16 @@
 import React from "react";
 import motorcycle from "../../assets/kawasaki.png";
-import SideBar from "../../components/SideBar/SideBar";
+import { SideBar } from "../../components";
 import Button from "../../components/UI/Button";
 import logo from "../../assets/Logo_Mitsumichi.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const routes = ["MOTOCICLETAS", "ABOUT US", "SERVICIOS Y SOPORTE"];
 
 const LandingPage = () => {
   const navigate = useNavigate();
   return (
-    <div className="bg-gradient-to-bl from-gray-300 via-gray-100 h-screen to-orange-200  flex flex-col">
+    <div className="bg-gradient-to-bl from-gray-300 via-gray-100 h-screen overflow-auto  to-orange-200  flex flex-col">
       <header>
         <nav className=" flex justify-between py-5 font-bold uppercase flex-wrap max-md:flex-row-reverse">
           <div className=" px-20  max-md:px-10 ">
@@ -18,9 +18,9 @@ const LandingPage = () => {
           </div>
           <SideBar routesArray={routes} />
           <ul className=" flex gap-10 px-10 flex-wrap max-md:hidden ">
-            <li>Motocicletas</li>
-            <li>About us</li>
-            <li>servicio y soporte</li>
+            <Link>Motocicletas</Link>
+            <Link to="/about">About us</Link>
+            <Link>servicio y soporte</Link>
           </ul>
         </nav>
       </header>
