@@ -5,6 +5,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import logOut from "../../firebase/logOut";
 import SignIn from "../../pages/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
+import SignUp from "../../pages/SignUp/SignUp";
 const SideBar = ({ routesArray }) => {
   const [open, setOpen] = useState(false);
   const { loading, currentUser, isRegistered } = useContext(userAuth);
@@ -23,12 +24,18 @@ const SideBar = ({ routesArray }) => {
   }
 
   const onClickHandler = (route) => {
-    if (route === "INICIAR SESION") setShowLogin(true);
+    if (route === "INICIAR SESION") {
+      setShowLogin(true);
+      return;
+    }
     if (route === "SALIR") {
       logOut();
       navigate("/");
       window.location.reload();
+    } else {
+      navigate(`/${route}`.toLowerCase());
     }
+    setOpen(false);
   };
 
   return (
@@ -84,9 +91,7 @@ const SideBar = ({ routesArray }) => {
           </button>
           {routesArray?.map((route) => (
             <div
-              onClick={() =>
-                onClickHandler(route) || navigate(`/${route}`.toLowerCase())
-              }
+              onClick={() => onClickHandler(route)}
               key={route}
               className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
             >

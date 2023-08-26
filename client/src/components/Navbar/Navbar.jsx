@@ -8,6 +8,7 @@ import Wrapper from "../../helper/Wrapper";
 import { userAuth } from "../../context/Auth-context";
 import logOut from "../../firebase/logOut";
 import { useNavigate } from "react-router-dom";
+import SignUp from "../../pages/SignUp/SignUp";
 
 const Navbar = () => {
   const { loading, currentUser, isRegistered } = useContext(userAuth);
