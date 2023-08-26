@@ -9,9 +9,9 @@ const Footer = () => {
       <section>
         <div className=" flex flex-wrap justify-around items-center">
           <aside>
-            <image className="flex justify-center mb-5 items-center pt-10 ">
+            <picture className="flex justify-center mb-5 items-center pt-10 ">
               <img src={logo} width={170} alt="logo" />
-            </image>
+            </picture>
           </aside>
           <table className="  flex flex-col gap- justify-center max-sm:pl-10">
             <thead className=" text-orange-700">

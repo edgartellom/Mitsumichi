@@ -9,7 +9,7 @@ import loginWithEmailAndPassword from "../../firebase/loginWithEmailPassword";
 import { useForm } from "react-hook-form";
 import { userAuth } from "../../context/Auth-context";
 
-const Login = () => {
+const Login = ({ onClose }) => {
   const { setLoading } = useContext(userAuth);
   const [isLoggingIn, setIsloggingIn] = useState(false);
 
@@ -39,6 +39,9 @@ const Login = () => {
         onSubmit={handleSubmit(sumbitHandler)}
         className=" bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
       >
+        <button onClick={onClose} className=" self-end mr-5 font-bold text-xl ">
+          X
+        </button>
         <img src={Logo} width={220} alt="" />
         <section className="flex flex-col">
           <label htmlFor="">Email:</label>
