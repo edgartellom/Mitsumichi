@@ -15,7 +15,9 @@ const Footer = () => {
           </aside>
           <table className="  flex flex-col gap- justify-center max-sm:pl-10">
             <thead className="">
-              <th className=" text-xl">Enlaces de interés</th>
+              <tr>
+                <th className=" text-xl">Enlaces de interés</th>
+              </tr>
             </thead>
             <tbody className=" flex  gap-20 max-sm:gap-2">
               <td>

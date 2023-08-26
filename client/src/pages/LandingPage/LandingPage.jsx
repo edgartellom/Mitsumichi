@@ -1,6 +1,6 @@
 import React from "react";
 import motorcycle from "../../assets/kawasaki.png";
-import SideBar from "../../components/SideBar/SideBar";
+import { SideBar } from "../../components";
 import Button from "../../components/UI/Button";
 import logo from "../../assets/Logo_Mitsumichi.png";
 import { useNavigate } from "react-router-dom";

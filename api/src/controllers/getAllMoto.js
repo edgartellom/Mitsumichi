@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand, MotoModel } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
+const { Moto, Brand } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -12,49 +12,22 @@ async function getAllMoto(req, res) {
 
     const {
       brand,
-      motoModel,
-      state,
       tipo,
       minPrice,
       maxPrice,
       minYear,
       maxYear,
-      minKm,
-      maxKm,
       sortByBrand,
       sortByPrice,
     } = req.query;
 
     let filterOptions = {};
 
-    if (tipo) {
-
-      // Realizamos la consulta para obtener los autos filtrados por el tipo
-      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
-    }
-
-    if (motoModel) {
-      // SimotoModel está presente en la solicitud
-      // Realizamos la consulta para obtener los modelos filtrados por elmotoModel
-      const motoModelFound = await MotoModel.findOne({
-        where: { name: { [Op.iLike]: motoModel } },
-      });
-      filterOptions = { ...filterOptions,motoModelId: motoModelFound.id };
-    }
-
     // Si brand está presente en la solicitud
-    // if (brand) {
-    //   const brandNames = brand.split(','); // Convertir la lista de marcas en un arreglo
-    //   const brandIds = await Brand.findAll({
-    //     where: { name: { [Op.in]: brandNames } },
-    //   });
-    //   const brandIdsArray = brandIds.map(brand => brand.id);
-    //   filterOptions = { ...filterOptions, brandId: { [Op.in]: brandIdsArray } };
-    // }
 
     if (brand) {
-      const brandNames = brand.split(',');
-    
+      const brandNames = brand.split(",");
+
       // Realiza una consulta para cada marca y luego combina los resultados
       const brandIdsArray = await Promise.all(
         brandNames.map(async (brandName) => {
@@ -64,11 +37,16 @@ async function getAllMoto(req, res) {
           return brand ? brand.id : null;
         })
       );
-    
+
       // Filtra los resultados nulos y crea un arreglo de IDs válidos
       const validBrandIds = brandIdsArray.filter((id) => id !== null);
-    
+
       filterOptions = { ...filterOptions, brandId: validBrandIds };
+    }
+
+    if (tipo) {
+      // Realizamos la consulta para obtener los autos filtrados por el tipo
+      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
     }
 
     if (minPrice && maxPrice) {
@@ -95,18 +73,6 @@ async function getAllMoto(req, res) {
     } else if (maxYear) {
       filterOptions = { ...filterOptions, year: { [Op.lte]: maxYear } };
     }
-    if (minKm && maxKm) {
-      // Ambos minKm y maxKm están presentes en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el rango de kilometraje
-      filterOptions = {
-        ...filterOptions,
-        kilometraje: { [Op.between]: [minKm, maxKm] },
-      };
-    } else if (minKm) {
-      filterOptions = { ...filterOptions, kilometraje: { [Op.gte]: minKm } };
-    } else if (maxKm) {
-      filterOptions = { ...filterOptions, kilometraje: { [Op.lte]: maxKm } };
-    }
 
     let orderOptions = [];
 
@@ -122,10 +88,7 @@ async function getAllMoto(req, res) {
       limit: limit,
       offset: offset,
       where: filterOptions,
-      include: [
-        { model: Brand, attributes: ["name"] },
-        { model:MotoModel, attributes: ["name"] },
-      ],
+      include: [{ model: Brand, attributes: ["name"] }],
     });
 
     // Calcular el total de páginas disponibles
@@ -133,13 +96,11 @@ async function getAllMoto(req, res) {
 
     // Responder con la lista paginada de autos y la información de paginación
     res.status(200).json({
-      
       data: dbMotos,
       currentPage: page,
       totalPages: totalPages,
       totalItems: totalItems,
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al obtener las motos" });

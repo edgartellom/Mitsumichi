@@ -18,7 +18,7 @@
 <hr/>
 
 <ul><h3>Create .env file in /client & add variables as following : </h3>
-<li>VITE_APP_API=</li>
+<li>VITE_REACT_APP_URL_BACKEND=</li>
 
 </ul>
 <hr/>

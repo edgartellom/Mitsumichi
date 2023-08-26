@@ -1,7 +1,7 @@
 import React from "react";
 import login from "./../../assets/login.png";
 import logo from "./../../assets/Logo_Mitsumichi.png";
-import SideBar from "../SideBar/SideBar";
+import { SideBar } from "..";
 
 const Navbar = () => {
   return (

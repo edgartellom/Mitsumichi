@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-const Paginate = ({ currentPage, totalPages, onPageChange }) => {
-  const [inputPage, setInputPage] = useState(currentPage);
+const Paginated = ({ currentPage, totalPages, onPageChange }) => {
+  const [inputdInputPage] = useState(currentPage);
 
   useEffect(() => {
-    setInputPage(currentPage);
+    // setInputPage;
   }, [currentPage]);
 
   function handlePageInput(event) {
     let page = parseInt(event.target.value);
     page = isNaN(page) ? 1 : Math.max(1, Math.min(page, totalPages));
-    setInputPage(page);
+    // setInputPage(page);
   }
 
   function handlePageSubmit(event) {
@@ -60,8 +60,9 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
         {getPageNumbers().map((page) => (
           <button
             key={page}
-            className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 ${currentPage === page ? "bg-gold" : "hover:bg-gold"
-              }`}
+            className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 ${
+              currentPage === page ? "bg-gold" : "hover:bg-gold"
+            }`}
             onClick={() => onPageChange(page)}
             disabled={currentPage === page}
           >
@@ -78,7 +79,7 @@ const Paginate = ({ currentPage, totalPages, onPageChange }) => {
         </button>
       </div>
     </div>
-    );
-}
+  );
+};
 
-export default Paginate;
+export default Paginated;
