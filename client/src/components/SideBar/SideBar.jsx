@@ -1,7 +1,36 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
+import { userAuth } from "../../context/Auth-context";
+import Wrapper from "../../helper/Wrapper";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import logOut from "../../firebase/logOut";
+import SignIn from "../../pages/SignIn/SignIn";
+import { useNavigate } from "react-router-dom";
 const SideBar = ({ routesArray }) => {
   const [open, setOpen] = useState(false);
+  const { loading, currentUser, isRegistered } = useContext(userAuth);
+  const [showLogin, setShowLogin] = useState(false);
+  const navigate = useNavigate();
+  if (loading) {
+    return (
+      <Wrapper>
+        <LoadingSpinner />
+      </Wrapper>
+    );
+  }
+
+  if (showLogin) {
+    return !currentUser ? <SignIn /> : !isRegistered && <SignUp />;
+  }
+
+  const onClickHandler = (route) => {
+    if (route === "INICIAR SESION") setShowLogin(true);
+    if (route === "SALIR") {
+      logOut();
+      navigate("/");
+      window.location.reload();
+    }
+  };
+
   return (
     <div className=" py-3   hidden max-md:block z-10">
       <button className="ml-5" onClick={() => setOpen(true)}>
@@ -55,6 +84,9 @@ const SideBar = ({ routesArray }) => {
           </button>
           {routesArray?.map((route) => (
             <div
+              onClick={() =>
+                onClickHandler(route) || navigate(`/${route}`.toLowerCase())
+              }
               key={route}
               className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
             >

@@ -1,11 +1,11 @@
-import logo from "../../assets/footer_img/Logo_Mitsumichi_Cat.png";
+import logo from "../../assets/Logo_Mitsumichi_Cat_White.png";
 import face from "../../assets/footer_img/face.gif";
 import insta from "../../assets/footer_img/insta.gif";
 import mail from "../../assets/footer_img/mail.gif";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#ECB365]  flex flex-col">
+    <footer className="bg-black text-white    flex flex-col">
       <section>
         <div className=" flex flex-wrap justify-around items-center">
           <aside>
@@ -14,7 +14,7 @@ const Footer = () => {
             </image>
           </aside>
           <table className="  flex flex-col gap- justify-center max-sm:pl-10">
-            <thead className="">
+            <thead className=" text-orange-700">
               <th className=" text-xl">Enlaces de interés</th>
             </thead>
             <tbody className=" flex  gap-20 max-sm:gap-2">
@@ -130,8 +130,8 @@ const Footer = () => {
           </div>
         </article>
         <summary className="text-center pb-5 max-sm:mt-5">
-          <p>© 2023 MITSUMISHI MOTOS S.A.</p>
-          <p>Todos los derechos reservados.</p>
+          <p>© 2023 MITSUMISHI S.A.</p>
+          <p className="  text-orange-700">Todos los derechos reservados.</p>
         </summary>
       </section>
     </footer>

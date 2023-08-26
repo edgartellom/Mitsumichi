@@ -45,10 +45,10 @@ const Home = () => {
   };
 
   return (
-    <div className="bg-[#526D82]">
+    <div className=" ">
       <video autoPlay muted loop src={videoHome} className=""></video>
       <section className="p-1 bg-black w-full">
-        <div className="  flex gap-4 items-center">
+        <div className="  flex flex-wrap gap-4 items-center">
           <h1 className="text-white ml-3">Filtros:</h1>
           <DropdownMenu name={"Color"} />
           <DropdownMenu name={"Engine"} />
@@ -67,40 +67,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// import Button from "../../components/UI/Button";
-// import logOut from "../../firebase/logOut";
-// import SignIn from "../SignIn/SignIn";
-// import { useContext } from "react";
-// import { userAuth } from "../../context/Auth-context";
-// import Wrapper from "../../helper/Wrapper";
-// import SignUp from "../SignUp/SignUp";
-// import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-// import { useNavigate } from "react-router-dom";
-// const Home = () => {
-//   const { currentUser, isRegistered, loading } = useContext(userAuth);
-//   const navigate = useNavigate();
-
-//   if (loading) {
-//     return (
-//       <Wrapper>
-//         <LoadingSpinner />
-//       </Wrapper>
-//     );
-//   }
-
-//   const logOutHandler = () => {
-//     logOut();
-//     navigate("/");
-//   };
-
-//   return (
-//     <div>
-//       {!currentUser ? <SignIn /> : !isRegistered && <SignUp />}
-//       Home{" "}
-//       <Button className=" text-white" text="Salir" onClick={logOutHandler} />
-//     </div>
-//   );
-// };
-
-// export default Home;
