@@ -1,12 +1,9 @@
 import React from "react";
 
-const DropdownMenu = ({ name, data, value, onClick }) => {
+const DropdownMenu = ({ name, data }) => {
   return (
-    <div className="group inline-block">
-      <button
-        value={value}
-        className="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32"
-      >
+    <div className="group">
+      <button className="outline-none flex-wrap focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32">
         <span className="pr-1 font-semibold flex-1">{name}</span>
         <span>
           <svg
@@ -21,26 +18,11 @@ const DropdownMenu = ({ name, data, value, onClick }) => {
       </button>
       <ul
         className="bg-white border rounded-sm transform scale-0 group-hover:scale-100 absolute 
-  transition duration-150 ease-in-out origin-top min-w-32 z-10"
+  transition duration-150 ease-in-out origin-top min-w-32"
       >
-        {data ? (
-          data.map((item, i) => (
-            <li
-              key={i}
-              className="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer"
-              onClick={onClick}
-              value={value}
-            >
-              {item}
-            </li>
-          ))
-        ) : (
-          <>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option A</li>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option B</li>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option C</li>
-          </>
-        )}
+        <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option A</li>
+        <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option B</li>
+        <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option C</li>
       </ul>
     </div>
   );
