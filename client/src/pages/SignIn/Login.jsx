@@ -39,7 +39,11 @@ const Login = ({ onClose }) => {
         onSubmit={handleSubmit(sumbitHandler)}
         className=" bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
       >
-        <button onClick={onClose} className=" self-end mr-5 font-bold text-xl ">
+        <button
+          type="button"
+          onClick={onClose}
+          className=" self-end mr-5 font-bold text-xl "
+        >
           X
         </button>
         <img src={Logo} width={220} alt="" />
