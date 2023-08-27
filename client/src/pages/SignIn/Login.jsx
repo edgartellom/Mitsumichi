@@ -30,6 +30,8 @@ const Login = ({ onClose }) => {
       await registerUser(email, password);
     } else {
       const response = await loginWithEmailAndPassword(email, password);
+      window.location.reload();
+      setLoading(true);
       if (!response) {
         setLoginError("Parece que aun no estas registrado");
         return;
