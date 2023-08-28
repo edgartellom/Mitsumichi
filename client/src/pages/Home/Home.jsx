@@ -94,8 +94,14 @@ const Home = () => {
 
   return (
     <div className=" ">
-      <video autoPlay muted loop src={videoHome} className=""></video>
-      <section className="p-1 bg-black w-full">
+      <video
+        autoPlay
+        muted
+        loop
+        src={videoHome}
+        className=" max-sm:hidden"
+      ></video>
+      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col w-screen">
         <Filters
           marcas={marcas}
           tipos={tipos}

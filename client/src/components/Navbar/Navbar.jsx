@@ -9,6 +9,7 @@ import { userAuth } from "../../context/Auth-context";
 import logOut from "../../firebase/logOut";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
+import CartButton from "../../pages/Cart/CartButton/CartButton";
 
 const Navbar = () => {
   const { loading, currentUser, isRegistered } = useContext(userAuth);
@@ -55,7 +56,7 @@ const Navbar = () => {
           <li>servicio y soporte</li>
         </ul>
       </section>
-      <section className="mr-12">
+      <section className="mr-12 flex flex-row-reverse max-lg:flex-col">
         {!currentUser ? (
           <div
             onClick={() => setShowLogin(true)}
@@ -73,7 +74,9 @@ const Navbar = () => {
             <span>Salir</span>
           </div>
         )}
+        <CartButton />
       </section>
+
       <SideBar routesArray={routes} />
     </nav>
   );
