@@ -13,16 +13,20 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      motoModel: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       tipo: {
         type: DataTypes.STRING,
-        
+
         allowNull: false,
       },
       precio: {
         type: DataTypes.DECIMAL(8, 2),
         allowNull: true,
       },
-      
+
       year: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -31,12 +35,11 @@ module.exports = (sequelize) => {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
       },
-
       combustible: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      colorDisponible:{
+      colorDisponible: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: true,
       },

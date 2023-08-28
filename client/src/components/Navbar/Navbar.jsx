@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import login from "./../../assets/login.png";
 import logo from "./../../assets/Logo_Mitsumichi.png";
 import SideBar from "../SideBar/SideBar";
@@ -36,7 +36,11 @@ const Navbar = () => {
   }
 
   if (showLogin) {
-    return !currentUser ? <SignIn /> : !isRegistered && <SignUp />;
+    return !currentUser ? (
+      <SignIn onClose={() => setShowLogin(false)} />
+    ) : (
+      !isRegistered && <SignUp onClose={() => setShowLogin(false)} />
+    );
   }
 
   return (
