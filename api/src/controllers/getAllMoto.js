@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand, MotoModel } = require("../db"); // Asegurarse de importar los modelos moto, brands desde db.js
+const { Moto, Brand } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -12,7 +12,7 @@ async function getAllMoto(req, res) {
 
     const {
       brand,
-      motoModel,
+      tipo,
       minPrice,
       maxPrice,
       minYear,
@@ -23,23 +23,32 @@ async function getAllMoto(req, res) {
 
     let filterOptions = {};
 
+    // Si brand está presente en la solicitud
+
     if (brand) {
-      // Si brand está presente en la solicitud
-      // Realizamos la consulta para obtener los autos filtrados por el brand
-      const brandFound = await Brand.findOne({
-        where: { name: { [Op.iLike]: brand } },
-      });
-      filterOptions = { ...filterOptions, brandId: brandFound.id };
+      const brandNames = brand.split(",");
+
+      // Realiza una consulta para cada marca y luego combina los resultados
+      const brandIdsArray = await Promise.all(
+        brandNames.map(async (brandName) => {
+          const brand = await Brand.findOne({
+            where: { name: { [Op.iLike]: brandName } },
+          });
+          return brand ? brand.id : null;
+        })
+      );
+
+      // Filtra los resultados nulos y crea un arreglo de IDs válidos
+      const validBrandIds = brandIdsArray.filter((id) => id !== null);
+
+      filterOptions = { ...filterOptions, brandId: validBrandIds };
     }
-    if (motoModel) {
-      // SimotoModel está presente en la solicitud
-      // Realizamos la consulta para obtener los modelos filtrados por elmotoModel
-      const motoModelFound = await MotoModel.findOne({
-        where: { name: { [Op.iLike]: motoModel } },
-      });
-      filterOptions = { ...filterOptions,motoModelId: motoModelFound.id };
+
+    if (tipo) {
+      // Realizamos la consulta para obtener los autos filtrados por el tipo
+      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
     }
-    
+
     if (minPrice && maxPrice) {
       // Ambos minPrice y maxPrice están presentes en la solicitud
       // Realizamos la consulta para obtener los autos filtrados por el rango de precios
@@ -64,7 +73,6 @@ async function getAllMoto(req, res) {
     } else if (maxYear) {
       filterOptions = { ...filterOptions, year: { [Op.lte]: maxYear } };
     }
-   
 
     let orderOptions = [];
 
@@ -80,10 +88,7 @@ async function getAllMoto(req, res) {
       limit: limit,
       offset: offset,
       where: filterOptions,
-      include: [
-        { model: Brand, attributes: ["name"] },
-        { model:MotoModel, attributes: ["name"] },
-      ],
+      include: [{ model: Brand, attributes: ["name"] }],
     });
 
     // Calcular el total de páginas disponibles
@@ -91,13 +96,11 @@ async function getAllMoto(req, res) {
 
     // Responder con la lista paginada de autos y la información de paginación
     res.status(200).json({
-      
       data: dbMotos,
       currentPage: page,
       totalPages: totalPages,
       totalItems: totalItems,
     });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al obtener las motos" });

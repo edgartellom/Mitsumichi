@@ -1,4 +1,5 @@
 [
+  
   {
     "id": "001",
     "marca": "Yumbo",
@@ -97,7 +98,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Azul, Rojo"],
+    "colorDisponible": ["Azul", "Rojo"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -113,9 +114,9 @@
     "year": "2023",
     "precio": "9100",
     "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2023/08/64116cc628dae5a3ce2970620741370d_md.jpg",
       "https://delcar.com.uy/wp-content/uploads/2023/08/b9a3e84ca653f2836287f216a72beca6_full_size.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2023/08/3fd9d6be69b9968ab21f211641b82b44_full_size.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2023/08/64116cc628dae5a3ce2970620741370d_md.jpg"
+      "https://delcar.com.uy/wp-content/uploads/2023/08/3fd9d6be69b9968ab21f211641b82b44_full_size.jpg"
     ],
 
     "combustible": "Nafta",
@@ -223,8 +224,8 @@
     "year": "2022",
     "precio": "1300",
     "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2021/02/YumboMAXPlus-936x700-1-300x300.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2021/02/YUMBO-Max-Plus-negra-1-936x700-1.jpg"
+      "https://delcar.com.uy/wp-content/uploads/2021/02/YUMBO-Max-Plus-negra-1-936x700-1.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/02/YumboMAXPlus-936x700-1-300x300.jpg"
     ],
 
     "combustible": "Nafta",
@@ -603,32 +604,10 @@
     }
   },
   {
-    "id": "029",
-    "marca": "Zanella",
-    "modelo": "Sapucai 125",
-    "tipo": "Street",
-    "year": "2023",
-    "precio": "1499",
-    "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-negra-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-roja-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-blanca-scaled-1.jpg"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
-    }
-  },
-  {
     "id": "030",
     "marca": "Honda",
     "modelo": "CG 110",
-    "tipo": "Street",
+    "tipo": "street",
     "year": "2023",
     "precio": "1590",
     "imageUrl": [
@@ -872,8 +851,8 @@
     "year": "2023",
     "precio": "6990",
     "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2023/05/Blue.jpeg",
       "https://delcar.com.uy/wp-content/uploads/2023/05/Black.jpeg",
+      "https://delcar.com.uy/wp-content/uploads/2023/05/Blue.jpeg",
       "https://delcar.com.uy/wp-content/uploads/2023/05/Red.jpeg"
     ],
 

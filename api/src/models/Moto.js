@@ -13,10 +13,6 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      motoModelId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       tipo: {
         type: DataTypes.STRING,
         

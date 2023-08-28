@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { Moto, Brand, MotoModel } = require("../db");
+const { Moto, Brand } = require("../db");
 
 const path = require("path");
 const filePath = path.join(__dirname, "../../", "motosapi.json");
@@ -31,20 +31,13 @@ async function loadApiDataInDb() {
         where: { name: marca },
       });
 
-      // Cargar MotoModel (modelo) si no existe
-      const [modeloBd, modeloCreado] = await MotoModel.findOrCreate({
-        where: { name: modelo },
-        defaults: {
-          brandId: marcaBd.id,
-        },
-      });
-
       // Cargar Moto si no existe
       const [newMoto, motoCreated] = await Moto.findOrCreate({
         where: { id },
-        defaults: {tipo,
-          motoModelId: modeloBd.id,
+        defaults: {
           brandId: marcaBd.id,
+          motoModel: modelo,
+          tipo,
           precio,
           year,
           imageUrl,
