@@ -8,6 +8,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Swal from "sweetalert2";
 
 import axios from "axios";
+import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
 
 const optionsTipo = [
   // Opciones de tipo de moto
@@ -327,7 +328,7 @@ const Moto_Create = () => {
     setImage(files);
     setSelectedImages(files);
     setImagePreviews(previews);
-    handleImageUploadCloudinary(files);
+    // handleImageUploadCloudinary(files);
   };
 
   const handleImageUploadCloudinary = async (images) => {
@@ -486,17 +487,10 @@ const Moto_Create = () => {
   };
 
   return (
-    <div className="m-auto flex flex-col min-w-[30%] max-w-[500px] gap-4 py-5 px-10 border-2 rounded-lg">
+    <div className="m-auto flex flex-col min-w-[30%] max-w-[500px] min-h-[30%] max-h-[66.5%] gap-4 py-5 px-10 border-2 rounded-lg overflow-auto">
       {imageUploaded && (
         <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-slate-100 bg-opacity-50">
-          <svg
-            className=" text-gray-500 animate-moto "
-            xmlns="http://www.w3.org/2000/svg"
-            height="150"
-            viewBox="0 0 640 512"
-          >
-            <path d="M280 32c-13.3 0-24 10.7-24 24s10.7 24 24 24h57.7l16.4 30.3L256 192l-45.3-45.3c-12-12-28.3-18.7-45.3-18.7H64c-17.7 0-32 14.3-32 32v32h96c88.4 0 160 71.6 160 160c0 11-1.1 21.7-3.2 32h70.4c-2.1-10.3-3.2-21-3.2-32c0-52.2 25-98.6 63.7-127.8l15.4 28.6C402.4 276.3 384 312 384 352c0 70.7 57.3 128 128 128s128-57.3 128-128s-57.3-128-128-128c-13.5 0-26.5 2.1-38.7 6L418.2 128H480c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32H459.6c-7.5 0-14.7 2.6-20.5 7.4L391.7 78.9l-14-26c-7-12.9-20.5-21-35.2-21H280zM462.7 311.2l28.2 52.2c6.3 11.7 20.9 16 32.5 9.7s16-20.9 9.7-32.5l-28.2-52.2c2.3-.3 4.7-.4 7.1-.4c35.3 0 64 28.7 64 64s-28.7 64-64 64s-64-28.7-64-64c0-15.5 5.5-29.7 14.7-40.8zM187.3 376c-9.5 23.5-32.5 40-59.3 40c-35.3 0-64-28.7-64-64s28.7-64 64-64c26.9 0 49.9 16.5 59.3 40h66.4C242.5 268.8 190.5 224 128 224C57.3 224 0 281.3 0 352s57.3 128 128 128c62.5 0 114.5-44.8 125.8-104H187.3zM128 384a32 32 0 1 0 0-64 32 32 0 1 0 0 64z" />
-          </svg>
+          <LoadingSpinner />
         </div>
       )}
       <h1 className="bold text-2xl text-center">ADD NEW MOTO</h1>
@@ -510,7 +504,7 @@ const Moto_Create = () => {
             <input
               type="text"
               placeholder="Ingrese la marca"
-              //value={formData.marca}
+              value={formData.marca}
               onChange={(e) => {
                 const marca = e.target.value;
 
@@ -543,7 +537,7 @@ const Moto_Create = () => {
             <input
               type="text"
               placeholder="Ingrese el modelo"
-              //value={formData.modelo}
+              value={formData.modelo}
               onChange={(e) => {
                 const modelo = e.target.value;
 
@@ -575,6 +569,9 @@ const Moto_Create = () => {
           <div className="relative">
             <Select
               options={optionsTipo}
+              value={optionsTipo.find(
+                (option) => option.value === formData.tipo
+              )}
               placeholder="Selecciona un Modelo de Moto"
               className={`border rounded w-full ${
                 isTipoValid === false ? "border-red-500" : ""
@@ -600,7 +597,7 @@ const Moto_Create = () => {
           <div className="relative">
             <input
               type="number"
-              //value={formData.year}
+              value={formData.year}
               placeholder="Ingrese un año"
               onChange={(e) => {
                 const year = e.target.value;
@@ -633,7 +630,7 @@ const Moto_Create = () => {
           <div className="relative">
             <input
               type="number"
-              //value={formData.precio}
+              value={formData.precio}
               placeholder="Ingrese un monto"
               onChange={(e) => {
                 const precio = e.target.value;
@@ -666,6 +663,9 @@ const Moto_Create = () => {
           <div className="relative">
             <Select
               options={optionsCombustible}
+              value={optionsCombustible.find(
+                (option) => option.value === formData.combustible
+              )}
               placeholder="Selecciona el tipo de combustible"
               className={`border rounded ${
                 isCombustibleValid === false ? "border-red-500" : ""
@@ -692,6 +692,9 @@ const Moto_Create = () => {
           <div className="relative">
             <Select
               options={sortedColorOptions}
+              value={optionsColor.find(
+                (option) => option.value === formData.color
+              )}
               placeholder="Selecciona o agrega un color"
               className={`border rounded ${
                 isColorValid === false ? "border-red-500" : ""
@@ -720,7 +723,11 @@ const Moto_Create = () => {
         {/* Barra divisoria */}
         <div className="w-full h-0.5 border rounded-lg bg-gray-400 my-4"></div>
 
-        <div className="input-wrapper flex flex-col">
+        <div
+          className={`input-wrapper flex flex-col border rounded ${
+            isImageUrlValid === false ? "border-red-500" : ""
+          } ${isImageUrlValid === true ? "border-green-500" : ""}`}
+        >
           <label htmlFor="imageUrl" className="mb-1">
             Imagen
           </label>
@@ -782,6 +789,9 @@ const Moto_Create = () => {
             <div className="relative">
               <Select
                 options={optionsMotor}
+                value={optionsMotor.find(
+                  (option) => option.value === formData.motor
+                )}
                 placeholder="Selecciona el motor"
                 className={`border rounded ${
                   isMotorValid === false ? "border-red-500" : ""
@@ -808,6 +818,9 @@ const Moto_Create = () => {
             <div className="relative">
               <Select
                 options={optionsVelocidades}
+                value={optionsVelocidades.find(
+                  (option) => option.value === formData.velocidades
+                )}
                 placeholder="Selecciona las velocides"
                 onChange={handleVelocidadesSelection}
                 className={`border rounded ${
@@ -828,7 +841,7 @@ const Moto_Create = () => {
             <div className="relative">
               <input
                 type="number"
-                //value={formData.pasajeros}
+                value={formData.pasajeros}
                 placeholder="Ingrese el número de pasajeros"
                 onChange={(e) => {
                   const pasajeros = e.target.value;
@@ -864,7 +877,7 @@ const Moto_Create = () => {
             <div className="relative">
               <input
                 type="number"
-                //value={formData.pasajeros}
+                value={formData.pasajeros}
                 placeholder="Ingrese el valor la cilindrada"
                 onChange={(e) => {
                   const cilindrada = e.target.value;
