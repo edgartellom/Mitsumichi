@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
+
 import { BsXCircle, BsCheckCircle } from "react-icons/bs";
 import Select from "react-select";
 
@@ -453,26 +454,28 @@ const Moto_Create = () => {
           setFormData({
             marca: "",
             modelo: "",
-            presentacion: "",
-            precio: 0,
-            estado: "",
+            tipo: "",
             year: 0,
-            imageUrl: [""],
-            kilometraje: "",
+            precio: 0,
+            imageUrl: [],
             combustible: "",
+            colorDisponible: [],
             fichaTecnica: {
-              Motor: "",
-              Pasajeros: "",
-              Carroceria: "",
-              Transmision: "",
-              Traccion: "",
-              Llantas: "",
-              Potencia: "",
-              Puertas: "",
-              Baul: "",
-              airbag: "",
+              motor: "",
+              pasajeros: "",
+              cilindrada: "",
+              velocidades: "",
             },
           });
+          setImage([]);
+          setSelectedImages([]);
+          setImagePreviews([]);
+
+          setImageUploaded(false);
+          setSelectedColors([]);
+
+          return (window.location.href = "/home");
+
           // console.log("Nuevo auto:", formData);
         } catch (error) {
           Swal.fire({
@@ -877,7 +880,7 @@ const Moto_Create = () => {
             <div className="relative">
               <input
                 type="number"
-                value={formData.pasajeros}
+                value={formData.cilindrada}
                 placeholder="Ingrese el valor la cilindrada"
                 onChange={(e) => {
                   const cilindrada = e.target.value;
