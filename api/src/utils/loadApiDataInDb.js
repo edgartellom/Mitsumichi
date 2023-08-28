@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { Moto, Brand, MotoModel } = require("../db");
+const { Moto, Brand } = require("../db");
 
 const path = require("path");
 const filePath = path.join(__dirname, "../../", "motosapi.json");
@@ -17,13 +17,12 @@ async function loadApiDataInDb() {
         id,
         marca,
         modelo,
-        presentacion,
+        tipo,
         precio,
-        estado,
         year,
         imageUrl,
-        kilometraje,
         combustible,
+        colorDisponible,
         fichaTecnica,
       } = motoData;
 
@@ -32,31 +31,23 @@ async function loadApiDataInDb() {
         where: { name: marca },
       });
 
-      // Cargar MotoModel (modelo) si no existe
-      const [modeloBd, modeloCreado] = await MotoModel.findOrCreate({
-        where: { name: modelo },
-        defaults: {
-          brandId: marcaBd.id,
-        },
-      });
-
       // Cargar Moto si no existe
-      const [newCar, carCreated] = await Moto.findOrCreate({
-        where: { presentacion },
+      const [newMoto, motoCreated] = await Moto.findOrCreate({
+        where: { id },
         defaults: {
-          carModelId: modeloBd.id,
           brandId: marcaBd.id,
+          motoModel: modelo,
+          tipo,
           precio,
-          estado,
           year,
           imageUrl,
-          kilometraje,
           combustible,
+          colorDisponible,
           fichaTecnica,
         },
       });
 
-      if (carCreated) {
+      if (motoCreated) {
         // Si el registro ya existe, aumentar el contador de creados
         createdCount++;
       } else {
