@@ -5,7 +5,7 @@ const DropdownMenu = ({ name, data, value, onClick }) => {
     <div className="group inline-block ">
       <button
         value={value}
-        className="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32 max-sm:w-screen"
+        className="outline-none focus:outline-none border px-3 py-1 bg-gray-200 rounded-sm flex items-center min-w-32 max-sm:w-screen"
       >
         <span className="pr-1 font-semibold flex-1">{name}</span>
         <span>
