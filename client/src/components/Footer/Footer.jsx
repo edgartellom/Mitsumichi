@@ -9,7 +9,7 @@ import { useNavigate, useParams} from "react-router-dom";
 
 const Footer = () => {
   const navigate = useNavigate();
-  const { id, precio, nombre } = useParams();
+  const { id, precio, nombre } = useParams(); // debo colocar los datos que van en el Detail
   return (
     <footer className="bg-black text-white    flex flex-col">
       <section>
