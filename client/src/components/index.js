@@ -5,7 +5,7 @@ export { default as Cards } from "./Cards/Cards";
 export { default as Carousel } from "./Carousel/Carousel";
 export { default as CartNgitavButton } from "./CartNavButton/CartNavButton";
 export { default as CreateReview } from "./CreateReview/CreateReview";
-export { default as DropdownMenu } from "./DropdownMenu/DropdownMenu.jsx";
+// export { default as DropdownMenu } from "./DropdownMenu/DropdownMenu.jsx";
 export { default as Filters } from "./Filters/Filters";
 export { default as Footer } from "./Footer/Footer";
 export { default as Header } from "./Header/Header";
