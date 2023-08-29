@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import videoHome from "../../assets/video.mp4";
-import { Cards, Filters, Paginated, LoadingSpinner } from "../../components";
+import {
+  Cards,
+  Filters,
+  Paginated,
+  LoadingSpinner,
+  AddButton,
+} from "../../components";
 
 const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 const limit = 6;
@@ -114,6 +120,7 @@ const Home = () => {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
+      <AddButton />
     </div>
   );
 };

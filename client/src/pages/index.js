@@ -11,4 +11,6 @@ export { default as OurTeam } from "./OurTeam/OurTeam";
 export { default as SignIn } from "./SignIn/SignIn";
 export { default as SignUp } from "./SignUp/SignUp";
 export * from "./dashboard/components";
+export * from "./dashboard/helper";
+export * from "./dashboard";
 export * from "./dashboard/pages";
