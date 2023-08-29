@@ -3,7 +3,7 @@ export { default as ButtonAddCart } from "./ButtonAddCart/ButtonAddCart";
 export { default as Card } from "./Card/Card";
 export { default as Cards } from "./Cards/Cards";
 export { default as Carousel } from "./Carousel/Carousel";
-export { default as CartNavButton } from "./CartNavButton/CartNavButton";
+export { default as CartNgitavButton } from "./CartNavButton/CartNavButton";
 export { default as CreateReview } from "./CreateReview/CreateReview";
 export { default as DropdownMenu } from "./DropdownMenu/DropdownMenu.jsx";
 export { default as Filters } from "./Filters/Filters";
