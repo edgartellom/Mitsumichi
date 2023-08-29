@@ -1,0 +1,6 @@
+.custom-carousel {
+  border-radius: 10px; /* Bordes redondeados */
+  background: rgba(255, 255, 255, 0.1); /* Fondo estilo vidrio */
+  backdrop-filter: blur(10px); /* Efecto de vidrio */
+  overflow: hidden; /* Ocultar bordes redondeados fuera del carrusel */
+}
