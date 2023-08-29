@@ -40,9 +40,9 @@ const Navbar = () => {
 
   if (showLogin) {
     return !currentUser ? (
-      <SignIn onClose={() => setShowLogin(false)} />
+      <SignIn setShowLogin={setShowLogin} />
     ) : (
-      !isRegistered && <SignUp onClose={() => setShowLogin(false)} />
+      !isRegistered && <SignUp setShowLogin={setShowLogin} />
     );
   }
 

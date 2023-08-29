@@ -9,7 +9,7 @@ import loginWithEmailAndPassword from "../../firebase/loginWithEmailPassword";
 import { useForm } from "react-hook-form";
 import { userAuth } from "../../context/Auth-context";
 
-const Login = ({ onClose }) => {
+const Login = ({ setShowLogin }) => {
   const { setLoading } = useContext(userAuth);
   const [isLoggingIn, setIsloggingIn] = useState(false);
   const [loginErro, setLoginError] = useState(null);
@@ -48,7 +48,7 @@ const Login = ({ onClose }) => {
       >
         <button
           type="button"
-          onClick={onClose}
+          onClick={() => setShowLogin(false)}
           className=" self-end mr-5 font-bold text-xl "
         >
           X
