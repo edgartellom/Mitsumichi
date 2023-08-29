@@ -9,9 +9,10 @@ import loginWithEmailAndPassword from "../../firebase/loginWithEmailPassword";
 import { useForm } from "react-hook-form";
 import { userAuth } from "../../context/Auth-context";
 
-const Login = ({ onClose }) => {
+const Login = ({ setShowLogin }) => {
   const { setLoading } = useContext(userAuth);
   const [isLoggingIn, setIsloggingIn] = useState(false);
+  const [loginErro, setLoginError] = useState(null);
 
   const {
     register,
@@ -28,7 +29,13 @@ const Login = ({ onClose }) => {
     if (isLoggingIn) {
       await registerUser(email, password);
     } else {
-      await loginWithEmailAndPassword(email, password);
+      const response = await loginWithEmailAndPassword(email, password);
+      window.location.reload();
+      setLoading(true);
+      if (!response) {
+        setLoginError("Parece que aun no estas registrado");
+        return;
+      }
       setLoading(true);
     }
   };
@@ -37,9 +44,13 @@ const Login = ({ onClose }) => {
     <Wrapper>
       <form
         onSubmit={handleSubmit(sumbitHandler)}
-        className=" bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
+        className="  animate-slide-down bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
       >
-        <button onClick={onClose} className=" self-end mr-5 font-bold text-xl ">
+        <button
+          type="button"
+          onClick={() => setShowLogin(false)}
+          className=" self-end mr-5 font-bold text-xl "
+        >
           X
         </button>
         <img src={Logo} width={220} alt="" />
@@ -102,6 +113,7 @@ const Login = ({ onClose }) => {
             className=" mx-auto rounded-full bg-white text-[#000]  py-1 font-normal shadow "
           />
         </section>
+        <p className=" text-red-500 font-medium">{loginErro}</p>
         {!isLoggingIn ? (
           <h4 className=" font-semibold text-gray-500">
             No tienes una cuenta?{" "}
