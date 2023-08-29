@@ -1,3 +1,4 @@
+export { default as AddButton } from "./AddButton/AddButton";
 export { default as ButtonAddCart } from "./ButtonAddCart/ButtonAddCart";
 export { default as Card } from "./Card/Card";
 export { default as Cards } from "./Cards/Cards";
@@ -17,3 +18,4 @@ export { default as ProfileNavButton } from "./ProfileNavButton/ProfileNavButton
 export { default as SearchBar } from "./SearchBar/SearchBar";
 export { default as SideBar } from "./SideBar/SideBar";
 export { default as Sorts } from "./Sorts/Sorts";
+export { default as Button } from "./UI/Button";
