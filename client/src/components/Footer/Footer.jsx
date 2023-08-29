@@ -2,8 +2,14 @@ import logo from "../../assets/Logo_Mitsumichi_Cat_White.png";
 import face from "../../assets/footer_img/face.gif";
 import insta from "../../assets/footer_img/insta.gif";
 import mail from "../../assets/footer_img/mail.gif";
+import { useNavigate, useParams} from "react-router-dom";
+
+
+
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const { id, precio, nombre } = useParams();
   return (
     <footer className="bg-black text-white    flex flex-col">
       <section>
@@ -65,6 +71,14 @@ const Footer = () => {
                 <tr>
                   <a>Atención a publicaciones fraudulentas</a>
                 </tr>
+                <button
+              className="bg-transparent text-yellow border-2 border-white mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md"
+              onClick={() =>
+                navigate(`/paypal-button/${precio}/${nombre}`)
+              } 
+            >
+              Comprar
+            </button>
               </td>
             </tbody>
           </table>
