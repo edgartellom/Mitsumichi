@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import videoHome from "../../assets/video.mp4";
 import { Cards, Filters, Paginated, LoadingSpinner } from "../../components";
+import Cart from "../Cart/Cart";
 
 const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 const limit = 6;
@@ -94,13 +95,14 @@ const Home = () => {
 
   return (
     <div className=" ">
-      <video
+      {/* <video
         autoPlay
         muted
         loop
         src={videoHome}
         className=" max-sm:hidden"
-      ></video>
+      ></video> */}
+
       <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col w-screen">
         <Filters
           marcas={marcas}

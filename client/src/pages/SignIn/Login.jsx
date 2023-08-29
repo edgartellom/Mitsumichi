@@ -44,7 +44,7 @@ const Login = ({ onClose }) => {
     <Wrapper>
       <form
         onSubmit={handleSubmit(sumbitHandler)}
-        className=" bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
+        className="  animate-slide-down bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
       >
         <button
           type="button"

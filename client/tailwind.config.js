@@ -17,6 +17,19 @@ export default {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" },
         },
+        "slide-down": {
+          from: {
+            opacity: 0,
+            transform: "translateY(-3rem)",
+          },
+          to: {
+            opacity: 1,
+            transform: "translateY(0)",
+          },
+        },
+      },
+      animation: {
+        "slide-down": "slide-down 300ms ease-out forwards",
       },
     },
   },

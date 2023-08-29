@@ -10,10 +10,12 @@ import logOut from "../../firebase/logOut";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
 import CartButton from "../../pages/Cart/CartButton/CartButton";
+import Cart from "../../pages/Cart/Cart";
 
 const Navbar = () => {
   const { loading, currentUser, isRegistered } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
   const logOutHandler = () => {
     logOut();
@@ -74,7 +76,8 @@ const Navbar = () => {
             <span>Salir</span>
           </div>
         )}
-        <CartButton />
+        <CartButton setShowCart={setShowCart} />
+        {showCart && <Cart setShowCart={setShowCart} />}
       </section>
 
       <SideBar routesArray={routes} />
