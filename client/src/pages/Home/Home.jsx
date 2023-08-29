@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import videoHome from "../../assets/video.mp4";
-<<<<<<< HEAD
-import { Cards, Filters, Paginated, LoadingSpinner } from "../../components";
-import Cart from "../Cart/Cart";
-=======
 import {
   Cards,
   Filters,
@@ -12,7 +8,6 @@ import {
   LoadingSpinner,
   AddButton,
 } from "../../components";
->>>>>>> 873d1c9ab4dc0b443f6252db596c0a255ddb4910
 
 const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 const limit = 6;

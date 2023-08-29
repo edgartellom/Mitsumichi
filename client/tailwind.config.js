@@ -20,7 +20,6 @@ export default {
           "0%, 100%": { transform: "rotate(-3deg)" },
           "50%": { transform: "rotate(3deg)" },
         },
-<<<<<<< HEAD
         "slide-down": {
           from: {
             opacity: 0,
@@ -34,7 +33,6 @@ export default {
       },
       animation: {
         "slide-down": "slide-down 300ms ease-out forwards",
-=======
 
         spin: {
           "0%": { transform: "rotate(0)" },
@@ -72,7 +70,6 @@ export default {
             fill: "gray",
           },
         },
->>>>>>> 873d1c9ab4dc0b443f6252db596c0a255ddb4910
       },
     },
   },
