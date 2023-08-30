@@ -25,6 +25,7 @@ const Card = ({ data }) => {
       <div className="relative m-3 flex flex-wrap mx-auto justify-center">
         <div className="min-w-[340px]flex flex-col group">
           <div className="h-48 md:h-56 lg:h-[24rem] w-full bg-white border-2 border-white flex items-center justify-center text-white text-base mb-3 md:mb-5 overflow-hidden relative">
+            
             <img
               src={imageUrl[0]}
               className="object-cover w-96 scale-100 group-hover:scale-110 transition-all duration-400"
