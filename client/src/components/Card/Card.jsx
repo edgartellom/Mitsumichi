@@ -5,10 +5,9 @@ const Card = ({ data }) => {
     brand: { name },
     imageUrl,
     motoModel,
+    precio,
   } = data;
 
-  // console.log(name)
-  // console.log(data)
   return (
     <div className="bg-gray-300 flex flex-col justify-center m-4">
       <div className="relative m-3 flex flex-wrap mx-auto justify-center">
@@ -28,12 +27,11 @@ const Card = ({ data }) => {
             className=" block text-black text-center hover:text-primary transition-colors duration-150 text-lg md:text-xl mb-1"
           >
             <div className="font-bold">{name} </div>
-            <span className=" text-lg">{motoModel.name}</span>
+            <span className=" text-lg">{motoModel}</span>
           </a>
-
-          <p className="mb-4 font-light  text-sm md:text-sm text-center text-gray-400"></p>
-          <p className="mb-4 font-light  text-sm md:text-sm text-center text-gray-400"></p>
-
+          <p className="mb-4 font-light text-sm md:text-sm text-center text-gray-400">
+            Precio: {precio}
+          </p>
           <div className="flex justify-center gap-x-3">
             <a
               href="#"
