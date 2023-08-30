@@ -1,11 +1,20 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ data }) => {
+
+  const navigate = useNavigate();
+
   const {
     brand: { name },
     imageUrl,
     motoModel,
+    id
   } = data;
+
+  const handleDetail = () => {
+    navigate(`/detail/${id}`)
+  }
 
   // console.log(name)
   // console.log(data)
@@ -41,12 +50,11 @@ const Card = ({ data }) => {
             >
               Add
             </a>
-            <a
-              href="#"
+            <button onClick={handleDetail}
               className="px-5 py-2 border border-primary text-primary hover:bg-primary transition-all outline-none bg-white border-black text-black hover:text-white hover:bg-black font-bold"
             >
               View
-            </a>
+            </button>
           </div>
         </div>
       </div>
