@@ -5,7 +5,7 @@ import compra from '../../assets/compra_paypal.png'
 
 export function PayPalButton() {
   /* const clientId = "AVEb_6nyKhKDoS1J27I2AiAdYH3r0qD-GUwkHptOALusT7-kTlhjgG8adJFy39QVrt80CiozaAFb6P3u"; */
-  const clientId = "AXVtxkbP0qv5XOFY8ktKvDjtrsN7OPqzph61GbJL8p3ckSNql8GTbAyHDuTUlUjP28LQGwtt0-gKLWsf";
+  const clientId = "AYzyXv7DvxmViou_tGpOeAhwnjs-MOxkOH0j7USow4U0ibl0Uj4PzHi4n7YoVTU1mywyWa3CNIt_G5Lz";
 
   const [purchaseId, setPurchaseId] = useState(null);
   const { precio, nombre } = useParams();
