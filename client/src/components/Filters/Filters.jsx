@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DropdownMenu } from "..";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
 import Button from "../UI/Button";
 
 const MIN_PRICE = 0;
@@ -57,8 +57,8 @@ const Filters = ({ marcas, tipos, filters, onFilterChange }) => {
   };
 
   return (
-    <div className="  flex gap-4 items-center">
-      <h1 className="text-white ml-3">Filtros:</h1>
+    <div className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+      <h1 className="text-white ml-3 font-bold">Filtros:</h1>
       <DropdownMenu
         name={"Marca"}
         data={marcas}
@@ -73,7 +73,7 @@ const Filters = ({ marcas, tipos, filters, onFilterChange }) => {
       />
       <Button
         text={"Reset filters"}
-        className={"text-white text-base"}
+        className="text-white text-base max-sm:w-screen"
         onClick={resetFilters}
       ></Button>
 
