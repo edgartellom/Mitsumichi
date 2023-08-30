@@ -6,6 +6,7 @@ const Card = ({ data }) => {
     imageUrl,
     motoModel,
     precio,
+    tipo,
   } = data;
 
   return (
@@ -24,13 +25,12 @@ const Card = ({ data }) => {
           </div>
           <a
             href="#"
-            className=" block text-black text-center hover:text-primary transition-colors duration-150 text-lg md:text-xl mb-1"
+            className="block text-black text-center hover:text-primary transition-colors duration-150 text-lg md:text-xl mb-1"
           >
-            <div className="font-bold">{name} </div>
-            <span className=" text-lg">{motoModel}</span>
+            <div className="font-bold">{name} {motoModel} </div>
+            <span className=" text-lg"> Tipo {tipo}</span>
           </a>
-          <p className="mb-4 font-light text-sm md:text-sm text-center text-gray-400">
-            Precio: {precio}
+          <p className="mb-4 text-sm md:text-sm text-center font-bold">USD {precio}
           </p>
           <div className="flex justify-center gap-x-3">
             <a
