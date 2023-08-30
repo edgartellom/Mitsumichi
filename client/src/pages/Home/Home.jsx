@@ -108,7 +108,7 @@ const Home = () => {
         className=" max-sm:hidden"
       ></video> */}
 
-      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col w-screen">
+      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col ">
         <Filters
           marcas={marcas}
           tipos={tipos}
