@@ -35,7 +35,7 @@ const Footer = () => {
                 </tr>
                 <tr>
                   <a
-                    href="mailto:busquedas@elixircars.com"
+                    href="mailto:mitsumichipf@gmail.com"
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -132,7 +132,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://gmail.com" target="_blank" rel="noreferrer">
+                <a href="mailto:mitsumichipf@gmail.com" target="_blank" rel="noreferrer">
                   <img
                     src={mail}
                     className="w-8 h-8 rounded-lg"
