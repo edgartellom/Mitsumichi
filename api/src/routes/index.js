@@ -5,6 +5,8 @@ const getAllBrands = require("../controllers/getAllBrands");
 const deleteMoto = require("../controllers/deleteMoto.js");
 const getAllReviews = require("../controllers/getAllReviews");
 const createReview = require("../controllers/createReview");
+const getMotoByID = require("../controllers/getMotoByID")
+const editMoto = require("../controllers/editMoto")
 
 const router = Router();
 
