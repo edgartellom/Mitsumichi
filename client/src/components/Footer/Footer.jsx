@@ -5,7 +5,7 @@ import mail from "../../assets/footer_img/mail.gif";
 
 const Footer = () => {
   return (
-    <footer className="bg-black text-white    flex flex-col">
+    <footer className="bg-black text-white  flex flex-col">
       <section>
         <div className=" flex flex-wrap justify-around items-center">
           <aside>

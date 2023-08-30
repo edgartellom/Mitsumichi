@@ -33,8 +33,8 @@ const Home = () => {
     MAX_YEAR,
   ]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   const fetchData = async () => {
     try {
@@ -108,7 +108,7 @@ const Home = () => {
         className=" max-sm:hidden"
       ></video> */}
 
-      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col w-screen">
+      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col ">
         <Filters
           marcas={marcas}
           tipos={tipos}
