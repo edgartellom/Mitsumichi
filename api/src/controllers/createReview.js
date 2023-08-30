@@ -26,5 +26,4 @@ async function createReview(req, res) {
     res.status(500).json({ error: "Error al crear el Review" });
   }
 }
-
 module.exports = createReview;
