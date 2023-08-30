@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import videoHome from "../../assets/video.mp4";
-import { Cards, Filters, Paginated, LoadingSpinner } from "../../components";
+import {
+  Cards,
+  Filters,
+  Paginated,
+  LoadingSpinner,
+  AddButton,
+} from "../../components";
 
 const URL = import.meta.env.VITE_REACT_APP_URL_BACKEND;
 const limit = 6;
@@ -94,8 +100,15 @@ const Home = () => {
 
   return (
     <div className=" ">
-      <video autoPlay muted loop src={videoHome} className=""></video>
-      <section className="p-1 bg-black w-full">
+      {/* <video
+        autoPlay
+        muted
+        loop
+        src={videoHome}
+        className=" max-sm:hidden"
+      ></video> */}
+
+      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col w-screen">
         <Filters
           marcas={marcas}
           tipos={tipos}
@@ -114,6 +127,7 @@ const Home = () => {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
+      <AddButton />
     </div>
   );
 };

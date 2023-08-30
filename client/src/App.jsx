@@ -1,5 +1,5 @@
 import RootLayot from "./helper/RootLayout";
-import { Home, LandingPage, Detail } from "./pages";
+import { AppDashboard, Home, LandingPage, Detail } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
 import About from "./pages/About/About";
@@ -13,6 +13,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <LandingPage />,
+      },
+      {
+        path: "/dashboard/*",
+        element: <AppDashboard />,
       },
       {
         path: "/home",

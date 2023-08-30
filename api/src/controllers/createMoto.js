@@ -16,6 +16,8 @@ async function createMoto(req, res) {
       colorDisponible,
     } = req.body;
 
+    console.log(req.body);
+
     // Validación de campos obligatorios
     if (
       !marca ||
