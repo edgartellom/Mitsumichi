@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 const Paginated = ({ currentPage, totalPages, onPageChange }) => {
-  const [inputdInputPage] = useState(currentPage);
-
-  useEffect(() => {
-    // setInputPage;
-  }, [currentPage]);
-
   function handlePageInput(event) {
     let page = parseInt(event.target.value);
     page = isNaN(page) ? 1 : Math.max(1, Math.min(page, totalPages));
-    // setInputPage(page);
-  }
-
-  function handlePageSubmit(event) {
-    event.preventDefault();
-    onPageChange(inputPage);
   }
 
   function getPageNumbers() {
@@ -49,7 +37,7 @@ const Paginated = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="flex pb-5 gap-3 flex-wrap m-auto justify-center items-center text-black">
       <button
-        className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
+        className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-600 hover:text-black shadow transition duration-300 hover:bg-gold"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
       >
@@ -59,18 +47,21 @@ const Paginated = ({ currentPage, totalPages, onPageChange }) => {
       {getPageNumbers().map((page) => (
         <button
           key={page}
-          className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 ${
+          className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-gray-400 hover:text-black shadow transition duration-300 ${
             currentPage === page ? "bg-gold" : "hover:bg-gold"
           }`}
           onClick={() => onPageChange(page)}
           disabled={currentPage === page}
         >
           {page}
+          {currentPage === page && (
+            <span className="sr-only">(Página Actual)</span>
+          )}
         </button>
       ))}
 
       <button
-        className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
+        className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-600 hover:text-black shadow transition duration-300 hover:bg-gold"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
       >
