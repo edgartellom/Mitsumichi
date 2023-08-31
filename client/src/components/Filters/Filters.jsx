@@ -1,59 +1,35 @@
-import React, { useState, useEffect } from "react";
-import DropdownMenu from "../DropdownMenu/DropdownMenu";
-import Button from "../UI/Button";
+import React, { useState, useReducer, useEffect } from "react";
+import { DropdownMenu } from "..";
+import { BsArrowRepeat } from "react-icons/bs";
+import { setFilters, resetFilters } from "../../redux/slices/motoListSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const MIN_PRICE = 0;
-const MAX_PRICE = 60000;
-const MIN_YEAR = 2010;
-const MAX_YEAR = new Date().getFullYear();
-const Filters = ({ marcas, tipos, filters, onFilterChange }) => {
-  const [selectedType, setSelectedType] = useState(filters.type || "");
-  const [selectedBrand, setSelectedBrand] = useState(filters.brand || "");
-  const [selectedPriceRange, setSelectedPriceRange] = useState(
-    filters.priceRange || [MIN_PRICE, MAX_PRICE]
-  );
-  const [selectedYearRange, setSelectedYearRange] = useState(
-    filters.yearRange || [MIN_YEAR, MAX_YEAR]
-  );
+const Filters = ({ marcas, tipos }) => {
+  const dispatch = useDispatch();
+  const { filters } = useSelector((state) => state.motoList);
+  // const [selectedBrand, setSelectedBrand] = useState("");
+  // const [selectedType, setSelectedType] = useState("");
 
-  useEffect(() => {
-    // Call the parent component's filter change handler with the updated filters
-    onFilterChange({
-      brand: selectedBrand,
-      type: selectedType,
-      priceRange: selectedPriceRange,
-      yearRange: selectedYearRange,
-    });
-  }, [selectedBrand, selectedType, selectedYearRange, selectedPriceRange]);
-
-  const handleBrandClick = (e) => {
-    console.log(e.target.value);
-    setSelectedBrand(e.target.value);
+  const handleBrandClick = (brand) => {
+    console.log(brand);
+    dispatch(setFilters({ ...filters, brand }));
+    setSelectedBrand(brand);
   };
 
-  const handleTypeClick = (e) => {
-    setSelectedType(e.target.value);
+  const handleTypeClick = (tipo) => {
+    console.log(tipo);
+    dispatch(setFilters({ ...filters, tipo }));
+    setSelectedType(tipo);
   };
 
-  const handlePriceRangeChange = (newValues) => {
-    setSelectedPriceRange(newValues);
-  };
+  // const handlePriceRangeChange = (newValues) => {};
 
-  const handleYearRangeChange = (newValues) => {
-    setSelectedYearRange(newValues);
-  };
+  // const handleYearRangeChange = (newValues) => {
+  //   dispatch({ type: "SET_YEAR_RANGE", payload: newValues });
+  // };
 
-  const resetFilters = () => {
-    setSelectedBrand("");
-    setSelectedType("");
-    setSelectedPriceRange([MIN_PRICE, MAX_PRICE]);
-    setSelectedYearRange([MIN_YEAR, MAX_YEAR]);
-    onFilterChange({
-      brand: "",
-      type: "",
-      priceRange: [MIN_PRICE, MAX_PRICE],
-      yearRange: [MIN_YEAR, MAX_YEAR],
-    });
+  const handleResetFilters = () => {
+    dispatch(resetFilters());
   };
 
   return (
@@ -62,20 +38,21 @@ const Filters = ({ marcas, tipos, filters, onFilterChange }) => {
       <DropdownMenu
         name={"Marca"}
         data={marcas}
-        value={selectedBrand}
+        // value={selectedBrand}
         onClick={handleBrandClick}
       />
       <DropdownMenu
         name={"Tipo"}
         data={tipos}
-        value={selectedType}
+        // value={selectedType}
         onClick={handleTypeClick}
       />
-      <Button
-        text={"Reset filters"}
+      <button
         className="text-white text-base max-sm:w-screen"
-        onClick={resetFilters}
-      ></Button>
+        onClick={handleResetFilters}
+      >
+        <BsArrowRepeat />
+      </button>
 
       {/* <DropdownMenu name={"Rango Precio"} />
       <DropdownMenu name={"Rango Año"} /> */}

@@ -19,9 +19,21 @@ async function getAllMoto(req, res) {
       maxYear,
       sortByBrand,
       sortByPrice,
+      search,
     } = req.query;
 
     let filterOptions = {};
+
+    if (search) {
+      filterOptions = {
+        ...filterOptions,
+        [Op.or]: [
+          { "$brand.name$": { [Op.iLike]: `%${search}%` } },
+          { motoModel: { [Op.iLike]: `%${search}%` } },
+          { tipo: { [Op.iLike]: `%${search}%` } },
+        ],
+      };
+    }
 
     // Si brand está presente en la solicitud
 
