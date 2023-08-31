@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.4.0",
     "firebase": "^10.2.0",
     "react": "^18.2.0",
@@ -23,9 +24,6 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.15.0",
     "react-select": "^5.7.4",
-    "redux": "^4.2.1",
-    "redux-devtools-extension": "^2.13.9",
-    "redux-thunk": "^2.4.2",
     "sweetalert2": "^11.7.27",
     "web-vitals": "^3.4.0"
   },
