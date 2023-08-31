@@ -929,5 +929,47 @@
       "cilindrada": "261",
       "velocidades": "5"
     }
+  },
+  {
+    "id": "045",
+    "marca": "Honda",
+    "modelo": "XR 250 TORNADO",
+    "tipo": "On-Off Road",
+    "year": "2023",
+    "precio": "7990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2023/03/xr250-765x466-1.png",
+      "https://delcar.com.uy/wp-content/uploads/2023/03/D_NQ_NP_746809-MLA46478079822_062021-O.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2023/03/honda_xr-250-tornado_2008_1_08052021_32154_960_720.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Rojo", "Negro", "Blanco"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "249",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "046",
+    "marca": "Honda",
+    "modelo": "PCX 150",
+    "tipo": "Scooter",
+    "year": "2023",
+    "precio": "5990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/02/5f81c966ccae800b497a10121.jpg"
+    ],
+    
+    "combustible": "Nafta",
+    "colorDisponible": ["Plateado"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "149",
+      "velocidades": "N/A"
+    }
   }
 ]
