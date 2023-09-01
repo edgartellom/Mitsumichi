@@ -11,7 +11,7 @@ const Footer = () => {
   const navigate = useNavigate();
   const { id, precio, nombre } = useParams(); // debo colocar los datos que van en el Detail
   return (
-    <footer className="bg-black text-white    flex flex-col">
+    <footer className="bg-black text-white  flex flex-col">
       <section>
         <div className=" flex flex-wrap justify-around items-center">
           <aside>
