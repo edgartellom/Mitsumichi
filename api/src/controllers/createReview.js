@@ -27,8 +27,4 @@ async function createReview(req, res) {
   }
 }
 
-<<<<<<< HEAD
 module.exports = createReview;
-=======
-module.exports = createReview;
->>>>>>> aeddd46d908e4633cc7d67c55c1a86081df66aca
