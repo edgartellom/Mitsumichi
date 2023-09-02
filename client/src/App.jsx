@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
 import About from "./pages/About/About";
 import Error404 from "./pages/Error404/Error404";
-import { PayPalButton } from "./components/PayPalButton/PaypalButton";
+import { PayPalButton } from "./components/PaypalButton/PaypalButton.jsx";
 
 
 const router = createBrowserRouter([

@@ -13,7 +13,7 @@ export { default as LoadingSpinner } from "./LoadingSpinner/LoadingSpinner";
 export { default as Navbar } from "./Navbar/Navbar";
 export { default as Newsletter } from "./Newsletter/Newsletter";
 export { default as Paginated } from "./Paginated/Paginated";
-export { default as PaypalButton } from "./PayPalButton/PaypalButton";
+export { default as PaypalButton } from "./PaypalButton/PaypalButton";
 export { default as ProfileNavButton } from "./ProfileNavButton/ProfileNavButton";
 export { default as SearchBar } from "./SearchBar/SearchBar";
 export { default as SideBar } from "./SideBar/SideBar";
