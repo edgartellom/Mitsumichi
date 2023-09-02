@@ -1,21 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 const DropdownMenu = ({ name, data, selectedValue, onClick }) => {
-  const [selectedItem, setSelectedItem] = useState(selectedValue);
-  useEffect(() => {
-    setSelectedItem(selectedValue || name);
-  }, [selectedValue, name]);
-
-  const handleItemClick = (item) => {
-    setSelectedItem(item);
-    onClick(item);
-  };
-
   return (
     <div className="group inline-block ">
       <button className="outline-none focus:outline-none border px-3 py-1 bg-gray-200 rounded-sm flex items-center min-w-32 max-sm:w-screen">
         <span className="pr-1 font-semibold flex-1">
-          {selectedItem || name}
+          {selectedValue || name}
         </span>
         <span>
           <svg
@@ -37,7 +27,7 @@ const DropdownMenu = ({ name, data, selectedValue, onClick }) => {
             <li
               key={i}
               className="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer"
-              onClick={() => handleItemClick(item)}
+              onClick={() => onClick(item)}
             >
               {item}
             </li>
