@@ -1,25 +1,25 @@
-import React, { useState, useReducer, useEffect } from "react";
 import { DropdownMenu } from "..";
 import { BsArrowRepeat } from "react-icons/bs";
-import { setFilters, resetFilters } from "../../redux/slices/motoListSlice";
+import {
+  setFilters,
+  resetFilters,
+  setCurrentPage,
+} from "../../redux/slices/motoListSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
 const Filters = ({ marcas, tipos }) => {
   const dispatch = useDispatch();
   const { filters } = useSelector((state) => state.motoList);
-  // const [selectedBrand, setSelectedBrand] = useState("");
-  // const [selectedType, setSelectedType] = useState("");
 
   const handleBrandClick = (brand) => {
-    console.log(brand);
     dispatch(setFilters({ ...filters, brand }));
-    setSelectedBrand(brand);
+    dispatch(setCurrentPage(1));
   };
 
   const handleTypeClick = (tipo) => {
-    console.log(tipo);
     dispatch(setFilters({ ...filters, tipo }));
-    setSelectedType(tipo);
+    dispatch(setCurrentPage(1));
   };
 
   // const handlePriceRangeChange = (newValues) => {};
@@ -30,6 +30,7 @@ const Filters = ({ marcas, tipos }) => {
 
   const handleResetFilters = () => {
     dispatch(resetFilters());
+    dispatch(setCurrentPage(1));
   };
 
   return (
@@ -38,13 +39,13 @@ const Filters = ({ marcas, tipos }) => {
       <DropdownMenu
         name={"Marca"}
         data={marcas}
-        // value={selectedBrand}
+        selectedValue={filters.brand}
         onClick={handleBrandClick}
       />
       <DropdownMenu
         name={"Tipo"}
         data={tipos}
-        // value={selectedType}
+        selectedValue={filters.tipo}
         onClick={handleTypeClick}
       />
       <button
