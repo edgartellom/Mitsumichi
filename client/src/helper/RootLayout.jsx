@@ -6,7 +6,7 @@ const RootLayot = () => {
     <>
       {(pathname !== "/" && <Navbar />) ||
         (pathname === "/home" && <AddButton />)}
-      <main className=" flex-1">{<Outlet />}</main>
+      <main className=" flex-1 bg-gray-300">{<Outlet />}</main>
       {pathname !== "/" && <Footer />}
     </>
   );
