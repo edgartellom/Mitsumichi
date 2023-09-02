@@ -123,6 +123,14 @@ const Detail = () => {
             </p>
 
             <p className="text-3xl font-bold">U$D {moto.precio}</p>
+            <button
+              className="bg-transparent text-yellow border-2 border-white mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md"
+              onClick={() =>
+                navigate(`/paypal-button/${moto.precio}/${brand.name}`)
+              } 
+            >
+              Comprar
+            </button>
 
             <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
               <span className="mr-6">Compartir</span>
