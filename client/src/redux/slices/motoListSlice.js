@@ -114,7 +114,6 @@ export const fetchMotos = () => async (dispatch, getState) => {
     const tipos = [...new Set(jsonData.data.map((moto) => moto.tipo))];
     dispatch(motoListSlice.actions.setTipos(tipos));
     dispatch(motoListSlice.actions.setMotos(jsonData.data));
-    // dispatch(motoListSlice.actions.setCurrentPage(jsonData.currentPage));
     dispatch(motoListSlice.actions.setTotalPages(jsonData.totalPages));
   } catch (error) {
     console.error("Error fetching motos:", error);
