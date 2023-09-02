@@ -7,7 +7,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Wrapper from "../../helper/Wrapper";
 import { userAuth } from "../../context/Auth-context";
 import logOut from "../../firebase/logOut";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
 import CartButton from "../../pages/Cart/CartButton/CartButton";
 import Cart from "../../pages/Cart/Cart";
@@ -52,10 +52,19 @@ const Navbar = () => {
         <div className=" px-5  max-md:px-10 ">
           <img src={logo} alt="login" width="66" height="66" />
         </div>
-        <ul className=" flex gap-5 px-10 flex-wrap max-md:hidden ">
-          <li>Motocicletas</li>
-          <li>About us</li>
-          <li>servicio y soporte</li>
+        <ul className=" flex   flex-wrap max-md:hidden ">
+          <Link
+            className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
+            to="/home"
+          >
+            Motocicletas
+          </Link>
+          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+            About us
+          </Link>
+          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+            servicio y soporte
+          </Link>
         </ul>
       </section>
       <section className="mr-12 flex flex-row-reverse max-lg:flex-col">
