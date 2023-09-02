@@ -37,7 +37,7 @@ const Home = () => {
   };
 
   return (
-    <div className=" bg-gray-300">
+    <div>
       <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col ">
         <Filters
           marcas={brands}
@@ -45,7 +45,7 @@ const Home = () => {
           onFilterChange={handleFilterChange}
         />
       </section>
-      {isLoading ? <LoadingSpinner /> : <Cards data={motos} />}
+      <Cards data={motos} />
       <Paginated
         currentPage={currentPage}
         totalPages={totalPages}

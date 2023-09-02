@@ -70,7 +70,7 @@ const Detail = () => {
   };
 
   return (
-    <div className="bg-gray-300 min-h-screen">
+    <div>
       {/* <div className="bg-[#161616]">
         <button
           onClick={() => navigate("/home")}
