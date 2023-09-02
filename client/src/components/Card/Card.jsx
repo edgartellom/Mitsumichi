@@ -20,7 +20,7 @@ const Card = ({ data }) => {
   // console.log(name)
   // console.log(data)
   return (
-    <div className=" bg-[#0006] flex flex-col  p-2 m-4 rounded-2xl">
+    <div className=" bg-[#0006] flex flex-col  p-2 m-10 rounded-2xl">
       <section className="relative p-2  flex  justify-center">
         <div className=" min-w-[340px]flex flex-col group">
           <figure className=" rounded-xl h-[20rem]  bg-white flex items-center overflow-hidden">
