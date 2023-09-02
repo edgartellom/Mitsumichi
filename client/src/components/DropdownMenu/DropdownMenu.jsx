@@ -1,16 +1,9 @@
 import React from "react";
 
-<<<<<<< HEAD
 const DropdownMenu = ({ name, data }) => {
   return (
     <div className="group">
       <button className="outline-none focus:outline-none border px-3 py-1 bg-white rounded-sm flex items-center min-w-32">
-=======
-const DropdownMenu = ({ name, data, onClick }) => {
-  return (
-    <div className="group inline-block ">
-      <button className="outline-none focus:outline-none border px-3 py-1 bg-gray-200 rounded-sm flex items-center min-w-32 max-sm:w-screen">
->>>>>>> d1395e205a174c54b2dfdf94c1a36a65d302e495
         <span className="pr-1 font-semibold flex-1">{name}</span>
         <span>
           <svg
@@ -27,29 +20,9 @@ const DropdownMenu = ({ name, data, onClick }) => {
         className="bg-white border rounded-sm transform scale-0 group-hover:scale-100 absolute 
   transition duration-150 ease-in-out origin-top min-w-32"
       >
-<<<<<<< HEAD
         <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option A</li>
         <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option B</li>
         <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option C</li>
-=======
-        {data ? (
-          data.map((item, i) => (
-            <li
-              key={i}
-              className="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer"
-              onClick={() => onClick(item)}
-            >
-              {item}
-            </li>
-          ))
-        ) : (
-          <>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option A</li>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option B</li>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option C</li>
-          </>
-        )}
->>>>>>> d1395e205a174c54b2dfdf94c1a36a65d302e495
       </ul>
     </div>
   );
