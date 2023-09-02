@@ -89,8 +89,14 @@ async function getAllMoto(req, res) {
     let orderOptions = [];
 
     if (sortByBrand && ["ASC", "DESC"].includes(sortByBrand.toUpperCase())) {
-      orderOptions.push([{ model: Brand }, "name", sortByBrand.toUpperCase()]);
+      orderOptions.push([
+        { model: Brand, as: "brand" }, // Indicamos que es el modelo Brand asociado a la moto
+        "name",
+        sortByBrand.toUpperCase(),
+      ]);
+      orderOptions.push(["motoModel", sortByBrand.toUpperCase()]);
     }
+
     if (sortByPrice && ["ASC", "DESC"].includes(sortByPrice.toUpperCase())) {
       orderOptions.push(["precio", sortByPrice.toUpperCase()]);
     }
