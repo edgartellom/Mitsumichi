@@ -134,7 +134,7 @@ const Detail = () => {
                       alt="facebook.png"
                       width={15}
                       height={13}
-                      className="mx-4 cursor-pointer backdrop-brightness-2xl"
+                      className="flex mx-4 cursor-pointer backdrop-brightness-2xl"
                     />
                     <img
                       src={twitter}
@@ -153,23 +153,42 @@ const Detail = () => {
                     />
                   </div>
                 </div>
-                <span className="text-lg font-semibold mb-2">
-                  Stock: {moto.stock}
-                </span>
-                <span className="text-lg font-semibold mb-2">
-                  Tipo: {moto.tipo}
-                </span>
-                <span className="text-lg font-semibold">Año: {moto.year}</span>
+                <div className="flex flex-row">
+                  <div className="flex flex-col">
+                    <span className="text-lg font-semibold mb-2">
+                      Stock: {moto.stock}
+                    </span>
+                    <span className="text-lg font-semibold mb-2">
+                      Tipo: {moto.tipo}
+                    </span>
+                    <span className="text-lg font-semibold">
+                      Año: {moto.year}
+                    </span>
+                    <span className="text-lg font-semibold ">
+                      Color Dispoible:
+                      {moto.colorDisponible.map((color, index) => (
+                        <span className="font-normal" key={index}>
+                          {" "}
+                          {color}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  {/* Barra divisoria */}
+                  <div className="min-h-full w-1 border rounded-lg bg-gray-800 mx-4"></div>
+
+                  <div className=" pl-4 flex items-start flex-col">
+                    {/* ficha tecnica */}
+                    <h3 className="text-xl font-semibold mb-2">
+                      Ficha Técnica
+                    </h3>
+                    <p>Motor: {moto.fichaTecnica.motor}</p>
+                    <p>Pasajeros: {moto.fichaTecnica.pasajeros}</p>
+                    <p>Cilindrada: {moto.fichaTecnica.cilindrada}</p>
+                    <p>Velocidades: {moto.fichaTecnica.velocidades}</p>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="flex items-center flex-col mt-8">
-              {" "}
-              {/* ficha tecnica */}
-              <h3 className="text-xl font-semibold mb-2">Ficha Técnica</h3>
-              <p>Motor: {moto.fichaTecnica.motor}</p>
-              <p>Pasajeros: {moto.fichaTecnica.pasajeros}</p>
-              <p>Cilindrada: {moto.fichaTecnica.cilindrada}</p>
-              <p>Velocidades: {moto.fichaTecnica.velocidades}</p>
             </div>
           </div>
         )}

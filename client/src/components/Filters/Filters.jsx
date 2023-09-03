@@ -11,8 +11,6 @@ import { useState } from "react";
 const Filters = ({ marcas, tipos }) => {
   const dispatch = useDispatch();
   const { filters } = useSelector((state) => state.motoList);
-  const [selectedBrand, setSelectedBrand] = useState(null);
-  const [selectedType, setSelectedType] = useState(null);
 
   const handleBrandClick = (brand) => {
     dispatch(setFilters({ ...filters, brand }));
@@ -31,8 +29,6 @@ const Filters = ({ marcas, tipos }) => {
   // };
 
   const handleResetFilters = () => {
-    setSelectedBrand(null);
-    setSelectedType(null);
     dispatch(resetFilters());
     dispatch(setCurrentPage(1));
   };
@@ -43,13 +39,13 @@ const Filters = ({ marcas, tipos }) => {
       <DropdownMenu
         name={"Marca"}
         data={marcas}
-        selectedValue={selectedBrand}
+        selectedValue={filters.brand}
         onClick={handleBrandClick}
       />
       <DropdownMenu
         name={"Tipo"}
         data={tipos}
-        selectedValue={selectedType}
+        selectedValue={filters.tipo}
         onClick={handleTypeClick}
       />
       <button
