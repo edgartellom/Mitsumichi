@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
+import addProduct from "../../firebase/addProduct";
+import { userAuth } from "../../context/Auth-context";
 const Card = ({ data }) => {
   const navigate = useNavigate();
-
+  const { currentUser } = useContext(userAuth);
   const {
     brand: { name },
     imageUrl,
@@ -17,8 +18,17 @@ const Card = ({ data }) => {
     navigate(`/detail/${id}`);
   };
 
-  // console.log(name)
-  // console.log(data)
+  const addProducto = () => {
+    addProduct(currentUser.uid, {
+      brand: { name },
+      imageUrl: imageUrl[0],
+      motoModel,
+      id,
+      precio,
+      tipo,
+    });
+  };
+
   return (
     <div className=" bg-[#0006] flex flex-col  p-2 m-10 rounded-2xl">
       <section className="relative p-2  flex  justify-center">
@@ -49,12 +59,12 @@ const Card = ({ data }) => {
             </p>
           </section>
           <section className="flex justify-center gap-x-3">
-            <a
-              href="#"
+            <button
+              onClick={addProducto}
               className=" px-5 py-2 rounded  border-primary text-primary hover:bg-primary  transition-all outline-none bg-black border-black text-white hover:text-black hover:bg-white font-bold"
             >
               Add
-            </a>
+            </button>
 
             <button
               onClick={handleDetail}
