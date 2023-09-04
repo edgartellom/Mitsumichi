@@ -3,18 +3,19 @@ import login from "./../../assets/login.png";
 import logo from "./../../assets/Logo_Mitsumichi.png";
 import SideBar from "../SideBar/SideBar";
 import SignIn from "../../pages/SignIn/SignIn";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import Wrapper from "../../helper/Wrapper";
 import { userAuth } from "../../context/Auth-context";
 import logOut from "../../firebase/logOut";
 import { Link, useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
 import CartButton from "../../pages/Cart/CartButton/CartButton";
 import Cart from "../../pages/Cart/Cart";
+import addCarrito from "../../firebase/addCarrito";
+import getCartProducts from "../../firebase/getCartProducts";
 
 const Navbar = () => {
-  const { loading, currentUser, isRegistered } = useContext(userAuth);
+  const { currentUser, isRegistered } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
+  const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
   const logOutHandler = () => {
@@ -23,20 +24,30 @@ const Navbar = () => {
     window.location.reload();
   };
 
+  const gettingProducts = async () => {
+    const data = await getCartProducts(currentUser.uid);
+    return data;
+  };
+
+  useEffect(() => {
+    gettingProducts().then((data) => {
+      setProducts(data);
+    });
+    console.log(products);
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser) {
+      addCarrito(currentUser.uid);
+    }
+  }, [currentUser]);
+
   const routes = [
     `${!currentUser ? "INICIAR SESION" : "SALIR"}`,
     "MOTOCICLETAS",
     "ABOUT US",
     "SERVICIOS Y SOPORTE",
   ];
-
-  if (loading) {
-    return (
-      <Wrapper>
-        <LoadingSpinner />
-      </Wrapper>
-    );
-  }
 
   if (showLogin) {
     return !currentUser ? (
@@ -85,7 +96,7 @@ const Navbar = () => {
             <span>Salir</span>
           </div>
         )}
-        <CartButton setShowCart={setShowCart} />
+        <CartButton products={products} setShowCart={setShowCart} />
         {showCart && <Cart setShowCart={setShowCart} />}
       </section>
 
