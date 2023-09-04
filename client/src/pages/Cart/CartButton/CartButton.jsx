@@ -1,10 +1,26 @@
 // import { useContext, useEffect, useState } from "react";
-
+import { useContext, useEffect, useState } from "react";
 import CartIcon from "./CartIcon";
+import { userAuth } from "../../../context/Auth-context";
+import getCartProducts from "../../../firebase/getCartProducts";
 // import CartContext from "../../store/cart-context";
 // import classes from "./HeaderCartButton.module.css";
 
 const CartButton = ({ setShowCart }) => {
+  const { currentUser } = useContext(userAuth);
+  const [products, setProducts] = useState(null);
+
+  const gettingProducts = async () => {
+    const data = await getCartProducts(currentUser.uid);
+    return data;
+  };
+
+  useEffect(() => {
+    gettingProducts().then((data) => {
+      setProducts(data);
+    });
+  }, []);
+
   // const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
   // const cartCtx = useContext(CartContext);
 
@@ -43,7 +59,7 @@ const CartButton = ({ setShowCart }) => {
       </span>
       <span className=" max-sm:hidden max-lg:hidden">Your Cart</span>
       <span className=" bg-[#b94517]  max-sm:px-2 p-1/4 px-4 rounded ml-1 font-bold hover:bg-[#92320c]">
-        {/* {numberOfCartItems} */}1
+        {products?.length}
       </span>
     </button>
   );
