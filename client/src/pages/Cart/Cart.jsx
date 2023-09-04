@@ -35,15 +35,17 @@ const Cart = ({ setShowCart }) => {
     </ul>
   );
 
+  const totalAmount = products?.reduce((curNumber, item) => {
+    return curNumber + Number(item.precio);
+  }, 0);
+
   return (
     <Wrapper>
       <div className=" bg-white p-4  rounded-lg  animate-slide-down">
         {cartItems}
         <div className=" flex justify-between items-center font-bold text-1.5rem my-4">
           <span className=" font-bold text-2xl">Total Amount</span>
-          <span className=" font-bold text-2xl">
-            {/* {totalAmount} */}$1212
-          </span>
+          <span className=" font-bold text-2xl">{totalAmount} $ </span>
         </div>
         <div className=" flex justify-center gap-2">
           <button

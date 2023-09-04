@@ -3,9 +3,8 @@ import { db } from "./credenciales";
 
 const getCartProducts = async (uid) => {
   try {
-    const carritoDocRef = doc(db, "carritos", uid); // Referencia al documento del carrito
+    const carritoDocRef = doc(db, "carritos", uid);
 
-    // Obtén el documento del carrito
     const carritoDoc = await getDoc(carritoDocRef);
 
     if (carritoDoc.exists()) {

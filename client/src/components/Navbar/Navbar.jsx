@@ -10,10 +10,12 @@ import SignUp from "../../pages/SignUp/SignUp";
 import CartButton from "../../pages/Cart/CartButton/CartButton";
 import Cart from "../../pages/Cart/Cart";
 import addCarrito from "../../firebase/addCarrito";
+import getCartProducts from "../../firebase/getCartProducts";
 
 const Navbar = () => {
   const { currentUser, isRegistered } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
+  const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
   const logOutHandler = () => {
@@ -21,6 +23,18 @@ const Navbar = () => {
     navigate("/");
     window.location.reload();
   };
+
+  const gettingProducts = async () => {
+    const data = await getCartProducts(currentUser.uid);
+    return data;
+  };
+
+  useEffect(() => {
+    gettingProducts().then((data) => {
+      setProducts(data);
+    });
+    console.log(products);
+  }, [currentUser]);
 
   useEffect(() => {
     if (currentUser) {
@@ -82,7 +96,7 @@ const Navbar = () => {
             <span>Salir</span>
           </div>
         )}
-        <CartButton setShowCart={setShowCart} />
+        <CartButton products={products} setShowCart={setShowCart} />
         {showCart && <Cart setShowCart={setShowCart} />}
       </section>
 

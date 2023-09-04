@@ -6,20 +6,20 @@ import getCartProducts from "../../../firebase/getCartProducts";
 // import CartContext from "../../store/cart-context";
 // import classes from "./HeaderCartButton.module.css";
 
-const CartButton = ({ setShowCart }) => {
-  const { currentUser } = useContext(userAuth);
-  const [products, setProducts] = useState(null);
+const CartButton = ({ setShowCart, products }) => {
+  // const { currentUser } = useContext(userAuth);
+  // const [products, setProducts] = useState([]);
 
-  const gettingProducts = async () => {
-    const data = await getCartProducts(currentUser.uid);
-    return data;
-  };
+  // const gettingProducts = async () => {
+  //   const data = await getCartProducts(currentUser.uid);
+  //   return data;
+  // };
 
-  useEffect(() => {
-    gettingProducts().then((data) => {
-      setProducts(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   gettingProducts().then((data) => {
+  //     setProducts(data);
+  //   });
+  // }, [setProducts]);
 
   // const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
   // const cartCtx = useContext(CartContext);
