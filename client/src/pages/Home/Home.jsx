@@ -38,7 +38,7 @@ const Home = () => {
 
   return (
     <section>
-      <section className="p-3 bg-[#000000cc]  flex justify-around">
+      <section className="p-3 bg-[#000000cc]  flex justify-around max-md:flex-col">
         <Filters
           marcas={brands}
           tipos={tipos}
