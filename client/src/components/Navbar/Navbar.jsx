@@ -10,12 +10,12 @@ import SignUp from "../../pages/SignUp/SignUp";
 import CartButton from "../../pages/Cart/CartButton/CartButton";
 import Cart from "../../pages/Cart/Cart";
 import addCarrito from "../../firebase/addCarrito";
-import getCartProducts from "../../firebase/getCartProducts";
+import Wrapper from "../../helper/Wrapper";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Navbar = () => {
-  const { currentUser, isRegistered } = useContext(userAuth);
+  const { currentUser, isRegistered, loading } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
-  const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
   const logOutHandler = () => {
@@ -23,18 +23,6 @@ const Navbar = () => {
     navigate("/");
     window.location.reload();
   };
-
-  const gettingProducts = async () => {
-    const data = await getCartProducts(currentUser.uid);
-    return data;
-  };
-
-  useEffect(() => {
-    gettingProducts().then((data) => {
-      setProducts(data);
-    });
-    console.log(products);
-  }, [currentUser]);
 
   useEffect(() => {
     if (currentUser) {
@@ -49,18 +37,31 @@ const Navbar = () => {
     "SERVICIOS Y SOPORTE",
   ];
 
-  if (showLogin) {
-    return !currentUser ? (
-      <SignIn setShowLogin={setShowLogin} />
-    ) : (
-      !isRegistered && <SignUp setShowLogin={setShowLogin} />
+  if (loading) {
+    return (
+      <Wrapper>
+        <LoadingSpinner />
+      </Wrapper>
     );
   }
+
+  if (showLogin) {
+    return !currentUser && <SignIn setShowLogin={setShowLogin} />;
+  }
+
+  if (currentUser && !isRegistered) {
+    return <SignUp setShowLogin={setShowLogin} />;
+  }
+
+  console.log(isRegistered, "isRegistered");
 
   return (
     <nav className="   flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
       <section className="flex items-center text-zinc-900  font-bold">
-        <div className=" px-5  max-md:px-10 ">
+        <div
+          onClick={() => navigate("/")}
+          className=" px-5 cursor-pointer  max-md:px-10 "
+        >
           <img src={logo} alt="login" width="66" height="66" />
         </div>
         <ul className=" flex   flex-wrap max-md:hidden ">
@@ -70,10 +71,16 @@ const Navbar = () => {
           >
             Motocicletas
           </Link>
-          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+          <Link
+            to="/about"
+            className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
+          >
             About us
           </Link>
-          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+          <Link
+            to="/service and support"
+            className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
+          >
             servicio y soporte
           </Link>
         </ul>
@@ -96,7 +103,7 @@ const Navbar = () => {
             <span>Salir</span>
           </div>
         )}
-        <CartButton products={products} setShowCart={setShowCart} />
+        <CartButton setShowCart={setShowCart} />
         {showCart && <Cart setShowCart={setShowCart} />}
       </section>
 
