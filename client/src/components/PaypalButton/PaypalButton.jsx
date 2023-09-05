@@ -44,7 +44,7 @@ export function PayPalButton() {
             <p className="text-gray-700">ID de seña: {purchaseId}</p>
             <p className="text-gray-700">Gracias por elegirnos.</p>
             <div className="flex justify-center mt-4">
-            <img src={compra} alt="Felicidad" className="w-30 rounded"/>
+            <img src={compra} alt="Felicidad" className="w-25 rounded"/>
           </div>
           </div>
           ) : (
