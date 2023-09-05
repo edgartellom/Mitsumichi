@@ -4,6 +4,7 @@ import axios from "axios";
 const motoListSlice = createSlice({
   name: "motoList",
   initialState: {
+    allMotos: [],
     motos: [],
     tipos: [],
     isLoading: false,
@@ -28,6 +29,9 @@ const motoListSlice = createSlice({
     },
   },
   reducers: {
+    setAllMotos: (state, action) => {
+      state.allMotos = action.payload;
+    },
     setMotos: (state, action) => {
       state.motos = action.payload;
     },
@@ -104,8 +108,10 @@ export const fetchMotos = () => async (dispatch, getState) => {
         sortByPrice: sorts.sortByPrice,
       },
     });
+
     const jsonData = await response.data;
-    const tipos = [...new Set(jsonData.data.map((moto) => moto.tipo))];
+    const tipos = [...new Set(jsonData.allMotos.map((moto) => moto.tipo))];
+    dispatch(motoListSlice.actions.setAllMotos(jsonData.allMotos));
     dispatch(motoListSlice.actions.setTipos(tipos));
     dispatch(motoListSlice.actions.setMotos(jsonData.data));
     dispatch(motoListSlice.actions.setTotalPages(jsonData.totalPages));
