@@ -7,7 +7,7 @@ import mail from "../../assets/footer_img/mail.gif";
 const Footer = () => {
   const [showConstructionMessage, setShowConstructionMessage] = useState(false);
 
-  const handleEnlaceClick = (Enlace) => {
+  const handleEnlaceClick = () => {
     setShowConstructionMessage(true)
   }
 
@@ -155,7 +155,7 @@ const Footer = () => {
         <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-700 bg-opacity-75">
           <div className="bg-black p-4 rounded-lg">
             <h1 className="text-xl font-bold mb-2">Enlace en construcción</h1>
-            <p>Estamos trabajando en este enlace. ¡Vuelve pronto!</p>
+            <p>Estamos trabajando en ello ¡Vuelve pronto!</p>
             <button
               className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               onClick={() => setShowConstructionMessage(false)}
