@@ -26,6 +26,7 @@ const Card = ({ data }) => {
       id,
       precio,
       tipo,
+      cantidad: 1,
     });
   };
 

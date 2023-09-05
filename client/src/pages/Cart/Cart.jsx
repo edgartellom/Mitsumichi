@@ -26,9 +26,11 @@ const Cart = ({ setShowCart }) => {
           return (
             <CartItem
               key={product.id}
+              id={product.id}
               name={product.brand?.name}
               price={product.precio}
               imagen={product.imageUrl}
+              amount={product.cantidad}
             />
           );
         })}
