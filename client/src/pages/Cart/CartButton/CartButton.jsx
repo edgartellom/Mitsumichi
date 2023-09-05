@@ -1,54 +1,6 @@
-// import { useContext, useEffect, useState } from "react";
-import { useContext, useEffect, useState } from "react";
 import CartIcon from "./CartIcon";
-import { userAuth } from "../../../context/Auth-context";
-import getCartProducts from "../../../firebase/getCartProducts";
-// import CartContext from "../../store/cart-context";
-// import classes from "./HeaderCartButton.module.css";
 
 const CartButton = ({ setShowCart, products }) => {
-  // const { currentUser } = useContext(userAuth);
-  // const [products, setProducts] = useState([]);
-
-  // const gettingProducts = async () => {
-  //   const data = await getCartProducts(currentUser.uid);
-  //   return data;
-  // };
-
-  // useEffect(() => {
-  //   gettingProducts().then((data) => {
-  //     setProducts(data);
-  //   });
-  // }, [setProducts]);
-
-  // const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
-  // const cartCtx = useContext(CartContext);
-
-  // const { items } = cartCtx;
-
-  // const numberOfCartItems = items.reduce((curNumber, item) => {
-  //   return curNumber + item.amount;
-  // }, 0);
-
-  // const btnClasses = `${classes.button} ${
-  //   btnIsHighlighted ? classes.bump : ""
-  // }`;
-
-  // useEffect(() => {
-  //   if (items.length === 0) {
-  //     return;
-  //   }
-  //   setBtnIsHighlighted(true);
-
-  //   const timer = setTimeout(() => {
-  //     setBtnIsHighlighted(false);
-  //   }, 300);
-
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [items]);
-
   return (
     <button
       onClick={() => setShowCart(true)}
@@ -59,7 +11,7 @@ const CartButton = ({ setShowCart, products }) => {
       </span>
       <span className=" max-sm:hidden max-lg:hidden">Your Cart</span>
       <span className=" bg-[#b94517]  max-sm:px-2 p-1/4 px-4 rounded ml-1 font-bold hover:bg-[#92320c]">
-        {products?.length}
+        {products?.length || 0}
       </span>
     </button>
   );
