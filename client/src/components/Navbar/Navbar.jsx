@@ -58,7 +58,10 @@ const Navbar = () => {
   return (
     <nav className="   flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
       <section className="flex items-center text-zinc-900  font-bold">
-        <div className=" px-5  max-md:px-10 ">
+        <div
+          onClick={() => navigate("/")}
+          className=" px-5 cursor-pointer  max-md:px-10 "
+        >
           <img src={logo} alt="login" width="66" height="66" />
         </div>
         <ul className=" flex   flex-wrap max-md:hidden ">
@@ -68,10 +71,16 @@ const Navbar = () => {
           >
             Motocicletas
           </Link>
-          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+          <Link
+            to="/about"
+            className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
+          >
             About us
           </Link>
-          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+          <Link
+            to="/service and support"
+            className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
+          >
             servicio y soporte
           </Link>
         </ul>

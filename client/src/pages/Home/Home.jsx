@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchMotos,
-  setFilters,
-  setCurrentPage,
-} from "../../redux/slices/motoListSlice";
+import { fetchMotos, setCurrentPage } from "../../redux/slices/motoListSlice";
 import { fetchBrands } from "../../redux/slices/brandListSlice";
-import {
-  Cards,
-  Filters,
-  Paginated,
-  LoadingSpinner,
-  AddButton,
-  Sorts,
-} from "../../components";
+import { Cards, Filters, Paginated, AddButton, Sorts } from "../../components";
 
 // let limit = 6;
 const Home = () => {
@@ -48,19 +37,18 @@ const Home = () => {
   // };
 
   return (
-    <div>
-      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col ">
+    <section>
+      <section className="p-3 bg-[#000000cc]  flex justify-around">
         <Filters
           marcas={brands}
           tipos={tipos}
           // onFilterChange={handleFilterChange}
         />
-      </section>
-      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col">
         <Sorts
         // handleSortChange={handleSortChange}
         />
       </section>
+
       <Cards data={motos} />
       <Paginated
         currentPage={currentPage}
@@ -68,7 +56,7 @@ const Home = () => {
         onPageChange={handlePageChange}
       />
       <AddButton />
-    </div>
+    </section>
   );
 };
 
