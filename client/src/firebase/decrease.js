@@ -23,6 +23,11 @@ const decrease = async (uid, productoID) => {
         if (productos[index].cantidad > 0) {
           productos[index].cantidad -= 1;
 
+          // Verifica si la cantidad llega a cero y elimina el producto del carrito
+          if (productos[index].cantidad === 0) {
+            productos.splice(index, 1); // Elimina el producto del arreglo
+          }
+
           // Actualiza el documento del carrito con los productos actualizados
           await updateDoc(carritoDocRef, {
             productos: productos,
