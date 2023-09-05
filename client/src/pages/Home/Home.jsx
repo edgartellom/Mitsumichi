@@ -56,7 +56,7 @@ const Home = () => {
           // onFilterChange={handleFilterChange}
         />
       </section>
-      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col w-screen">
+      <section className="pt-1 pb-3 bg-[#000000cc] flex flex-col">
         <Sorts
         // handleSortChange={handleSortChange}
         />

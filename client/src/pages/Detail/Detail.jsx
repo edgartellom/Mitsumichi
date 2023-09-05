@@ -178,6 +178,85 @@ const Detail = () => {
 
           </div>
         }
+              <div className=" flex flex-col">
+                {" "}
+                {/* div info */}
+                <h1 className="font-bold font-MiAvenirRegular text-5xl leading-16 flex items-center text-[#332F2E] m-0 uppercase">
+                  {brand.name}
+                </h1>
+                <span className="first-letter:text-left text-[#332F2E] leading-14 text-xl uppercase mb-3">
+                  {moto.motoModel}
+                </span>
+                <p className="text-xs font-bold uppercase tracking-wide mt-4 mb-0">
+                  Precio
+                </p>
+                <p className="text-3xl font-bold">U$D {moto.precio}</p>
+                <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
+                  <span className="mr-6">Compartir</span>
+                  <div className="flex flex-row">
+                    <img
+                      src={facebook}
+                      alt="facebook.png"
+                      width={15}
+                      height={13}
+                      className="flex mx-4 cursor-pointer backdrop-brightness-2xl"
+                    />
+                    <img
+                      src={twitter}
+                      alt="twitter.png"
+                      width={15}
+                      height={13}
+                      className="mx-4 cursor-pointer"
+                    />
+                    <img
+                      src={whatsapp}
+                      alt="whatsapp.png"
+                      width={15}
+                      height={15}
+                      className="mx-4 cursor-pointer"
+                      style={{ filter: "grayscale(100%)" }}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-row">
+                  <div className="flex flex-col">
+                    <span className="text-lg font-semibold mb-2">
+                      Stock: {moto.stock}
+                    </span>
+                    <span className="text-lg font-semibold mb-2">
+                      Tipo: {moto.tipo}
+                    </span>
+                    <span className="text-lg font-semibold">
+                      Año: {moto.year}
+                    </span>
+                    <span className="text-lg font-semibold ">
+                      Color Dispoible:
+                      {moto.colorDisponible.map((color, index) => (
+                        <span className="font-normal" key={index}>
+                          {" "}
+                          {color}
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  {/* Barra divisoria */}
+                  <div className="min-h-full w-1 border rounded-lg bg-gray-800 mx-4"></div>
+
+                  <div className=" pl-4 flex items-start flex-col">
+                    {/* ficha tecnica */}
+                    <h3 className="text-xl font-semibold mb-2">
+                      Ficha Técnica
+                    </h3>
+                    <p>Motor: {moto.fichaTecnica.motor}</p>
+                    <p>Pasajeros: {moto.fichaTecnica.pasajeros}</p>
+                    <p>Cilindrada: {moto.fichaTecnica.cilindrada}</p>
+                    <p>Velocidades: {moto.fichaTecnica.velocidades}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
