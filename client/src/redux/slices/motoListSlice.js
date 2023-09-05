@@ -22,6 +22,10 @@ const motoListSlice = createSlice({
       sortByBrand: "",
       sortByPrice: "",
     },
+    selectedSorts: {
+      sortByBrand: "",
+      sortByPrice: "",
+    },
   },
   reducers: {
     setMotos: (state, action) => {
@@ -42,32 +46,18 @@ const motoListSlice = createSlice({
     setFilters: (state, action) => {
       state.filters = action.payload;
     },
-    // setBrand: (state, action) => {
-    //   state.filters.brand = action.payload;
-    // },
-    // setTipo: (state, action) => {
-    //   state.filters.tipo = action.payload;
-    // },
-    // setPriceRange: (state, action) => {
-    //   state.filters.minPrice = action.payload[0];
-    //   state.filters.maxPrice = action.payload[1];
-    // },
-    // setYearRange: (state, action) => {
-    //   state.filters.minYear = action.payload[0];
-    //   state.filters.maxYear = action.payload[1];
-    // },
     setSearch: (state, action) => {
       state.searchQuery = action.payload;
     },
     setSorts: (state, action) => {
       state.sorts = action.payload;
     },
-    // setSortByBrand: (state, action) => {
-    //   state.sorts.sortByBrand = action.payload;
-    // },
-    // setSortByPrice: (state, action) => {
-    //   state.sorts.sortByPrice = action.payload;
-    // },
+    setSelectedFilters: (state, action) => {
+      state.selectedFilters = action.payload;
+    },
+    setSelectedSorts: (state, action) => {
+      state.selectedSorts = action.payload;
+    },
     resetFilters: (state) => {
       state.filters = {
         brand: "",
@@ -80,6 +70,10 @@ const motoListSlice = createSlice({
     },
     resetSorts: (state) => {
       state.sorts = {
+        sortByBrand: "",
+        sortByPrice: "",
+      };
+      state.selectedSorts = {
         sortByBrand: "",
         sortByPrice: "",
       };
@@ -114,7 +108,6 @@ export const fetchMotos = () => async (dispatch, getState) => {
     const tipos = [...new Set(jsonData.data.map((moto) => moto.tipo))];
     dispatch(motoListSlice.actions.setTipos(tipos));
     dispatch(motoListSlice.actions.setMotos(jsonData.data));
-    // dispatch(motoListSlice.actions.setCurrentPage(jsonData.currentPage));
     dispatch(motoListSlice.actions.setTotalPages(jsonData.totalPages));
   } catch (error) {
     console.error("Error fetching motos:", error);
@@ -130,6 +123,8 @@ export const {
   setFilters,
   setSearch,
   setSorts,
+  setSelectedFilters,
+  setSelectedSorts,
   resetFilters,
   resetSorts,
 } = motoListSlice.actions;

@@ -88,11 +88,21 @@ async function getAllMoto(req, res) {
 
     let orderOptions = [];
 
-    if (sortByBrand) {
-      orderOptions.push([{ model: Brand }, "name", sortByBrand]);
+    if (sortByBrand && ["ASC", "DESC"].includes(sortByBrand.toUpperCase())) {
+      orderOptions.push([
+        { model: Brand, as: "brand" }, // Indicamos que es el modelo Brand asociado a la moto
+        "name",
+        sortByBrand.toUpperCase(),
+      ]);
+      orderOptions.push(["motoModel", sortByBrand.toUpperCase()]);
     }
-    if (sortByPrice) {
-      orderOptions.push(["precio", sortByPrice]);
+
+    if (sortByPrice && ["ASC", "DESC"].includes(sortByPrice.toUpperCase())) {
+      orderOptions.push(["precio", sortByPrice.toUpperCase()]);
+    }
+
+    if (orderOptions.length === 0) {
+      orderOptions.push(["id", "ASC"]);
     }
 
     // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
@@ -101,6 +111,7 @@ async function getAllMoto(req, res) {
       offset: offset,
       where: filterOptions,
       include: [{ model: Brand, attributes: ["name"] }],
+      order: orderOptions,
     });
 
     // Calcular el total de páginas disponibles

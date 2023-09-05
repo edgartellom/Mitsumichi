@@ -3,18 +3,19 @@ import login from "./../../assets/login.png";
 import logo from "./../../assets/Logo_Mitsumichi.png";
 import SideBar from "../SideBar/SideBar";
 import SignIn from "../../pages/SignIn/SignIn";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import Wrapper from "../../helper/Wrapper";
 import { userAuth } from "../../context/Auth-context";
 import logOut from "../../firebase/logOut";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
 import CartButton from "../../pages/Cart/CartButton/CartButton";
 import Cart from "../../pages/Cart/Cart";
+import addCarrito from "../../firebase/addCarrito";
+import getCartProducts from "../../firebase/getCartProducts";
 
 const Navbar = () => {
-  const { loading, currentUser, isRegistered } = useContext(userAuth);
+  const { currentUser, isRegistered } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
+  const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
   const logOutHandler = () => {
@@ -23,20 +24,30 @@ const Navbar = () => {
     window.location.reload();
   };
 
+  const gettingProducts = async () => {
+    const data = await getCartProducts(currentUser.uid);
+    return data;
+  };
+
+  useEffect(() => {
+    gettingProducts().then((data) => {
+      setProducts(data);
+    });
+    console.log(products);
+  }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser) {
+      addCarrito(currentUser.uid);
+    }
+  }, [currentUser]);
+
   const routes = [
     `${!currentUser ? "INICIAR SESION" : "SALIR"}`,
     "MOTOCICLETAS",
     "ABOUT US",
     "SERVICIOS Y SOPORTE",
   ];
-
-  if (loading) {
-    return (
-      <Wrapper>
-        <LoadingSpinner />
-      </Wrapper>
-    );
-  }
 
   if (showLogin) {
     return !currentUser ? (
@@ -52,10 +63,19 @@ const Navbar = () => {
         <div className=" px-5  max-md:px-10 ">
           <img src={logo} alt="login" width="66" height="66" />
         </div>
-        <ul className=" flex gap-5 px-10 flex-wrap max-md:hidden ">
-          <li>Motocicletas</li>
-          <li>About us</li>
-          <li>servicio y soporte</li>
+        <ul className=" flex   flex-wrap max-md:hidden ">
+          <Link
+            className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
+            to="/home"
+          >
+            Motocicletas
+          </Link>
+          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+            About us
+          </Link>
+          <Link className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 ">
+            servicio y soporte
+          </Link>
         </ul>
       </section>
       <section className="mr-12 flex flex-row-reverse max-lg:flex-col">
@@ -76,7 +96,7 @@ const Navbar = () => {
             <span>Salir</span>
           </div>
         )}
-        <CartButton setShowCart={setShowCart} />
+        <CartButton products={products} setShowCart={setShowCart} />
         {showCart && <Cart setShowCart={setShowCart} />}
       </section>
 

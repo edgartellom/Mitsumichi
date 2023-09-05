@@ -4,11 +4,11 @@ module.exports = (sequelize) => {
   sequelize.define(
     "moto",
     {
-      id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-      },
+      // id: {
+      //   type: DataTypes.INTEGER,
+      //   primaryKey: true,
+      //   autoIncrement: true,
+      // },
       brandId: {
         type: DataTypes.INTEGER,
         allowNull: false,
