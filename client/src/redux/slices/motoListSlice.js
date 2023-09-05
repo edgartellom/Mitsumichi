@@ -87,7 +87,7 @@ const motoListSlice = createSlice({
 
 // Thunks para manejar la carga de datos y las acciones asíncronas
 
-export const fetchMotos = () => async (dispatch, getState) => {
+export const fetchMotos = (limit) => async (dispatch, getState) => {
   try {
     dispatch(motoListSlice.actions.setLoading(true));
 
@@ -95,7 +95,7 @@ export const fetchMotos = () => async (dispatch, getState) => {
 
     const response = await axios.get("/motos", {
       params: {
-        limit: 6,
+        limit: limit,
         page: currentPage,
         brand: filters.brand,
         tipo: filters.tipo,
