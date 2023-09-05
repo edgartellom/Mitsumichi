@@ -5,7 +5,7 @@ import insta from "../../assets/footer_img/insta.gif";
 import mail from "../../assets/footer_img/mail.gif";
 
 const Footer = () => {
-  const [showConstructionMessage, setShowConstructionMessage] = useState(false);
+  const [showConstructionMessage, setShowConstructionMessage] = useState(false); //  le paso (false) así al principio no se mostrará ningún mensaje de construcción.
 
   const handleEnlaceClick = () => {
     setShowConstructionMessage(true)
