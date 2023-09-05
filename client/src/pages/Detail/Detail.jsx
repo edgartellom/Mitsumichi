@@ -257,9 +257,6 @@ const Detail = () => {
             </div>
           </div>
         )}
-      </div>
-    </div>
-  )
-}
+  
 
 export default Detail
