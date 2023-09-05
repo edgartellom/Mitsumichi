@@ -29,14 +29,14 @@ const Login = ({ setShowLogin }) => {
     if (isLoggingIn) {
       await registerUser(email, password);
     } else {
-      const response = await loginWithEmailAndPassword(email, password);
-      window.location.reload();
-      setLoading(true);
-      if (!response) {
+      try {
+        const response = await loginWithEmailAndPassword(email, password);
+        if (!response) throw new Error("Parece que aun no estas registrado");
+        setLoading(true);
+      } catch (error) {
         setLoginError("Parece que aun no estas registrado");
         return;
       }
-      setLoading(true);
     }
   };
 

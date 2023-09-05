@@ -1,6 +1,38 @@
 import CartIcon from "./CartIcon";
+import React, { useContext, useEffect, useState } from "react";
+import { userAuth } from "../../../context/Auth-context";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../../firebase/credenciales";
 
-const CartButton = ({ setShowCart, products }) => {
+const CartButton = ({ setShowCart }) => {
+  const { currentUser } = useContext(userAuth);
+  const [cartItemCount, setCartItemCount] = useState(0);
+
+  useEffect(() => {
+    // Configura un oyente de Firebase Firestore para el carrito del usuario actual
+    if (currentUser) {
+      const cartDocRef = doc(db, "carritos", currentUser.uid);
+      const unsubscribe = onSnapshot(cartDocRef, (docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const cartData = docSnapshot.data();
+          const cartProducts = cartData.productos || [];
+          const itemCount = cartProducts.reduce(
+            (total, product) => total + product.cantidad,
+            0
+          );
+          setCartItemCount(itemCount);
+        } else {
+          setCartItemCount(0);
+        }
+      });
+
+      // Limpia el oyente cuando el componente se desmonta
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [currentUser]);
+
   return (
     <button
       onClick={() => setShowCart(true)}
@@ -11,7 +43,7 @@ const CartButton = ({ setShowCart, products }) => {
       </span>
       <span className=" max-sm:hidden max-lg:hidden">Your Cart</span>
       <span className=" bg-[#b94517]  max-sm:px-2 p-1/4 px-4 rounded ml-1 font-bold hover:bg-[#92320c]">
-        {products?.length || 0}
+        {cartItemCount}
       </span>
     </button>
   );
