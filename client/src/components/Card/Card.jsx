@@ -5,15 +5,16 @@ const Card = ({ data }) => {
     brand: { name },
     imageUrl,
     motoModel,
+    precio,
+    tipo,
   } = data;
 
-  // console.log(name)
-  // console.log(data)
   return (
     <div className="bg-gray-300 flex flex-col justify-center m-4">
       <div className="relative m-3 flex flex-wrap mx-auto justify-center">
         <div className="min-w-[340px]flex flex-col group">
           <div className="h-48 md:h-56 lg:h-[24rem] w-full bg-white border-2 border-white flex items-center justify-center text-white text-base mb-3 md:mb-5 overflow-hidden relative">
+            
             <img
               src={imageUrl[0]}
               className="object-cover w-96 scale-100 group-hover:scale-110 transition-all duration-400"
@@ -25,15 +26,13 @@ const Card = ({ data }) => {
           </div>
           <a
             href="#"
-            className=" block text-black text-center hover:text-primary transition-colors duration-150 text-lg md:text-xl mb-1"
+            className="block text-black text-center hover:text-primary transition-colors duration-150 text-lg md:text-xl mb-1"
           >
-            <div className="font-bold">{name} </div>
-            <span className=" text-lg">{motoModel.name}</span>
+            <div className="font-bold">{name} {motoModel} </div>
+            <span className=" text-lg"> Tipo {tipo}</span>
           </a>
-
-          <p className="mb-4 font-light  text-sm md:text-sm text-center text-gray-400"></p>
-          <p className="mb-4 font-light  text-sm md:text-sm text-center text-gray-400"></p>
-
+          <p className="mb-4 text-sm md:text-sm text-center font-bold">USD {precio}
+          </p>
           <div className="flex justify-center gap-x-3">
             <a
               href="#"

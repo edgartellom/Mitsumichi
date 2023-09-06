@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom";
 import Login from "./Login";
 
-const SignIn = ({ onClose }) => {
+const SignIn = ({ setShowLogin }) => {
   return ReactDOM.createPortal(
-    <Login onClose={onClose} />,
+    <Login setShowLogin={setShowLogin} />,
     document.getElementById("modals")
   );
 };

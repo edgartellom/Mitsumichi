@@ -4,7 +4,7 @@ import CartIcon from "./CartIcon";
 // import CartContext from "../../store/cart-context";
 // import classes from "./HeaderCartButton.module.css";
 
-const CartButton = (props) => {
+const CartButton = ({ setShowCart }) => {
   // const [btnIsHighlighted, setBtnIsHighlighted] = useState(false);
   // const cartCtx = useContext(CartContext);
 
@@ -34,7 +34,10 @@ const CartButton = (props) => {
   // }, [items]);
 
   return (
-    <button className=" cursor-pointer border-none bg-[#000000] hover:bg-[#000000da] text-white py-2 px-4  max-sm:px-1.5 max-sm:py-1 flex justify-around items-center rounded-lg font-bold">
+    <button
+      onClick={() => setShowCart(true)}
+      className=" cursor-pointer border-none bg-[#000000] hover:bg-[#000000da] text-white py-2 px-4  max-sm:px-1.5 max-sm:py-1 flex justify-around items-center rounded-lg font-bold"
+    >
       <span className=" max-sm:w-7 w-8  mr-2">
         <CartIcon />
       </span>

@@ -1,10 +1,11 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { Navbar, Footer } from "../components";
+import { Navbar, Footer, AddButton } from "../components";
 const RootLayot = () => {
   const { pathname } = useLocation();
   return (
     <>
-      {pathname !== "/" && <Navbar />}
+      {(pathname !== "/" && <Navbar />) ||
+        (pathname === "/home" && <AddButton />)}
       <main className=" flex-1">{<Outlet />}</main>
       {pathname !== "/" && <Footer />}
     </>

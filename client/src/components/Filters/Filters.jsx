@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { DropdownMenu } from "..";
+import DropdownMenu from "../DropdownMenu/DropdownMenu";
 import Button from "../UI/Button";
 
 const MIN_PRICE = 0;
