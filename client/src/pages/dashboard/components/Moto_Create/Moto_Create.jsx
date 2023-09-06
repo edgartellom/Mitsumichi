@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-
+import React, { useState, useLayoutEffect } from "react";
 import { BsXCircle, BsCheckCircle } from "react-icons/bs";
 import Select from "react-select";
-
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
 import Swal from "sweetalert2";
-
 import axios from "axios";
 import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
 

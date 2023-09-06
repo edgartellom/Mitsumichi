@@ -25,9 +25,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    if (currentUser) {
-      addCarrito(currentUser.uid);
-    }
+    currentUser && addCarrito(currentUser.uid);
   }, [currentUser]);
 
   const routes = [
@@ -53,17 +51,15 @@ const Navbar = () => {
     return <SignUp setShowLogin={setShowLogin} />;
   }
 
-  console.log(isRegistered, "isRegistered");
-
   return (
     <nav className="   flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
       <section className="flex items-center text-zinc-900  font-bold">
-        <div
+        <figure
           onClick={() => navigate("/")}
           className=" px-5 cursor-pointer  max-md:px-10 "
         >
           <img src={logo} alt="login" width="66" height="66" />
-        </div>
+        </figure>
         <ul className=" flex   flex-wrap max-md:hidden ">
           <Link
             className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
@@ -87,26 +83,25 @@ const Navbar = () => {
       </section>
       <section className="mr-12 flex flex-row-reverse max-lg:flex-col">
         {!currentUser ? (
-          <div
+          <section
             onClick={() => setShowLogin(true)}
             className="flex gap-2 justify-center items-center m-2 max-md:hidden cursor-pointer max-sm:hidden"
           >
             <img src={login} alt="login" width="15" height="16" />
             <span>Iniciar Sesion</span>
-          </div>
+          </section>
         ) : (
-          <div
+          <section
             onClick={logOutHandler}
             className="flex gap-2 justify-center items-center m-2 max-md:hidden cursor-pointer max-sm:hidden"
           >
             <img src={login} alt="login" width="15" height="16" />
             <span>Salir</span>
-          </div>
+          </section>
         )}
         <CartButton setShowCart={setShowCart} />
         {showCart && <Cart setShowCart={setShowCart} />}
       </section>
-
       <SideBar routesArray={routes} />
     </nav>
   );

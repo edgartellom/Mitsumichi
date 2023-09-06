@@ -4,15 +4,15 @@ import { fetchMotos, setCurrentPage } from "../../redux/slices/motoListSlice";
 import { fetchBrands } from "../../redux/slices/brandListSlice";
 import { Cards, Filters, Paginated, AddButton, Sorts } from "../../components";
 
-// let limit = 6;
 const Home = () => {
   const dispatch = useDispatch();
-  const { motos, tipos, isLoading, filters, sorts, currentPage, totalPages } =
-    useSelector((state) => state.motoList);
+  const { motos, tipos, filters, sorts, currentPage, totalPages } = useSelector(
+    (state) => state.motoList
+  );
   const { brands } = useSelector((state) => state.brandList);
 
   useEffect(() => {
-    dispatch(fetchMotos());
+    dispatch(fetchMotos(6));
     dispatch(fetchBrands());
   }, [dispatch, currentPage, filters, sorts]);
 
@@ -20,33 +20,11 @@ const Home = () => {
     dispatch(setCurrentPage(page));
   };
 
-  // const handleFilterChange = (newFilters) => {
-  //   dispatch(setFilters(newFilters));
-  //   dispatch(fetchMotos());
-  //   dispatch(setCurrentPage(1));
-  // };
-
-  // const handleSortChange = (sortBy, direction) => {
-  //   dispatch(
-  //     setSorts((sorts) => ({
-  //       ...sorts,
-  //       [sortBy]: direction,
-  //     }))
-  //   );
-  //   dispatch(setCurrentPage(1));
-  // };
-
   return (
-    <section>
+    <>
       <section className="p-3 bg-[#000000cc]  flex justify-around max-md:flex-col">
-        <Filters
-          marcas={brands}
-          tipos={tipos}
-          // onFilterChange={handleFilterChange}
-        />
-        <Sorts
-        // handleSortChange={handleSortChange}
-        />
+        <Filters marcas={brands} tipos={tipos} />
+        <Sorts />
       </section>
 
       <Cards data={motos} />
@@ -56,7 +34,7 @@ const Home = () => {
         onPageChange={handlePageChange}
       />
       <AddButton />
-    </section>
+    </>
   );
 };
 
