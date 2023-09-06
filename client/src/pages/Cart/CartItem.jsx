@@ -45,7 +45,7 @@ const CartItem = ({ name, price, imagen, id }) => {
           </span>
         </section>
       </article>
-      <div className=" self-center">
+      <section className=" self-center">
         <button
           onClick={() => decrease(currentUser.uid, id)}
           className=" hover:bg-[#8a2b06] hover:text-white font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
@@ -58,7 +58,7 @@ const CartItem = ({ name, price, imagen, id }) => {
         >
           +
         </button>
-      </div>
+      </section>
     </li>
   );
 };

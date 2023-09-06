@@ -93,7 +93,7 @@ const Cart = ({ setShowCart }) => {
           </article>
         </summary>
       ) : (
-        <summary className="bg-gray-300   p-10 rounded-lg animate-slide-down">
+        <summary className=" list-none bg-gray-300 p-10 rounded-lg animate-slide-down">
           <section className="flex justify-between items-center font-bold text-1.5rem my-4">
             <span className="font-bold text-2xl">Carrito vacio</span>
           </section>
