@@ -3,12 +3,9 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 
 import { BsXCircle, BsCheckCircle } from "react-icons/bs";
 import Select from "react-select";
-
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
 import Swal from "sweetalert2";
-
 import axios from "axios";
 
 /* Import the Componentes*/
@@ -119,7 +116,6 @@ const Moto_Create = () => {
   const [isPrecioValid, setIsPrecioValid] = useState(true);
   const [isColorValid, setIsColorValid] = useState(true);
   const [isCombustibleValid, setIsCombustibleValid] = useState(true);
-  // const [isImageUrlValid, setIsImageUrlValid] = useState(true);
 
   // Variables de Validación de la Ficha Tecnica
   const [isMotorValid, setIsMotorValid] = useState(true);
@@ -213,18 +209,6 @@ const Moto_Create = () => {
     );
     setIsVelocidadesValid(validVelocidades);
     console.log("Velocidades", validVelocidades, fichaTecnica.velocidades);
-
-    // Validación de propiedad imageUrl
-    /*   const imageUrlRegex =
-      /(http|https|ftp|ftps):\/\/[a-zA-Z0-9-.]+\.[a-zA-Z]{2,3}(\/\S+)?\.(png|jpg|jpeg|gif)$/;
-    const validImageUrl =
-      (typeof imageUrl === "string" && imageUrl !== "") ||
-      (Array.isArray(imageUrl) &&
-        imageUrl.length > 0 &&
-        imageUrl.every((url) => imageUrlRegex.test(url)));
-    setIsImageUrlValid(validImageUrl);
-
-    console.log("Imagenes: ", validImageUrl, imageUrl);*/
 
     // Validaciónes de formulario completo
     const isFormDataValid =
@@ -874,15 +858,6 @@ const Moto_Create = () => {
                 Seleccionar Imagen
               </label>
             </div>
-            {/* {imagePreviews.length > 0 ? (
-              <button
-                type="button"
-                onClick={() => handleImageUploadCloudinary(selectedImages)}
-                className=" p-0 w-32 text-center bg-blue-500 text-white m-1 px-4 py-2 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700]"
-              >
-                Subir Imagen
-              </button>
-            ) : null} */}
           </div>
         </div>
 
