@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams, useNavigate } from 'react-router-dom';
-import compra from '../../assets/compra_paypal_.jpg'
+import compra from '../../assets/compra_paypal.jpg'
 
 export function PayPalButton() {
   const clientId = "AYzyXv7DvxmViou_tGpOeAhwnjs-MOxkOH0j7USow4U0ibl0Uj4PzHi4n7YoVTU1mywyWa3CNIt_G5Lz";
