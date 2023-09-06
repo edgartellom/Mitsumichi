@@ -20,7 +20,7 @@ export const fetchBrands = () => async (dispatch) => {
     const marcas = jsonData.map((marca) => marca.name);
     dispatch(brandSlice.actions.setBrands(marcas));
   } catch (error) {
-    console.error("Error fetching motos:", error);
+    console.error("Error fetching brands:", error);
   }
 };
 
