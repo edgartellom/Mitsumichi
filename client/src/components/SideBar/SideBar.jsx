@@ -21,11 +21,11 @@ const SideBar = ({ routesArray }) => {
   }
 
   if (showLogin) {
-    return !currentUser ? (
-      <SignIn setShowLogin={setShowLogin} />
-    ) : (
-      !isRegistered && <SignUp setShowLogin={setShowLogin} />
-    );
+    return !currentUser && <SignIn setShowLogin={setShowLogin} />;
+  }
+
+  if (currentUser && !isRegistered) {
+    return <SignUp setShowLogin={setShowLogin} />;
   }
 
   const onClickHandler = (route) => {
