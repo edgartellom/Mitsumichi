@@ -18,7 +18,7 @@
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "125",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
@@ -40,7 +40,7 @@
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "125",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
@@ -181,12 +181,11 @@
     "year": "2023",
     "precio": "11100",
     "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2021/01/2020_YZF320-A_DPBMC_USA_S1_RGB-scaled.jpeg",
-      "https://delcar.com.uy/wp-content/uploads/2023/08/3fd9d6be69b9968ab21f211641b82b44_full_size.jpg"
+      "https://delcar.com.uy/wp-content/uploads/2021/01/2020_YZF320-A_DPBMC_USA_S1_RGB-scaled.jpeg"
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Azul", "Negro"],
+    "colorDisponible": ["Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -251,34 +250,12 @@
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Negro", "Rojo", "Azul", "Negro"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "cilindrada": "124",
-      "velocidades": "N/A"
-    }
-  },
-  {
-    "id": "013",
-    "marca": "Yumbo",
-    "modelo": "CITY 125 X",
-    "tipo": "Scooter",
-    "year": "2023",
-    "precio": "1500",
-    "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2022/11/CityX-celeste-gris.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2022/11/CITYX2.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2022/11/CITYX1.jpg"
-    ],
-
-    "combustible": "Nafta",
     "colorDisponible": ["Negro", "Rojo", "Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "124",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
@@ -295,7 +272,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Negro", "Rojo", "Azul"],
+    "colorDisponible": ["Negro", "Rojo", "Blanco"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -377,8 +354,7 @@
     "year": "2022",
     "precio": "5690",
     "imageUrl": [
-      "https://tvs.com.uy/wp-content/uploads/2022/11/2.jpg",
-      "https://tvs.com.uy/wp-content/uploads/2023/06/miniatura--e1686589762951.png"
+      "https://tvs.com.uy/wp-content/uploads/2022/11/2.jpg"
     ],
 
     "combustible": "Nafta",
@@ -388,28 +364,6 @@
       "pasajeros": "2",
       "cilindrada": "200",
       "velocidades": "5"
-    }
-  },
-  {
-    "id": "019",
-    "marca": "Zanella",
-    "modelo": "ZR 125",
-    "tipo": "Enduro",
-    "year": "2023",
-    "precio": "1999",
-    "imageUrl": [
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411282/Zanellas/msedge_1mr6uDklGx_naikhg.png",
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411274/Zanellas/msedge_KANUDPGpfT_wkpgdm.png",
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411275/Zanellas/msedge_34keNUXJYH_gmgpmg.png"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
     }
   },
   {
@@ -452,8 +406,8 @@
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
-      "Cilindrada": "200",
-      "Velocidades": "5"
+      "cilindrada": "200",
+      "velocidades": "5"
     }
   },
   {
@@ -520,28 +474,6 @@
     }
   },
   {
-    "id": "025",
-    "marca": "Zanella",
-    "modelo": "Sapucai Vintage",
-    "tipo": "Street",
-    "year": "2023",
-    "precio": "1500",
-    "imageUrl": [
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411277/Zanellas/msedge_kEjI7JLFJ0_ixkqbp.png",
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411278/Zanellas/msedge_sEmiIkAjML_icohd1.png",
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411276/Zanellas/msedge_n0nDYIwEKz_x5pkrn.png"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
-    }
-  },
-  {
     "id": "026",
     "marca": "Zanella",
     "modelo": "ZB 110 G4",
@@ -579,28 +511,6 @@
       "pasajeros": "2",
       "Cilindrada": "110",
       "Velocidades": "4"
-    }
-  },
-  {
-    "id": "028",
-    "marca": "Zanella",
-    "modelo": "Sapucai 125",
-    "tipo": "Street",
-    "year": "2023",
-    "precio": "1499",
-    "imageUrl": [
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411277/Zanellas/msedge_kEjI7JLFJ0_ixkqbp.png",
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411278/Zanellas/msedge_sEmiIkAjML_icohd1.png",
-      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411276/Zanellas/msedge_n0nDYIwEKz_x5pkrn.png"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
     }
   },
   {
@@ -656,7 +566,7 @@
     "imageUrl": [
       "https://delcar.com.uy/wp-content/uploads/2021/02/BF-125F-Azul-Lateral-Derecha-1080x670-1-1.jpg",
       "https://delcar.com.uy/wp-content/uploads/2021/02/HONDA-CB-12516432-e1520888425111-1.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2021/02/HONDA-CB-12516432-e1520888425111-1.jpg"
+      "https://delcar.com.uy/wp-content/uploads/2021/02/gris-metalico.png"
     ],
 
     "combustible": "Nafta",
@@ -731,7 +641,7 @@
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "109",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
@@ -969,7 +879,7 @@
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "149",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   }
 ]

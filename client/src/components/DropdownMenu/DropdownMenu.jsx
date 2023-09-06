@@ -16,25 +16,11 @@ const DropdownMenu = ({ name, data, selectedValue, onClick }) => {
       </button>
       <ul
         className="bg-white border rounded-sm transform scale-0 group-hover:scale-100 absolute 
-  transition duration-150 ease-in-out origin-top min-w-32 z-10"
+  transition duration-150 ease-in-out origin-top min-w-32"
       >
-        {data ? (
-          data.map((item, i) => (
-            <li
-              key={i}
-              className="rounded-sm px-3 py-1 hover:bg-gray-100 cursor-pointer"
-              onClick={() => onClick(item)}
-            >
-              {item}
-            </li>
-          ))
-        ) : (
-          <>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option A</li>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option B</li>
-            <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option C</li>
-          </>
-        )}
+        <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option A</li>
+        <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option B</li>
+        <li className="rounded-sm px-3 py-1 hover:bg-gray-100">Option C</li>
       </ul>
     </section>
   );
