@@ -42,7 +42,7 @@ const Filters = ({ marcas, tipos }) => {
   };
 
   return (
-    <div className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+    <section className="  flex max-sm:flex-col   gap-3 items-center justify-center">
       <h1 className="text-white ml-3 font-bold">Filtros:</h1>
       <DropdownMenu
         name={"Marca"}
@@ -77,7 +77,7 @@ const Filters = ({ marcas, tipos }) => {
       >
         <BsArrowRepeat />
       </button>
-    </div>
+    </section>
   );
 };
 

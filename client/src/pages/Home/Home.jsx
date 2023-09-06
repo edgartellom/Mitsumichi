@@ -6,8 +6,9 @@ import { Cards, Filters, Paginated, AddButton, Sorts } from "../../components";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { motos, tipos, isLoading, filters, sorts, currentPage, totalPages } =
-    useSelector((state) => state.motoList);
+  const { motos, tipos, filters, sorts, currentPage, totalPages } = useSelector(
+    (state) => state.motoList
+  );
   const { brands } = useSelector((state) => state.brandList);
 
   useEffect(() => {
