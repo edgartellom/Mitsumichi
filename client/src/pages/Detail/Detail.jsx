@@ -14,9 +14,7 @@ const Detail = () => {
   const [moto, setMoto] = useState({});
   const [brand, setBrand] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
-
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDataDetail = async () => {
@@ -40,57 +38,20 @@ const Detail = () => {
     fetchDataDetail();
   }, [id]);
 
-  // const fetchDataDetail = async () => {
-  //   try {
-  //     const response = await axios(`${URL}motos/${id}`);
-  //     const responseBrand = await axios(`${URL}marcas`)
-  //     setMoto(response.data)
-  //     let brandfound = responseBrand.data/* .find((e)=> e.id === moto.brandId) */
-  //     brandfound = brandfound.find((e)=> e.id === moto.brandId)
-  //     console.log(brandfound)
-  //     setBrands(brandfound)
-  //   } catch (error) {
-  //     console.log("Error fetching data:", error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  console.log(brand);
-  console.log(moto);
-
-  //   useEffect(()=>{
-  //     fetchDataDetail(id)
-  //   },[id])
-  //   /* const brandDetail = brands.find((e)=> e.id === moto.brandId)
-  //   console.log(brandDetail) */
-
   const handleImageClick = (index) => {
     setSelectedImage(index);
   };
 
   return (
     <div>
-      {/* <div className="bg-[#161616]">
-        <button
-          onClick={() => navigate("/home")}
-          className="bg-[#161616] font-bold p-3 text-white hover:bg-[#161616] hover:bg-orange-700 hover:text-black"
-        >
-          Home
-        </button>
-      </div> */}
       <Slider666 />
       <div className="max-w-5xl mx-auto px-4">
         {isLoading ? (
           <div>Cargando datos ...</div>
         ) : (
           <div className="flex flex-col">
-            {" "}
-            {/* div completo */}
             <div className="grid grid-cols-2 items-center m-8">
               <div className="image-gallery mb-6">
-                {" "}
-                {/* div img */}
                 <img
                   src={moto.imageUrl[selectedImage]}
                   alt="moto-detail"
@@ -114,8 +75,6 @@ const Detail = () => {
               </div>
 
               <div className=" flex flex-col">
-                {" "}
-                {/* div info */}
                 <h1 className="font-bold font-MiAvenirRegular text-5xl leading-16 flex items-center text-[#332F2E] m-0 uppercase">
                   {brand.name}
                 </h1>
@@ -174,11 +133,10 @@ const Detail = () => {
                       ))}
                     </span>
                   </div>
-                  {/* Barra divisoria */}
+
                   <div className="min-h-full w-1 border rounded-lg bg-gray-800 mx-4"></div>
 
                   <div className=" pl-4 flex items-start flex-col">
-                    {/* ficha tecnica */}
                     <h3 className="text-xl font-semibold mb-2">
                       Ficha Técnica
                     </h3>
