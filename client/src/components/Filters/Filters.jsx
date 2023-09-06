@@ -6,6 +6,10 @@ import {
   setCurrentPage,
 } from "../../redux/slices/motoListSlice";
 import { useDispatch, useSelector } from "react-redux";
+<<<<<<< HEAD
+=======
+// import NewSlider from "../UI/NewSlider";
+>>>>>>> 33d7e9aa40554aa2a8c71d4e0e168427454a9edf
 
 const Filters = ({ marcas, tipos }) => {
   const dispatch = useDispatch();
@@ -21,11 +25,19 @@ const Filters = ({ marcas, tipos }) => {
     dispatch(setCurrentPage(1));
   };
 
-  // const handlePriceRangeChange = (newValues) => {};
+  const handlePriceRangeChange = (newValues) => {
+    dispatch(
+      setFilters({ ...filters, minPrice: newValues[0], maxPrice: newValues[1] })
+    );
+    dispatch(setCurrentPage(1));
+  };
 
-  // const handleYearRangeChange = (newValues) => {
-  //   dispatch({ type: "SET_YEAR_RANGE", payload: newValues });
-  // };
+  const handleYearRangeChange = (newValues) => {
+    dispatch(
+      setFilters({ ...filters, minYear: newValues[0], maxYear: newValues[1] })
+    );
+    dispatch(setCurrentPage(1));
+  };
 
   const handleResetFilters = () => {
     dispatch(resetFilters());
@@ -47,13 +59,32 @@ const Filters = ({ marcas, tipos }) => {
         selectedValue={filters.tipo}
         onClick={handleTypeClick}
       />
+      {/* <NewSlider
+        name={"Rango Precio"}
+        min={filters.minPrice}
+        max={filters.maxPrice}
+        value={[filters.minPrice, filters.maxPrice]}
+        onChange={handlePriceRangeChange}
+      />
+      <NewSlider
+        name={"Rango Año"}
+        min={filters.minYear}
+        max={filters.maxYear}
+        value={[filters.minYear, filters.maxYear]}
+        onChange={handleYearRangeChange}
+      /> */}
+
       <button
         className="text-white text-base max-sm:w-screen"
         onClick={handleResetFilters}
       >
         <BsArrowRepeat />
       </button>
+<<<<<<< HEAD
     </section>
+=======
+    </div>
+>>>>>>> 33d7e9aa40554aa2a8c71d4e0e168427454a9edf
   );
 };
 

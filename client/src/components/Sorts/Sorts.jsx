@@ -15,28 +15,22 @@ const Sorts = () => {
   const { sorts, selectedSorts } = useSelector((state) => state.motoList);
 
   const handleBrandClick = (direction) => {
-    let newSorts = { ...sorts };
-    let newSelectedSorts = { ...selectedSorts };
-    if (direction === "A - Z") {
-      newSorts.sortByBrand = "ASC";
-    } else {
-      newSorts.sortByBrand = "DESC";
-    }
-    newSelectedSorts.sortByBrand = direction;
+    const newSorts = {
+      ...sorts,
+      sortByBrand: direction === "A - Z" ? "ASC" : "DESC",
+    };
+    const newSelectedSorts = { ...selectedSorts, sortByBrand: direction };
     dispatch(setSelectedSorts(newSelectedSorts));
     dispatch(setSorts(newSorts));
     dispatch(setCurrentPage(1));
   };
 
   const handlePriceClick = (direction) => {
-    let newSorts = { ...sorts };
-    let newSelectedSorts = { ...selectedSorts };
-    if (direction === "Menor precio") {
-      newSorts.sortByPrice = "ASC";
-    } else {
-      newSorts.sortByPrice = "DESC";
-    }
-    newSelectedSorts.sortByPrice = direction;
+    const newSorts = {
+      ...sorts,
+      sortByPrice: direction === "Menor precio" ? "ASC" : "DESC",
+    };
+    const newSelectedSorts = { ...selectedSorts, sortByPrice: direction };
     dispatch(setSelectedSorts(newSelectedSorts));
     dispatch(setSorts(newSorts));
     dispatch(setCurrentPage(1));
