@@ -1,10 +1,13 @@
-import React, { useState, useLayoutEffect } from "react";
+/* Import Library */
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { BsXCircle, BsCheckCircle } from "react-icons/bs";
 import Select from "react-select";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Swal from "sweetalert2";
 import axios from "axios";
+
+/* Import the Componentes*/
 import LoadingSpinner from "../../../../components/LoadingSpinner/LoadingSpinner";
 
 const optionsTipo = [
@@ -19,7 +22,6 @@ const optionsTipo = [
 const optionsCombustible = [
   // Opciones de combustible
   { value: "nafta", label: "Nafta" },
-  // { value: "gasolina", label: "Gasolina" },
   { value: "electrico", label: "Eléctrico" },
 ];
 
@@ -29,6 +31,7 @@ const optionsMotor = [
 ];
 
 const optionsVelocidades = [
+  // Opciones de velocidades
   { value: "N/A", label: "N/A" },
   { value: "4", label: "4 Velocidades" },
   { value: "5", label: "5 Velocidades" },
@@ -36,6 +39,7 @@ const optionsVelocidades = [
 ];
 
 const optionsColor = [
+  // Opciones de color
   { value: "yellow", label: "Amarillo" },
   { value: "white", label: "Blanco" },
   { value: "black", label: "Negro" },
@@ -54,7 +58,6 @@ const optionsColor = [
 
 const Moto_Create = () => {
   const [selectedColors, setSelectedColors] = useState([]);
-  console.log("Colores:", selectedColors);
 
   const [image, setImage] = useState([""]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -62,6 +65,27 @@ const Moto_Create = () => {
 
   const [imageUploaded, setImageUploaded] = useState(false);
   // const [modalSpin, setModalSpin] = useState(false);
+
+  const [motos, setMotos] = useState([]);
+  const [motoExistente, setMotoExistente] = useState(false);
+  // console.log(motos);
+
+  //Motos almacenadas en la base de datos
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/motos?page=1&limit=10000"
+        );
+
+        setMotos(response.data.data);
+      } catch (error) {
+        console.error("Error al obtener las motos:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const [formData, setFormData] = useState({
     marca: "",
@@ -80,7 +104,8 @@ const Moto_Create = () => {
     },
   });
 
-  const [isButtonActive, setIsButtonActive] = useState(false); // Variable para activar el boton de añadir si el formulario es valido
+  // Variable para activar el boton de añadir si el formulario es valido
+  const [isButtonActive, setIsButtonActive] = useState(false);
 
   // Variables de validación
   const [isBrandValid, setIsBrandValid] = useState(true);
@@ -90,9 +115,8 @@ const Moto_Create = () => {
   const [isPrecioValid, setIsPrecioValid] = useState(true);
   const [isColorValid, setIsColorValid] = useState(true);
   const [isCombustibleValid, setIsCombustibleValid] = useState(true);
-  
 
-  //Ficha Tecnica
+  // Variables de Validación de la Ficha Tecnica
   const [isMotorValid, setIsMotorValid] = useState(true);
   const [isPasajerosValid, setIsPasajerosValid] = useState(true);
   const [isCilindradaValid, setIsCilindradaValid] = useState(true);
@@ -105,7 +129,6 @@ const Moto_Create = () => {
       tipo,
       year,
       precio,
-      
       combustible,
       colorDisponible,
       fichaTecnica,
@@ -185,15 +208,13 @@ const Moto_Create = () => {
     );
     setIsVelocidadesValid(validVelocidades);
     console.log("Velocidades", validVelocidades, fichaTecnica.velocidades);
-
-
+    
     // Validaciónes de formulario completo
     const isFormDataValid =
       isBrandValid &&
       isModelValid &&
       isTipoValid &&
       isCombustibleValid &&
-      // isImageUrlValid &&
       isPrecioValid &&
       isYearValid &&
       isColorValid &&
@@ -209,7 +230,6 @@ const Moto_Create = () => {
     isBrandValid,
     isModelValid,
     isCombustibleValid,
-    //isImageUrlValid,
     isPrecioValid,
     isTipoValid,
     isYearValid,
@@ -284,8 +304,8 @@ const Moto_Create = () => {
     setFormData((prevData) => ({
       ...prevData,
       fichaTecnica: {
-        ...prevData.fichaTecnica, // Mantén los campos existentes
-        motor: motor, // Modifica el campo motor
+        ...prevData.fichaTecnica,
+        motor: motor,
       },
     }));
   };
@@ -297,8 +317,8 @@ const Moto_Create = () => {
     setFormData((prevData) => ({
       ...prevData,
       fichaTecnica: {
-        ...prevData.fichaTecnica, // Mantén los campos existentes
-        velocidades: velocidades, // Modifica el campo velocidades
+        ...prevData.fichaTecnica,
+        velocidades: velocidades,
       },
     }));
   };
@@ -317,75 +337,135 @@ const Moto_Create = () => {
     // handleImageUploadCloudinary(files);
   };
   const handleImageUploadCloudinary = async (images) => {
-    const cloudName = "dwfinmexa"; // Reemplaza por tu Cloud Name de Cloudinary
-    const uploadPreset = "hengersrosario"; // Reemplaza por tu Upload Preset de Cloudinary
-    const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`; //URL
+    const cloudName = import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env
+      .VITE_REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+    const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
 
-    console.log("images:", image);
+    return new Promise(async (resolve, reject) => {
+      Swal.fire({
+        title: "Espere por favor",
+        text: "Subiendo las imágenes...",
+        width: 400,
+        color: "#161616",
+        background: "#FFF9EB",
+        didOpen: () => {
+          Swal.showLoading();
+        },
+        icon: "info",
+      });
 
-    Swal.fire({
-      title: "Espere por favor",
-      text: "Subiendo las imágenes...",
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
+      try {
+        const imageUrls = [];
 
-    try {
-      const imageUrls = [];
+        for (const image of images) {
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("upload_preset", uploadPreset);
+          formData.append("cloud_name", cloudName);
 
-      for (const image of images) {
-        const formData = new FormData();
-        formData.append("file", image);
-        formData.append("upload_preset", uploadPreset);
-        formData.append("cloud_name", cloudName);
+          const response = await axios.post(apiUrl, formData);
 
-        const response = await axios.post(apiUrl, formData);
-
-        if (response.data && response.data.secure_url) {
-          imageUrls.push(response.data.secure_url);
-        } else {
-          console.log("Error al subir la imagen:", response.data);
+          if (response.data && response.data.secure_url) {
+            imageUrls.push(response.data.secure_url);
+          } else {
+            console.log("Error al subir la imagen:", response.data);
+          }
         }
+
+        Swal.fire({
+          title: "Imágenes subidas",
+          text: "Creando la moto...",
+          icon: "info",
+          width: 400,
+          color: "#161616",
+          background: "#FFF9EB",
+          didOpen: () => {
+            Swal.showLoading();
+          },
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          allowEscapeKey: false,
+          allowEnterKey: false,
+        });
+
+        setTimeout(() => {
+          resolve(imageUrls);
+        }, 2000); // Resuelve la promesa después de 2 segundos
+      } catch (error) {
+        console.error("Error al subir las imágenes:", error);
+        Swal.fire({
+          title: "<span style='color: #e76c46;'>¡ERROR!</span>",
+          text: "Ha ocurrido un error al subir las imágenes.",
+          icon: "error",
+
+          width: 400,
+          color: "#161616",
+          background: "#FFF9EB",
+        });
+        reject(error);
       }
-
-      // Almacenar las URL seguras en formData.imageUrl
-      setFormData((prevFormValues) => ({
-        ...prevFormValues,
-        imageUrl: imageUrls,
-      }));
-
-      Swal.fire({});
-
-      return imageUrls;
-    } catch (error) {
-      console.error("Error al subir las imágenes:", error);
-      throw error; // Puedes manejar el error según tus necesidades
-    }
+    });
   };
 
   const handleSubmiMoto = async (e) => {
     e.preventDefault();
 
-    const jsonData = JSON.stringify(formData);
-    console.log(jsonData);
-
     // Verificar si hay imágenes seleccionadas
-    if (image.length === 0) {
-      // Mostrar una alerta de SweetAlert2 indicando que debe cargar una imagen primero
+    if (selectedImages.length === 0) {
       Swal.fire({
-        title: "¡Error!",
+        title: "<span style='color: #e76c46;'>¡ADVERTENCIA!</span>",
         text: "Debes cargar al menos una imagen antes de crear la moto.",
-        icon: "error",
+        icon: "warning",
+        iconColor: "#e76c46",
+        width: 400,
+        color: "#161616",
+        background: "#FFF9EB",
       });
+      return;
+    }
 
-      return; // Detener la función si no hay imágenes
+    // Verifica si existe una moto con la misma marca/modelo y si existe el modelo. Los modelos son unicos para cada moto.
+    const marca = formData.marca.toLowerCase();
+    const modelo = formData.modelo.toLowerCase();
+
+    const motoExistente = motos.some(
+      (moto) =>
+        moto.brand.name.toLowerCase() === marca &&
+        moto.motoModel.toLowerCase() === modelo
+    );
+
+    const modelExistente = motos.some(
+      (moto) => moto.motoModel.toLowerCase() === modelo
+    );
+
+    if (motoExistente) {
+      Swal.fire({
+        title: "<span style='color: #e76c46;'>¡ADVERTENCIA!</span>",
+        text: "Ya existe una moto con la misma marca y modelo. La marca y modelo deben ser distintos a los existentes.",
+        icon: "warning",
+        iconColor: "#e76c46",
+        width: 400,
+        color: "#161616",
+        background: "#FFF9EB",
+        confirmButtonColor: "#0250B6",
+      });
+    } else if (modelExistente) {
+      Swal.fire({
+        title: "<span style='color: #e76c46;'>¡ADVERTENCIA!</span>",
+        text: "Ya existe una moto con el mismo modelo. Debe ser un modelo nuevo.",
+        icon: "warning",
+        iconColor: "#e76c46",
+        width: 400,
+        color: "#161616",
+        background: "#FFF9EB",
+        confirmButtonColor: "#0250B6",
+      });
     } else {
       Swal.fire({
         title: "¿Deseas añadir esta nueva moto?",
         text: "Al confirmar, se añadirá la nueva moto.",
         icon: "question",
-        iconColor: "#0250B6",
         showCancelButton: true,
         width: 400,
         background: "#FFF9EB",
@@ -396,81 +476,104 @@ const Moto_Create = () => {
         cancelButtonText: "CANCELAR",
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await handleImageUploadCloudinary(image);
-          try {
-            // Mostrar el spinner de carga
-            Swal.fire({
-              title: "Procesando...",
-              allowOutsideClick: false,
-              onBeforeOpen: () => {
-                Swal.showLoading();
-              },
-            });
+          handleImageUploadCloudinary(image)
+            .then(async (imageUrls) => {
+              try {
+                // Mostrar el mensaje "Procesando..." durante al menos 3 segundos
+                const processingDialog = Swal.fire({
+                  title: "Espere por favor",
+                  text: "Creando la moto...",
+                  icon: "info",
+                  width: 400,
+                  color: "#161616",
+                  background: "#FFF9EB",
+                  didOpen: () => {
+                    Swal.showLoading();
+                  },
+                  allowOutsideClick: false,
+                  showConfirmButton: false,
+                  allowEscapeKey: false,
+                  allowEnterKey: false,
+                });
 
-            const response = await axios.post(
-              "http://localhost:3001/motos",
-              JSON.stringify(formData),
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                },
+                // Esperar al menos 3 segundos antes de continuar
+                await new Promise((resolve) => setTimeout(resolve, 3000));
+
+                const response = await axios.post(
+                  "http://localhost:3001/motos",
+                  JSON.stringify({ ...formData, imageUrl: imageUrls }),
+                  {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+
+                // Cerrar el cuadro de diálogo "Procesando..."
+                processingDialog.close();
+
+                await Swal.fire({
+                  title: "Creación exitosa",
+                  text: "La moto se ha creado correctamente.",
+                  icon: "success",
+                  width: 400,
+                  color: "#161616",
+                  background: "#FFF9EB",
+                  confirmButtonColor: "#0250B6",
+                  confirmButtonText: "ACEPTAR",
+                });
+
+                // Limpiar los campos después de confirmar
+                setFormData({
+                  marca: "",
+                  modelo: "",
+                  tipo: "",
+                  year: 0,
+                  precio: 0,
+                  imageUrl: [],
+                  combustible: "",
+                  colorDisponible: [],
+                  fichaTecnica: {
+                    motor: "",
+                    pasajeros: "",
+                    cilindrada: "",
+                    velocidades: "",
+                  },
+                });
+
+                setImage([]);
+                setMotos([]);
+                setSelectedImages([]);
+                setImagePreviews([]);
+                setSelectedColors([]);
+
+                // Redirigir a la página de inicio u otra acción que desees realizar
+                window.location.href = "/home";
+              } catch (error) {
+                // console.error(error);
+                Swal.fire({
+                  title: "Error al publicar la moto",
+                  text: error.response.data.error,
+                  icon: "error",
+                  width: 400,
+                  color: "#161616",
+                  background: "#FFF9EB",
+                });
               }
-            );
-
-            Swal.fire({
-              title: "Creación exitosa",
-              text: "La moto se ha creado correctamente.",
-              icon: "success",
-              iconColor: "#0250B6",
-              background: "#FFF9EB",
-              color: "#161616",
-              confirmButtonColor: "#0250B6",
-              width: 400,
-              confirmButtonAriaLabel: "OK",
+            })
+            .catch((error) => {
+              Swal.fire({
+                title: "Error al publicar la moto",
+                text: error.response.data.error,
+                icon: "error",
+                width: 400,
+                color: "#161616",
+                background: "#FFF9EB",
+                confirmButtonColor: "#0250B6",
+                confirmButtonText: "OK",
+              });
+              // console.error(error);
             });
-
-            console.log("Nueva moto:", response.data);
-
-            // Redirigir a la página de inicio u otra acción que desees realizar
-            window.location.href = "/home";
-
-            // Limpiar los campos después de confirmar
-            setFormData({
-              marca: "",
-              modelo: "",
-              tipo: "",
-              year: 0,
-              precio: 0,
-              imageUrl: [],
-              combustible: "",
-              colorDisponible: [],
-              fichaTecnica: {
-                motor: "",
-                pasajeros: "",
-                cilindrada: "",
-                velocidades: "",
-              },
-            });
-
-            setImage([]);
-            setSelectedImages([]);
-            setImagePreviews([]);
-            setSelectedColors([]);
-
-            console.log("Nueva moto:", response.data);
-          } catch (error) {
-            Swal.fire({
-              title: "Error al publicar la moto",
-              text: "Se ha producido un error al enviar los datos de la moto.",
-              icon: "error",
-              iconColor: "#0250B6",
-              background: "#FFF9EB",
-              color: "#161616",
-              confirmButtonColor: "#0250B6",
-              width: 400,
-            });
-            console.error(error);
-          }
         }
       });
     }
