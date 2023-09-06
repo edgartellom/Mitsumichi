@@ -1,6 +1,5 @@
 /* Import Library */
 import React, { useState, useEffect, useLayoutEffect } from "react";
-
 import { BsXCircle, BsCheckCircle } from "react-icons/bs";
 import Select from "react-select";
 import { Carousel } from "react-responsive-carousel";
@@ -209,7 +208,7 @@ const Moto_Create = () => {
     );
     setIsVelocidadesValid(validVelocidades);
     console.log("Velocidades", validVelocidades, fichaTecnica.velocidades);
-
+    
     // Validaciónes de formulario completo
     const isFormDataValid =
       isBrandValid &&
