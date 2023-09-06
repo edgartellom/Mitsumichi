@@ -4,7 +4,6 @@ import { fetchMotos, setCurrentPage } from "../../redux/slices/motoListSlice";
 import { fetchBrands } from "../../redux/slices/brandListSlice";
 import { Cards, Filters, Paginated, AddButton, Sorts } from "../../components";
 
-// let limit = 6;
 const Home = () => {
   const dispatch = useDispatch();
   const { motos, tipos, isLoading, filters, sorts, currentPage, totalPages } =
