@@ -1,23 +1,14 @@
 import React, { useContext, useState } from "react";
 import { userAuth } from "../../context/Auth-context";
-import Wrapper from "../../helper/Wrapper";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import logOut from "../../firebase/logOut";
 import SignIn from "../../pages/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
 const SideBar = ({ routesArray }) => {
   const [open, setOpen] = useState(false);
-  const { loading, currentUser, isRegistered } = useContext(userAuth);
+  const { currentUser, isRegistered } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
-  if (loading) {
-    return (
-      <Wrapper>
-        <LoadingSpinner />
-      </Wrapper>
-    );
-  }
 
   if (showLogin) {
     return !currentUser ? (
@@ -32,10 +23,10 @@ const SideBar = ({ routesArray }) => {
       setShowLogin(true);
       return;
     }
+
     if (route === "SALIR") {
       logOut();
       navigate("/");
-      window.location.reload();
     } else {
       navigate(`/${route}`.toLowerCase());
     }
@@ -43,13 +34,13 @@ const SideBar = ({ routesArray }) => {
   };
 
   return (
-    <div className=" py-3   hidden max-md:block z-10">
+    <aside className=" py-3   hidden max-md:block z-10">
       <button className="ml-5" onClick={() => setOpen(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          strokeWidth={1.5}
+          strokeWidth={2.5}
           stroke="currentColor"
           className="w-6 h-6"
         >
@@ -68,7 +59,7 @@ const SideBar = ({ routesArray }) => {
         onClick={() => setOpen(false)}
       ></div>
 
-      <div
+      <section
         className={`${
           open ? "w-80" : "w-0"
         } bg-gray-600 min-h-screen fixed top-0 left-0 transition-all duration-200`}
@@ -94,17 +85,17 @@ const SideBar = ({ routesArray }) => {
             </svg>
           </button>
           {routesArray?.map((route) => (
-            <div
+            <li
               onClick={() => onClickHandler(route)}
               key={route}
-              className="text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
+              className=" list-none text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
             >
               {route}
-            </div>
+            </li>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </aside>
   );
 };
 

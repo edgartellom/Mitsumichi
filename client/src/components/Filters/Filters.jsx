@@ -6,7 +6,6 @@ import {
   setCurrentPage,
 } from "../../redux/slices/motoListSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 
 const Filters = ({ marcas, tipos }) => {
   const dispatch = useDispatch();
@@ -34,7 +33,7 @@ const Filters = ({ marcas, tipos }) => {
   };
 
   return (
-    <div className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+    <section className="  flex max-sm:flex-col   gap-3 items-center justify-center">
       <h1 className="text-white ml-3 font-bold">Filtros:</h1>
       <DropdownMenu
         name={"Marca"}
@@ -54,10 +53,7 @@ const Filters = ({ marcas, tipos }) => {
       >
         <BsArrowRepeat />
       </button>
-
-      {/* <DropdownMenu name={"Rango Precio"} />
-      <DropdownMenu name={"Rango Año"} /> */}
-    </div>
+    </section>
   );
 };
 

@@ -15,7 +15,6 @@ const Sorts = () => {
   const { sorts, selectedSorts } = useSelector((state) => state.motoList);
 
   const handleBrandClick = (direction) => {
-    console.log(direction);
     let newSorts = { ...sorts };
     let newSelectedSorts = { ...selectedSorts };
     if (direction === "A - Z") {
@@ -30,7 +29,6 @@ const Sorts = () => {
   };
 
   const handlePriceClick = (direction) => {
-    console.log(direction);
     let newSorts = { ...sorts };
     let newSelectedSorts = { ...selectedSorts };
     if (direction === "Menor precio") {
@@ -50,7 +48,7 @@ const Sorts = () => {
   };
 
   return (
-    <div className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+    <section className="  flex max-sm:flex-col   gap-3 items-center justify-center">
       <h1 className="text-white ml-3 font-bold">Ordenar por:</h1>
       <DropdownMenu
         name={"Nombre"}
@@ -70,7 +68,7 @@ const Sorts = () => {
       >
         <BsArrowRepeat />
       </button>
-    </div>
+    </section>
   );
 };
 

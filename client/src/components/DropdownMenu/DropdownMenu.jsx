@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from "react";
-
 const DropdownMenu = ({ name, data, selectedValue, onClick }) => {
   return (
-    <div className="group inline-block ">
-      <button className="outline-none focus:outline-none border px-3 py-1 bg-gray-200 rounded-sm flex items-center min-w-32 max-sm:w-screen">
-        <span className="pr-1 font-semibold flex-1">
-          {selectedValue || name}
-        </span>
+    <section className="group inline-block ">
+      <button className="outline-none focus:outline-none border px-3 py-1 bg-gray-200 rounded-sm flex items-center max-sm:w-screen">
+        <span className="pr-1 font-semibold">{selectedValue || name}</span>
         <span>
           <svg
             className="fill-current h-4 w-4 transform group-hover:-rotate-180
@@ -40,7 +36,7 @@ const DropdownMenu = ({ name, data, selectedValue, onClick }) => {
           </>
         )}
       </ul>
-    </div>
+    </section>
   );
 };
 
