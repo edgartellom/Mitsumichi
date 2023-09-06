@@ -1,85 +1,83 @@
-import React, { useState, useEffect } from "react";
-import DropdownMenu from "../DropdownMenu/DropdownMenu";
-import Button from "../UI/Button";
+import { DropdownMenu } from "..";
+import { BsArrowRepeat } from "react-icons/bs";
+import {
+  setFilters,
+  resetFilters,
+  setCurrentPage,
+} from "../../redux/slices/motoListSlice";
+import { useDispatch, useSelector } from "react-redux";
+// import NewSlider from "../UI/NewSlider";
 
-const MIN_PRICE = 0;
-const MAX_PRICE = 60000;
-const MIN_YEAR = 2010;
-const MAX_YEAR = new Date().getFullYear();
-const Filters = ({ marcas, tipos, filters, onFilterChange }) => {
-  const [selectedType, setSelectedType] = useState(filters.type || "");
-  const [selectedBrand, setSelectedBrand] = useState(filters.brand || "");
-  const [selectedPriceRange, setSelectedPriceRange] = useState(
-    filters.priceRange || [MIN_PRICE, MAX_PRICE]
-  );
-  const [selectedYearRange, setSelectedYearRange] = useState(
-    filters.yearRange || [MIN_YEAR, MAX_YEAR]
-  );
+const Filters = ({ marcas, tipos }) => {
+  const dispatch = useDispatch();
+  const { filters } = useSelector((state) => state.motoList);
 
-  useEffect(() => {
-    // Call the parent component's filter change handler with the updated filters
-    onFilterChange({
-      brand: selectedBrand,
-      type: selectedType,
-      priceRange: selectedPriceRange,
-      yearRange: selectedYearRange,
-    });
-  }, [selectedBrand, selectedType, selectedYearRange, selectedPriceRange]);
-
-  const handleBrandClick = (e) => {
-    console.log(e.target.value);
-    setSelectedBrand(e.target.value);
+  const handleBrandClick = (brand) => {
+    dispatch(setFilters({ ...filters, brand }));
+    dispatch(setCurrentPage(1));
   };
 
-  const handleTypeClick = (e) => {
-    setSelectedType(e.target.value);
+  const handleTypeClick = (tipo) => {
+    dispatch(setFilters({ ...filters, tipo }));
+    dispatch(setCurrentPage(1));
   };
 
   const handlePriceRangeChange = (newValues) => {
-    setSelectedPriceRange(newValues);
+    dispatch(
+      setFilters({ ...filters, minPrice: newValues[0], maxPrice: newValues[1] })
+    );
+    dispatch(setCurrentPage(1));
   };
 
   const handleYearRangeChange = (newValues) => {
-    setSelectedYearRange(newValues);
+    dispatch(
+      setFilters({ ...filters, minYear: newValues[0], maxYear: newValues[1] })
+    );
+    dispatch(setCurrentPage(1));
   };
 
-  const resetFilters = () => {
-    setSelectedBrand("");
-    setSelectedType("");
-    setSelectedPriceRange([MIN_PRICE, MAX_PRICE]);
-    setSelectedYearRange([MIN_YEAR, MAX_YEAR]);
-    onFilterChange({
-      brand: "",
-      type: "",
-      priceRange: [MIN_PRICE, MAX_PRICE],
-      yearRange: [MIN_YEAR, MAX_YEAR],
-    });
+  const handleResetFilters = () => {
+    dispatch(resetFilters());
+    dispatch(setCurrentPage(1));
   };
 
   return (
-    <div className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+    <section className="  flex max-sm:flex-col   gap-3 items-center justify-center">
       <h1 className="text-white ml-3 font-bold">Filtros:</h1>
       <DropdownMenu
         name={"Marca"}
         data={marcas}
-        value={selectedBrand}
+        selectedValue={filters.brand}
         onClick={handleBrandClick}
       />
       <DropdownMenu
         name={"Tipo"}
         data={tipos}
-        value={selectedType}
+        selectedValue={filters.tipo}
         onClick={handleTypeClick}
       />
-      <Button
-        text={"Reset filters"}
-        className="text-white text-base max-sm:w-screen"
-        onClick={resetFilters}
-      ></Button>
+      {/* <NewSlider
+        name={"Rango Precio"}
+        min={filters.minPrice}
+        max={filters.maxPrice}
+        value={[filters.minPrice, filters.maxPrice]}
+        onChange={handlePriceRangeChange}
+      />
+      <NewSlider
+        name={"Rango Año"}
+        min={filters.minYear}
+        max={filters.maxYear}
+        value={[filters.minYear, filters.maxYear]}
+        onChange={handleYearRangeChange}
+      /> */}
 
-      {/* <DropdownMenu name={"Rango Precio"} />
-      <DropdownMenu name={"Rango Año"} /> */}
-    </div>
+      <button
+        className="text-white text-base max-sm:w-screen"
+        onClick={handleResetFilters}
+      >
+        <BsArrowRepeat />
+      </button>
+    </section>
   );
 };
 

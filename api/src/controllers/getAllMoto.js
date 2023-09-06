@@ -19,9 +19,21 @@ async function getAllMoto(req, res) {
       maxYear,
       sortByBrand,
       sortByPrice,
+      search,
     } = req.query;
 
     let filterOptions = {};
+
+    if (search) {
+      filterOptions = {
+        ...filterOptions,
+        [Op.or]: [
+          { "$brand.name$": { [Op.iLike]: `%${search}%` } },
+          { motoModel: { [Op.iLike]: `%${search}%` } },
+          { tipo: { [Op.iLike]: `%${search}%` } },
+        ],
+      };
+    }
 
     // Si brand está presente en la solicitud
 
@@ -76,12 +88,20 @@ async function getAllMoto(req, res) {
 
     let orderOptions = [];
 
-    if (sortByBrand) {
-      orderOptions.push([{ model: Brand }, "name", sortByBrand]);
+    if (sortByBrand && ["ASC", "DESC"].includes(sortByBrand.toUpperCase())) {
+      orderOptions.push([{ model: Brand }, "name", sortByBrand.toUpperCase()]);
+      // orderOptions.push(["motoModel", sortByBrand.toUpperCase()]);
     }
-    if (sortByPrice) {
-      orderOptions.push(["precio", sortByPrice]);
+
+    if (sortByPrice && ["ASC", "DESC"].includes(sortByPrice.toUpperCase())) {
+      orderOptions.push(["precio", sortByPrice.toUpperCase()]);
     }
+
+    if (orderOptions.length === 0) {
+      orderOptions.push(["id", "ASC"]);
+    }
+
+    const allDbMotos = await Moto.findAll();
 
     // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
     const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
@@ -89,6 +109,7 @@ async function getAllMoto(req, res) {
       offset: offset,
       where: filterOptions,
       include: [{ model: Brand, attributes: ["name"] }],
+      order: orderOptions,
     });
 
     // Calcular el total de páginas disponibles
@@ -96,6 +117,7 @@ async function getAllMoto(req, res) {
 
     // Responder con la lista paginada de autos y la información de paginación
     res.status(200).json({
+      allMotos: allDbMotos,
       data: dbMotos,
       currentPage: page,
       totalPages: totalPages,
