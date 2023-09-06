@@ -5,17 +5,14 @@ import { useContext, useEffect, useState } from "react";
 import { userAuth } from "../../context/Auth-context";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/credenciales";
+import Button from "../../components/UI/Button";
 
 const Cart = ({ setShowCart }) => {
   const { currentUser } = useContext(userAuth);
   const [products, setProducts] = useState([]);
-  const [isCartOpen, setIsCartOpen] = useState(false); // Estado para rastrear si el carrito está abierto
 
-  const gettingProducts = async () => {
-    if (!currentUser) return;
-    const data = await getCartProducts(currentUser.uid);
-    return data;
-  };
+  const gettingProducts = async () =>
+    !currentUser ? [] : await getCartProducts(currentUser.uid);
 
   useEffect(() => {
     gettingProducts().then((data) => {
@@ -41,61 +38,55 @@ const Cart = ({ setShowCart }) => {
       }
     });
 
-    // Limpia el oyente cuando el componente se desmonta o cuando se cierra el carrito
     return () => {
       unsubscribe();
     };
-  }, [isCartOpen]);
-
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
+  }, []);
 
   const cartItems = (
-    <ul className="list-none m-0 p-0 max-h-80 overflow-auto">
-      {products &&
-        products.map((product) => {
-          return (
-            <CartItem
-              key={product.id}
-              id={product.id}
-              name={product.brand?.name}
-              price={product.precio}
-              imagen={product.imageUrl}
-              amount={product.cantidad}
-            />
-          );
-        })}
+    <ul className="  max-h-80 overflow-auto">
+      {products.map((product) => {
+        return (
+          <CartItem
+            key={product.id}
+            id={product.id}
+            name={product.brand?.name}
+            price={product.precio}
+            imagen={product.imageUrl}
+            amount={product.cantidad}
+          />
+        );
+      })}
     </ul>
   );
 
-  const totalAmount = products?.reduce((curNumber, item) => {
+  const totalAmount = products.reduce((curNumber, item) => {
     return curNumber + Number(item.precio) * item.cantidad;
   }, 0);
 
   return (
     <Wrapper>
-      {products && products.length > 0 ? (
-        <div className="bg-white p-4 rounded-lg animate-slide-down">
+      {products?.length ? (
+        <div className="bg-gray-300 p-4 rounded-lg animate-slide-down">
           {cartItems}
-          <div className="flex justify-between items-center font-bold text-1.5rem my-4">
-            <span className="font-bold text-2xl">Total Amount</span>
-            <span className="font-bold text-2xl">{totalAmount} $</span>
+          <div className="flex max-md:gap-5 justify-center font-bold gap-40 text-1.5rem my-4">
+            <span className="font-bold text-2xl">Total Amount:</span>
+            <span className="font-bold text-2xl">{totalAmount}$</span>
           </div>
-          <div className="flex justify-center gap-2">
-            <button
+          <div className="flex max-md:flex-col justify-center gap-4 pb-3">
+            <Button
               onClick={() => {
                 setShowCart(false);
-                toggleCart();
               }}
-              className="hover:bg-red-800 hover:border-red-800 hover:text-white font-inherit cursor-pointer bg-transparent border border-orange-600 px-5 py-2 rounded-2xl"
-            >
-              Close
-            </button>
+              text={"Close"}
+              className=" text-white rounded-2xl shadow-none hover:scale-105"
+            />
+
             {products.length > 0 && (
-              <button className="bg-red-800 text-white hover:bg-transparent hover:border-red-800 hover:text-black font-inherit cursor-pointer bg-transparent border border-orange-600 px-5 py-2 rounded-2xl">
-                Order
-              </button>
+              <Button
+                className=" bg-white rounded-2xl transform hover:scale-105 shadow-none border-solid border-2 border-black "
+                text="Order"
+              />
             )}
           </div>
         </div>
@@ -105,14 +96,13 @@ const Cart = ({ setShowCart }) => {
             <span className="font-bold text-2xl">Carrito vacio</span>
           </div>
           <div className="flex justify-center gap-2">
-            <button
+            <Button
               onClick={() => {
                 setShowCart(false);
               }}
-              className="hover:bg-red-800 hover:border-red-800 hover:text-white font-inherit cursor-pointer bg-transparent border border-orange-600 px-5 py-2 rounded-2xl"
-            >
-              Close
-            </button>
+              text={"Close"}
+              className=" text-white rounded-2xl shadow-none hover:scale-105"
+            />
           </div>
         </div>
       )}
