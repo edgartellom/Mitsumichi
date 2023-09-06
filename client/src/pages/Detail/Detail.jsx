@@ -17,6 +17,7 @@ const Detail = () => {
 
   const {id} = useParams();
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const fetchDataDetail = async () => {
