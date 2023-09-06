@@ -1,0 +1,16 @@
+.slider {
+  width: 100%;
+  height: 1px;
+  background-color: rgb(23 23 23);
+  margin-top: 20px;
+}
+
+.slider .thumb {
+  width: 23px;
+  height: 23px;
+  cursor: grab;
+  background: #fff;
+  border-radius: 50%;
+  border: 2px solid #275efe;
+  top: -10px;
+}

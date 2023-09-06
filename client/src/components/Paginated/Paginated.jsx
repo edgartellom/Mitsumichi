@@ -7,7 +7,7 @@ const Paginated = ({ totalPages, onPageChange }) => {
   };
 
   return (
-    <div className="flex pb-5 gap-3 flex-wrap m-auto justify-center items-center">
+    <section className="flex pb-5 gap-3 flex-wrap m-auto justify-center items-center">
       <ReactPaginate
         className=" flex flex-wrap justify-center items-center gap-2"
         pageCount={totalPages}
@@ -24,7 +24,7 @@ const Paginated = ({ totalPages, onPageChange }) => {
         breakClassName=" cursor-pointer text-xl py-2 px-4 font-semibold"
         renderOnZeroPageCount={null}
       />
-    </div>
+    </section>
   );
 };
 
