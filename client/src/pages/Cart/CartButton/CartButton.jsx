@@ -42,7 +42,7 @@ const CartButton = ({ setShowCart }) => {
         <CartIcon />
       </span>
       <span className=" max-sm:hidden max-lg:hidden">Your Cart</span>
-      <span className=" bg-[#b94517]  max-sm:px-2 p-1/4 px-4 rounded ml-1 font-bold hover:bg-[#92320c]">
+      <span className=" bg-orange-700  max-sm:px-2 p-1/4 px-4 rounded ml-2 font-semibold ">
         {cartItemCount}
       </span>
     </button>

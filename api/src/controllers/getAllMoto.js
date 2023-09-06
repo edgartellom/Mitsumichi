@@ -89,12 +89,8 @@ async function getAllMoto(req, res) {
     let orderOptions = [];
 
     if (sortByBrand && ["ASC", "DESC"].includes(sortByBrand.toUpperCase())) {
-      orderOptions.push([
-        { model: Brand, as: "brand" }, // Indicamos que es el modelo Brand asociado a la moto
-        "name",
-        sortByBrand.toUpperCase(),
-      ]);
-      orderOptions.push(["motoModel", sortByBrand.toUpperCase()]);
+      orderOptions.push([{ model: Brand }, "name", sortByBrand.toUpperCase()]);
+      // orderOptions.push(["motoModel", sortByBrand.toUpperCase()]);
     }
 
     if (sortByPrice && ["ASC", "DESC"].includes(sortByPrice.toUpperCase())) {
@@ -104,6 +100,8 @@ async function getAllMoto(req, res) {
     if (orderOptions.length === 0) {
       orderOptions.push(["id", "ASC"]);
     }
+
+    const allDbMotos = await Moto.findAll();
 
     // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
     const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
@@ -119,6 +117,7 @@ async function getAllMoto(req, res) {
 
     // Responder con la lista paginada de autos y la información de paginación
     res.status(200).json({
+      allMotos: allDbMotos,
       data: dbMotos,
       currentPage: page,
       totalPages: totalPages,

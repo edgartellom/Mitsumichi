@@ -15,30 +15,22 @@ const Sorts = () => {
   const { sorts, selectedSorts } = useSelector((state) => state.motoList);
 
   const handleBrandClick = (direction) => {
-    console.log(direction);
-    let newSorts = { ...sorts };
-    let newSelectedSorts = { ...selectedSorts };
-    if (direction === "A - Z") {
-      newSorts.sortByBrand = "ASC";
-    } else {
-      newSorts.sortByBrand = "DESC";
-    }
-    newSelectedSorts.sortByBrand = direction;
+    const newSorts = {
+      ...sorts,
+      sortByBrand: direction === "A - Z" ? "ASC" : "DESC",
+    };
+    const newSelectedSorts = { ...selectedSorts, sortByBrand: direction };
     dispatch(setSelectedSorts(newSelectedSorts));
     dispatch(setSorts(newSorts));
     dispatch(setCurrentPage(1));
   };
 
   const handlePriceClick = (direction) => {
-    console.log(direction);
-    let newSorts = { ...sorts };
-    let newSelectedSorts = { ...selectedSorts };
-    if (direction === "Menor precio") {
-      newSorts.sortByPrice = "ASC";
-    } else {
-      newSorts.sortByPrice = "DESC";
-    }
-    newSelectedSorts.sortByPrice = direction;
+    const newSorts = {
+      ...sorts,
+      sortByPrice: direction === "Menor precio" ? "ASC" : "DESC",
+    };
+    const newSelectedSorts = { ...selectedSorts, sortByPrice: direction };
     dispatch(setSelectedSorts(newSelectedSorts));
     dispatch(setSorts(newSorts));
     dispatch(setCurrentPage(1));
@@ -50,7 +42,7 @@ const Sorts = () => {
   };
 
   return (
-    <div className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+    <section className="  flex max-sm:flex-col   gap-3 items-center justify-center">
       <h1 className="text-white ml-3 font-bold">Ordenar por:</h1>
       <DropdownMenu
         name={"Nombre"}
@@ -70,7 +62,7 @@ const Sorts = () => {
       >
         <BsArrowRepeat />
       </button>
-    </div>
+    </section>
   );
 };
 
