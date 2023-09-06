@@ -6,10 +6,7 @@ import {
   setCurrentPage,
 } from "../../redux/slices/motoListSlice";
 import { useDispatch, useSelector } from "react-redux";
-<<<<<<< HEAD
-=======
 // import NewSlider from "../UI/NewSlider";
->>>>>>> 33d7e9aa40554aa2a8c71d4e0e168427454a9edf
 
 const Filters = ({ marcas, tipos }) => {
   const dispatch = useDispatch();
@@ -80,11 +77,7 @@ const Filters = ({ marcas, tipos }) => {
       >
         <BsArrowRepeat />
       </button>
-<<<<<<< HEAD
     </section>
-=======
-    </div>
->>>>>>> 33d7e9aa40554aa2a8c71d4e0e168427454a9edf
   );
 };
 
