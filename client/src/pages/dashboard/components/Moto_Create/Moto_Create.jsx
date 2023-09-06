@@ -90,7 +90,7 @@ const Moto_Create = () => {
   const [isPrecioValid, setIsPrecioValid] = useState(true);
   const [isColorValid, setIsColorValid] = useState(true);
   const [isCombustibleValid, setIsCombustibleValid] = useState(true);
-  // const [isImageUrlValid, setIsImageUrlValid] = useState(true);
+  
 
   //Ficha Tecnica
   const [isMotorValid, setIsMotorValid] = useState(true);
@@ -105,7 +105,7 @@ const Moto_Create = () => {
       tipo,
       year,
       precio,
-      //  imageUrl,
+      
       combustible,
       colorDisponible,
       fichaTecnica,
@@ -186,17 +186,6 @@ const Moto_Create = () => {
     setIsVelocidadesValid(validVelocidades);
     console.log("Velocidades", validVelocidades, fichaTecnica.velocidades);
 
-    // Validación de propiedad imageUrl
-    /*   const imageUrlRegex =
-      /(http|https|ftp|ftps):\/\/[a-zA-Z0-9-.]+\.[a-zA-Z]{2,3}(\/\S+)?\.(png|jpg|jpeg|gif)$/;
-    const validImageUrl =
-      (typeof imageUrl === "string" && imageUrl !== "") ||
-      (Array.isArray(imageUrl) &&
-        imageUrl.length > 0 &&
-        imageUrl.every((url) => imageUrlRegex.test(url)));
-    setIsImageUrlValid(validImageUrl);
-
-    console.log("Imagenes: ", validImageUrl, imageUrl);*/
 
     // Validaciónes de formulario completo
     const isFormDataValid =
@@ -487,163 +476,6 @@ const Moto_Create = () => {
     }
   };
 
-  // const handleImageUploadCloudinary = async (images) => {
-  //   const cloudName = "dwfinmexa"; // Reemplaza por tu Cloud Name de Cloudinary
-  //   const uploadPreset = "hengersrosario"; // Reemplaza por tu Upload Preset de Cloudinary
-  //   const apiUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-  //   console.log(images);
-
-  //   Swal.fire({
-  //     title: "Deseas subir la imagen?",
-  //     text: "Al presionar SUBIR se subirá la imagen",
-  //     icon: "question",
-  //     iconColor: "#0250B6",
-  //     showCancelButton: true,
-  //     width: 400,
-  //     background: "#FFF9EB",
-  //     color: "#161616",
-  //     confirmButtonColor: "#0250B6",
-  //     cancelButtonColor: "#8D0106",
-  //     confirmButtonText: "SUBIR",
-  //     cancelButtonText: "CANCELAR",
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         const imageUrls = [];
-
-  //         setImageUploaded(true);
-
-  //         for (const image of images) {
-  //           const formData = new FormData();
-  //           formData.append("file", image);
-  //           formData.append("upload_preset", uploadPreset);
-  //           formData.append("cloud_name", cloudName);
-
-  //           const response = await axios.post(apiUrl, formData);
-
-  //           if (response.data && response.data.secure_url) {
-  //             imageUrls.push(response.data.secure_url);
-  //           } else {
-  //             console.log("Error al subir la imagen:", response.data);
-  //           }
-  //         }
-
-  //         setImageUploaded(false);
-
-  //         await Swal.fire({
-  //           title: "¡Imagen Subida!",
-  //           text: "La imagen se ha subido correctamente",
-  //           icon: "success",
-  //           iconColor: "#0250B6",
-  //           background: "#FFF9EB",
-  //           color: "#161616",
-  //           confirmButtonColor: "#0250B6",
-  //           width: 400,
-  //         });
-
-  //         // Aquí puedes manejar el array de URLs como desees, por ejemplo, guardar en el estado
-  //         console.log("URLs de las imágenes:", imageUrls);
-
-  //         setFormData((prevFormValues) => ({
-  //           ...prevFormValues,
-  //           imageUrl: imageUrls,
-  //         }));
-  //       } catch (error) {
-  //         setImageUploaded(false);
-
-  //         await Swal.fire({
-  //           title: "Error",
-  //           text: "Error al subir la imagen",
-  //           icon: "error",
-  //           iconColor: "#0250B6",
-  //           background: "#FFF9EB",
-  //           color: "#161616",
-  //           confirmButtonColor: "#0250B6",
-  //           width: 400,
-  //         });
-  //         console.error("Error al subir la imagen:", error);
-  //       }
-  //     }
-  //   });
-  // };
-
-  // const handleSubmiMoto = async (e) => {
-  //   e.preventDefault();
-  //   console.log(e.target);
-
-  //   const jsonData = JSON.stringify(formData);
-  //   console.log(jsonData);
-
-  //   Swal.fire({
-  //     title: "¿Deseas añadir esta nueva moto?",
-  //     text: "Al confirmar, se añadirá la nueva moto.",
-  //     icon: "question",
-  //     showCancelButton: true,
-  //     confirmButtonText: "AÑADIR",
-  //     cancelButtonText: "CANCELAR",
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         const response = await axios.post(
-  //           "http://localhost:3001/motos",
-  //           jsonData,
-  //           {
-  //             headers: {
-  //               "Content-Type": "application/json",
-  //             },
-  //           }
-  //         );
-
-  //         Swal.fire({
-  //           title: "Creación exitosa",
-  //           text: "La moto se ha creado correctamente.",
-  //           icon: "success",
-  //         });
-
-  //         console.log("Nueva moto:", response.data);
-
-  //         // "https://pf-elixir-cars-back-production.up.railway.app/cars"
-  //         // Limpio los campos después de confirmar
-
-  //         setFormData({
-  //           marca: "",
-  //           modelo: "",
-  //           tipo: "",
-  //           year: 0,
-  //           precio: 0,
-  //           imageUrl: [],
-  //           combustible: "",
-  //           colorDisponible: [],
-  //           fichaTecnica: {
-  //             motor: "",
-  //             pasajeros: "",
-  //             cilindrada: "",
-  //             velocidades: "",
-  //           },
-  //         });
-  //         setImage([]);
-  //         setSelectedImages([]);
-  //         setImagePreviews([]);
-
-  //         setImageUploaded(false);
-  //         setSelectedColors([]);
-
-  //         return (window.location.href = "/home");
-
-  //         // console.log("Nuevo auto:", formData);
-  //       } catch (error) {
-  //         Swal.fire({
-  //           title: "Error al publicar la moto",
-  //           text: "Se ah producido un error al enviar los datos de la moto.",
-  //           icon: "error",
-  //         });
-  //         console.error(error);
-  //       }
-  //     }
-  //   });
-  // };
-
   return (
     <div className="m-auto flex flex-col min-w-[30%] max-w-[500px] min-h-[30%] max-h-[66.5%] gap-4 py-5 px-10 border-2 rounded-lg overflow-auto">
       {imageUploaded && (
@@ -922,15 +754,6 @@ const Moto_Create = () => {
                 Seleccionar Imagen
               </label>
             </div>
-            {/* {imagePreviews.length > 0 ? (
-              <button
-                type="button"
-                onClick={() => handleImageUploadCloudinary(selectedImages)}
-                className=" p-0 w-32 text-center bg-blue-500 text-white m-1 px-4 py-2 rounded-lg transition duration-300 hover:shadow-md shadow-[#555555] hover:text-gray-900 hover:bg-[#FFD700]"
-              >
-                Subir Imagen
-              </button>
-            ) : null} */}
           </div>
         </div>
 
