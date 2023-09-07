@@ -4,12 +4,21 @@ import logOut from "../../firebase/logOut";
 import SignIn from "../../pages/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
-
+import Wrapper from "../../helper/Wrapper";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 const SideBar = ({ routesArray }) => {
   const [open, setOpen] = useState(false);
-  const { currentUser, isRegistered } = useContext(userAuth);
+  const { loading, currentUser, isRegistered } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
+
+  if (loading) {
+    return (
+      <Wrapper>
+        <LoadingSpinner />
+      </Wrapper>
+    );
+  }
 
   if (showLogin) {
     return !currentUser ? (
@@ -89,7 +98,7 @@ const SideBar = ({ routesArray }) => {
             <li
               onClick={() => onClickHandler(route)}
               key={route}
-              className=" list-none text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
+              className=" list-none  text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
             >
               {route}
             </li>

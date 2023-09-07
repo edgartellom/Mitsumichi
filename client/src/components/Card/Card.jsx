@@ -18,8 +18,8 @@ const Card = ({ data }) => {
 
   const addProducto = () => {
     addProduct(currentUser.uid, {
-      brand: { name: brandName },
-      tipo: { name: tipoName },
+      brand: brandName,
+      tipo: tipoName,
       imageUrl: imageUrl[0],
       motoModel,
       id,
