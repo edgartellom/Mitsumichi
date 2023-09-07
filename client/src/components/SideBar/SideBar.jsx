@@ -12,6 +12,21 @@ const SideBar = ({ routesArray }) => {
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
 
+  const onClickHandler = (route) => {
+    if (route === "INICIAR SESION") {
+      setShowLogin(true);
+      return;
+    }
+
+    if (route === "SALIR") {
+      logOut();
+      navigate("/");
+    } else {
+      navigate(`/${route}`.toLowerCase());
+    }
+    setOpen(false);
+  };
+
   if (loading) {
     return (
       <Wrapper>
@@ -27,21 +42,6 @@ const SideBar = ({ routesArray }) => {
       !isRegistered && <SignUp setShowLogin={setShowLogin} />
     );
   }
-
-  const onClickHandler = (route) => {
-    if (route === "INICIAR SESION") {
-      setShowLogin(true);
-      return;
-    }
-
-    if (route === "SALIR") {
-      logOut();
-      navigate("/");
-    } else {
-      navigate(`/${route}`.toLowerCase());
-    }
-    setOpen(false);
-  };
 
   return (
     <aside className=" py-3   hidden max-md:block z-10">
@@ -98,7 +98,7 @@ const SideBar = ({ routesArray }) => {
             <li
               onClick={() => onClickHandler(route)}
               key={route}
-              className=" list-none  text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
+              className=" list-none text-center text-white text-xl hover:bg-orange-400 cursor-pointer py-3 mb-2"
             >
               {route}
             </li>
