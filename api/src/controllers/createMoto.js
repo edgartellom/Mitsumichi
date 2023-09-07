@@ -113,7 +113,9 @@ async function createMoto(req, res) {
 
     if (existingBrand && existingModel) {
       // La marca y el modelo ya existen, retornar un mensaje de error
-      return res.status(400).json({ error: "Esta moto ya existe" });
+      return res.status(400).json({
+        error: "Este modelo de moto ya existe, puedes crear uno nuevo.",
+      });
     }
 
     // Crear la marca si no existe
