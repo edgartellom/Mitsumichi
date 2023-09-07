@@ -13,13 +13,12 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      motoModel: {
-        type: DataTypes.STRING,
+      tipoId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      tipo: {
+      motoModel: {
         type: DataTypes.STRING,
-
         allowNull: false,
       },
       precio: {

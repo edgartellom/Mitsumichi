@@ -8,22 +8,22 @@ const Card = ({ data }) => {
   const navigate = useNavigate();
   const { currentUser } = useContext(userAuth);
   const {
-    brand: { name },
+    brand: { name: brandName },
+    tipo: { name: tipoName },
     imageUrl,
     motoModel,
     id,
     precio,
-    tipo,
   } = data;
 
   const addProducto = () => {
     addProduct(currentUser.uid, {
-      brand: { name },
+      brand: { name: brandName },
+      tipo: { name: tipoName },
       imageUrl: imageUrl[0],
       motoModel,
       id,
       precio,
-      tipo,
       cantidad: 1,
     });
   };
@@ -47,9 +47,9 @@ const Card = ({ data }) => {
               className="block text-black text-center hover:text-primary transition-colors duration-150 text-lg md:text-xl mb-1"
             >
               <h1 className="font-bold">
-                {name} {motoModel}
-              </h1>
-              <span className=" font-semibold text-lg"> Tipo: {tipo}</span>
+                {brandName} {motoModel}
+              </h1>{" "}
+              <span className=" font-semibold text-lg"> Tipo {tipoName}</span>
             </a>
             <p className=" md:text-sm text-center text-red-800 font-bold">
               USD {precio}$

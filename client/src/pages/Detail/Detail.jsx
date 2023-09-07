@@ -13,6 +13,7 @@ const Detail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [moto, setMoto] = useState({});
   const [brand, setBrand] = useState("");
+  const [tipo, setTipo] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
   const { id } = useParams();
 
@@ -27,6 +28,12 @@ const Detail = () => {
           (e) => e.id === response.data.brandId
         );
         setBrand(brandFound);
+
+        const responseTipo = await axios(`${URL}tipos`);
+        const tipoFound = responseTipo.data.find(
+          (e) => e.id === response.data.tipoId
+        );
+        setTipo(tipoFound);
 
         setIsLoading(false);
       } catch (error) {
@@ -118,7 +125,7 @@ const Detail = () => {
                       Stock: {moto.stock}
                     </span>
                     <span className="text-lg font-semibold mb-2">
-                      Tipo: {moto.tipo}
+                      Tipo: {tipo.name}
                     </span>
                     <span className="text-lg font-semibold">
                       Año: {moto.year}
