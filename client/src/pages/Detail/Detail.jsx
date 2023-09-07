@@ -14,7 +14,10 @@ const Detail = () => {
   const [moto, setMoto] = useState({});
   const [brand, setBrand] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
+  const navigate = useNavigate();
   const { id } = useParams();
+  
+  
 
   useEffect(() => {
     const fetchDataDetail = async () => {
@@ -85,6 +88,15 @@ const Detail = () => {
                   Precio
                 </p>
                 <p className="text-3xl font-bold">U$D {moto.precio}</p>
+                <br />
+                <button
+              className="bg-transparent text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-gray-500 to-blue-100 shadow-2xl"
+              onClick={() =>
+                navigate(`/paypal-button/${moto.precio}/${brand.name}`)
+              } 
+            >
+              Comprar
+            </button>
                 <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
                   <span className="mr-6">Compartir</span>
                   <div className="flex flex-row">
@@ -110,6 +122,7 @@ const Detail = () => {
                       className="mx-4 cursor-pointer"
                       style={{ filter: "grayscale(100%)" }}
                     />
+                   
                   </div>
                 </div>
                 <div className="flex flex-row">

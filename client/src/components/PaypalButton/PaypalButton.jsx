@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams, useNavigate } from 'react-router-dom';
+import Button from "../../components/UI/Button";
 
 
 export function PayPalButton() {
@@ -12,7 +13,7 @@ export function PayPalButton() {
   const [isCompleted, setIsCompleted] = useState(false);
   const navigate = useNavigate();
 
-  const handlePaymentSuccess = (details, data) => {
+  const handlePaymentSuccess = (details) => {
     console.log("Pago realizado con éxito:", details);
     setPurchaseId(details.purchase_units[0].payments.captures[0].id);
     setIsCompleted(true);
@@ -39,12 +40,16 @@ export function PayPalButton() {
             </div>
           ) : isCompleted ? (
             <div className="text-center bg-green-200 border border-green-600 rounded p-4">
-            <h2 className="text-2xl text-green-700 font-bold">¡Seña completada!</h2>
-            <p className="text-gray-700">Tu seña de {nombre} ha sido exitosa.</p>
-            <p className="text-gray-700">ID de seña: {purchaseId}</p>
-            <p className="text-gray-700">Gracias por elegirnos.</p>
+              <h2 className="text-2xl text-green-700 font-bold">¡Seña completada!</h2>
+                <p className="text-gray-700">Tu seña de {nombre} ha sido exitosa.</p>
+                <p className="text-gray-700">ID de seña: {purchaseId}</p>
+                <p className="text-gray-700">Gracias por elegirnos.</p>
             <div className="flex justify-center mt-4">
-           
+            <Button
+            text="¿Seguir comprando?"
+            className=" bg-orange-700 shadow-none text-gray-300 self-center"
+            onClick={() => navigate("/home")}
+          />
           </div>
           </div>
           ) : (
