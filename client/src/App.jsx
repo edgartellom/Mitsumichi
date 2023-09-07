@@ -36,6 +36,10 @@ const router = createBrowserRouter([
         path: "/paypal-button/:precio/:nombre",
         element: <PayPalButton />,
       },
+      {
+        path: "/admin",
+        element: <AppDashboard />,
+      },
     ],
   },
 ]);
