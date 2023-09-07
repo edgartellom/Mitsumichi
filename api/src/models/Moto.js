@@ -51,6 +51,16 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: () => Math.floor(Math.random() * 5) + 1,
       },
+      //-------------------------------------------------------------
+      deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false, // Por defecto, la moto no está eliminada
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      //-------------------------------------------------------------
     },
     {
       timestamps: false,

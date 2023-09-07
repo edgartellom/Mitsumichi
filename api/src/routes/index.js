@@ -8,6 +8,9 @@ const createReview = require("../controllers/createReview");
 const getMotoByID = require("../controllers/getMotoByID");
 const editMoto = require("../controllers/editMoto");
 const getAllTipos = require("../controllers/getAllTipos");
+//-------------------------------------------------------
+const desableMoto = require("../controllers/disableMoto");
+//-------------------------------------------------------
 
 const router = Router();
 
@@ -17,6 +20,9 @@ router.get("/marcas", getAllBrands);
 router.get("/tipos", getAllTipos);
 router.get("/motos/:id", getMotoByID);
 router.delete("/motos/:id", deleteMoto);
+//------------------------------------------
+router.delete("/moto/:id", desableMoto);
+//------------------------------------------
 router.put("/motos/:id", editMoto);
 
 //ruta para publicar motos
