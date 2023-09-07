@@ -1,4 +1,4 @@
-const { Moto, Brand } = require("../db.js");
+const { Moto, Brand, Tipo } = require("../db.js");
 
 const Sequelize = require("sequelize");
 
@@ -104,9 +104,18 @@ async function createMoto(req, res) {
       ),
     });
 
+    const existingTipo = await Tipo.findOne({
+      where: Sequelize.where(
+        Sequelize.fn("lower", Sequelize.col("name")),
+        Sequelize.fn("lower", tipo)
+      ),
+    });
+
     if (existingBrand && existingModel) {
       // La marca y el modelo ya existen, retornar un mensaje de error
-      return res.status(400).json({ error: "Esta moto ya existe" });
+      return res.status(400).json({
+        error: "Este modelo de moto ya existe, puedes crear uno nuevo.",
+      });
     }
 
     // Crear la marca si no existe
@@ -116,6 +125,15 @@ async function createMoto(req, res) {
       brandId = newBrand.id;
     } else {
       brandId = existingBrand.id;
+    }
+
+    // Crear el tipo si no existe
+    let tipoId;
+    if (!existingTipo) {
+      const newTipo = await Tipo.create({ name: tipo });
+      tipoId = newTipo.id;
+    } else {
+      tipoId = existingTipo.id;
     }
 
     // Crear el modelo si no existe
@@ -131,6 +149,7 @@ async function createMoto(req, res) {
     const newMoto = await Moto.create({
       id: newId,
       brandId,
+      tipoId,
       motoModel: modelo,
       tipo,
       precio,

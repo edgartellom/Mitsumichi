@@ -23,6 +23,7 @@ const SignUp = ({ setShowLogin }) => {
       await updateUser(tmp);
       await registerNewUser({
         data,
+        role: "user",
         id: currentUser.uid,
         email: currentUser.email,
       });

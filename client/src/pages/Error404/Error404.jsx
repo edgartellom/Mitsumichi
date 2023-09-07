@@ -5,7 +5,7 @@ import Button from "../../components/UI/Button";
 const Error404 = () => {
   const navigate = useNavigate();
   const error = useRouteError();
-  const currentRoute = error.data.slice(error.data.indexOf("L") + 1);
+  const currentRoute = error.data?.slice(error.data?.indexOf("L") + 1) || "";
 
   return (
     <section className=" flex justify-center items-center  bg-gradient-to-bl from-[#2e2e2e] via-[#292929] h-screen  to-[#202020] ">

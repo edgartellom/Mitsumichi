@@ -21,7 +21,6 @@ const Navbar = () => {
   const logOutHandler = () => {
     logOut();
     navigate("/");
-    window.location.reload();
   };
 
   useEffect(() => {

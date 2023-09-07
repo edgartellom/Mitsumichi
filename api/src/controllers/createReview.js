@@ -6,7 +6,7 @@ async function createReview(req, res) {
   try {
     const motoDb = await Moto.findByPk(motoId);
     if (!motoDb) {
-      return res.status(404).json({ error: "Automóvil no encontrado" });
+      return res.status(404).json({ error: "Moto no encontrado" });
     }
     const userDb = await User.findByPk(userId);
     if (!userDb) {

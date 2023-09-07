@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
+const { Moto, Brand, Tipo } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -30,7 +30,7 @@ async function getAllMoto(req, res) {
         [Op.or]: [
           { "$brand.name$": { [Op.iLike]: `%${search}%` } },
           { motoModel: { [Op.iLike]: `%${search}%` } },
-          { tipo: { [Op.iLike]: `%${search}%` } },
+          { "$tipo.name$": { [Op.iLike]: `%${search}%` } },
         ],
       };
     }
@@ -58,7 +58,10 @@ async function getAllMoto(req, res) {
 
     if (tipo) {
       // Realizamos la consulta para obtener los autos filtrados por el tipo
-      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
+      const tipoFound = await Tipo.findOne({
+        where: { name: { [Op.iLike]: tipo } },
+      });
+      filterOptions = { ...filterOptions, tipoId: tipoFound.id };
     }
 
     if (minPrice && maxPrice) {
@@ -101,14 +104,15 @@ async function getAllMoto(req, res) {
       orderOptions.push(["id", "ASC"]);
     }
 
-    const allDbMotos = await Moto.findAll();
-
     // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
     const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
       limit: limit,
       offset: offset,
       where: filterOptions,
-      include: [{ model: Brand, attributes: ["name"] }],
+      include: [
+        { model: Brand, attributes: ["name"] },
+        { model: Tipo, attributes: ["name"] },
+      ],
       order: orderOptions,
     });
 
@@ -117,7 +121,6 @@ async function getAllMoto(req, res) {
 
     // Responder con la lista paginada de autos y la información de paginación
     res.status(200).json({
-      allMotos: allDbMotos,
       data: dbMotos,
       currentPage: page,
       totalPages: totalPages,

@@ -4,9 +4,7 @@ import axios from "axios";
 const motoListSlice = createSlice({
   name: "motoList",
   initialState: {
-    allMotos: [],
     motos: [],
-    tipos: [],
     isLoading: false,
     currentPage: 1,
     totalPages: 1,
@@ -29,14 +27,8 @@ const motoListSlice = createSlice({
     },
   },
   reducers: {
-    setAllMotos: (state, action) => {
-      state.allMotos = action.payload;
-    },
     setMotos: (state, action) => {
       state.motos = action.payload;
-    },
-    setTipos: (state, action) => {
-      state.tipos = action.payload;
     },
     setLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -110,9 +102,6 @@ export const fetchMotos = (limit) => async (dispatch, getState) => {
     });
 
     const jsonData = await response.data;
-    const tipos = [...new Set(jsonData.allMotos.map((moto) => moto.tipo))];
-    dispatch(motoListSlice.actions.setAllMotos(jsonData.allMotos));
-    dispatch(motoListSlice.actions.setTipos(tipos));
     dispatch(motoListSlice.actions.setMotos(jsonData.data));
     dispatch(motoListSlice.actions.setTotalPages(jsonData.totalPages));
   } catch (error) {
