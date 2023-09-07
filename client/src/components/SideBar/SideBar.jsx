@@ -4,20 +4,13 @@ import logOut from "../../firebase/logOut";
 import SignIn from "../../pages/SignIn/SignIn";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
-
+import Wrapper from "../../helper/Wrapper";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 const SideBar = ({ routesArray }) => {
   const [open, setOpen] = useState(false);
-  const { currentUser, isRegistered } = useContext(userAuth);
+  const { loading, currentUser, isRegistered } = useContext(userAuth);
   const [showLogin, setShowLogin] = useState(false);
   const navigate = useNavigate();
-
-  if (showLogin) {
-    return !currentUser ? (
-      <SignIn setShowLogin={setShowLogin} />
-    ) : (
-      !isRegistered && <SignUp setShowLogin={setShowLogin} />
-    );
-  }
 
   const onClickHandler = (route) => {
     if (route === "INICIAR SESION") {
@@ -33,6 +26,22 @@ const SideBar = ({ routesArray }) => {
     }
     setOpen(false);
   };
+
+  if (loading) {
+    return (
+      <Wrapper>
+        <LoadingSpinner />
+      </Wrapper>
+    );
+  }
+
+  if (showLogin) {
+    return !currentUser ? (
+      <SignIn setShowLogin={setShowLogin} />
+    ) : (
+      !isRegistered && <SignUp setShowLogin={setShowLogin} />
+    );
+  }
 
   return (
     <aside className=" py-3   hidden max-md:block z-10">
