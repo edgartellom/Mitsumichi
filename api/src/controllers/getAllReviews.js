@@ -31,7 +31,7 @@ async function getAllReviews(req, res) {
         },
         {
           model: Moto,
-          attributes: ["presentacion"],
+          attributes: ["brandId", "motoModel"],
         },
       ],
     });
