@@ -7,8 +7,7 @@ import updateUser from "../../firebase/updateUser";
 import registerNewUser from "../../firebase/registerNewUser";
 import Wrapper from "../../helper/Wrapper";
 import logOut from "../../firebase/logOut";
-
-const SignUp = ({ setShowLogin }) => {
+const SignUp = () => {
   const { currentUser } = useContext(userAuth);
   const {
     register,
@@ -38,7 +37,7 @@ const SignUp = ({ setShowLogin }) => {
 
   const signInHandler = () => {
     logOut();
-    window.location.reload();
+    window.history.back();
   };
 
   return (
@@ -46,7 +45,7 @@ const SignUp = ({ setShowLogin }) => {
       <form className="  animate-slide-down bg-white flex flex-col justify-center  items-center pb-7 pt-2 w-[700px] max-sm:h-screen   gap-6 rounded-lg max-sm:w-screen ">
         <button
           type="button"
-          onClick={() => setShowLogin(false)}
+          onClick={() => logOut()}
           className=" self-end mr-5 font-bold text-xl cursor-pointer"
         >
           X
