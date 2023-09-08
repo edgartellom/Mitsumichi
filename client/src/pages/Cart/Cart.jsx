@@ -67,7 +67,7 @@ const Cart = ({ setShowCart }) => {
   return (
     <Wrapper>
       {products?.length ? (
-        <summary className="bg-gray-300 p-10 max-md:w-full max-md:h-full rounded-lg animate-slide-down">
+        <summary className="bg-gray-300  p-10 max-md:w-full max-md:h-full rounded-lg animate-slide-down">
           {cartItems}
           <article className="flex max-md:flex-col-reverse mt-8  font-bold gap-20 text-1.5rem my-4">
             <div className=" flex gap-5 items-center">
