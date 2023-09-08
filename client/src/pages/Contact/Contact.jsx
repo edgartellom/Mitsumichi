@@ -52,13 +52,13 @@ function Contact() {
     }
 
     setErrors(newErrors);
-
-    // Return true if there are no errors, false otherwise
+    // Acá regreso true si no hay errores, y false si los hay.
+    
     return Object.keys(newErrors).length === 0;
   };
 
   const isValidEmail = (email) => {
-    // Simple email validation, you can use a library like 'validator' for more robust validation
+  
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailPattern.test(email);
   };
@@ -67,10 +67,9 @@ function Contact() {
     const isFormValid = validateForm();
 
     if (isFormValid) {
-      // Aquí puedes agregar la lógica de inicio de sesión si es necesario
+      // Acá va el código para el inicio de sesión, hablar con Alejandro.
       setIsLoggedIn(true);
 
-      // También puedes restablecer los campos del formulario y los errores aquí
       setFormData({
         firstName: '',
         lastName: '',
@@ -84,10 +83,9 @@ function Contact() {
   };
 
   const handleSignOut = () => {
-    // Aquí puedes agregar la lógica de cierre de sesión si es necesario
+    // Acá va el código para el cierre de sesión, hablar con Alejandro.
     setIsLoggedIn(false);
 
-    // También puedes restablecer los campos del formulario y los errores aquí
     setFormData({
       firstName: '',
       lastName: '',
@@ -181,6 +179,7 @@ function Contact() {
 }
 
 export default Contact;
+
 
 
 
