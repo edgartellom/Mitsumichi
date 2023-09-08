@@ -9,7 +9,7 @@ import whatsapp from "../../assets/SocialIcons/whatsapp.png";
 import Wrapper from "../../helper/Wrapper";
 import { Button, LoadingSpinner } from "../../components";
 
-const URL = "http://localhost:3001/";
+// const URL = "http://localhost:3001/";
 
 const Detail = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,16 +23,16 @@ const Detail = () => {
   useEffect(() => {
     const fetchDataDetail = async () => {
       try {
-        const response = await axios(`${URL}motos/${id}`);
+        const response = await axios(`motos/${id}`);
         setMoto(response.data);
 
-        const responseBrand = await axios(`${URL}marcas`);
+        const responseBrand = await axios(`$marcas`);
         const brandFound = responseBrand.data.find(
           (e) => e.id === response.data.brandId
         );
         setBrand(brandFound);
 
-        const responseTipo = await axios(`${URL}tipos`);
+        const responseTipo = await axios(`tipos`);
         const tipoFound = responseTipo.data.find(
           (e) => e.id === response.data.tipoId
         );
@@ -105,7 +105,7 @@ const Detail = () => {
                       <span className="text-lg font-semibold ">
                         Color Dispoible:
                         {moto.colorDisponible.map((color, index) => (
-                          <span className="font-normal" key={index}>
+                          <span className="font-normal pl-2" key={index}>
                             {color}
                           </span>
                         ))}
