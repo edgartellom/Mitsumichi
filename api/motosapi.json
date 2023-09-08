@@ -880,5 +880,112 @@
       "cilindrada": "149",
       "velocidades": "-"
     }
+  },
+  {
+    "id": "047",
+    "marca": "Benelli",
+    "modelo": "TNT 150 i",
+    "tipo": "Naked",
+    "year": "2023",
+    "precio": "3590",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/01/5e2afca6a3322e8d9a9f4a03c.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/ae6516d305799ad9dc0d9546eeb5a86c-hd.png",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/da89842132be6d1b897a0dfd8adbdbda-hd.png"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Blanco", "Negro", "Rojo"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "150",
+      "velocidades": "5"
+    }
+  },
+  {
+    "id": "048",
+    "marca": "Benelli",
+    "modelo": "180 S",
+    "tipo": "Naked",
+    "year": "2023",
+    "precio": "4490",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/01/180S_2.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/180s-negra2-1.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/180S_3.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Blanco", "Negro", "Rojo"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "180",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "049",
+    "marca": "Benelli",
+    "modelo": "TRK 251",
+    "tipo": "Off Road",
+    "year": "2023",
+    "precio": "6990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/02/5dd6c3a36b61e0af88e33f9c9.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/02/trk251_28.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Negro", "Rojo"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "250",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "050",
+    "marca": "Benelli",
+    "modelo": "302 S",
+    "tipo": "Naked",
+    "year": "2023",
+    "precio": "8790",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/01/2000000003.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/302s_gallery_8.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Negro", "Blanco"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "300",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "051",
+    "marca": "Benelli",
+    "modelo": "502c",
+    "tipo": "Custom",
+    "year": "2023",
+    "precio": "11990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/04/502c_gal12.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/04/502c_gal2.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Azul", "Negro"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "500",
+      "velocidades": "6"
+    }
   }
 ]
