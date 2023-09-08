@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMotos, setCurrentPage } from "../../redux/slices/motoListSlice";
 import { fetchBrands } from "../../redux/slices/brandListSlice";
@@ -39,8 +39,8 @@ const Home = () => {
     <>
       <section className="p-3 bg-[#000000cc]  flex justify-around max-md:flex-col">
         <Filters marcas={brands} tipos={tipos} />
-        <Sorts />
         <SearchBar />
+        <Sorts />
       </section>
 
       <Cards data={motos} />
