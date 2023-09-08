@@ -7,9 +7,9 @@ import facebook from "../../assets/SocialIcons/facebook.png";
 import twitter from "../../assets/SocialIcons/twitter.png";
 import whatsapp from "../../assets/SocialIcons/whatsapp.png";
 import Wrapper from "../../helper/Wrapper";
-import { Button, LoadingSpinner } from "../../components";
+import { LoadingSpinner } from "../../components";
 
-// const URL = "http://localhost:3001/";
+const URL = "https://mitsumichi-production.up.railway.app/";
 
 const Detail = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,16 +23,16 @@ const Detail = () => {
   useEffect(() => {
     const fetchDataDetail = async () => {
       try {
-        const response = await axios(`motos/${id}`);
+        const response = await axios(`${URL}motos/${id}`);
         setMoto(response.data);
 
-        const responseBrand = await axios(`$marcas`);
+        const responseBrand = await axios(`${URL}marcas`);
         const brandFound = responseBrand.data.find(
           (e) => e.id === response.data.brandId
         );
         setBrand(brandFound);
 
-        const responseTipo = await axios(`tipos`);
+        const responseTipo = await axios(`${URL}tipos`);
         const tipoFound = responseTipo.data.find(
           (e) => e.id === response.data.tipoId
         );
@@ -92,7 +92,7 @@ const Detail = () => {
                     ))}
                   </section>
                   <summary className="flex  ">
-                    <section className="flex flex-col">
+                    <div className="flex flex-col">
                       <span className="text-lg font-semibold mb-2">
                         Stock: {moto.stock}
                       </span>
@@ -105,16 +105,16 @@ const Detail = () => {
                       <span className="text-lg font-semibold ">
                         Color Dispoible:
                         {moto.colorDisponible.map((color, index) => (
-                          <span className="font-normal pl-2" key={index}>
+                          <span className="font-normal" key={index}>
                             {color}
                           </span>
                         ))}
                       </span>
-                    </section>
+                    </div>
 
                     <div className=" w-1 border  bg-black mx-4"></div>
 
-                    <section className=" pl-4">
+                    <div className=" pl-4">
                       <h3 className="text-xl font-semibold mb-2">
                         Ficha Técnica
                       </h3>
@@ -122,21 +122,24 @@ const Detail = () => {
                       <p>Pasajeros: {moto.fichaTecnica.pasajeros}</p>
                       <p>Cilindrada: {moto.fichaTecnica.cilindrada}</p>
                       <p>Velocidades: {moto.fichaTecnica.velocidades}</p>
-                    </section>
+                    </div>
                   </summary>
                 </aside>
               </figure>
 
-              <section className=" flex items-center justify-center gap-10 py-5">
-                <p className="text-3xl font-bold">USD {moto.precio}</p>
-                <Button
-                  className="bg-transparent   border-2 border-black  text-base leading-5 rounded-md hover:bg-orange-600 transtion duration-300"
+              <div className=" flex items-center justify-center gap-10 py-5">
+                <div className="flex ">
+                  <p className="text-3xl font-bold">USD {moto.precio}</p>
+                </div>
+                <button
+                  className="bg-transparent self-start text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-gray-500 to-blue-100 shadow-2xl"
                   onClick={() =>
                     navigate(`/paypal-button/${moto.precio}/${brand.name}`)
                   }
-                  text={"Comprar"}
-                />
-              </section>
+                >
+                  Comprar
+                </button>
+              </div>
             </section>
             <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
               <span className="mr-6">Compartir</span>
