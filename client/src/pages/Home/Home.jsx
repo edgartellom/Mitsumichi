@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMotos, setCurrentPage } from "../../redux/slices/motoListSlice";
 import { fetchBrands } from "../../redux/slices/brandListSlice";
