@@ -13,13 +13,12 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      motoModel: {
-        type: DataTypes.STRING,
+      tipoId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      tipo: {
+      motoModel: {
         type: DataTypes.STRING,
-
         allowNull: false,
       },
       precio: {
@@ -52,6 +51,16 @@ module.exports = (sequelize) => {
         allowNull: false,
         defaultValue: () => Math.floor(Math.random() * 5) + 1,
       },
+      //-------------------------------------------------------------
+      deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false, // Por defecto, la moto no está eliminada
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+        allowNull: true,
+      },
+      //-------------------------------------------------------------
     },
     {
       timestamps: false,

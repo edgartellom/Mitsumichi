@@ -1,5 +1,4 @@
 [
-  
   {
     "id": "001",
     "marca": "Yumbo",
@@ -517,7 +516,7 @@
     "id": "030",
     "marca": "Honda",
     "modelo": "CG 110",
-    "tipo": "street",
+    "tipo": "Street",
     "year": "2023",
     "precio": "1590",
     "imageUrl": [
@@ -560,7 +559,7 @@
     "id": "032",
     "marca": "Honda",
     "modelo": "CB125 F TWISTER",
-    "tipo": "street",
+    "tipo": "Street",
     "year": "2023",
     "precio": "2490",
     "imageUrl": [
@@ -870,9 +869,9 @@
     "year": "2023",
     "precio": "5990",
     "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2021/02/5f81c966ccae800b497a10121.jpg" 
+      "https://delcar.com.uy/wp-content/uploads/2021/02/5f81c966ccae800b497a10121.jpg"
     ],
-    
+
     "combustible": "Nafta",
     "colorDisponible": ["Plateado"],
     "fichaTecnica": {
