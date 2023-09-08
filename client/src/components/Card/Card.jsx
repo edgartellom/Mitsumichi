@@ -29,15 +29,16 @@ const Card = ({ data }) => {
   };
 
   return (
-    <article className=" bg-[#0006]  p-2 m-10 rounded-2xl">
+    <article className=" bg-[#0006] max-w-[300px]  p-2 m-10 rounded-2xl">
       <section className="relative p-2 ">
-        <section className=" max-w-[300px] group">
+        <section className=" group">
           <figure className=" rounded-xl h-[20rem]  bg-white flex items-center overflow-hidden">
             <img
               src={imageUrl[0]}
-              className="scale-100 group-hover:scale-110 transition-all duration-700"
+              className="scale-100  group-hover:scale-110 transition-all duration-700"
               alt="imagen de moto"
-              width={500}
+              width={300}
+              height={300}
             />
             <div className=" max-md:hidden absolute rounded-xl border-4 border-orange-600 w-[95%] h-[68%]  opacity-0 group-hover:opacity-100 group-hover:scale-90 transition-all duration-700"></div>
           </figure>
