@@ -1,6 +1,8 @@
 import ReactPaginate from "react-paginate";
+import { useSelector } from "react-redux";
 
 const Paginated = ({ totalPages, onPageChange }) => {
+  const { currentPage } = useSelector((state) => state.motoList);
   const handlePageChange = (selectedPage) => {
     onPageChange(selectedPage + 1);
     window.scrollTo({ top: 0, behavior: "smooth" }); // Desplaza hacia arriba
@@ -23,6 +25,7 @@ const Paginated = ({ totalPages, onPageChange }) => {
         breakLabel="..."
         breakClassName=" cursor-pointer text-xl py-2 px-4 font-semibold"
         renderOnZeroPageCount={null}
+        forcePage={currentPage - 1} // Utiliza currentPage desde el estado de Redux
       />
     </section>
   );

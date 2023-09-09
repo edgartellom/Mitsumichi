@@ -8,7 +8,6 @@ const SearchBar = () => {
 
   const handleInputChange = (e) => {
     const newSearchTerm = e.target.value;
-    console.log(newSearchTerm);
     setSearchTerm(newSearchTerm);
     handleSearch(newSearchTerm); // Llamar a handleSearch con el nuevo término de búsqueda
   };
