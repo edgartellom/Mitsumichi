@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import {
   IoGrid,
@@ -31,10 +32,14 @@ const user = {
 };
 
 const Sidebar_Dashboard = () => {
+  const location = useLocation(); // Obtiene la ruta actual
+
   const [openMenu, setOpenMenu] = useState(true);
   const [showItems, setShowItems] = useState(true);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const [activeRoute, setActiveRoute] = useState(""); // Estado para la ruta activa
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
@@ -70,6 +75,11 @@ const Sidebar_Dashboard = () => {
       setShowItems(true); // En escritorio, los elementos están visibles inicialmente
     }
   }, [isMobile]);
+
+  useEffect(() => {
+    // Escucha cambios en la ruta y actualiza el estado
+    setActiveRoute(location.pathname);
+  }, [location.pathname]);
 
   return isMobile ? (
     <div
@@ -123,6 +133,7 @@ const Sidebar_Dashboard = () => {
               route="/dashboard"
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === "/dashboard"}
             />
 
             <CustomButton
@@ -131,6 +142,7 @@ const Sidebar_Dashboard = () => {
               route="/products-admin"
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === "/products-admin"}
             />
 
             <CustomButton
@@ -139,6 +151,7 @@ const Sidebar_Dashboard = () => {
               route="/orders-admin"
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === "/orders-admin"}
             />
 
             <CustomButton
@@ -147,6 +160,7 @@ const Sidebar_Dashboard = () => {
               route="/users-admin"
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === "/users-admin"}
             />
 
             <CustomButton
@@ -155,6 +169,7 @@ const Sidebar_Dashboard = () => {
               route="/reviews-admin"
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === "/reviews-admin"}
             />
 
             <CustomButton
@@ -163,6 +178,7 @@ const Sidebar_Dashboard = () => {
               route="/offers-admin"
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === "/offers-admin"}
             />
           </div>
         )}
@@ -211,6 +227,7 @@ const Sidebar_Dashboard = () => {
             route="/dashboard"
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === "/dashboard"}
           />
 
           <CustomButton
@@ -219,6 +236,7 @@ const Sidebar_Dashboard = () => {
             route="/products-admin"
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === "/products-admin"}
           />
 
           <CustomButton
@@ -227,6 +245,7 @@ const Sidebar_Dashboard = () => {
             route="/orders-admin"
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === "/orders-admin"}
           />
 
           <CustomButton
@@ -235,6 +254,7 @@ const Sidebar_Dashboard = () => {
             route="/users-admin"
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === "/users-admin"}
           />
 
           <CustomButton
@@ -243,6 +263,7 @@ const Sidebar_Dashboard = () => {
             route="/reviews-admin"
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === "/reviews-admin"}
           />
 
           <CustomButton
@@ -251,6 +272,7 @@ const Sidebar_Dashboard = () => {
             route="/offers-admin"
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === "/offers-admin"}
           />
         </div>
 
