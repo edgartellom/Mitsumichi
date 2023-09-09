@@ -33,7 +33,6 @@ const user = {
 const Sidebar_Dashboard = () => {
   const [openMenu, setOpenMenu] = useState(true);
   const [showItems, setShowItems] = useState(true);
-  const [shouldAnimate, setShouldAnimate] = useState(false);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
@@ -66,11 +65,9 @@ const Sidebar_Dashboard = () => {
     if (isMobile) {
       setOpenMenu(false); // En móvil, el menú está cerrado inicialmente
       setShowItems(false); // En móvil, los elementos están ocultos inicialmente
-      setShouldAnimate(false); // Deshabilitar la animación inicial en móvil
     } else {
       setOpenMenu(true); // En escritorio, el menú está abierto inicialmente
       setShowItems(true); // En escritorio, los elementos están visibles inicialmente
-      setShouldAnimate(true); // Habilitar la animación inicial en escritorio
     }
   }, [isMobile]);
 
