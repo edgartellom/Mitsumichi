@@ -11,15 +11,15 @@ const CustomButton = ({ icon, text, route, showIcon, showText }) => {
 
   return (
     <button
-      className={`flex flex-row items-center bg-white pl-2  ${
+      className={`flex flex-row items-center bg-white duration-200  ${
         showIcon
-          ? "duration-300 w-[220px] h-[45px]"
+          ? "duration-300 pl-2 w-[220px] h-[45px]"
           : " pl-0 w-[50px] h-[45px] justify-center"
-      } rounded-md duration-200 hover:bg-[#ffffBB] hover:text-slate-100 mb-3`}
+      } rounded-md  hover:bg-[#ffffBB] hover:text-slate-100 mb-3`}
       onClick={redirectToRoute}
     >
       {showIcon && (
-        <div className="bg-transparent text-[#C63D05] cursor-pointer mr-2">
+        <div className=" bg-transparent text-[#C63D05] cursor-pointer mr-2">
           {icon}
         </div>
       )}
