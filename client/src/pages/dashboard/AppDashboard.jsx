@@ -9,7 +9,7 @@ function AppDashboard() {
   const { currentUser } = useContext(userAuth);
   const navigate = useNavigate();
 
-  if (!currentUser || currentUser.role !== "admin") return navigate("/");
+  // if (!currentUser || currentUser.role !== "admin") return navigate("/");
 
   return (
     <RootLayout>

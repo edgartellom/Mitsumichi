@@ -4,10 +4,12 @@ const RootLayot = () => {
   const { pathname } = useLocation();
   return (
     <>
-      {(pathname !== "/" && <Navbar />) ||
+      {(pathname !== "/" && pathname.includes("/dashboard")) || <Navbar /> ||
         (pathname === "/home" && <AddButton />)}
+
       <main className=" flex-1 bg-gray-300">{<Outlet />}</main>
-      {pathname !== "/" && <Footer />}
+
+      {(pathname !== "/" && pathname.includes("/dashboard")) || <Footer />}
     </>
   );
 };
