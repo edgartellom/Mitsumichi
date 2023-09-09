@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   IoGrid,
@@ -34,23 +34,46 @@ const Sidebar_Dashboard = () => {
   const [openMenu, setOpenMenu] = useState(true);
   const [showItems, setShowItems] = useState(true);
 
-  const isMobile = window.innerWidth <= 768 ? true : false;
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
     if (!openMenu) {
-      // Establece un retardo de 500 ms (0.5 segundos) antes de mostrar el texto
       setTimeout(() => {
         setShowItems(true);
       }, 250);
     } else {
-      setShowItems(false); // Oculta el texto inmediatamente al cerrar el menú
+      setShowItems(false);
     }
   };
 
+  // Aqui uso useEffect para verificar cual es el ancho de la ventana inicialmente y asi ajustar la vista móvil o de escritorio
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
+  // Estado inicial dependiendo en donde se encuentre, si es un móvil o pc, para ajustar la vista móvil o de escritorio
+  useEffect(() => {
+    if (isMobile) {
+      setOpenMenu(false); // En móvil, el menú está cerrado inicialmente
+      setShowItems(false); // En móvil, los elementos están ocultos inicialmente
+    } else {
+      setOpenMenu(true); // En escritorio, el menú está abierto inicialmente
+      setShowItems(true); // En escritorio, los elementos están visibles inicialmente
+    }
+  }, [isMobile]);
+
   return isMobile ? (
     <div
-      className={`flex flex-col bg-[#252525] h-screen  pt-8 ${
+      className={`flex flex-col bg-[#252525] h-screen pt-8 ${
         openMenu ? "p-5 w-[320px]" : " pl-0 w-[0px]"
       } duration-300 relative border-r-4 border-[#C63D05]`}
     >
