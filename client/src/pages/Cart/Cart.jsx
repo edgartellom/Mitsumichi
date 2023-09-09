@@ -6,11 +6,12 @@ import { userAuth } from "../../context/Auth-context";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/credenciales";
 import Button from "../../components/UI/Button";
-
+import { useNavigate } from "react-router-dom";
+import clearCart from "../../firebase/clearCart";
 const Cart = ({ setShowCart }) => {
   const { currentUser } = useContext(userAuth);
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   const gettingProducts = async () =>
     !currentUser ? [] : await getCartProducts(currentUser.uid);
 
@@ -50,7 +51,7 @@ const Cart = ({ setShowCart }) => {
           <CartItem
             key={product.id}
             id={product.id}
-            name={product.brand?.name}
+            name={product.brand}
             price={product.precio}
             imagen={product.imageUrl}
             amount={product.cantidad}
@@ -64,10 +65,22 @@ const Cart = ({ setShowCart }) => {
     return curNumber + Number(item.precio) * item.cantidad;
   }, 0);
 
+  const orderClickHandler = () => {
+    const totalproducts = [
+      ...new Set(products.map((product) => product.brand)),
+    ].map((brand) => {
+      return brand;
+    });
+
+    navigate(`/paypal-button/${totalAmount}/${totalproducts}`);
+    setShowCart(false);
+    clearCart(currentUser.uid);
+  };
+
   return (
     <Wrapper>
       {products?.length ? (
-        <summary className="bg-gray-300 p-10 max-md:w-full max-md:h-full rounded-lg animate-slide-down">
+        <summary className="bg-gray-300  p-10 max-md:w-full max-md:h-full rounded-lg animate-slide-down">
           {cartItems}
           <article className="flex max-md:flex-col-reverse mt-8  font-bold gap-20 text-1.5rem my-4">
             <div className=" flex gap-5 items-center">
@@ -87,6 +100,7 @@ const Cart = ({ setShowCart }) => {
                 <Button
                   className=" bg-white rounded-2xl transform hover:scale-105 shadow-none border-solid border-2 border-black "
                   text="Order"
+                  onClick={orderClickHandler}
                 />
               )}
             </section>

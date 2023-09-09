@@ -51,7 +51,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="   flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
+    <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
       <section className="flex items-center text-zinc-900  font-bold">
         <figure
           onClick={() => navigate("/")}

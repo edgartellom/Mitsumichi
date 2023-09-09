@@ -42,7 +42,7 @@ const Sorts = () => {
   };
 
   return (
-    <section className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+    <section className="  flex max-sm:flex-col  max-md:hidden  gap-3 items-center justify-center">
       <h1 className="text-white ml-3 font-bold">Ordenar por:</h1>
       <DropdownMenu
         name={"Nombre"}

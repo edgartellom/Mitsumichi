@@ -42,7 +42,7 @@ const Filters = ({ marcas, tipos }) => {
   };
 
   return (
-    <div className="  flex max-sm:flex-col   gap-3 items-center justify-center">
+    <div className="  flex max-sm:flex-col max-md:hidden   gap-3 items-center justify-center">
       <h1 className="text-white ml-3 font-bold">Filtros:</h1>
       <DropdownMenu
         name={"Marca"}
