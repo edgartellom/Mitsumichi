@@ -12,6 +12,8 @@ import Cart from "../../pages/Cart/Cart";
 import addCarrito from "../../firebase/addCarrito";
 import Wrapper from "../../helper/Wrapper";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import getInvoicesByUser from "../../firebase/getInvoicesByUser";
+import getAllInvoices from "../../firebase/getAllInvoices";
 
 const Navbar = () => {
   const { currentUser, isRegistered, loading } = useContext(userAuth);
@@ -49,6 +51,13 @@ const Navbar = () => {
   if (currentUser && !isRegistered) {
     return <SignUp setShowLogin={setShowLogin} />;
   }
+
+  const getAllBill = async () => {
+    const invoices = await getAllInvoices();
+    console.log(invoices);
+  };
+
+  getAllBill();
 
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">

@@ -12,18 +12,15 @@ const createBill = async (userId, invoiceData) => {
     // Generar un número de factura único (puedes implementar tu lógica aquí)
     const invoiceNumber = generateUniqueInvoiceNumber();
 
-    // Crear una referencia al documento de factura en la colección "facturas"
-    const invoiceRef = doc(collection(db, "facturas"), invoiceNumber);
+    // Crear una referencia al documento de factura en la colección de facturas del usuario
+    const userInvoicesRef = collection(db, "users", userId, "facturas");
+    const invoiceRef = doc(userInvoicesRef, invoiceNumber);
 
     // Guardar la factura en Firestore
     await setDoc(invoiceRef, {
       invoiceNumber,
       ...invoiceData, // Otros detalles de la factura
     });
-
-    // Actualizar el campo de factura en el documento de usuario
-    const userRef = doc(db, "users", userId);
-    await setDoc(userRef, { facturaId: invoiceNumber }, { merge: true });
 
     return invoiceNumber; // Devolver el número de factura generado
   } catch (error) {
