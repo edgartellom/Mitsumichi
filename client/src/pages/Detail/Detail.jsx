@@ -107,6 +107,7 @@ const Detail = () => {
                 <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
                   <span className="mr-6">Compartir</span>
                   <div className="flex flex-row">
+                  <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
                     <img
                       src={facebook}
                       alt="facebook.png"
@@ -114,6 +115,8 @@ const Detail = () => {
                       height={13}
                       className="flex mx-4 cursor-pointer backdrop-brightness-2xl"
                     />
+                  </a>
+                    <a href="https://twitter.com/Twitter" target= "_blank" rel="noreferrer">
                     <img
                       src={twitter}
                       alt="twitter.png"
@@ -121,6 +124,8 @@ const Detail = () => {
                       height={13}
                       className="mx-4 cursor-pointer"
                     />
+                    </a>
+                    <a href="https://web.whatsapp.com/" target="_blank" rel="noreferrer">
                     <img
                       src={whatsapp}
                       alt="whatsapp.png"
@@ -129,6 +134,7 @@ const Detail = () => {
                       className="mx-4 cursor-pointer"
                       style={{ filter: "grayscale(100%)" }}
                     />
+                    </a>
                    
                   </div>
                 </div>
@@ -144,7 +150,7 @@ const Detail = () => {
                       Año: {moto.year}
                     </span>
                     <span className="text-lg font-semibold ">
-                      Color Dispoible:
+                      Color Disponible:
                       {moto.colorDisponible.map((color, index) => (
                         <span className="font-normal" key={index}>
                           {" "}
