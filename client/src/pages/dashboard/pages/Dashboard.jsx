@@ -3,8 +3,8 @@ import { Moto_Create } from "../components";
 
 const Dashboard = () => {
   return (
-    <div className=" flex min-w-[100%] justify-center">
-      {/* <Moto_Create /> */}
+    <div className="">
+      <div className=" bg-red-500">Hola</div>
     </div>
   );
 };
