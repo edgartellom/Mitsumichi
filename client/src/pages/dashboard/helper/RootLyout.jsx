@@ -1,16 +1,23 @@
-import React, { useState } from "react";
-import { Sidebar_Dashboard } from "../components";
-import Navbar_Dashboard from "../components/Navbar_Dashboard/Navbar_Dashboard";
+import React from "react";
+
+import {
+  Control_Panel,
+  Sidebar_Dashboard,
+  Navbar_Dashboard,
+} from "../components";
 
 const RootLayout = ({ children }) => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex">
       <div className="flex-shrink-0">
         <Sidebar_Dashboard />
       </div>
-      <div className="flex-grow">
+      <div className="flex-grow flex flex-col">
         <Navbar_Dashboard />
-        <div>{children}</div>
+        <Control_Panel />
+        <div className="flex-grow flex-shrink-0 overflow-auto h-[calc(100vh-187px)]">
+          {children}
+        </div>
       </div>
     </div>
   );

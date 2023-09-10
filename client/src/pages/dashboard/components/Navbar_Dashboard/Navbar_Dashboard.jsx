@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import { useLocation } from "react-router-dom";
+
+import { Title_Label } from "../IU_Componentes";
 
 const user = {
   name: "Hengers Emmanuel Rosario Morales",
@@ -13,12 +17,45 @@ const user = {
 };
 
 const Navbar_Dashboard = () => {
+  const location = useLocation();
+  const [pageTitle, setPageTitle] = useState("");
+
   const isMobile = window.innerWidth <= 768 ? true : false;
+
+  // Esto asegura que el título solo se establecerá cuando la ruta cambie y el título actual sea diferente.
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/dashboard":
+        setPageTitle("DASHBOARD");
+        break;
+      case "/dashboard/products-admin":
+        setPageTitle("PRODUCTS ADMIN");
+        break;
+      case "/dashboard/orders-admin":
+        setPageTitle("ORDERS ADMIN");
+        break;
+      case "/dashboard/users-admin":
+        setPageTitle("USERS ADMIN");
+        break;
+      case "/dashboard/reviews-admin":
+        setPageTitle("REVIEWS ADMIN");
+        break;
+      case "/dashboard/offers-admin":
+        setPageTitle("OFFERS ADMIN");
+        break;
+      default:
+        break;
+    }
+  }, [location.pathname, pageTitle]);
 
   return isMobile ? (
     <nav className="bg-[#252525] h-[75px] w-full border-b-4 border-[#C63D05]"></nav>
   ) : (
-    <nav className="bg-[#252525] h-[75px] w-full border-b-4 border-[#C63D05]">
+    <nav className=" flex flex-row justify-between bg-[#252525] h-[75px] w-full border-b-4 border-[#C63D05]">
+      <div className={`flex items-center ${isMobile ? "ml-10" : "ml-5"}`}>
+        <Title_Label pageTitle={pageTitle} />
+      </div>
+
       <div
         className={`flex flex-row-reverse h-full items-center mr-5 duration-300`}
       >

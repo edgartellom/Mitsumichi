@@ -6,7 +6,7 @@ const CustomButton = ({ icon, text, route, showIcon, showText, isActive }) => {
 
   // Redirige a la ruta especificada cuando se hace clic en el botón
   const redirectToRoute = () => {
-    navigate(route);
+    navigate(`../${route}`);
   };
 
   return (
@@ -33,7 +33,7 @@ const CustomButton = ({ icon, text, route, showIcon, showText, isActive }) => {
       )}
       {showText && (
         <h1
-          className={`delay-700 ${
+          className={`${
             isActive ? "text-[#ffffff]" : "text-[#252525]"
           } font-bold text-[24px] `}
         >
