@@ -18,7 +18,7 @@ export function PayPalButton() {
     setPurchaseId(details.purchase_units[0].payments.captures[0].id);
     setIsCompleted(true);
   };
-  console.log(precio, nombre);
+
   const handleCancel = () => {
     setIsCancelled(true);
   };

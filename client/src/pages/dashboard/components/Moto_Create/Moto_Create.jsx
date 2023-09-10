@@ -208,7 +208,7 @@ const Moto_Create = () => {
     );
     setIsVelocidadesValid(validVelocidades);
     console.log("Velocidades", validVelocidades, fichaTecnica.velocidades);
-    
+
     // Validaciónes de formulario completo
     const isFormDataValid =
       isBrandValid &&
@@ -393,9 +393,9 @@ const Moto_Create = () => {
           resolve(imageUrls);
         }, 2000); // Resuelve la promesa después de 2 segundos
       } catch (error) {
-        console.error("Error al subir las imágenes:", error);
+        // console.error("Error al subir las imágenes:", error);
         Swal.fire({
-          title: "<span style='color: #e76c46;'>¡ERROR!</span>",
+          title: "<span style='color: red;'>¡ERROR!</span>",
           text: "Ha ocurrido un error al subir las imágenes.",
           icon: "error",
 
@@ -619,7 +619,7 @@ const Moto_Create = () => {
           </div>
           {isBrandValid === false && (
             <p className="text-xs italic text-red-500">
-              Debe tener entre 5 y 15 caracteres (sin contar espacios)
+              Debe tener entre 3 y 15 caracteres (sin contar espacios)
             </p>
           )}
         </div>
@@ -652,7 +652,7 @@ const Moto_Create = () => {
           </div>
           {isModelValid === false && (
             <p className="text-xs italic text-red-500">
-              Debe tener entre 5 y 15 caracteres (sin contar espacios)
+              Debe tener entre 5 y 25 caracteres (sin contar espacios)
             </p>
           )}
         </div>
