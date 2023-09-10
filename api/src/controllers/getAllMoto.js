@@ -108,7 +108,10 @@ async function getAllMoto(req, res) {
     const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
       limit: limit,
       offset: offset,
-      where: filterOptions,
+      where: {
+        ...filterOptions,
+        deleted: false, // Agrega esta condición
+      },
       include: [
         { model: Brand, attributes: ["name"] },
         { model: Tipo, attributes: ["name"] },

@@ -8,8 +8,8 @@ const Footer = () => {
   const [showConstructionMessage, setShowConstructionMessage] = useState(false); //  le paso (false) así al principio no se mostrará ningún mensaje de construcción.
 
   const handleEnlaceClick = () => {
-    setShowConstructionMessage(true)
-  }
+    setShowConstructionMessage(true);
+  };
 
   return (
     <footer className="bg-black text-white  flex flex-col">
@@ -20,24 +20,29 @@ const Footer = () => {
               <img src={logo} width={170} alt="logo" />
             </picture>
           </aside>
-          <table className="  flex flex-col gap- justify-center max-sm:pl-10">
-            <thead className=" text-orange-700">
-              <th className=" text-xl">Enlaces de interés</th>
+          <table className=" grid grid-cols-4">
+            <thead className=" col-start-2 col-span-3 text-orange-700">
+              <tr>
+                <th className=" pb-5 text-xl">Enlaces de interés</th>
+              </tr>
             </thead>
-            <tbody className=" flex  gap-20 max-sm:gap-2">
-              <td>
-                <tr>
+            <tbody className="  col-span-2  max-sm:gap-2">
+              <tr className=" flex flex-col">
+                <td>
                   <a href="/about" target="_blank">
                     Empresa
                   </a>
-                </tr>
-                <tr>
-                  <a href="#" onClick={() => handleEnlaceClick("PreguntasFrecuentes")}>
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    onClick={() => handleEnlaceClick("PreguntasFrecuentes")}
+                  >
                     Preguntas frecuentes
                   </a>
-                </tr>
+                </td>
 
-                <tr>
+                <td>
                   <a
                     href="mailto:mitsumichipf@gmail.com"
                     target="_blank"
@@ -45,30 +50,35 @@ const Footer = () => {
                   >
                     ¿Quieres trabajar con nosotros?
                   </a>
-                </tr>
-                <tr>
-                  <a href="#" onClick={() => handleEnlaceClick("Formularios")} >
+                </td>
+                <td>
+                  <a href="#" onClick={() => handleEnlaceClick("Formularios")}>
                     Formularios
                   </a>
-                </tr>
-                <tr>
-                  <a href="#" onClick={() => handleEnlaceClick("Facturas")} >
+                </td>
+                <td>
+                  <a href="#" onClick={() => handleEnlaceClick("Facturas")}>
                     Facturas
                   </a>
-                </tr>
-              </td>
-              <td>
-                <tr>
-                  <a href="#" onClick={() => handleEnlaceClick("Política de privacidad")}>
+                </td>
+              </tr>
+            </tbody>
+            <tbody className=" col-span-2">
+              <tr className=" flex flex-col">
+                <td>
+                  <a
+                    href="#"
+                    onClick={() => handleEnlaceClick("Política de privacidad")}
+                  >
                     Política de privacidad
                   </a>
-                </tr>
-                <tr>
+                </td>
+                <td>
                   <a href="#" onClick={() => handleEnlaceClick("Cookies")}>
                     Cookies
                   </a>
-                </tr>
-                <tr>
+                </td>
+                <td>
                   <a
                     href="https://outlook.office.com/mail/"
                     target="_blank"
@@ -76,13 +86,18 @@ const Footer = () => {
                   >
                     Acceso empleados
                   </a>
-                </tr>
-                <tr>
-                  <a href="#" onClick={() => handleEnlaceClick("Atención a publicaciones fraudulentas")}> 
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    onClick={() =>
+                      handleEnlaceClick("Atención a publicaciones fraudulentas")
+                    }
+                  >
                     Atención a publicaciones fraudulentas
                   </a>
-                </tr>
-              </td>
+                </td>
+              </tr>
             </tbody>
           </table>
           <section className=" flex justify-center max-sm:hidden max-lg:hidden max-md:hidden">
@@ -135,7 +150,11 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="mailto:mitsumichipf@gmail.com" target="_blank" rel="noreferrer">
+                <a
+                  href="mailto:mitsumichipf@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img
                     src={mail}
                     className="w-8 h-8 rounded-lg"
