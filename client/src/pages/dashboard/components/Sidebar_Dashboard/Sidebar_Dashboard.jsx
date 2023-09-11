@@ -19,6 +19,8 @@ import mail from "../../../../assets/footer_img/mail.gif";
 
 import { CustomButton } from "../IU_Componentes";
 
+import "./styles.css";
+
 const user = {
   name: "Hengers Emmanuel Rosario Morales",
   avatar: "https://avatars.githubusercontent.com/u/106262730?v=4",
@@ -38,6 +40,7 @@ const Sidebar_Dashboard = () => {
   const [showItems, setShowItems] = useState(true);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [zoomedIn, setZoomedIn] = useState(false);
 
   const [activeRoute, setActiveRoute] = useState(""); // Estado para la ruta activa
 
@@ -81,10 +84,16 @@ const Sidebar_Dashboard = () => {
     }
   };
 
+  function isZoomedIn() {
+    const zoomLevel = window.devicePixelRatio || 1;
+    return zoomLevel > 1;
+  }
+
   // Aqui uso useEffect para verificar cual es el ancho de la ventana inicialmente y asi ajustar la vista móvil o de escritorio
   useEffect(() => {
     const handleWindowResize = () => {
       setIsMobile(window.innerWidth <= 768);
+      setZoomedIn(isZoomedIn()); // Agrega un estado para detectar el zoom
     };
 
     window.addEventListener("resize", handleWindowResize);
@@ -128,6 +137,7 @@ const Sidebar_Dashboard = () => {
           onClick={toggleMenu}
         />
       </button>
+
       {showItems && (
         <div className="bg-transparent rounded-md absolute w-[60px] top-4 left-4">
           <img src={logoCerrado} alt="" />
@@ -150,12 +160,12 @@ const Sidebar_Dashboard = () => {
       )}
 
       <div
-        className={`absolute duration-300 bottom-0  top-[250px]  ${
+        className={`absolute duration-300 bottom-0 top-[250px] ${
           openMenu ? " pb-10 left-12 " : " left-3 pb-[290px]"
-        } flex flex-col items-center`}
+        } flex flex-col items-center overflow-y-auto scrollbar-thin`}
       >
         {showItems && (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center overflow-auto">
             <CustomButton
               icon={buttonsItems[0].icon}
               text={buttonsItems[0].text}
@@ -217,7 +227,9 @@ const Sidebar_Dashboard = () => {
     <div
       className={`flex flex-col bg-[#252525] h-screen p-5 pt-8 ${
         openMenu ? "w-[320px]" : "w-[75px]"
-      } duration-300 relative border-r-4 border-[#C63D05]`}
+      } duration-300 border-r-4 border-[#C63D05] ${
+        isZoomedIn() ? "relative overflow-auto scrollbar-thin" : "relative"
+      }`}
     >
       <button
         type="button"
@@ -236,7 +248,7 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2 border-[#C63D05] rounded-full w-[150px] h-[150px] overflow-hidden">
+          <div className="flex border-2 border-[#C63D05] rounded-full w-[150px] h-[150px]">
             <img src={user.avatar} alt="" />
           </div>
           <h2 className="text-white font-bold pt-3">{user.name}</h2>
