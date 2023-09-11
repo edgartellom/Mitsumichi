@@ -85,8 +85,8 @@ const Sidebar_Dashboard = () => {
   };
 
   function isZoomedIn() {
-    const zoomLevel = window.devicePixelRatio || 1.5;
-    return zoomLevel > 1.5;
+    const zoomLevel = window.devicePixelRatio || 1;
+    return zoomLevel > 1;
   }
 
   // Aqui uso useEffect para verificar cual es el ancho de la ventana inicialmente y asi ajustar la vista móvil o de escritorio
@@ -137,6 +137,7 @@ const Sidebar_Dashboard = () => {
           onClick={toggleMenu}
         />
       </button>
+
       {showItems && (
         <div className="bg-transparent rounded-md absolute w-[60px] top-4 left-4">
           <img src={logoCerrado} alt="" />
@@ -159,7 +160,7 @@ const Sidebar_Dashboard = () => {
       )}
 
       <div
-        className={`absolute duration-300 bottom-0 top-[250px]  ${
+        className={`absolute duration-300 bottom-0 top-[250px] ${
           openMenu ? " pb-10 left-12 " : " left-3 pb-[290px]"
         } flex flex-col items-center overflow-y-auto scrollbar-thin`}
       >
