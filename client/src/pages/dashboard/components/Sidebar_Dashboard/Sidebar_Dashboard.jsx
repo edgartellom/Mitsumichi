@@ -31,6 +31,8 @@ const user = {
   email: "hengersrosario@example.com",
   phone: "+10987654321",
   status: "enabled",
+  orders: "8",
+  reviews: "23",
 };
 
 const Sidebar_Dashboard = () => {
@@ -248,7 +250,7 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2 border-[#C63D05] rounded-full w-[150px] h-[150px]">
+          <div className="flex border-2 border-[#C63D05] rounded-full w-[150px] h-[150px] overflow-hidden">
             <img src={user.avatar} alt="" />
           </div>
           <h2 className="text-white font-bold pt-3">{user.name}</h2>
