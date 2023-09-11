@@ -1,33 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 import { useLocation } from "react-router-dom";
+
+import { userAuth } from "../../../../context/Auth-context";
 
 import Profile_Popup from "../Profile_Dropdown/Profile_Dropdown";
 import { Title_Label } from "../IU_Componentes";
 import Profile_Dropdown from "../Profile_Dropdown/Profile_Dropdown";
 
-const user = {
-  displayName: "Hengers Emmanuel Rosario Morales",
-  photoURL: "https://avatars.githubusercontent.com/u/106262730?v=4",
-  role: {
-    value: "superAdmin",
-    label: "S. Administrador",
-  },
-  email: "hengersrosario@example.com",
-  phone: "+10987654321",
-  status: "enabled",
-  orders: "8",
-  reviews: "23",
-};
+// const user = {
+//   displayName: "Hengers Emmanuel Rosario Morales",
+//   photoURL: "https://avatars.githubusercontent.com/u/106262730?v=4",
+//   role: {
+//     value: "superAdmin",
+//     label: "S. Administrador",
+//   },
+//   email: "hengersrosario@example.com",
+//   phone: "+10987654321",
+//   status: "enabled",
+//   orders: "8",
+//   reviews: "23",
+// };
 
 const Navbar_Dashboard = () => {
   const location = useLocation();
 
+  const { currentUser, role } = useContext(userAuth);
+
+  const [userRole, setUserRole] = useState("");
   const [pageTitle, setPageTitle] = useState("");
+  const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const toggleProfileDropdown = () => {
     setProfileDropdownOpen(!isProfileDropdownOpen);
@@ -47,6 +51,22 @@ const Navbar_Dashboard = () => {
   }, []);
 
   // console.log(screenWidth);
+  useEffect(() => {
+    // Uso este useEffect para actualizar userRole cuando role cambie
+    switch (role) {
+      case "supAdmin":
+        setUserRole("S. Administrador");
+        break;
+      case "admin":
+        setUserRole("Administrador");
+        break;
+      case "user":
+        setUserRole("Usuario");
+        break;
+      default:
+        break;
+    }
+  }, [role]);
 
   // Esto asegura que el título solo se establecerá cuando la ruta cambie y el título actual sea diferente.
   useEffect(() => {
@@ -97,12 +117,13 @@ const Navbar_Dashboard = () => {
           >
             <div className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden">
               <button type="button" onClick={toggleProfileDropdown}>
-                <img src={user.photoURL} alt="" />
+                {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
               </button>
 
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
-                  user={user}
+                  user={currentUser}
+                  role={role}
                   isOpen={isProfileDropdownOpen}
                   onClose={toggleProfileDropdown}
                   topMargin="top-[60px]"
@@ -142,11 +163,12 @@ const Navbar_Dashboard = () => {
       >
         <div className="flex border-4  border-[#C63D05] rounded-full w-[60px] h-[60px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden">
           <button type="button" onClick={toggleProfileDropdown}>
-            <img src={user.photoURL} alt="" />
+            {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
           </button>
           {isProfileDropdownOpen && (
             <Profile_Dropdown
-              user={user}
+              user={currentUser}
+              role={role}
               isOpen={isProfileDropdownOpen}
               onClose={toggleProfileDropdown}
               topMargin="top-[60px]"
@@ -155,12 +177,16 @@ const Navbar_Dashboard = () => {
         </div>
         {screenWidth > 1050 && !isProfileDropdownOpen && (
           <div className="flex flex-col items-end mr-2 duration-200 ">
-            <h1 className="mt-1 text-[#ffffff] text-[14px] ">
-              {user.displayName}
-            </h1>
-            <p className="text-[#C63D05] text-[14px] font-bold">
-              {user.role.label}
-            </p>
+            {currentUser ? (
+              <>
+                <h1 className="mt-1 text-[#ffffff] text-[14px] ">
+                  {currentUser.displayName}
+                </h1>
+                <p className="text-[#C63D05] text-[14px] font-bold">
+                  {userRole}
+                </p>
+              </>
+            ) : null}
           </div>
         )}
       </div>

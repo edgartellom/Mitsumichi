@@ -2,6 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/credenciales";
 import getUser from "../firebase/getUser";
+
 export const userAuth = createContext();
 
 const UserContext = ({ children }) => {
@@ -14,9 +15,14 @@ const UserContext = ({ children }) => {
     onAuthStateChanged(auth, async (userFirebase) => {
       if (userFirebase) {
         setCurrentUser(userFirebase);
-        const isRegistered = await getUser(userFirebase.uid);
-        setRole(isRegistered.role);
-        isRegistered && setIsRegistered(true);
+        const user = await getUser(userFirebase.uid);
+        if (user) {
+          setRole(user.role);
+          setIsRegistered(true);
+        } else {
+          // Handle the case when the user data is not available
+          setIsRegistered(false);
+        }
       }
       setLoading(false);
     });
