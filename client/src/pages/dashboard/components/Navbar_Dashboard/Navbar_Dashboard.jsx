@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 
 import { useLocation } from "react-router-dom";
 
+import Profile_Popup from "../Profile_Dropdown/Profile_Dropdown";
 import { Title_Label } from "../IU_Componentes";
+import Profile_Dropdown from "../Profile_Dropdown/Profile_Dropdown";
 
 const user = {
-  name: "Hengers Emmanuel Rosario Morales",
-  avatar: "https://avatars.githubusercontent.com/u/106262730?v=4",
+  displayName: "Hengers Emmanuel Rosario Morales",
+  photoURL: "https://avatars.githubusercontent.com/u/106262730?v=4",
   role: {
     value: "superAdmin",
     label: "S. Administrador",
@@ -14,6 +16,8 @@ const user = {
   email: "hengersrosario@example.com",
   phone: "+10987654321",
   status: "enabled",
+  orders: "8",
+  reviews: "23",
 };
 
 const Navbar_Dashboard = () => {
@@ -22,6 +26,12 @@ const Navbar_Dashboard = () => {
   const [pageTitle, setPageTitle] = useState("");
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
+  const toggleProfileDropdown = () => {
+    setProfileDropdownOpen(!isProfileDropdownOpen);
+  };
 
   // Leo el tamaño de la pantalla. Esto es necesario para detectar el tamaño de la pantalla en la que se encuentra la página actual y asi adaptar en contenido.
   useEffect(() => {
@@ -45,24 +55,34 @@ const Navbar_Dashboard = () => {
         setPageTitle("DASHBOARD");
         break;
       case "/dashboard/products-admin":
-        setPageTitle("PRODUCTS ADMIN");
+        if (screenWidth <= 650) {
+          setPageTitle("PRODUCTS");
+        } else setPageTitle("PRODUCTS ADMIN");
         break;
       case "/dashboard/orders-admin":
-        setPageTitle("ORDERS ADMIN");
+        if (screenWidth <= 650) {
+          setPageTitle("ORDERS");
+        } else setPageTitle("ORDERS ADMIN");
         break;
       case "/dashboard/users-admin":
-        setPageTitle("USERS ADMIN");
+        if (screenWidth <= 650) {
+          setPageTitle("USERS");
+        } else setPageTitle("USERS ADMIN");
         break;
       case "/dashboard/reviews-admin":
-        setPageTitle("REVIEWS ADMIN");
+        if (screenWidth <= 650) {
+          setPageTitle("REVIEWS");
+        } else setPageTitle("REVIEWS ADMIN");
         break;
       case "/dashboard/offers-admin":
-        setPageTitle("OFFERS ADMIN");
+        if (screenWidth <= 650) {
+          setPageTitle("OFFERS");
+        } else setPageTitle("OFFERS ADMIN");
         break;
       default:
         break;
     }
-  }, [location.pathname, pageTitle]);
+  }, [location.pathname, pageTitle, screenWidth]);
 
   return screenWidth <= 768 ? (
     <nav className="bg-[#252525] h-[75px] w-full border-b-4 border-[#C63D05] duration-200 ">
@@ -76,9 +96,18 @@ const Navbar_Dashboard = () => {
             className={`flex flex-row-reverse h-full items-center pt-1 mr-5 duration-200`}
           >
             <div className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden">
-              <button type="button">
-                <img src={user.avatar} alt="" />
+              <button type="button" onClick={toggleProfileDropdown}>
+                <img src={user.photoURL} alt="" />
               </button>
+
+              {isProfileDropdownOpen && (
+                <Profile_Dropdown
+                  user={user}
+                  isOpen={isProfileDropdownOpen}
+                  onClose={toggleProfileDropdown}
+                  topMargin="top-[60px]"
+                />
+              )}
             </div>
           </div>
         </div>
@@ -111,14 +140,24 @@ const Navbar_Dashboard = () => {
       <div
         className={`flex flex-row-reverse h-full items-center mr-5 duration-300`}
       >
-        <div className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden">
-          <button type="button">
-            <img src={user.avatar} alt="" />
+        <div className="flex border-4  border-[#C63D05] rounded-full w-[60px] h-[60px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden">
+          <button type="button" onClick={toggleProfileDropdown}>
+            <img src={user.photoURL} alt="" />
           </button>
+          {isProfileDropdownOpen && (
+            <Profile_Dropdown
+              user={user}
+              isOpen={isProfileDropdownOpen}
+              onClose={toggleProfileDropdown}
+              topMargin="top-[60px]"
+            />
+          )}
         </div>
-        {screenWidth > 1050 && (
+        {screenWidth > 1050 && !isProfileDropdownOpen && (
           <div className="flex flex-col items-end mr-2 duration-200 ">
-            <h1 className="mt-1 text-[#ffffff] text-[14px] ">{user.name}</h1>
+            <h1 className="mt-1 text-[#ffffff] text-[14px] ">
+              {user.displayName}
+            </h1>
             <p className="text-[#C63D05] text-[14px] font-bold">
               {user.role.label}
             </p>

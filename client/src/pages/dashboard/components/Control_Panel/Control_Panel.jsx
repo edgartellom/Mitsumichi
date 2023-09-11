@@ -48,7 +48,7 @@ const Control_Panel = ({
       <div className="flex flex-col h-full justify-between ">
         <div className="flex items-center w-fit">
           <button
-            className="bg-[#C63D05] text-white animate-pulse-gradient px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
+            className="bg-[#C63D05] text-white px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
             onClick={handlerHistory}
           >
             <TiArrowBack size={40} />
