@@ -5,6 +5,7 @@ import UserContext from "./context/Auth-context";
 import About from "./pages/About/About";
 import Error404 from "./pages/Error404/Error404";
 import PayPalButton from "./components/PaypalButton/PaypalButton.jsx"; // quité {PayPalButton}
+import Profile from "./pages/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/paypal-button/:precio/:nombre",
         element: <PayPalButton />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
