@@ -11,13 +11,13 @@ import {
 } from "react-icons/io5";
 import { TiThMenu } from "react-icons/ti";
 
-import CustomButton from "../Buttons/CustomButton";
-
 import logo from "../../../../assets/Logo_Mitsumichi_Cat_White.png";
 import logoCerrado from "../../../../assets/Logo_Mitsumichi_White.png";
 import insta from "../../../../assets/footer_img/insta.gif";
 import face from "../../../../assets/footer_img/face.gif";
 import mail from "../../../../assets/footer_img/mail.gif";
+
+import { CustomButton } from "../IU_Componentes";
 
 const user = {
   name: "Hengers Emmanuel Rosario Morales",
@@ -40,6 +40,35 @@ const Sidebar_Dashboard = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const [activeRoute, setActiveRoute] = useState(""); // Estado para la ruta activa
+
+  const buttonsItems = [
+    { text: "DASHBOARD", route: "/dashboard", icon: <IoGrid size={40} /> },
+    {
+      text: "PRODUCTS",
+      route: "/dashboard/products-admin",
+      icon: <IoBagHandleSharp size={40} />,
+    },
+    {
+      text: "ORDERS",
+      route: "/dashboard/orders-admin",
+      icon: <IoDocumentText size={40} />,
+    },
+    {
+      text: "USERS",
+      route: "/dashboard/users-admin",
+      icon: <IoPersonSharp size={40} />,
+    },
+    {
+      text: "REVIEWS",
+      route: "/dashboard/reviews-admin",
+      icon: <IoThumbsUpSharp size={40} />,
+    },
+    {
+      text: "OFFERS",
+      route: "/dashboard/offers-admin",
+      icon: <IoPricetag size={40} />,
+    },
+  ];
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
@@ -83,9 +112,9 @@ const Sidebar_Dashboard = () => {
 
   return isMobile ? (
     <div
-      className={`flex flex-col bg-[#252525] h-screen pt-8 ${
+      className={`flex flex-col bg-[#252525] h-screen pt-8  ${
         openMenu ? "p-5 w-[320px]" : " pl-0 w-[0px]"
-      } duration-300 relative border-r-4 border-[#C63D05]`}
+      } duration-300 absolute top-0 left-0 z-10 border-r-4 border-[#C63D05]`}
     >
       <button
         type="button"
@@ -128,57 +157,57 @@ const Sidebar_Dashboard = () => {
         {showItems && (
           <div className="flex flex-col items-center">
             <CustomButton
-              icon={<IoGrid size={40} />}
-              text="DASHBOARD"
-              route="/dashboard"
+              icon={buttonsItems[0].icon}
+              text={buttonsItems[0].text}
+              route={buttonsItems[0].route}
               showIcon={openMenu}
               showText={showItems}
-              isActive={activeRoute === "/dashboard"}
+              isActive={activeRoute === buttonsItems[0].route}
             />
 
             <CustomButton
               icon={<IoBagHandleSharp size={40} />}
-              text="PRODUCTS"
-              route="/products-admin"
+              text={buttonsItems[1].text}
+              route={buttonsItems[1].route}
               showIcon={openMenu}
               showText={showItems}
-              isActive={activeRoute === "/products-admin"}
+              isActive={activeRoute === buttonsItems[1].route}
             />
 
             <CustomButton
               icon={<IoDocumentText size={40} />}
-              text="ORDERS"
-              route="/orders-admin"
+              text={buttonsItems[2].text}
+              route={buttonsItems[2].route}
               showIcon={openMenu}
               showText={showItems}
-              isActive={activeRoute === "/orders-admin"}
+              isActive={activeRoute === buttonsItems[2].route}
             />
 
             <CustomButton
               icon={<IoPersonSharp size={40} />}
-              text="USERS"
-              route="/users-admin"
+              text={buttonsItems[3].text}
+              route={buttonsItems[3].route}
               showIcon={openMenu}
               showText={showItems}
-              isActive={activeRoute === "/users-admin"}
+              isActive={activeRoute === buttonsItems[3].route}
             />
 
             <CustomButton
               icon={<IoThumbsUpSharp size={40} />}
-              text="REVIEWS"
-              route="/reviews-admin"
+              text={buttonsItems[4].text}
+              route={buttonsItems[4].route}
               showIcon={openMenu}
               showText={showItems}
-              isActive={activeRoute === "/reviews-admin"}
+              isActive={activeRoute === buttonsItems[4].route}
             />
 
             <CustomButton
               icon={<IoPricetag size={40} />}
-              text="OFFERS"
-              route="/offers-admin"
+              text={buttonsItems[5].text}
+              route={buttonsItems[5].route}
               showIcon={openMenu}
               showText={showItems}
-              isActive={activeRoute === "/offers-admin"}
+              isActive={activeRoute === buttonsItems[5].route}
             />
           </div>
         )}
@@ -222,57 +251,57 @@ const Sidebar_Dashboard = () => {
       >
         <div className="flex flex-col items-center">
           <CustomButton
-            icon={<IoGrid size={40} />}
-            text="DASHBOARD"
-            route="/dashboard"
+            icon={buttonsItems[0].icon}
+            text={buttonsItems[0].text}
+            route={buttonsItems[0].route}
             showIcon={openMenu}
             showText={showItems}
-            isActive={activeRoute === "/dashboard"}
+            isActive={activeRoute === buttonsItems[0].route}
           />
 
           <CustomButton
             icon={<IoBagHandleSharp size={40} />}
-            text="PRODUCTS"
-            route="/products-admin"
+            text={buttonsItems[1].text}
+            route={buttonsItems[1].route}
             showIcon={openMenu}
             showText={showItems}
-            isActive={activeRoute === "/products-admin"}
+            isActive={activeRoute === buttonsItems[1].route}
           />
 
           <CustomButton
             icon={<IoDocumentText size={40} />}
-            text="ORDERS"
-            route="/orders-admin"
+            text={buttonsItems[2].text}
+            route={buttonsItems[2].route}
             showIcon={openMenu}
             showText={showItems}
-            isActive={activeRoute === "/orders-admin"}
+            isActive={activeRoute === buttonsItems[2].route}
           />
 
           <CustomButton
             icon={<IoPersonSharp size={40} />}
-            text="USERS"
-            route="/users-admin"
+            text={buttonsItems[3].text}
+            route={buttonsItems[3].route}
             showIcon={openMenu}
             showText={showItems}
-            isActive={activeRoute === "/users-admin"}
+            isActive={activeRoute === buttonsItems[3].route}
           />
 
           <CustomButton
             icon={<IoThumbsUpSharp size={40} />}
-            text="REVIEWS"
-            route="/reviews-admin"
+            text={buttonsItems[4].text}
+            route={buttonsItems[4].route}
             showIcon={openMenu}
             showText={showItems}
-            isActive={activeRoute === "/reviews-admin"}
+            isActive={activeRoute === buttonsItems[4].route}
           />
 
           <CustomButton
             icon={<IoPricetag size={40} />}
-            text="OFFERS"
-            route="/offers-admin"
+            text={buttonsItems[5].text}
+            route={buttonsItems[5].route}
             showIcon={openMenu}
             showText={showItems}
-            isActive={activeRoute === "/offers-admin"}
+            isActive={activeRoute === buttonsItems[5].route}
           />
         </div>
 
