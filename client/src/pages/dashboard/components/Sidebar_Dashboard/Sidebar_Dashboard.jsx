@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
+
+import { userAuth } from "../../../../context/Auth-context";
 
 import {
   IoGrid,
@@ -38,11 +40,13 @@ const user = {
 const Sidebar_Dashboard = () => {
   const location = useLocation(); // Obtiene la ruta actual
 
+  const { currentUser, role } = useContext(userAuth);
+
+  const [userRole, setUserRole] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
   const [showItems, setShowItems] = useState(true);
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [zoomedIn, setZoomedIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const [activeRoute, setActiveRoute] = useState(""); // Estado para la ruta activa
 
@@ -74,6 +78,23 @@ const Sidebar_Dashboard = () => {
       icon: <IoPricetag size={40} />,
     },
   ];
+
+  useEffect(() => {
+    // Uso este useEffect para actualizar userRole cuando role cambie
+    switch (role) {
+      case "supAdmin":
+        setUserRole("S. Administrador");
+        break;
+      case "admin":
+        setUserRole("Administrador");
+        break;
+      case "user":
+        setUserRole("Usuario");
+        break;
+      default:
+        break;
+    }
+  }, [role]);
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
@@ -152,12 +173,20 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
-            <img src={user.avatar} alt="" />
-          </div>
-          <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">
-            {user.role.label}
-          </h1>
+          {currentUser ? (
+            <>
+              <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
+                <img src={currentUser.photoURL} alt="" />
+              </div>
+              <h2 className="text-white font-bold pt-2">
+                {currentUser.displayName}
+              </h2>
+
+              <h1 className=" text-[#C63D05] text-[20px] font-bold">
+                {userRole}
+              </h1>
+            </>
+          ) : null}
         </div>
       )}
 
@@ -250,11 +279,20 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2 border-[#C63D05] rounded-full w-[150px] h-[150px] overflow-hidden">
-            <img src={user.avatar} alt="" />
-          </div>
-          <h2 className="text-white font-bold pt-3">{user.name}</h2>
-          <h2 className="text-[#C63D05] font-bold pt-1">{user.role.label}</h2>
+          {currentUser ? (
+            <>
+              <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
+                <img src={currentUser.photoURL} alt="" />
+              </div>
+              <h2 className="text-white font-bold pt-3">
+                {currentUser.displayName}
+              </h2>
+
+              <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">
+                {userRole}
+              </h1>
+            </>
+          ) : null}
         </div>
       )}
 

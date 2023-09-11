@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -7,14 +7,34 @@ import {
   IoGrid,
   IoEllipseSharp,
 } from "react-icons/io5";
+
 import logOut from "../../../../firebase/logOut";
 
-const Profile_Dropdown = ({ onClose, isOpen, user, topMargin }) => {
+const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
+  const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
+
   const logOutHandler = () => {
     logOut();
     navigate("/");
   };
+
+  useEffect(() => {
+    // Uso este useEffect para actualizar userRole cuando role cambie
+    switch (role) {
+      case "supAdmin":
+        setUserRole("S. Administrador");
+        break;
+      case "admin":
+        setUserRole("Administrador");
+        break;
+      case "user":
+        setUserRole("Usuario");
+        break;
+      default:
+        break;
+    }
+  }, [role]);
 
   return (
     <div className="flex absolute right-5 mt-1 z-50">
@@ -27,18 +47,20 @@ const Profile_Dropdown = ({ onClose, isOpen, user, topMargin }) => {
           </div>
           <div>
             <div className="flex gap-1 text-sm font-semibold">
-              <span>{user?.displayName}</span>
+              <span className="capitalize">{user?.displayName}</span>
               <span className="text-[#C63D05]">
                 <IoCheckmarkCircleSharp size={20} />
               </span>
             </div>
 
-            <div className="text-xs text-slate-400">{user?.email}</div>
+            <div className="text-xs text-slate-400 capitalize">
+              {user?.email}
+            </div>
           </div>
         </div>
 
         <div className="text-sm font-bold text-[#C63D05]">
-          <span>S. Administrador</span>
+          <span className="capitalize">{userRole}</span>
         </div>
 
         <div className="border-t border-slate-500/30"></div>

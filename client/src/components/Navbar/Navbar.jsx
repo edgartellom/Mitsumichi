@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useCallback, useState } from "react";
 import login from "./../../assets/login.png";
 import logo from "./../../assets/Logo_Mitsumichi.png";
 import SideBar from "../SideBar/SideBar";
@@ -15,15 +15,23 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Profile_Dropdown } from "../../pages/dashboard/components";
 
 const Navbar = () => {
-  const { currentUser, isRegistered, loading } = useContext(userAuth);
+  const { currentUser, role, isRegistered, loading } = useContext(userAuth);
+
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
+
   const [showLogin, setShowLogin] = useState(false);
   const [showCart, setShowCart] = useState(false);
+
   const navigate = useNavigate();
-  const logOutHandler = () => {
-    logOut();
-    navigate("/");
-  };
+
+  const toggleProfileDropdown = useCallback(() => {
+    setProfileDropdownOpen((prevIsOpen) => !prevIsOpen);
+  }, []);
+
+  // const logOutHandler = () => {
+  //   logOut();
+  //   navigate("/");
+  // };
 
   useEffect(() => {
     currentUser && addCarrito(currentUser.uid);
@@ -52,11 +60,7 @@ const Navbar = () => {
     return <SignUp setShowLogin={setShowLogin} />;
   }
 
-  const toggleProfileDropdown = () => {
-    setProfileDropdownOpen(!isProfileDropdownOpen);
-  };
-
-  console.log(currentUser);
+  //console.log(role);
 
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
@@ -104,14 +108,15 @@ const Navbar = () => {
           >
             <div className="flex border-4  border-[#C63D05] rounded-full w-[50px] h-[50px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden">
               <button type="button" onClick={toggleProfileDropdown}>
-                <img src={currentUser.photoURL} alt="" />
+                {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
               </button>
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
                   user={currentUser}
+                  role={role}
                   isOpen={isProfileDropdownOpen}
                   onClose={toggleProfileDropdown}
-                  topMargin="top-[40px]"
+                  topMargin="top-[60px]"
                 />
               )}
             </div>
