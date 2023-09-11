@@ -17,7 +17,7 @@ function AppDashboard() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // if (!currentUser || currentUser.role !== "admin") return navigate("/");
+  if (!currentUser || currentUser.role !== "admin") return navigate("/");
 
   return (
     <RootLayout>
