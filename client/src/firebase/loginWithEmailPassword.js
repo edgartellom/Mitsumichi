@@ -11,7 +11,7 @@ const loginWithEmailAndPassword = async (email, password) => {
       window.location.reload();
     } else {
       if (user.role === "admin") {
-        window.location.href = "/admin";
+        window.location.href = "/dashboard/*";
       } else {
         window.location.href = "/home";
       }

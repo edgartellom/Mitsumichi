@@ -8,12 +8,14 @@ const UserContext = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (userFirebase) => {
       if (userFirebase) {
         setCurrentUser(userFirebase);
         const isRegistered = await getUser(userFirebase.uid);
+        setRole(isRegistered.role);
         isRegistered && setIsRegistered(true);
       }
       setLoading(false);
@@ -22,7 +24,7 @@ const UserContext = ({ children }) => {
 
   return (
     <userAuth.Provider
-      value={{ currentUser, isRegistered, loading, setLoading }}
+      value={{ currentUser, isRegistered, loading, setLoading, role }}
     >
       {children}
     </userAuth.Provider>
