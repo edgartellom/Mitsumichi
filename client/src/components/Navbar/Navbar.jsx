@@ -113,9 +113,9 @@ const Navbar = () => {
               </button>
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
-                  photoURL={photo}
-                  user={currentUser}
-                  role={role}
+                  // photoURL={photo}
+                  // user={currentUser}
+                  // role={role}
                   isOpen={isProfileDropdownOpen}
                   onClose={toggleProfileDropdown}
                   topMargin="top-[60px]"
