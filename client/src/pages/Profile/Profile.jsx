@@ -35,9 +35,9 @@ const Profile = () => {
             {/* <h3 className=" font-semibold text-2xl">Email: ssdsd</h3> */}
           </section>
         </section>
-        <section className="p-10">
+        <section className="py-10">
           <h1 className="font-bold text-center text-3xl pb-5">Compras</h1>
-          <table className="w-full border-collapse">
+          <table className="w-full  border-collapse">
             <thead>
               <tr className="bg-blue-500 text-white">
                 <th className="py-2 px-4">Id</th>
