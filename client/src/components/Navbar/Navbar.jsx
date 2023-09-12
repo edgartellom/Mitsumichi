@@ -106,8 +106,11 @@ const Navbar = () => {
             // onClick={logOutHandler}
             className="flex gap-2 justify-center items-center ml-2 -mr-8 max-lg:hidden cursor-pointer max-sm:hidden"
           >
-            <div className="flex border-4  border-[#C63D05] rounded-full w-[50px] h-[50px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden">
-              <button type="button" onClick={toggleProfileDropdown}>
+            <div
+              onClick={toggleProfileDropdown}
+              className="flex border-4  border-[#C63D05] rounded-full w-[50px] h-[50px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
+            >
+              <button type="button">
                 {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
               </button>
               {isProfileDropdownOpen && (
