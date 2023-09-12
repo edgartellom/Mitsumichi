@@ -1,8 +1,7 @@
 import RootLayot from "./helper/RootLayout";
-import { AppDashboard, Home, LandingPage, Detail } from "./pages";
+import { AppDashboard, Home, LandingPage, Detail, About } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
-import About from "./pages/About/About";
 import Error404 from "./pages/Error404/Error404";
 import PayPalButton from "./components/PaypalButton/PaypalButton.jsx"; // quité {PayPalButton}
 import Profile from "./pages/Profile/Profile";
@@ -26,7 +25,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/about us",
+        path: "/about-us",
         element: <About />,
       },
       {
