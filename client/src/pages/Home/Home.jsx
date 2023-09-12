@@ -3,14 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchMotos, setCurrentPage } from "../../redux/slices/motoListSlice";
 import { fetchBrands } from "../../redux/slices/brandListSlice";
 import { fetchTipos } from "../../redux/slices/tipoListSlice";
-import {
-  Cards,
-  Filters,
-  Paginated,
-  AddButton,
-  Sorts,
-  SearchBar,
-} from "../../components";
+import { Cards, Filters, Paginated, Sorts, SearchBar } from "../../components";
 
 const LIMIT = 6;
 const Home = () => {
@@ -49,7 +42,6 @@ const Home = () => {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-      <AddButton />
     </>
   );
 };

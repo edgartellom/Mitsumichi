@@ -2,8 +2,8 @@ import React from "react";
 
 const Products_Admin = () => {
   return (
-    <div className="min-h-full bg-green-500">
-      <h1>Administador de Productos</h1>
+    <div className="min-h-full bg-slate-100 p-4">
+      Administrador de Productos
     </div>
   );
 };
