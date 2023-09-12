@@ -2,19 +2,31 @@ import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/credenciales";
 import getUser from "../firebase/getUser";
+import getProfilePhoto from "../firebase/getProfilePhoto";
+
 export const userAuth = createContext();
 
 const UserContext = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [photoURL, setPhotoURL] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(auth, async (userFirebase) => {
       if (userFirebase) {
         setCurrentUser(userFirebase);
-        const isRegistered = await getUser(userFirebase.uid);
-        isRegistered && setIsRegistered(true);
+        const user = await getUser(userFirebase.uid);
+        if (user) {
+          setUser(user);
+          const photo = await getProfilePhoto(user?.photoURL);
+          setPhotoURL(photo);
+          setIsRegistered(true);
+        } else {
+          // Handle the case when the user data is not available
+          setIsRegistered(false);
+        }
       }
       setLoading(false);
     });
@@ -22,7 +34,15 @@ const UserContext = ({ children }) => {
 
   return (
     <userAuth.Provider
-      value={{ currentUser, isRegistered, loading, setLoading }}
+      value={{
+        currentUser,
+        isRegistered,
+        loading,
+        setLoading,
+        user,
+        photoURL,
+        setPhotoURL,
+      }}
     >
       {children}
     </userAuth.Provider>

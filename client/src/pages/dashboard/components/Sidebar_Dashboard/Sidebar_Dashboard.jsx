@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 
+import { userAuth } from "../../../../context/Auth-context";
+import login from "../../../../assets/login.png";
 import {
   IoGrid,
   IoPersonSharp,
@@ -21,26 +23,30 @@ import { CustomButton } from "../IU_Componentes";
 
 import "./styles.css";
 
-const user = {
-  name: "Hengers Emmanuel Rosario Morales",
-  avatar: "https://avatars.githubusercontent.com/u/106262730?v=4",
-  role: {
-    value: "superAdmin",
-    label: "S. Administrador",
-  },
-  email: "hengersrosario@example.com",
-  phone: "+10987654321",
-  status: "enabled",
-};
+// const user = {
+//   name: "Hengers Emmanuel Rosario Morales",
+//   avatar: "https://avatars.githubusercontent.com/u/106262730?v=4",
+//   role: {
+//     value: "superAdmin",
+//     label: "S. Administrador",
+//   },
+//   email: "hengersrosario@example.com",
+//   phone: "+10987654321",
+//   status: "enabled",
+//   orders: "8",
+//   reviews: "23",
+// };
 
 const Sidebar_Dashboard = () => {
   const location = useLocation(); // Obtiene la ruta actual
 
+  const { currentUser, user, photoURL } = useContext(userAuth);
+
+  const [userRole, setUserRole] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
   const [showItems, setShowItems] = useState(true);
-
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [zoomedIn, setZoomedIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const [activeRoute, setActiveRoute] = useState(""); // Estado para la ruta activa
 
@@ -72,6 +78,23 @@ const Sidebar_Dashboard = () => {
       icon: <IoPricetag size={40} />,
     },
   ];
+
+  useEffect(() => {
+    // Uso este useEffect para actualizar userRole cuando role cambie
+    switch (user?.role) {
+      case "supAdmin":
+        setUserRole("S. Administrador");
+        break;
+      case "admin":
+        setUserRole("Administrador");
+        break;
+      case "user":
+        setUserRole("Usuario");
+        break;
+      default:
+        break;
+    }
+  }, [user?.role]);
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
@@ -119,6 +142,8 @@ const Sidebar_Dashboard = () => {
     setActiveRoute(location.pathname);
   }, [location.pathname]);
 
+  const photo = photoURL.length > 0 ? photoURL : login;
+
   return isMobile ? (
     <div
       className={`flex flex-col bg-[#252525] h-screen pt-8  ${
@@ -150,12 +175,20 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
-            <img src={user.avatar} alt="" />
-          </div>
-          <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">
-            {user.role.label}
-          </h1>
+          {currentUser ? (
+            <>
+              <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
+                <img src={photo} alt="" />
+              </div>
+              <h2 className="text-white font-bold pt-2">
+                {currentUser.displayName}
+              </h2>
+
+              <h1 className=" text-[#C63D05] text-[20px] font-bold">
+                {userRole}
+              </h1>
+            </>
+          ) : null}
         </div>
       )}
 
@@ -248,11 +281,20 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2 border-[#C63D05] rounded-full w-[150px] h-[150px]">
-            <img src={user.avatar} alt="" />
-          </div>
-          <h2 className="text-white font-bold pt-3">{user.name}</h2>
-          <h2 className="text-[#C63D05] font-bold pt-1">{user.role.label}</h2>
+          {currentUser ? (
+            <>
+              <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
+                <img src={photo} alt="" />
+              </div>
+              <h2 className="text-white font-bold pt-3">
+                {currentUser.displayName}
+              </h2>
+
+              <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">
+                {userRole}
+              </h1>
+            </>
+          ) : null}
         </div>
       )}
 

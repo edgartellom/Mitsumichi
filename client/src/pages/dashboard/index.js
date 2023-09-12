@@ -5,6 +5,7 @@ export { default as Title_Label } from "./components/IU_Componentes/Label/Title_
 export * from "./components/IU_Componentes";
 export { default as Moto_Create } from "./components/Moto_Create/Moto_Create";
 export { default as Navbar_Dashboard } from "./components/Navbar_Dashboard/Navbar_Dashboard";
+export { default as Profile_Dropdown } from "./components/Profile_Dropdown/Profile_Dropdown";
 export { default as Sidebar_Dashboard } from "./components/Sidebar_Dashboard/Sidebar_Dashboard";
 export * from "./components";
 export * from "./helper";

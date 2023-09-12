@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useCallback, useState } from "react";
 import login from "./../../assets/login.png";
 import logo from "./../../assets/Logo_Mitsumichi.png";
 import SideBar from "../SideBar/SideBar";
@@ -12,16 +12,24 @@ import Cart from "../../pages/Cart/Cart";
 import addCarrito from "../../firebase/addCarrito";
 import Wrapper from "../../helper/Wrapper";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { Profile_Dropdown } from "../../pages/dashboard/components";
 
 const Navbar = () => {
-  const { currentUser, isRegistered, loading } = useContext(userAuth);
+  const { currentUser, role, isRegistered, loading, photoURL } =
+    useContext(userAuth);
+  const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showCart, setShowCart] = useState(false);
+
   const navigate = useNavigate();
-  const logOutHandler = () => {
-    logOut();
-    navigate("/");
-  };
+  const toggleProfileDropdown = useCallback(() => {
+    setProfileDropdownOpen((prevIsOpen) => !prevIsOpen);
+  }, []);
+
+  // const logOutHandler = () => {
+  //   logOut();
+  //   navigate("/");
+  // };
 
   useEffect(() => {
     currentUser && addCarrito(currentUser.uid);
@@ -50,6 +58,8 @@ const Navbar = () => {
     return <SignUp setShowLogin={setShowLogin} />;
   }
 
+  const photo = photoURL.length > 0 ? photoURL : login;
+
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
       <section className="flex items-center text-zinc-900  font-bold">
@@ -67,7 +77,7 @@ const Navbar = () => {
             Motocicletas
           </Link>
           <Link
-            to="/about"
+            to="/about-us"
             className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
           >
             About us
@@ -91,11 +101,29 @@ const Navbar = () => {
           </section>
         ) : (
           <section
-            onClick={logOutHandler}
-            className="flex gap-2 justify-center items-center m-2 max-md:hidden cursor-pointer max-sm:hidden"
+            // onClick={logOutHandler}
+            className="flex gap-2 justify-center items-center ml-2 -mr-8 max-lg:hidden cursor-pointer max-sm:hidden"
           >
-            <img src={login} alt="login" width="15" height="16" />
-            <span>Salir</span>
+            <div
+              onClick={toggleProfileDropdown}
+              className="flex border-4  border-[#C63D05] rounded-full w-[50px] h-[50px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
+            >
+              <button type="button">
+                {currentUser ? <img src={photo} alt="photo perfil" /> : null}
+              </button>
+              {isProfileDropdownOpen && (
+                <Profile_Dropdown
+                  photoURL={photo}
+                  user={currentUser}
+                  role={role}
+                  isOpen={isProfileDropdownOpen}
+                  onClose={toggleProfileDropdown}
+                  topMargin="top-[60px]"
+                />
+              )}
+            </div>
+            {/* <img src={login} alt="login" width="15" height="16" />*/}
+            {/* <span>Salir</span> */}
           </section>
         )}
         <CartButton setShowCart={setShowCart} />
