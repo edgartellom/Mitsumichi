@@ -11,9 +11,7 @@ const Profile = () => {
       const invoices = await getInvoicesByUser(currentUser.uid);
       setInvoices(invoices);
     })();
-  }, []);
-
-  console.log(invoices);
+  }, [currentUser]);
 
   return (
     <section>
@@ -32,27 +30,41 @@ const Profile = () => {
           </picture>
           <section className=" text-center">
             <h3 className=" font-semibold text-2xl">
-              {currentUser.displayName}
+              {currentUser?.displayName}
             </h3>
             {/* <h3 className=" font-semibold text-2xl">Email: ssdsd</h3> */}
           </section>
         </section>
         <section className="p-10">
           <h1 className="font-bold text-center text-3xl pb-5">Compras</h1>
-          <table class="w-full border-collapse">
+          <table className="w-full border-collapse">
             <thead>
-              <tr class="bg-blue-500 text-white">
-                <th class="py-2 px-4">Id</th>
-                <th class="py-2 px-4">Cantidad</th>
-                <th class="py-2 px-4">Total</th>
+              <tr className="bg-blue-500 text-white">
+                <th className="py-2 px-4">Id</th>
+                <th className="py-2 px-4">Cantidad</th>
+                <th className="py-2 px-4">Total</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-gray-100 text-center">
-                <td class="py-2 px-4">1</td>
-                <td class="py-2 px-4">2</td>
-                <td class="py-2 px-4">3</td>
-              </tr>
+              {invoices.map((invoice) => {
+                let arregloDeObjetos = Object.values(invoice);
+                let PrecioTotal = arregloDeObjetos
+                  .map((item) => item.precio)
+                  .map(Number)
+                  .filter((item) => !isNaN(item))
+                  .reduce((a, b) => a + b, 0);
+
+                return (
+                  <tr
+                    key={invoice.id}
+                    className="bg-white hover:bg-gray-200 text-center"
+                  >
+                    <td className="py-2 px-4">{invoice.id}</td>
+                    <td className="py-2 px-4">{arregloDeObjetos.length - 2}</td>
+                    <td className="py-2 px-4">{PrecioTotal} $</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </section>

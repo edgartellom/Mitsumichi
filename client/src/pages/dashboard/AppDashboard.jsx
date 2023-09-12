@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-
 import { userAuth } from "../../context/Auth-context";
-import { useContext, useEffect } from "react";
 import { RootLayout } from "./helper";
 import {
   Dashboard,
