@@ -77,7 +77,7 @@ const Navbar = () => {
             Motocicletas
           </Link>
           <Link
-            to="/about"
+            to="/about-us"
             className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
           >
             About us
