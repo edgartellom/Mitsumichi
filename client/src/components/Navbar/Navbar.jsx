@@ -23,7 +23,7 @@ const Navbar = () => {
   const [showCart, setShowCart] = useState(false);
 
   const navigate = useNavigate();
-  console.log(currentUser);
+
   const toggleProfileDropdown = useCallback(() => {
     setProfileDropdownOpen((prevIsOpen) => !prevIsOpen);
   }, []);
@@ -106,7 +106,13 @@ const Navbar = () => {
           >
             <div
               onClick={toggleProfileDropdown}
-              className="flex border-4  border-[#C63D05] rounded-full w-[50px] h-[50px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
+              className={`flex border-4 ${
+                role === "admin" ? "border-[#C63D05]/95" : "border-slate-500/80"
+              } rounded-full w-[50px] h-[50px] shadow-sm duration-150 ${
+                !isProfileDropdownOpen
+                  ? "hover:shadow-md hover:border-2"
+                  : "shadow-sm border-4"
+              } shadow-[#202020] overflow-hidden`}
             >
               <button type="button">
                 {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}

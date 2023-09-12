@@ -42,13 +42,21 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
         className={`absolute right-0 ${topMargin} mt-3 flex w-[275px] flex-col gap-3 rounded-xl bg-[#252525fa] p-4 text-slate-100 shadow-lg`}
       >
         <div className="flex gap-3 items-center">
-          <div className="flex flex-col items-center justify-center rounded-lg h-16 w-24 border-2 border-[#C63D05] overflow-hidden">
+          <div
+            className={`flex flex-col items-center justify-center rounded-lg h-16 w-24 border-2 ${
+              role === "admin" ? "border-[#C63D05]" : "border-slate-500"
+            } overflow-hidden`}
+          >
             <img src={user?.photoURL} alt="" />
           </div>
           <div>
             <div className="flex gap-1 text-sm font-semibold">
               <span className="capitalize">{user?.displayName}</span>
-              <span className="text-[#C63D05]">
+              <span
+                className={`${
+                  role === "admin" ? "text-[#C648 05]" : "text-blue-500"
+                }`}
+              >
                 <IoCheckmarkCircleSharp size={20} />
               </span>
             </div>
@@ -59,8 +67,18 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
           </div>
         </div>
 
-        <div className="text-sm font-bold text-[#C63D05]">
-          <span className="capitalize">{userRole}</span>
+        <div
+          className={`text-lg font-bold text-center ${
+            role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+          }`}
+        >
+          <span
+            className={`capitalize ${
+              role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+            }`}
+          >
+            {userRole}
+          </span>
         </div>
 
         <div className="border-t border-slate-500/30"></div>
@@ -88,13 +106,15 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
             <span>Profile</span>
           </Link>
 
-          <a
-            href="/dashboard"
-            className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
-          >
-            <IoGrid size={20} />
-            <span>Dashboard</span>
-          </a>
+          {role === "admin" && (
+            <a
+              href="/dashboard"
+              className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
+            >
+              <IoGrid size={20} />
+              <span>Dashboard</span>
+            </a>
+          )}
 
           <a
             href="/support"

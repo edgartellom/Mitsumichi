@@ -117,7 +117,13 @@ const Navbar_Dashboard = () => {
           >
             <div
               onClick={toggleProfileDropdown}
-              className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden"
+              className={`flex border-4 ${
+                role === "admin" ? "border-[#C63D05]/95" : "border-slate-500/80"
+              } rounded-full w-[60px] h-[60px] shadow-sm duration-150 ${
+                !isProfileDropdownOpen
+                  ? "hover:shadow-md hover:border-2"
+                  : "shadow-sm border-2"
+              } shadow-[#202020] overflow-hidden`}
             >
               <button type="button">
                 {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
@@ -162,11 +168,17 @@ const Navbar_Dashboard = () => {
       </div>
 
       <div
-        className={`flex flex-row-reverse h-full items-center mr-5 duration-300`}
+        className={`flex flex-row-reverse h-full items-center mr-5 duration-200`}
       >
         <div
           onClick={toggleProfileDropdown}
-          className="flex border-4  border-[#C63D05] rounded-full w-[60px] h-[60px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
+          className={`flex border-4 ${
+            role === "admin" ? "border-[#C63D05]/95" : "border-slate-500/80"
+          } rounded-full w-[60px] h-[60px] shadow-sm duration-150 ${
+            !isProfileDropdownOpen
+              ? "hover:shadow-md hover:border-2"
+              : "shadow-sm border-2"
+          } shadow-[#202020] overflow-hidden`}
         >
           <button type="button">
             {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
@@ -188,7 +200,11 @@ const Navbar_Dashboard = () => {
                 <h1 className="mt-1 text-[#ffffff] text-[14px] ">
                   {currentUser.displayName}
                 </h1>
-                <p className="text-[#C63D05] text-[14px] font-bold">
+                <p
+                  className={`text-[14px] font-bold ${
+                    role === "admin" ? "text-[#C63D05]" : "text-slate-400"
+                  }`}
+                >
                   {userRole}
                 </p>
               </>
