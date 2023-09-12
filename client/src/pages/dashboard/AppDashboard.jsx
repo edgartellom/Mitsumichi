@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+
 import { userAuth } from "../../context/Auth-context";
 
 import { RootLayout } from "./helper";
@@ -13,11 +14,14 @@ import {
 } from "./pages";
 
 function AppDashboard() {
-  const { currentUser } = useContext(userAuth);
+  const { role } = useContext(userAuth);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  if (!currentUser || currentUser.role !== "admin") return navigate("/");
+  useEffect(() => {
+    if (role === "user") {
+      navigate("/");
+    }
+  }, [role, navigate]);
 
   return (
     <RootLayout>
