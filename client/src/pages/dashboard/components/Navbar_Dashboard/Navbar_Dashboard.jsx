@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import { useLocation } from "react-router-dom";
-
+import login from "../../../../assets/login.png";
 import { userAuth } from "../../../../context/Auth-context";
 
 import Profile_Popup from "../Profile_Dropdown/Profile_Dropdown";
@@ -104,6 +103,8 @@ const Navbar_Dashboard = () => {
     }
   }, [location.pathname, pageTitle, screenWidth]);
 
+  const photo = photoURL.length > 0 ? photoURL : login;
+
   return screenWidth <= 768 ? (
     <nav className="bg-[#252525] h-[75px] w-full border-b-4 border-[#C63D05] duration-200 ">
       {screenWidth > 650 ? (
@@ -120,7 +121,7 @@ const Navbar_Dashboard = () => {
               className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden"
             >
               <button type="button">
-                {currentUser ? <img src={photoURL} alt="" /> : null}
+                {currentUser ? <img src={photo} alt="" /> : null}
               </button>
 
               {isProfileDropdownOpen && (
@@ -169,12 +170,12 @@ const Navbar_Dashboard = () => {
           className="flex border-4  border-[#C63D05] rounded-full w-[60px] h-[60px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
         >
           <button type="button">
-            {currentUser ? <img src={photoURL} alt="" /> : null}
+            {currentUser ? <img src={photo} alt="" /> : null}
           </button>
           {isProfileDropdownOpen && (
             <Profile_Dropdown
               user={currentUser}
-              photoURL={photoURL}
+              photoURL={photo}
               role={user.role}
               isOpen={isProfileDropdownOpen}
               onClose={toggleProfileDropdown}

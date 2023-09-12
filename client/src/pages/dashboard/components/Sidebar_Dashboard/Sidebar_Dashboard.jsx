@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
 
 import { userAuth } from "../../../../context/Auth-context";
-
+import login from "../../../../assets/login.png";
 import {
   IoGrid,
   IoPersonSharp,
@@ -142,6 +142,8 @@ const Sidebar_Dashboard = () => {
     setActiveRoute(location.pathname);
   }, [location.pathname]);
 
+  const photo = photoURL.length > 0 ? photoURL : login;
+
   return isMobile ? (
     <div
       className={`flex flex-col bg-[#252525] h-screen pt-8  ${
@@ -176,7 +178,7 @@ const Sidebar_Dashboard = () => {
           {currentUser ? (
             <>
               <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
-                <img src={photoURL} alt="" />
+                <img src={photo} alt="" />
               </div>
               <h2 className="text-white font-bold pt-2">
                 {currentUser.displayName}
@@ -282,7 +284,7 @@ const Sidebar_Dashboard = () => {
           {currentUser ? (
             <>
               <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
-                <img src={photoURL} alt="" />
+                <img src={photo} alt="" />
               </div>
               <h2 className="text-white font-bold pt-3">
                 {currentUser.displayName}

@@ -12,14 +12,16 @@ import {
 } from "./pages";
 
 function AppDashboard() {
-  const { role } = useContext(userAuth);
-  const navigate = useNavigate();
+  // const { user, currentUser } = useContext(userAuth);
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (role === "user") {
-      navigate("/");
-    }
-  }, [role, navigate]);
+  // useEffect(() => {
+  //   if (!currentUser) navigate("/");
+
+  //   if (user?.role === "user") {
+  //     navigate("/");
+  //   }
+  // }, [user?.role, navigate, currentUser]);
 
   return (
     <RootLayout>
