@@ -115,8 +115,11 @@ const Navbar_Dashboard = () => {
           <div
             className={`flex flex-row-reverse h-full items-center pt-1 mr-5 duration-200`}
           >
-            <div className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden">
-              <button type="button" onClick={toggleProfileDropdown}>
+            <div
+              onClick={toggleProfileDropdown}
+              className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden"
+            >
+              <button type="button">
                 {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
               </button>
 
@@ -161,8 +164,11 @@ const Navbar_Dashboard = () => {
       <div
         className={`flex flex-row-reverse h-full items-center mr-5 duration-300`}
       >
-        <div className="flex border-4  border-[#C63D05] rounded-full w-[60px] h-[60px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden">
-          <button type="button" onClick={toggleProfileDropdown}>
+        <div
+          onClick={toggleProfileDropdown}
+          className="flex border-4  border-[#C63D05] rounded-full w-[60px] h-[60px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
+        >
+          <button type="button">
             {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
           </button>
           {isProfileDropdownOpen && (
