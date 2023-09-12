@@ -23,24 +23,24 @@ import { CustomButton } from "../IU_Componentes";
 
 import "./styles.css";
 
-const user = {
-  name: "Hengers Emmanuel Rosario Morales",
-  avatar: "https://avatars.githubusercontent.com/u/106262730?v=4",
-  role: {
-    value: "superAdmin",
-    label: "S. Administrador",
-  },
-  email: "hengersrosario@example.com",
-  phone: "+10987654321",
-  status: "enabled",
-  orders: "8",
-  reviews: "23",
-};
+// const user = {
+//   name: "Hengers Emmanuel Rosario Morales",
+//   avatar: "https://avatars.githubusercontent.com/u/106262730?v=4",
+//   role: {
+//     value: "superAdmin",
+//     label: "S. Administrador",
+//   },
+//   email: "hengersrosario@example.com",
+//   phone: "+10987654321",
+//   status: "enabled",
+//   orders: "8",
+//   reviews: "23",
+// };
 
 const Sidebar_Dashboard = () => {
   const location = useLocation(); // Obtiene la ruta actual
 
-  const { currentUser, role } = useContext(userAuth);
+  const { currentUser, user, photoURL } = useContext(userAuth);
 
   const [userRole, setUserRole] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
@@ -81,7 +81,7 @@ const Sidebar_Dashboard = () => {
 
   useEffect(() => {
     // Uso este useEffect para actualizar userRole cuando role cambie
-    switch (role) {
+    switch (user?.role) {
       case "supAdmin":
         setUserRole("S. Administrador");
         break;
@@ -94,7 +94,7 @@ const Sidebar_Dashboard = () => {
       default:
         break;
     }
-  }, [role]);
+  }, [user?.role]);
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
@@ -176,7 +176,7 @@ const Sidebar_Dashboard = () => {
           {currentUser ? (
             <>
               <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
-                <img src={currentUser.photoURL} alt="" />
+                <img src={photoURL} alt="" />
               </div>
               <h2 className="text-white font-bold pt-2">
                 {currentUser.displayName}
@@ -282,7 +282,7 @@ const Sidebar_Dashboard = () => {
           {currentUser ? (
             <>
               <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
-                <img src={currentUser.photoURL} alt="" />
+                <img src={photoURL} alt="" />
               </div>
               <h2 className="text-white font-bold pt-3">
                 {currentUser.displayName}
