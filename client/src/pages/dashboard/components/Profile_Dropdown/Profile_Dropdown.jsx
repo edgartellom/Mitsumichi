@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -9,10 +9,12 @@ import {
 } from "react-icons/io5";
 
 import logOut from "../../../../firebase/logOut";
+import { userAuth } from "../../../../context/Auth-context";
 
-const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
+const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
   const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
+  const { user, photoURL } = useContext(userAuth);
 
   const logOutHandler = () => {
     logOut();
@@ -21,7 +23,7 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
 
   useEffect(() => {
     // Uso este useEffect para actualizar userRole cuando role cambie
-    switch (role) {
+    switch (user?.role) {
       case "supAdmin":
         setUserRole("S. Administrador");
         break;
@@ -34,7 +36,7 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
       default:
         break;
     }
-  }, [role]);
+  }, [user?.role]);
 
   return (
     <div className="flex absolute right-5 mt-1 z-50">
@@ -44,17 +46,17 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
         <div className="flex gap-3 items-center">
           <div
             className={`flex flex-col items-center justify-center rounded-lg h-16 w-24 border-2 ${
-              role === "admin" ? "border-[#C63D05]" : "border-slate-500"
+              user.role === "admin" ? "border-[#C63D05]" : "border-slate-500"
             } overflow-hidden`}
           >
-            <img src={user?.photoURL} alt="" />
+            <img src={photoURL} alt="" />
           </div>
           <div>
             <div className="flex gap-1 text-sm font-semibold">
-              <span className="capitalize">{user?.displayName}</span>
+              <span className="capitalize">{user?.data.username}</span>
               <span
                 className={`${
-                  role === "admin" ? "text-[#C648 05]" : "text-blue-500"
+                  user.role === "admin" ? "text-[#C648 05]" : "text-blue-500"
                 }`}
               >
                 <IoCheckmarkCircleSharp size={20} />
@@ -69,12 +71,12 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
 
         <div
           className={`text-lg font-bold text-center ${
-            role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+            user.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
           }`}
         >
           <span
             className={`capitalize ${
-              role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+              user.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
             }`}
           >
             {userRole}
@@ -86,14 +88,14 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
         <div className="flex justify-around">
           <div className="flex flex-col items-center justify-center">
             <span className="text-3xl font-semibold">
-              {role === "admin" ? 15 : 2}
+              {user.role === "admin" ? 15 : 2}
             </span>
             <span className="text-sm text-slate-400">Reviews</span>
           </div>
 
           <div className="flex flex-col items-center justify-center">
             <span className="text-3xl font-semibold">
-              {role === "admin" ? 23 : 8}
+              {user.role === "admin" ? 23 : 8}
             </span>
             <span className="text-sm text-slate-400">Orders</span>
           </div>
@@ -110,7 +112,7 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
             <span>Profile</span>
           </Link>
 
-          {role === "admin" && (
+          {user.role === "admin" && (
             <a
               href="/dashboard"
               className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"

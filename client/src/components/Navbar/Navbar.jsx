@@ -15,15 +15,13 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Profile_Dropdown } from "../../pages/dashboard/components";
 
 const Navbar = () => {
-  const { currentUser, role, isRegistered, loading } = useContext(userAuth);
-
+  const { currentUser, role, isRegistered, loading, photoURL } =
+    useContext(userAuth);
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
-
   const [showLogin, setShowLogin] = useState(false);
   const [showCart, setShowCart] = useState(false);
 
   const navigate = useNavigate();
-
   const toggleProfileDropdown = useCallback(() => {
     setProfileDropdownOpen((prevIsOpen) => !prevIsOpen);
   }, []);
@@ -60,6 +58,8 @@ const Navbar = () => {
     return <SignUp setShowLogin={setShowLogin} />;
   }
 
+  const photo = photoURL.length > 0 ? photoURL : login;
+
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
       <section className="flex items-center text-zinc-900  font-bold">
@@ -77,7 +77,7 @@ const Navbar = () => {
             Motocicletas
           </Link>
           <Link
-            to="/about"
+            to="/about-us"
             className=" hover:bg-orange-600 p-1 px-4 rounded transition-all duration-300 "
           >
             About us
@@ -115,12 +115,13 @@ const Navbar = () => {
               } shadow-[#202020] overflow-hidden`}
             >
               <button type="button">
-                {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
+                {currentUser ? <img src={photo} alt="photo perfil" /> : null}
               </button>
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
-                  user={currentUser}
-                  role={role}
+                  // photoURL={photo}
+                  // user={currentUser}
+                  // role={role}
                   isOpen={isProfileDropdownOpen}
                   onClose={toggleProfileDropdown}
                   topMargin="top-[60px]"
