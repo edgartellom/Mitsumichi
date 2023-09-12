@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   IoCheckmarkCircleSharp,
@@ -80,13 +80,13 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
         <div className="border-t border-slate-500/30"></div>
 
         <div className="flex flex-col">
-          <a
-            href="/dashboard/profile"
+          <Link
+            to="/profile"
             className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
           >
             <IoPersonSharp size={20} />
             <span>Profile</span>
-          </a>
+          </Link>
 
           <a
             href="/dashboard"
