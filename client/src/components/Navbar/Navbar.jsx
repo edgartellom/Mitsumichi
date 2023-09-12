@@ -58,7 +58,7 @@ const Navbar = () => {
     return <SignUp setShowLogin={setShowLogin} />;
   }
 
-  const photo = photoURL ? photoURL : login;
+  const photo = photoURL.length > 0 ? photoURL : login;
 
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
@@ -113,9 +113,9 @@ const Navbar = () => {
               </button>
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
-                  photoURL={photo}
-                  user={currentUser}
-                  role={role}
+                  // photoURL={photo}
+                  // user={currentUser}
+                  // role={role}
                   isOpen={isProfileDropdownOpen}
                   onClose={toggleProfileDropdown}
                   topMargin="top-[60px]"

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import { useLocation } from "react-router-dom";
-
+import login from "../../../../assets/login.png";
 import { userAuth } from "../../../../context/Auth-context";
 
 import Profile_Popup from "../Profile_Dropdown/Profile_Dropdown";
@@ -25,7 +24,7 @@ import Profile_Dropdown from "../Profile_Dropdown/Profile_Dropdown";
 const Navbar_Dashboard = () => {
   const location = useLocation();
 
-  const { currentUser, role } = useContext(userAuth);
+  const { currentUser, user, photoURL } = useContext(userAuth);
 
   const [userRole, setUserRole] = useState("");
   const [pageTitle, setPageTitle] = useState("");
@@ -53,7 +52,7 @@ const Navbar_Dashboard = () => {
   // console.log(screenWidth);
   useEffect(() => {
     // Uso este useEffect para actualizar userRole cuando role cambie
-    switch (role) {
+    switch (user?.role) {
       case "supAdmin":
         setUserRole("S. Administrador");
         break;
@@ -66,7 +65,7 @@ const Navbar_Dashboard = () => {
       default:
         break;
     }
-  }, [role]);
+  }, [user?.role]);
 
   // Esto asegura que el título solo se establecerá cuando la ruta cambie y el título actual sea diferente.
   useEffect(() => {
@@ -104,6 +103,8 @@ const Navbar_Dashboard = () => {
     }
   }, [location.pathname, pageTitle, screenWidth]);
 
+  const photo = photoURL.length > 0 ? photoURL : login;
+
   return screenWidth <= 768 ? (
     <nav className="bg-[#252525] h-[75px] w-full border-b-4 border-[#C63D05] duration-200 ">
       {screenWidth > 650 ? (
@@ -120,13 +121,13 @@ const Navbar_Dashboard = () => {
               className="flex border-2 border-[#C63D05] rounded-full w-[60px] h-[60px] overflow-hidden"
             >
               <button type="button">
-                {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
+                {currentUser ? <img src={photo} alt="" /> : null}
               </button>
 
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
                   user={currentUser}
-                  role={role}
+                  role={user.role}
                   isOpen={isProfileDropdownOpen}
                   onClose={toggleProfileDropdown}
                   topMargin="top-[60px]"
@@ -169,12 +170,13 @@ const Navbar_Dashboard = () => {
           className="flex border-4  border-[#C63D05] rounded-full w-[60px] h-[60px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
         >
           <button type="button">
-            {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
+            {currentUser ? <img src={photo} alt="" /> : null}
           </button>
           {isProfileDropdownOpen && (
             <Profile_Dropdown
               user={currentUser}
-              role={role}
+              photoURL={photo}
+              role={user.role}
               isOpen={isProfileDropdownOpen}
               onClose={toggleProfileDropdown}
               topMargin="top-[60px]"

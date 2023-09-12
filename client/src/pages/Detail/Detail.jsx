@@ -103,10 +103,10 @@ const Detail = () => {
                         Año: {moto.year}
                       </span>
                       <span className="text-lg font-semibold ">
-                        Color Dispoible:
+                        Color Disponible:
                         {moto.colorDisponible.map((color, index) => (
-                          <span className="font-normal" key={index}>
-                            {color}
+                          <span className="font-normal p-1" key={index}>
+                            {color},
                           </span>
                         ))}
                       </span>

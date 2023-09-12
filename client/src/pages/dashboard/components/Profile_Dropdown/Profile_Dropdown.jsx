@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -9,17 +9,12 @@ import {
 } from "react-icons/io5";
 
 import logOut from "../../../../firebase/logOut";
+import { userAuth } from "../../../../context/Auth-context";
 
-const Profile_Dropdown = ({
-  onClose,
-  isOpen,
-  user,
-  role,
-  topMargin,
-  photoURL,
-}) => {
+const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
   const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
+  const { user, photoURL } = useContext(userAuth);
 
   const logOutHandler = () => {
     logOut();
@@ -28,7 +23,7 @@ const Profile_Dropdown = ({
 
   useEffect(() => {
     // Uso este useEffect para actualizar userRole cuando role cambie
-    switch (role) {
+    switch (user?.role) {
       case "supAdmin":
         setUserRole("S. Administrador");
         break;
@@ -41,7 +36,7 @@ const Profile_Dropdown = ({
       default:
         break;
     }
-  }, [role]);
+  }, [user?.role]);
 
   return (
     <div className="flex absolute right-5 mt-1 z-50">
@@ -54,7 +49,7 @@ const Profile_Dropdown = ({
           </div>
           <div>
             <div className="flex gap-1 text-sm font-semibold">
-              <span className="capitalize">{user?.displayName}</span>
+              <span className="capitalize">{user?.data?.username}</span>
               <span className="text-[#C63D05]">
                 <IoCheckmarkCircleSharp size={20} />
               </span>
