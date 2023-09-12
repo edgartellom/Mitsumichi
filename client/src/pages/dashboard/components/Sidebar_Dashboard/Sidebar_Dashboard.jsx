@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useLocation } from "react-router-dom";
+
+import { userAuth } from "../../../../context/Auth-context";
 
 import {
   IoGrid,
@@ -10,13 +13,15 @@ import {
 } from "react-icons/io5";
 import { TiThMenu } from "react-icons/ti";
 
-import CustomButton from "../Buttons/CustomButton";
-
 import logo from "../../../../assets/Logo_Mitsumichi_Cat_White.png";
 import logoCerrado from "../../../../assets/Logo_Mitsumichi_White.png";
 import insta from "../../../../assets/footer_img/insta.gif";
 import face from "../../../../assets/footer_img/face.gif";
 import mail from "../../../../assets/footer_img/mail.gif";
+
+import { CustomButton } from "../IU_Componentes";
+
+import "./styles.css";
 
 const user = {
   name: "Hengers Emmanuel Rosario Morales",
@@ -28,13 +33,68 @@ const user = {
   email: "hengersrosario@example.com",
   phone: "+10987654321",
   status: "enabled",
+  orders: "8",
+  reviews: "23",
 };
 
 const Sidebar_Dashboard = () => {
+  const location = useLocation(); // Obtiene la ruta actual
+
+  const { currentUser, role } = useContext(userAuth);
+
+  const [userRole, setUserRole] = useState("");
   const [openMenu, setOpenMenu] = useState(true);
   const [showItems, setShowItems] = useState(true);
-
+  const [zoomedIn, setZoomedIn] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  const [activeRoute, setActiveRoute] = useState(""); // Estado para la ruta activa
+
+  const buttonsItems = [
+    { text: "DASHBOARD", route: "/dashboard", icon: <IoGrid size={40} /> },
+    {
+      text: "PRODUCTS",
+      route: "/dashboard/products-admin",
+      icon: <IoBagHandleSharp size={40} />,
+    },
+    {
+      text: "ORDERS",
+      route: "/dashboard/orders-admin",
+      icon: <IoDocumentText size={40} />,
+    },
+    {
+      text: "USERS",
+      route: "/dashboard/users-admin",
+      icon: <IoPersonSharp size={40} />,
+    },
+    {
+      text: "REVIEWS",
+      route: "/dashboard/reviews-admin",
+      icon: <IoThumbsUpSharp size={40} />,
+    },
+    {
+      text: "OFFERS",
+      route: "/dashboard/offers-admin",
+      icon: <IoPricetag size={40} />,
+    },
+  ];
+
+  useEffect(() => {
+    // Uso este useEffect para actualizar userRole cuando role cambie
+    switch (role) {
+      case "supAdmin":
+        setUserRole("S. Administrador");
+        break;
+      case "admin":
+        setUserRole("Administrador");
+        break;
+      case "user":
+        setUserRole("Usuario");
+        break;
+      default:
+        break;
+    }
+  }, [role]);
 
   const toggleMenu = () => {
     setOpenMenu(!openMenu);
@@ -47,10 +107,16 @@ const Sidebar_Dashboard = () => {
     }
   };
 
+  function isZoomedIn() {
+    const zoomLevel = window.devicePixelRatio || 1;
+    return zoomLevel > 1;
+  }
+
   // Aqui uso useEffect para verificar cual es el ancho de la ventana inicialmente y asi ajustar la vista móvil o de escritorio
   useEffect(() => {
     const handleWindowResize = () => {
       setIsMobile(window.innerWidth <= 768);
+      setZoomedIn(isZoomedIn()); // Agrega un estado para detectar el zoom
     };
 
     window.addEventListener("resize", handleWindowResize);
@@ -71,11 +137,16 @@ const Sidebar_Dashboard = () => {
     }
   }, [isMobile]);
 
+  useEffect(() => {
+    // Escucha cambios en la ruta y actualiza el estado
+    setActiveRoute(location.pathname);
+  }, [location.pathname]);
+
   return isMobile ? (
     <div
-      className={`flex flex-col bg-[#252525] h-screen pt-8 ${
+      className={`flex flex-col bg-[#252525] h-screen pt-8  ${
         openMenu ? "p-5 w-[320px]" : " pl-0 w-[0px]"
-      } duration-300 relative border-r-4 border-[#C63D05]`}
+      } duration-300 absolute top-0 left-0 z-10 border-r-4 border-[#C63D05]`}
     >
       <button
         type="button"
@@ -89,6 +160,7 @@ const Sidebar_Dashboard = () => {
           onClick={toggleMenu}
         />
       </button>
+
       {showItems && (
         <div className="bg-transparent rounded-md absolute w-[60px] top-4 left-4">
           <img src={logoCerrado} alt="" />
@@ -101,68 +173,82 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
-            <img src={user.avatar} alt="" />
-          </div>
-          <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">
-            {user.role.label}
-          </h1>
+          {currentUser ? (
+            <>
+              <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
+                <img src={currentUser.photoURL} alt="" />
+              </div>
+              <h2 className="text-white font-bold pt-2">
+                {currentUser.displayName}
+              </h2>
+
+              <h1 className=" text-[#C63D05] text-[20px] font-bold">
+                {userRole}
+              </h1>
+            </>
+          ) : null}
         </div>
       )}
 
       <div
-        className={`absolute duration-300 bottom-0  top-[250px]  ${
+        className={`absolute duration-300 bottom-0 top-[250px] ${
           openMenu ? " pb-10 left-12 " : " left-3 pb-[290px]"
-        } flex flex-col items-center`}
+        } flex flex-col items-center overflow-y-auto scrollbar-thin`}
       >
         {showItems && (
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center overflow-auto">
             <CustomButton
-              icon={<IoGrid size={40} />}
-              text="DASHBOARD"
-              route="/dashboard"
+              icon={buttonsItems[0].icon}
+              text={buttonsItems[0].text}
+              route={buttonsItems[0].route}
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === buttonsItems[0].route}
             />
 
             <CustomButton
               icon={<IoBagHandleSharp size={40} />}
-              text="PRODUCTS"
-              route="/products-admin"
+              text={buttonsItems[1].text}
+              route={buttonsItems[1].route}
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === buttonsItems[1].route}
             />
 
             <CustomButton
               icon={<IoDocumentText size={40} />}
-              text="ORDERS"
-              route="/orders-admin"
+              text={buttonsItems[2].text}
+              route={buttonsItems[2].route}
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === buttonsItems[2].route}
             />
 
             <CustomButton
               icon={<IoPersonSharp size={40} />}
-              text="USERS"
-              route="/users-admin"
+              text={buttonsItems[3].text}
+              route={buttonsItems[3].route}
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === buttonsItems[3].route}
             />
 
             <CustomButton
               icon={<IoThumbsUpSharp size={40} />}
-              text="REVIEWS"
-              route="/reviews-admin"
+              text={buttonsItems[4].text}
+              route={buttonsItems[4].route}
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === buttonsItems[4].route}
             />
 
             <CustomButton
               icon={<IoPricetag size={40} />}
-              text="OFFERS"
-              route="/offers-admin"
+              text={buttonsItems[5].text}
+              route={buttonsItems[5].route}
               showIcon={openMenu}
               showText={showItems}
+              isActive={activeRoute === buttonsItems[5].route}
             />
           </div>
         )}
@@ -172,7 +258,9 @@ const Sidebar_Dashboard = () => {
     <div
       className={`flex flex-col bg-[#252525] h-screen p-5 pt-8 ${
         openMenu ? "w-[320px]" : "w-[75px]"
-      } duration-300 relative border-r-4 border-[#C63D05]`}
+      } duration-300 border-r-4 border-[#C63D05] ${
+        isZoomedIn() ? "relative overflow-auto scrollbar-thin" : "relative"
+      }`}
     >
       <button
         type="button"
@@ -191,11 +279,20 @@ const Sidebar_Dashboard = () => {
             openMenu ? "block" : "hidden"
           }`}
         >
-          <div className="flex border-2 border-[#C63D05] rounded-full w-[150px] h-[150px] overflow-hidden">
-            <img src={user.avatar} alt="" />
-          </div>
-          <h2 className="text-white font-bold pt-3">{user.name}</h2>
-          <h2 className="text-[#C63D05] font-bold pt-1">{user.role.label}</h2>
+          {currentUser ? (
+            <>
+              <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
+                <img src={currentUser.photoURL} alt="" />
+              </div>
+              <h2 className="text-white font-bold pt-3">
+                {currentUser.displayName}
+              </h2>
+
+              <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">
+                {userRole}
+              </h1>
+            </>
+          ) : null}
         </div>
       )}
 
@@ -206,51 +303,57 @@ const Sidebar_Dashboard = () => {
       >
         <div className="flex flex-col items-center">
           <CustomButton
-            icon={<IoGrid size={40} />}
-            text="DASHBOARD"
-            route="/dashboard"
+            icon={buttonsItems[0].icon}
+            text={buttonsItems[0].text}
+            route={buttonsItems[0].route}
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === buttonsItems[0].route}
           />
 
           <CustomButton
             icon={<IoBagHandleSharp size={40} />}
-            text="PRODUCTS"
-            route="/products-admin"
+            text={buttonsItems[1].text}
+            route={buttonsItems[1].route}
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === buttonsItems[1].route}
           />
 
           <CustomButton
             icon={<IoDocumentText size={40} />}
-            text="ORDERS"
-            route="/orders-admin"
+            text={buttonsItems[2].text}
+            route={buttonsItems[2].route}
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === buttonsItems[2].route}
           />
 
           <CustomButton
             icon={<IoPersonSharp size={40} />}
-            text="USERS"
-            route="/users-admin"
+            text={buttonsItems[3].text}
+            route={buttonsItems[3].route}
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === buttonsItems[3].route}
           />
 
           <CustomButton
             icon={<IoThumbsUpSharp size={40} />}
-            text="REVIEWS"
-            route="/reviews-admin"
+            text={buttonsItems[4].text}
+            route={buttonsItems[4].route}
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === buttonsItems[4].route}
           />
 
           <CustomButton
             icon={<IoPricetag size={40} />}
-            text="OFFERS"
-            route="/offers-admin"
+            text={buttonsItems[5].text}
+            route={buttonsItems[5].route}
             showIcon={openMenu}
             showText={showItems}
+            isActive={activeRoute === buttonsItems[5].route}
           />
         </div>
 

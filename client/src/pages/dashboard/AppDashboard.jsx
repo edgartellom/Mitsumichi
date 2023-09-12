@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { RootLayout } from "./helper";
-import { Dashboard } from "./pages";
-import { useContext } from "react";
 import { userAuth } from "../../context/Auth-context";
+import { RootLayout } from "./helper";
+import {
+  Dashboard,
+  Products_Admin,
+  Orders_Admin,
+  Users_Admin,
+  Reviews_Admin,
+  Offers_Admin,
+} from "./pages";
 
 function AppDashboard() {
-  const { currentUser } = useContext(userAuth);
+  const { role } = useContext(userAuth);
   const navigate = useNavigate();
 
-  if (!currentUser || currentUser.role !== "admin") return navigate("/");
+  useEffect(() => {
+    if (role === "user") {
+      navigate("/");
+    }
+  }, [role, navigate]);
 
   return (
     <RootLayout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="/products-admin" element={<Products_Admin />} />
+        <Route path="/orders-admin" element={<Orders_Admin />} />
+        <Route path="/users-admin" element={<Users_Admin />} />
+        <Route path="/reviews-admin" element={<Reviews_Admin />} />
+        <Route path="/offers-admin" element={<Offers_Admin />} />
       </Routes>
     </RootLayout>
   );
