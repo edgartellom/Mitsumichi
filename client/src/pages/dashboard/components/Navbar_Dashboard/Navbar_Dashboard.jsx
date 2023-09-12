@@ -119,7 +119,9 @@ const Navbar_Dashboard = () => {
             <div
               onClick={toggleProfileDropdown}
               className={`flex border-4 ${
-                role === "admin" ? "border-[#C63D05]/95" : "border-slate-500/80"
+                user?.role === "admin"
+                  ? "border-[#C63D05]/95"
+                  : "border-slate-500/80"
               } rounded-full w-[60px] h-[60px] shadow-sm duration-150 ${
                 !isProfileDropdownOpen
                   ? "hover:shadow-md hover:border-2"
@@ -133,7 +135,7 @@ const Navbar_Dashboard = () => {
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
                   user={currentUser}
-                  role={user.role}
+                  role={user?.role}
                   isOpen={isProfileDropdownOpen}
                   onClose={toggleProfileDropdown}
                   topMargin="top-[60px]"
@@ -174,7 +176,9 @@ const Navbar_Dashboard = () => {
         <div
           onClick={toggleProfileDropdown}
           className={`flex border-4 ${
-            role === "admin" ? "border-[#C63D05]/95" : "border-slate-500/80"
+            user?.role === "admin"
+              ? "border-[#C63D05]/95"
+              : "border-slate-500/80"
           } rounded-full w-[60px] h-[60px] shadow-sm duration-150 ${
             !isProfileDropdownOpen
               ? "hover:shadow-md hover:border-2"
@@ -188,7 +192,7 @@ const Navbar_Dashboard = () => {
             <Profile_Dropdown
               user={currentUser}
               photoURL={photo}
-              role={user.role}
+              role={user?.role}
               isOpen={isProfileDropdownOpen}
               onClose={toggleProfileDropdown}
               topMargin="top-[60px]"
@@ -200,11 +204,11 @@ const Navbar_Dashboard = () => {
             {currentUser ? (
               <>
                 <h1 className="mt-1 text-[#ffffff] text-[14px] ">
-                  {currentUser.displayName}
+                  {user?.data?.username}
                 </h1>
                 <p
                   className={`text-[14px] font-bold ${
-                    role === "admin" ? "text-[#C63D05]" : "text-slate-400"
+                    user?.role === "admin" ? "text-[#C63D05]" : "text-slate-400"
                   }`}
                 >
                   {userRole}

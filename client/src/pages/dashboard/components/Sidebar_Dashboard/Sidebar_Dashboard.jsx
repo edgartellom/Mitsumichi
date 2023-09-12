@@ -181,12 +181,12 @@ const Sidebar_Dashboard = () => {
                 <img src={photo} alt="" />
               </div>
               <h2 className="text-white font-bold pt-2">
-                {currentUser.displayName}
+                {user?.data?.username}
               </h2>
 
               <h1
                 className={`text-[14px] font-bold ${
-                  user.role === "admin" ? "text-[#C63D05]" : "text-slate-400"
+                  user?.role === "admin" ? "text-[#C63D05]" : "text-slate-400"
                 }`}
               >
                 {userRole}
@@ -291,7 +291,7 @@ const Sidebar_Dashboard = () => {
                 <img src={photo} alt="" />
               </div>
               <h2 className="text-white text-center font-bold pt-3">
-                {currentUser.displayName}
+                {user?.data?.username}
               </h2>
 
               <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">

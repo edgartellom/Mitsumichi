@@ -46,17 +46,17 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
         <div className="flex gap-3 items-center">
           <div
             className={`flex flex-col items-center justify-center rounded-lg h-16 w-24 border-2 ${
-              user.role === "admin" ? "border-[#C63D05]" : "border-slate-500"
+              user?.role === "admin" ? "border-[#C63D05]" : "border-slate-500"
             } overflow-hidden`}
           >
             <img src={photoURL} alt="" />
           </div>
           <div>
             <div className="flex gap-1 text-sm font-semibold">
-              <span className="capitalize">{user?.data.username}</span>
+              <span className="capitalize">{user?.data?.username}</span>
               <span
                 className={`${
-                  user.role === "admin" ? "text-[#C648 05]" : "text-blue-500"
+                  user?.role === "admin" ? "text-[#C64805]" : "text-blue-500"
                 }`}
               >
                 <IoCheckmarkCircleSharp size={20} />
@@ -71,12 +71,12 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
 
         <div
           className={`text-lg font-bold text-center ${
-            user.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+            user?.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
           }`}
         >
           <span
             className={`capitalize ${
-              user.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+              user?.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
             }`}
           >
             {userRole}
@@ -88,14 +88,14 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
         <div className="flex justify-around">
           <div className="flex flex-col items-center justify-center">
             <span className="text-3xl font-semibold">
-              {user.role === "admin" ? 15 : 2}
+              {user?.role === "admin" ? 15 : 2}
             </span>
             <span className="text-sm text-slate-400">Reviews</span>
           </div>
 
           <div className="flex flex-col items-center justify-center">
             <span className="text-3xl font-semibold">
-              {user.role === "admin" ? 23 : 8}
+              {user?.role === "admin" ? 23 : 8}
             </span>
             <span className="text-sm text-slate-400">Orders</span>
           </div>
@@ -112,7 +112,7 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
             <span>Profile</span>
           </Link>
 
-          {user.role === "admin" && (
+          {user?.role === "admin" && (
             <a
               href="/dashboard"
               className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"

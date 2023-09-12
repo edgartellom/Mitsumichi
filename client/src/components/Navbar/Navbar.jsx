@@ -15,7 +15,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Profile_Dropdown } from "../../pages/dashboard/components";
 
 const Navbar = () => {
-  const { currentUser, role, isRegistered, loading, photoURL } =
+  const { currentUser, user, isRegistered, loading, photoURL } =
     useContext(userAuth);
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -107,7 +107,9 @@ const Navbar = () => {
             <div
               onClick={toggleProfileDropdown}
               className={`flex border-4 ${
-                role === "admin" ? "border-[#C63D05]/95" : "border-slate-500/80"
+                user.role === "admin"
+                  ? "border-[#C63D05]/95"
+                  : "border-slate-500/80"
               } rounded-full w-[50px] h-[50px] shadow-sm duration-150 ${
                 !isProfileDropdownOpen
                   ? "hover:shadow-md hover:border-2"
