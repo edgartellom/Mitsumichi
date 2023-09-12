@@ -45,7 +45,7 @@ const Profile = () => {
     }
   };
 
-  const photo = photoURL ? photoURL : login;
+  const photo = photoURL.length > 0 ? photoURL : login;
 
   return (
     <section>
@@ -84,36 +84,44 @@ const Profile = () => {
         </section>
         <section className="py-10">
           <h1 className="font-bold text-center text-3xl pb-5">Compras</h1>
-          <table className="w-full  border-collapse">
-            <thead>
-              <tr className="bg-blue-500 text-white">
-                <th className="py-2 px-4">Id</th>
-                <th className="py-2 px-4">Cantidad</th>
-                <th className="py-2 px-4">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {invoices.map((invoice) => {
-                let arregloDeObjetos = Object.values(invoice);
-                let PrecioTotal = arregloDeObjetos
-                  .map((item) => item.precio)
-                  .map(Number)
-                  .filter((item) => !isNaN(item))
-                  .reduce((a, b) => a + b, 0);
+          {invoices.length > 0 ? (
+            <table className="w-full  border-collapse">
+              <thead>
+                <tr className="bg-blue-500 text-white">
+                  <th className="py-2 px-4">Id</th>
+                  <th className="py-2 px-4">Cantidad</th>
+                  <th className="py-2 px-4">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map((invoice) => {
+                  let arregloDeObjetos = Object.values(invoice);
+                  let PrecioTotal = arregloDeObjetos
+                    .map((item) => item.precio)
+                    .map(Number)
+                    .filter((item) => !isNaN(item))
+                    .reduce((a, b) => a + b, 0);
 
-                return (
-                  <tr
-                    key={invoice.id}
-                    className="bg-white hover:bg-gray-200 text-center"
-                  >
-                    <td className="py-2 px-4">{invoice.id}</td>
-                    <td className="py-2 px-4">{arregloDeObjetos.length - 2}</td>
-                    <td className="py-2 px-4">{PrecioTotal} $</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                  return (
+                    <tr
+                      key={invoice.id}
+                      className="bg-white hover:bg-gray-200 text-center"
+                    >
+                      <td className="py-2 px-4">{invoice.id}</td>
+                      <td className="py-2 px-4">
+                        {arregloDeObjetos.length - 2}
+                      </td>
+                      <td className="py-2 px-4">{PrecioTotal} $</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          ) : (
+            <h1 className="font-bold text-center text-orange-600 text-3xl pb-5">
+              No hay compras aun
+            </h1>
+          )}
         </section>
       </section>
     </section>
