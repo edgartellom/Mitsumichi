@@ -10,7 +10,14 @@ import {
 
 import logOut from "../../../../firebase/logOut";
 
-const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
+const Profile_Dropdown = ({
+  onClose,
+  isOpen,
+  user,
+  role,
+  topMargin,
+  photoURL,
+}) => {
   const [userRole, setUserRole] = useState("");
   const navigate = useNavigate();
 
@@ -43,7 +50,7 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
       >
         <div className="flex gap-3 items-center">
           <div className="flex flex-col items-center justify-center rounded-lg h-16 w-24 border-2 border-[#C63D05] overflow-hidden">
-            <img src={user?.photoURL} alt="" />
+            <img src={photoURL} alt="" />
           </div>
           <div>
             <div className="flex gap-1 text-sm font-semibold">

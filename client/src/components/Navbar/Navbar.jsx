@@ -15,15 +15,13 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Profile_Dropdown } from "../../pages/dashboard/components";
 
 const Navbar = () => {
-  const { currentUser, role, isRegistered, loading } = useContext(userAuth);
-
+  const { currentUser, role, isRegistered, loading, photoURL } =
+    useContext(userAuth);
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
-
   const [showLogin, setShowLogin] = useState(false);
   const [showCart, setShowCart] = useState(false);
 
   const navigate = useNavigate();
-  console.log(currentUser);
   const toggleProfileDropdown = useCallback(() => {
     setProfileDropdownOpen((prevIsOpen) => !prevIsOpen);
   }, []);
@@ -59,6 +57,8 @@ const Navbar = () => {
   if (currentUser && !isRegistered) {
     return <SignUp setShowLogin={setShowLogin} />;
   }
+
+  const photo = photoURL == "" ? photoURL : login;
 
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
@@ -109,10 +109,11 @@ const Navbar = () => {
               className="flex border-4  border-[#C63D05] rounded-full w-[50px] h-[50px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
             >
               <button type="button">
-                {currentUser ? <img src={currentUser.photoURL} alt="" /> : null}
+                {currentUser ? <img src={photo} alt="photo perfil" /> : null}
               </button>
               {isProfileDropdownOpen && (
                 <Profile_Dropdown
+                  photoURL={photo}
                   user={currentUser}
                   role={role}
                   isOpen={isProfileDropdownOpen}

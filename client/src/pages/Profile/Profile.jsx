@@ -1,17 +1,51 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import login from "../../assets/login.png";
 import { userAuth } from "../../context/Auth-context";
 import getInvoicesByUser from "../../firebase/getInvoicesByUser";
+import camera from "../../assets/camera.png";
+import setUserProfilePhoto from "../../firebase/setUserProfilePhoto";
+import registerNewUser from "../../firebase/registerNewUser";
+import getProfilePhoto from "../../firebase/getProfilePhoto";
+
 const Profile = () => {
-  const { currentUser } = useContext(userAuth);
+  const { user, photoURL, setPhotoURL } = useContext(userAuth);
   const [invoices, setInvoices] = useState([]);
+  const fileRef = useRef(null);
 
   useEffect(() => {
     (async () => {
-      const invoices = await getInvoicesByUser(currentUser.uid);
+      const invoices = await getInvoicesByUser(user?.id);
       setInvoices(invoices);
     })();
-  }, [currentUser]);
+  }, [user]);
+
+  const handleOpenFilePicker = () => {
+    if (fileRef.current) {
+      fileRef.current.click();
+    }
+  };
+
+  const handleOnChangeFile = (e) => {
+    const files = e.target.files;
+    const fileReader = new FileReader();
+    if (fileReader && files && files.length > 0) {
+      fileReader.readAsArrayBuffer(files[0]);
+      fileReader.onload = async () => {
+        const imageData = fileReader.result;
+        const res = await setUserProfilePhoto(user.id, imageData);
+        if (res) {
+          console.log(res, "res");
+          const tempUser = { ...user };
+          tempUser.photoURL = res.metadata.fullPath;
+          await registerNewUser(tempUser);
+          const photo = await getProfilePhoto(user?.photoURL);
+          setPhotoURL(photo);
+        }
+      };
+    }
+  };
+
+  const photo = photoURL == "" ? photoURL : login;
 
   return (
     <section>
@@ -20,19 +54,32 @@ const Profile = () => {
       </div>
       <section className=" grid grid-cols-1 ">
         <section className="flex flex-col items-center ">
-          <picture>
-            <img
-              className=" bg-red-600 rounded-full"
-              src={currentUser?.photoURL || login}
-              width={200}
-              alt=""
-            />
+          <button
+            className="relative top-5 right-20"
+            onClick={handleOpenFilePicker}
+          >
+            <img src={camera} width={30} alt="" />
+          </button>
+          <input
+            className=" hidden"
+            ref={fileRef}
+            type="file"
+            onChange={handleOnChangeFile}
+          />
+
+          <picture className=" flex flex-col p-2 rounded-full bg-red-50">
+            {
+              <img
+                className=" bg-red-600 rounded-full"
+                src={photo}
+                width={200}
+                alt=""
+              />
+            }
           </picture>
           <section className=" text-center">
-            <h3 className=" font-semibold text-2xl">
-              {currentUser?.displayName}
-            </h3>
-            {/* <h3 className=" font-semibold text-2xl">Email: ssdsd</h3> */}
+            <h3 className=" font-semibold text-2xl">{user?.data?.username}</h3>
+            <h3 className=" font-semibold text-2xl">{user?.role}</h3>
           </section>
         </section>
         <section className="py-10">
