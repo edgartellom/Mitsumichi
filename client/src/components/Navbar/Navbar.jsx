@@ -23,7 +23,7 @@ const Navbar = () => {
   const [showCart, setShowCart] = useState(false);
 
   const navigate = useNavigate();
-
+  console.log(currentUser);
   const toggleProfileDropdown = useCallback(() => {
     setProfileDropdownOpen((prevIsOpen) => !prevIsOpen);
   }, []);
@@ -59,8 +59,6 @@ const Navbar = () => {
   if (currentUser && !isRegistered) {
     return <SignUp setShowLogin={setShowLogin} />;
   }
-
-  //console.log(role);
 
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">
