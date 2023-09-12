@@ -1,6 +1,18 @@
 export { default as AppDashboard } from "./AppDashboard";
+export { default as Control_Panel } from "./components/Control_Panel/Control_Panel";
+export { default as CustomButton } from "./components/IU_Componentes/Buttons/CustomButton";
+export { default as Title_Label } from "./components/IU_Componentes/Label/Title_Label";
+export * from "./components/IU_Componentes";
 export { default as Moto_Create } from "./components/Moto_Create/Moto_Create";
+export { default as Navbar_Dashboard } from "./components/Navbar_Dashboard/Navbar_Dashboard";
+export { default as Profile_Dropdown } from "./components/Profile_Dropdown/Profile_Dropdown";
 export { default as Sidebar_Dashboard } from "./components/Sidebar_Dashboard/Sidebar_Dashboard";
 export * from "./components";
 export * from "./helper";
+export { default as Dashboard } from "./pages/Dashboard/Dashboard";
+export { default as Offers_Admin } from "./pages/Offers/Offers_Admin";
+export { default as Orders_Admin } from "./pages/Orders/Orders_Admin";
+export { default as Products_Admin } from "./pages/Products/Products_Admin";
+export { default as Reviews_Admin } from "./pages/Reviews/Reviews_Admin";
+export { default as Users_Admin } from "./pages/Users/Users_Admin";
 export * from "./pages";
