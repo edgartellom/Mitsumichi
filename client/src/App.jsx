@@ -1,5 +1,5 @@
 import RootLayot from "./helper/RootLayout";
-import { AppDashboard, Home, LandingPage, Detail, About } from "./pages";
+import { AppDashboard, Home, LandingPage, Detail, About, ServiceAndSupport } from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
 import Error404 from "./pages/Error404/Error404";
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/about-us",
         element: <About />,
+      },
+      {
+        path: "/service and support",
+        element: <ServiceAndSupport />,
       },
       {
         path: "/detail/:id",
