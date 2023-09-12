@@ -53,7 +53,7 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
               </span>
             </div>
 
-            <div className="text-xs text-slate-400 capitalize">
+            <div className="text-xs text-slate-400 lowercase">
               {user?.email}
             </div>
           </div>
