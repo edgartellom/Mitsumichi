@@ -1,9 +1,10 @@
 import React from "react";
+import { Moto_Create } from "../../components";
 
 const Products_Admin = () => {
   return (
     <div className="min-h-full bg-slate-100 p-4">
-      Administrador de Productos
+      <Moto_Create />{" "}
     </div>
   );
 };

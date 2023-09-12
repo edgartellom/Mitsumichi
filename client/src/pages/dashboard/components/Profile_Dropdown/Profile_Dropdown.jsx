@@ -85,12 +85,16 @@ const Profile_Dropdown = ({ onClose, isOpen, user, role, topMargin }) => {
 
         <div className="flex justify-around">
           <div className="flex flex-col items-center justify-center">
-            <span className="text-3xl font-semibold">8</span>
+            <span className="text-3xl font-semibold">
+              {role === "admin" ? 15 : 2}
+            </span>
             <span className="text-sm text-slate-400">Reviews</span>
           </div>
 
           <div className="flex flex-col items-center justify-center">
-            <span className="text-3xl font-semibold">23</span>
+            <span className="text-3xl font-semibold">
+              {role === "admin" ? 23 : 8}
+            </span>
             <span className="text-sm text-slate-400">Orders</span>
           </div>
         </div>

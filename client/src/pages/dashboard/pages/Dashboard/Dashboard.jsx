@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Area_Chart,
@@ -74,44 +74,105 @@ const donutChartOptions = {
 const donutChartSeries = [44, 55, 41, 17, 15, 20, 12, 18];
 
 const Dashboard = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Aqui uso useEffect para verificar cual es el ancho de la ventana inicialmente y asi ajustar la vista móvil o de escritorio
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
   return (
-    <div className="min-h-full bg-slate-100 p-5">
-      <div className="flex flex-wrap items-center justify-around gap-2">
-        <Visit_Cards />
-        <Register_Cards />
-      </div>
-      <div className="flex flex-wrap items-center justify-around gap-2">
-        <div className="flex flex-col">
-          <h1 className="text-center mb-4 text-2xl uppercase">
-            Analisis de Ordenes Realizadas
-          </h1>
-          <Area_Chart
-            options={areaChartOptions}
-            series={areaChartSeries}
-            width={600}
-          />
+    <div
+      className={`min-h-full bg-slate-100 ${
+        isMobile ? "pl-0 justify-center" : "p-5"
+      }`}
+    >
+      {isMobile ? (
+        <div className="flex flex-col items-center justify-center gap-2 scale-[0.8]">
+          <Visit_Cards />
+          <Register_Cards />
         </div>
-        <div className="flex flex-col">
-          <h1 className="text-center mb-4 text-2xl uppercase">
-            Analisis de Ventas Mensuales
-          </h1>
-          <Column_Chart
-            options={columnChartOptions}
-            series={columnChartSeries}
-            width="600"
-          />
+      ) : (
+        <div className="flex flex-wrap items-center justify-around gap-2">
+          <Visit_Cards />
+          <Register_Cards />
         </div>
-        <div className="flex flex-col">
-          <h1 className="text-center mb-4 text-2xl uppercase">
-            Analisis de Ventas por Categoria
-          </h1>
-          <Donut_Chart
-            options={donutChartOptions}
-            series={donutChartSeries}
-            width={450}
-          />
+      )}
+      {isMobile ? (
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-col">
+            <h1 className="text-center mb-4 text-1xl uppercase">
+              Analisis de Ordenes Realizadas
+            </h1>
+            <Area_Chart
+              options={areaChartOptions}
+              series={areaChartSeries}
+              width={300}
+            />
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-center mb-4 text-1xl uppercase">
+              Analisis de Ventas Mensuales
+            </h1>
+            <Column_Chart
+              options={columnChartOptions}
+              series={columnChartSeries}
+              width="300"
+            />
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-center mb-4 text-1xl uppercase">
+              Analisis de Ventas por Categoria
+            </h1>
+            <Donut_Chart
+              options={donutChartOptions}
+              series={donutChartSeries}
+              width={380}
+            />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex flex-wrap items-center justify-around gap-2">
+          <div className="flex flex-col">
+            <h1 className="text-center mb-4 text-2xl uppercase">
+              Analisis de Ordenes Realizadas
+            </h1>
+            <Area_Chart
+              options={areaChartOptions}
+              series={areaChartSeries}
+              width={600}
+            />
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-center mb-4 text-2xl uppercase">
+              Analisis de Ventas Mensuales
+            </h1>
+            <Column_Chart
+              options={columnChartOptions}
+              series={columnChartSeries}
+              width="600"
+            />
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-center mb-4 text-2xl uppercase">
+              Analisis de Ventas por Categoria
+            </h1>
+            <Donut_Chart
+              options={donutChartOptions}
+              series={donutChartSeries}
+              width={450}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
