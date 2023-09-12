@@ -16,12 +16,10 @@ function AppDashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!currentUser) navigate("/");
-
     if (user?.role === "user") {
       navigate("/");
     }
-  }, [user?.role, navigate, currentUser]);
+  }, [user, navigate, currentUser]);
 
   return (
     <RootLayout>
