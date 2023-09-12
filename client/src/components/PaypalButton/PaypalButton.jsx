@@ -8,7 +8,7 @@ export function PayPalButton() {
     "AYzyXv7DvxmViou_tGpOeAhwnjs-MOxkOH0j7USow4U0ibl0Uj4PzHi4n7YoVTU1mywyWa3CNIt_G5Lz";
 
   const [purchaseId, setPurchaseId] = useState(null);
-  const { precio, nombre } = useParams();
+  const { precio, nombre, modelo } = useParams();
   const [isCancelled, setIsCancelled] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const navigate = useNavigate();
@@ -41,12 +41,12 @@ export function PayPalButton() {
           ) : isCompleted ? (
             <div className="text-center bg-green-200 border border-green-600 rounded p-4">
               <h2 className="text-2xl text-green-700 font-bold">
-                ¡Seña completada!
+                ¡Compra exitosa!
               </h2>
               <p className="text-gray-700">
-                Tu seña de {nombre} ha sido exitosa.
+                La compra de su moto {nombre} {modelo} ha sido exitosa.
               </p>
-              <p className="text-gray-700">ID de seña: {purchaseId}</p>
+              <p className="text-gray-700">ID de compra: {purchaseId}</p>
               <p className="text-gray-700">Gracias por elegirnos.</p>
               <div className="flex justify-center mt-4">
                 <Button
@@ -65,7 +65,7 @@ export function PayPalButton() {
                     purchase_units: [
                       {
                         reference_id: "Compra de prueba",
-                        description: `Compra de ${nombre}`,
+                        description: `Compra de ${nombre} ${modelo}`,
                         amount: {
                           value: precio,
                           item_total: {

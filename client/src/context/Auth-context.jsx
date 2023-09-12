@@ -2,6 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/credenciales";
 import getUser from "../firebase/getUser";
+import getProfilePhoto from "../firebase/getProfilePhoto";
 
 export const userAuth = createContext();
 
@@ -9,7 +10,8 @@ const UserContext = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isRegistered, setIsRegistered] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState(null);
+  const [user, setUser] = useState(null);
+  const [photoURL, setPhotoURL] = useState("");
 
   useEffect(() => {
     onAuthStateChanged(auth, async (userFirebase) => {
@@ -17,7 +19,9 @@ const UserContext = ({ children }) => {
         setCurrentUser(userFirebase);
         const user = await getUser(userFirebase.uid);
         if (user) {
-          setRole(user.role);
+          setUser(user);
+          const photo = await getProfilePhoto(user?.photoURL);
+          setPhotoURL(photo);
           setIsRegistered(true);
         } else {
           // Handle the case when the user data is not available
@@ -30,7 +34,15 @@ const UserContext = ({ children }) => {
 
   return (
     <userAuth.Provider
-      value={{ currentUser, isRegistered, loading, setLoading, role }}
+      value={{
+        currentUser,
+        isRegistered,
+        loading,
+        setLoading,
+        user,
+        photoURL,
+        setPhotoURL,
+      }}
     >
       {children}
     </userAuth.Provider>
