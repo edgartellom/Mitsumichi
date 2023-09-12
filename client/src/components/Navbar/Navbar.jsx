@@ -58,7 +58,7 @@ const Navbar = () => {
     return <SignUp setShowLogin={setShowLogin} />;
   }
 
-  const photo = photoURL == "" ? photoURL : login;
+  const photo = photoURL ? photoURL : login;
 
   return (
     <nav className="  flex justify-between py-1 items-center font-bold uppercase flex-wrap max-md:flex-row-reverse">

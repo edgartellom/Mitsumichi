@@ -45,7 +45,7 @@ const Profile = () => {
     }
   };
 
-  const photo = photoURL == "" ? photoURL : login;
+  const photo = photoURL ? photoURL : login;
 
   return (
     <section>
