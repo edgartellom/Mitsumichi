@@ -11,5 +11,8 @@ module.exports = (sequelize) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
+    estado: {
+      type: DataTypes.ENUM("pendiente", "completado", "rechazado"),
+    },
   });
 };
