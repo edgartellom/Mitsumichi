@@ -9,6 +9,7 @@ import {
   Users_Admin,
   Reviews_Admin,
   Offers_Admin,
+  Create_New_Moto,
 } from "./pages";
 
 function AppDashboard() {
@@ -25,7 +26,13 @@ function AppDashboard() {
     <RootLayout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        {/* Rutas para Productos */}
         <Route path="/products-admin" element={<Products_Admin />} />
+        <Route
+          path="/products-admin/add-new-moto"
+          element={<Create_New_Moto />}
+        />
+
         <Route path="/orders-admin" element={<Orders_Admin />} />
         <Route path="/users-admin" element={<Users_Admin />} />
         <Route path="/reviews-admin" element={<Reviews_Admin />} />

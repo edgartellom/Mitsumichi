@@ -44,37 +44,59 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
         className={`absolute right-0 ${topMargin} mt-3 flex w-[275px] flex-col gap-3 rounded-xl bg-[#252525fa] p-4 text-slate-100 shadow-lg`}
       >
         <div className="flex gap-3 items-center">
-          <div className="flex flex-col items-center justify-center rounded-lg h-16 w-24 border-2 border-[#C63D05] overflow-hidden">
+          <div
+            className={`flex flex-col items-center justify-center rounded-lg h-16 w-24 border-2 ${
+              user?.role === "admin" ? "border-[#C63D05]" : "border-slate-500"
+            } overflow-hidden`}
+          >
             <img src={photoURL} alt="" />
           </div>
           <div>
             <div className="flex gap-1 text-sm font-semibold">
               <span className="capitalize">{user?.data?.username}</span>
-              <span className="text-[#C63D05]">
+              <span
+                className={`${
+                  user?.role === "admin" ? "text-[#C64805]" : "text-blue-500"
+                }`}
+              >
                 <IoCheckmarkCircleSharp size={20} />
               </span>
             </div>
 
-            <div className="text-xs text-slate-400 capitalize">
+            <div className="text-xs text-slate-400 lowercase">
               {user?.email}
             </div>
           </div>
         </div>
 
-        <div className="text-sm font-bold text-[#C63D05]">
-          <span className="capitalize">{userRole}</span>
+        <div
+          className={`text-lg font-bold text-center ${
+            user?.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+          }`}
+        >
+          <span
+            className={`capitalize ${
+              user?.role === "admin" ? "text-[#c63c05]" : "text-slate-400"
+            }`}
+          >
+            {userRole}
+          </span>
         </div>
 
         <div className="border-t border-slate-500/30"></div>
 
         <div className="flex justify-around">
           <div className="flex flex-col items-center justify-center">
-            <span className="text-3xl font-semibold">8</span>
+            <span className="text-3xl font-semibold">
+              {user?.role === "admin" ? 15 : 2}
+            </span>
             <span className="text-sm text-slate-400">Reviews</span>
           </div>
 
           <div className="flex flex-col items-center justify-center">
-            <span className="text-3xl font-semibold">23</span>
+            <span className="text-3xl font-semibold">
+              {user?.role === "admin" ? 23 : 8}
+            </span>
             <span className="text-sm text-slate-400">Orders</span>
           </div>
         </div>
@@ -90,16 +112,18 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
             <span>Profile</span>
           </Link>
 
-          <a
-            href="/dashboard"
-            className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
-          >
-            <IoGrid size={20} />
-            <span>Dashboard</span>
-          </a>
+          {user?.role === "admin" && (
+            <a
+              href="/dashboard"
+              className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
+            >
+              <IoGrid size={20} />
+              <span>Dashboard</span>
+            </a>
+          )}
 
           <a
-            href="/support"
+            href="/service and support"
             className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
           >
             <IoEllipseSharp size={20} />

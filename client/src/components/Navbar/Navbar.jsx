@@ -15,7 +15,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Profile_Dropdown } from "../../pages/dashboard/components";
 
 const Navbar = () => {
-  const { currentUser, role, isRegistered, loading, photoURL } =
+  const { currentUser, user, isRegistered, loading, photoURL } =
     useContext(userAuth);
   const [isProfileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -106,7 +106,15 @@ const Navbar = () => {
           >
             <div
               onClick={toggleProfileDropdown}
-              className="flex border-4  border-[#C63D05] rounded-full w-[50px] h-[50px] shadow-sm duration-300 hover:shadow-sm hover:border-2 shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] overflow-hidden"
+              className={`flex border-4 ${
+                user.role === "admin"
+                  ? "border-[#C63D05]/95"
+                  : "border-slate-500/80"
+              } rounded-full w-[50px] h-[50px] shadow-sm duration-150 ${
+                !isProfileDropdownOpen
+                  ? "hover:shadow-md hover:border-2"
+                  : "shadow-sm border-4"
+              } shadow-[#202020] overflow-hidden`}
             >
               <button type="button">
                 {currentUser ? <img src={photo} alt="photo perfil" /> : null}

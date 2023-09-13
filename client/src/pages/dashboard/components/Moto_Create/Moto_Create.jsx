@@ -548,7 +548,7 @@ const Moto_Create = () => {
                 setSelectedColors([]);
 
                 // Redirigir a la página de inicio u otra acción que desees realizar
-                window.location.href = "/home";
+                window.location.href = "/dashboard";
               } catch (error) {
                 // console.error(error);
                 Swal.fire({

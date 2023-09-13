@@ -181,10 +181,14 @@ const Sidebar_Dashboard = () => {
                 <img src={photo} alt="" />
               </div>
               <h2 className="text-white font-bold pt-2">
-                {currentUser.displayName}
+                {user?.data?.username}
               </h2>
 
-              <h1 className=" text-[#C63D05] text-[20px] font-bold">
+              <h1
+                className={`text-[14px] font-bold ${
+                  user?.role === "admin" ? "text-[#C63D05]" : "text-slate-400"
+                }`}
+              >
                 {userRole}
               </h1>
             </>
@@ -286,8 +290,8 @@ const Sidebar_Dashboard = () => {
               <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
                 <img src={photo} alt="" />
               </div>
-              <h2 className="text-white font-bold pt-3">
-                {currentUser.displayName}
+              <h2 className="text-white text-center font-bold pt-3">
+                {user?.data?.username}
               </h2>
 
               <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">

@@ -1,12 +1,12 @@
 import React from "react";
 import { Moto_Create } from "../../components";
 
-const Products_Admin = () => {
+const Create_New_Moto = () => {
   return (
     <div className="min-h-full bg-slate-100 p-4">
-      <Moto_Create />{" "}
+      <Moto_Create />
     </div>
   );
 };
 
-export default Products_Admin;
+export default Create_New_Moto;
