@@ -123,7 +123,7 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
           )}
 
           <a
-            href="/support"
+            href="/service and support"
             className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
           >
             <IoEllipseSharp size={20} />

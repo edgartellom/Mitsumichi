@@ -31,7 +31,7 @@ const VisitCard = () => {
     // Aquí vamos a implementas la logica para obtener los datos de visitas para los últimos "period" días.
 
     //Datos de ejemplo de visitas para la Demo 2.
-    const data = [45, 10, 38, 45, 19, 23, 2];
+    const data = [45, 10, 38, 1, 19, 23, 2];
 
     // En esta parte, seleccionamos los datos para los últimos 5 o 10 días
     const today = new Date();

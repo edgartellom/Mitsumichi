@@ -5,7 +5,8 @@ import {
   Sidebar_Dashboard,
   Navbar_Dashboard,
 } from "../components";
-import "./Scrollbar.css";
+//import "./Scrollbar.css";
+
 const RootLayout = ({ children }) => {
   return (
     <div className="flex">
@@ -15,7 +16,7 @@ const RootLayout = ({ children }) => {
       <div className="flex-grow flex flex-col">
         <Navbar_Dashboard />
         <Control_Panel />
-        <div className="flex-grow flex-shrink-0 overflow-auto h-[calc(100vh-187px)] scrollbar-thin">
+        <div className="flex-grow flex-shrink-0 overflow-auto h-[calc(100vh-187px)]">
           {children}
         </div>
       </div>
