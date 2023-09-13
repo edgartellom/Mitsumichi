@@ -1,4 +1,9 @@
 export { default as AppDashboard } from "./AppDashboard";
+export { default as Area_Chart } from "./components/Charts/Area_Chart";
+export { default as Column_Chart } from "./components/Charts/Column_Chart";
+export { default as Donut_Chart } from "./components/Charts/Donut_Chart";
+export { default as Register_Cards } from "./components/Charts/Register_Cards";
+export { default as Visit_Cards } from "./components/Charts/Visit_Cards";
 export { default as Control_Panel } from "./components/Control_Panel/Control_Panel";
 export { default as CustomButton } from "./components/IU_Componentes/Buttons/CustomButton";
 export { default as Title_Label } from "./components/IU_Componentes/Label/Title_Label";
@@ -12,6 +17,7 @@ export * from "./helper";
 export { default as Dashboard } from "./pages/Dashboard/Dashboard";
 export { default as Offers_Admin } from "./pages/Offers/Offers_Admin";
 export { default as Orders_Admin } from "./pages/Orders/Orders_Admin";
+export { default as Create_New_Moto } from "./pages/Products/Create_New_Moto";
 export { default as Products_Admin } from "./pages/Products/Products_Admin";
 export { default as Reviews_Admin } from "./pages/Reviews/Reviews_Admin";
 export { default as Users_Admin } from "./pages/Users/Users_Admin";
