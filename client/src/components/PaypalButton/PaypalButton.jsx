@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams, useNavigate } from "react-router-dom";
 import Button from "../../components/UI/Button";
@@ -8,10 +8,19 @@ export function PayPalButton() {
     "AYzyXv7DvxmViou_tGpOeAhwnjs-MOxkOH0j7USow4U0ibl0Uj4PzHi4n7YoVTU1mywyWa3CNIt_G5Lz";
 
   const [purchaseId, setPurchaseId] = useState(null);
+  const [orderId, setOrderId] = useState(null); // Estado para el ID de la compra
   const { precio, nombre, modelo } = useParams();
-  const [isCancelled, setIsCancelled] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (orderId !== null) {
+      // Mostrar una alerta con el ID de cancelación
+      alert(`Compra cancelada. ID de compra: ${orderId}`);
+      // Continuar con el proceso de pago de PayPal
+      setIsCompleted(false);
+    }
+  }, [orderId]);
 
   const handlePaymentSuccess = (details) => {
     console.log("Pago realizado con éxito:", details);
@@ -20,25 +29,19 @@ export function PayPalButton() {
   };
 
   const handleCancel = () => {
-    setIsCancelled(true);
+    const id = generateOrderId(); // Generar un ID único para la cancelación
+    setOrderId(id);
+  };
+
+  const generateOrderId = () => {
+    return Math.random().toString(36).substring(7); // Generar un ID único
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <PayPalScriptProvider options={{ "client-id": clientId }}>
         <div className="w-full md:w-1/2">
-          {isCancelled ? (
-            <div className="text-center">
-              <h2 className="text-2xl font-bold">Compra cancelada.</h2>
-              <p>Has cancelado la compra de {nombre}.</p>
-              <button
-                onClick={() => navigate("/home")}
-                className="bg-[#161616] font-bold p-3 text-white  hover:text-black"
-              >
-                Home
-              </button>
-            </div>
-          ) : isCompleted ? (
+          {isCompleted ? (
             <div className="text-center bg-green-200 border border-green-600 rounded p-4">
               <h2 className="text-2xl text-green-700 font-bold">
                 ¡Compra exitosa!
