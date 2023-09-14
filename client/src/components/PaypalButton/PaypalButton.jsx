@@ -33,7 +33,7 @@ export function PayPalButton() {
               <p>Has cancelado la compra de {nombre}.</p>
               <button
                 onClick={() => navigate("/home")}
-                className="bg-[#161616] font-bold p-3 text-white hover:bg-[#161616] hover:bg-orange-700 hover:text-black"
+                className="bg-[#161616] font-bold p-3 text-white  hover:text-black"
               >
                 Home
               </button>
