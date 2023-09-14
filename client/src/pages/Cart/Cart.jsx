@@ -10,8 +10,8 @@ import { useNavigate } from "react-router-dom";
 import clearCart from "../../firebase/clearCart";
 import createBill from "../../firebase/createBill";
 const Cart = ({ setShowCart }) => {
-  const { currentUser } = useContext(userAuth);
-  const [products, setProducts] = useState([]);
+  const { currentUser, setProducts, products } = useContext(userAuth);
+  // const [products, setProducts] = useState([]);
   const navigate = useNavigate();
   const gettingProducts = async () =>
     !currentUser ? [] : await getCartProducts(currentUser.uid);
@@ -74,9 +74,7 @@ const Cart = ({ setShowCart }) => {
     });
 
     navigate(`/paypal-button/${totalAmount}/${totalproducts}`);
-    createBill(currentUser.uid, products);
     setShowCart(false);
-    clearCart(currentUser.uid);
   };
 
   return (

@@ -12,6 +12,7 @@ const UserContext = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [photoURL, setPhotoURL] = useState("");
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (userFirebase) => {
@@ -42,6 +43,8 @@ const UserContext = ({ children }) => {
         user,
         photoURL,
         setPhotoURL,
+        products,
+        setProducts,
       }}
     >
       {children}
