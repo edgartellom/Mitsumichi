@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+const orders = [
+  {
+    id: 1,
+    comprobante: "EC-0002526",
+    client: "Hengers Rosario",
+    payment: "PayPal",
+    status: "sussess",
+    date: "12/12/2022",
+    montototal: 28530,
+  },
+];
+
 const Products_Admin = () => {
-  const [orders, setOrders] = useState([]);
+  //const [orders, setOrders] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const selectedOrdersID = selectedOrders.map(
@@ -30,7 +42,7 @@ const Products_Admin = () => {
     setSelectedOrders(selectAll ? [] : [...orders]);
   };
 
-  const toggleSelectMoto = (order) => {
+  const toggleSelectOrder = (order) => {
     const orderId = order?.id;
     const isSelected = selectedOrders.some(
       (selectedOrder) => selectedOrder.id === orderId
@@ -84,28 +96,21 @@ const Products_Admin = () => {
                 <input
                   type="checkbox"
                   className="w-4 h-4 ml-1"
-                  onChange={() => toggleSelectMoto(order)}
-                  checked={setSelectedOrders.includes(order)}
+                  onChange={() => toggleSelectOrder(order)}
+                  checked={selectedOrdersID.includes(order.id)}
                 />
               </td>
 
               <td className="text-center w-1/8 font-bold ml-1">{order?.id}</td>
 
-              <td className="text-center w-1/8">
-                <img
-                  src={order?.comprobante}
-                  alt="Moto"
-                  width="100"
-                  className="mx-auto"
-                />
-              </td>
+              <td className="text-center w-1/8">{order?.comprobante}</td>
 
               <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
-                {order?.client?.name}
+                {order?.client}
               </td>
 
               <td className="text-center w-1/8 font-bold uppercase">
-                {order?.payment?.companyname}
+                {order?.payment}
               </td>
 
               <td
@@ -124,9 +129,7 @@ const Products_Admin = () => {
                   : "Procesando..."}
               </td>
 
-              <td className="text-center w-1/8 font-bold">
-                {order?.data?.date}
-              </td>
+              <td className="text-center w-1/8 font-bold">{order?.date}</td>
 
               <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
                 {parseFloat(order?.montototal).toLocaleString("en-US", {
