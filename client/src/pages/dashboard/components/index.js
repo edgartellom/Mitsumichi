@@ -1,3 +1,8 @@
+export { default as Area_Chart } from "./Charts/Area_Chart";
+export { default as Column_Chart } from "./Charts/Column_Chart";
+export { default as Donut_Chart } from "./Charts/Donut_Chart";
+export { default as Register_Cards } from "./Charts/Register_Cards";
+export { default as Visit_Cards } from "./Charts/Visit_Cards";
 export { default as Control_Panel } from "./Control_Panel/Control_Panel";
 export { default as CustomButton } from "./IU_Componentes/Buttons/CustomButton";
 export { default as Title_Label } from "./IU_Componentes/Label/Title_Label";

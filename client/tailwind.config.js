@@ -31,6 +31,13 @@ export default {
           },
         },
       },
+      colors: {
+        "custom-green": {
+          DEFAULT: "rgba(123, 255, 0, 0.8)", // Color principal
+          "web-stroke": "rgba(0, 255, 76, 0.45)", // Color para -webkit-text-stroke
+          underline: "rgb(0, 255, 76)", // Color para text-decoration-color
+        },
+      },
     },
   },
   plugins: [],
