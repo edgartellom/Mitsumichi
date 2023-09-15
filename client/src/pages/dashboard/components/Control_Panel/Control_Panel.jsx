@@ -55,7 +55,7 @@ const Control_Panel = ({
   };
 
   return (
-    <div className="bg-[#ffffff] h-28 px-4 py-2  flex items-center justify-between">
+    <div className="bg-[#ffffff] h-28 px-4 py-2 flex items-center justify-between border-b-2 border-gray-400">
       <div className="flex flex-col h-full justify-between ">
         <div className="flex items-center w-fit">
           <button
