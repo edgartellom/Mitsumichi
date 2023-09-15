@@ -13,7 +13,7 @@ const Users_Admin = () => {
         <thead className="bg-blue-500 text-white">
           <tr>
             <th className="px-4 border-black  border-2 text-left">
-              <input type="checkbox" className="w-6 h-6" />
+              <input type="checkbox" className="w-6 h-6 " />
             </th>
             <th className="py-2 px-4 border-2 border-black  text-left">ID</th>
             <th className="py-2 px-4 border-2 border-black  text-left">
@@ -35,15 +35,15 @@ const Users_Admin = () => {
           {users.map((user, index) => {
             const id = index + 1;
             const precioTOTAL = invoicesToArr[index]
-              ?.map((item) => item[0].precio)
+              ?.map((item) => item[0]?.precio)
               .map(Number)
               .filter((item) => !isNaN(item))
               .reduce((a, b) => a + b, 0);
             console.log(precioTOTAL, "precioTOTAL");
             return (
-              <tr key={id} className=" bg-white border-2 font-bold  ">
+              <tr key={id} className=" bg-white border-2 font-bold ">
                 <td className=" px-4 bg-slate-100  border-2 ">
-                  <input type="checkbox" className="w-6 h-6" />
+                  <input type="checkbox" className="w-6 h-6 " />
                 </td>
                 <td className="py-2 px-4">{id}</td>
                 <td className="py-2 px-4">{user.data?.name}</td>
