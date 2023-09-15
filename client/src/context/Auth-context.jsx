@@ -3,6 +3,8 @@ import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase/credenciales";
 import getUser from "../firebase/getUser";
 import getProfilePhoto from "../firebase/getProfilePhoto";
+import getAllUsers from "../firebase/getAllUsers";
+import getInvoicesByUser from "../firebase/getInvoicesByUser";
 
 export const userAuth = createContext();
 
@@ -12,6 +14,9 @@ const UserContext = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [photoURL, setPhotoURL] = useState("");
+  const [products, setProducts] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [invoices, setInvoices] = useState({});
 
   useEffect(() => {
     onAuthStateChanged(auth, async (userFirebase) => {
@@ -32,6 +37,18 @@ const UserContext = ({ children }) => {
     });
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const response = await getAllUsers();
+      setUsers(response);
+      response.forEach(async (user) => {
+        const res = await getInvoicesByUser(user.id);
+        console.log(res, "res");
+        setInvoices((prev) => ({ ...prev, [user.id]: res }));
+      });
+    })();
+  }, []);
+
   return (
     <userAuth.Provider
       value={{
@@ -42,6 +59,10 @@ const UserContext = ({ children }) => {
         user,
         photoURL,
         setPhotoURL,
+        products,
+        setProducts,
+        users,
+        invoices,
       }}
     >
       {children}

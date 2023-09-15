@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams, useNavigate } from "react-router-dom";
 import Button from "../../components/UI/Button";
-
+import { userAuth } from "../../context/Auth-context";
+import clearCart from "../../firebase/clearCart";
+import createBill from "../../firebase/createBill";
 export function PayPalButton() {
   const clientId =
     "AYzyXv7DvxmViou_tGpOeAhwnjs-MOxkOH0j7USow4U0ibl0Uj4PzHi4n7YoVTU1mywyWa3CNIt_G5Lz";
-
+  const { currentUser, products } = useContext(userAuth);
   const [purchaseId, setPurchaseId] = useState(null);
   const { precio, nombre, modelo } = useParams();
   const [isCancelled, setIsCancelled] = useState(false);
@@ -19,12 +21,21 @@ export function PayPalButton() {
     setIsCompleted(true);
   };
 
+  useEffect(() => {
+    if (isCompleted) {
+      createBill(currentUser.uid, products);
+      clearCart(currentUser.uid);
+    }
+  }, [isCompleted]);
+
+  console.log(products, "producticos");
+
   const handleCancel = () => {
     setIsCancelled(true);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center h-screen">
       <PayPalScriptProvider options={{ "client-id": clientId }}>
         <div className="w-full md:w-1/2">
           {isCancelled ? (
