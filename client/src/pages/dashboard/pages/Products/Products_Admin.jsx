@@ -9,8 +9,6 @@ const Products_Admin = () => {
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-  console.log(selectedMotoIds);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
