@@ -149,7 +149,7 @@ const Products_Admin = () => {
               </td>
               {screenWidth >= 1220 && (
                 <td
-                  className={`text-center w-1/8 font-bold ${
+                  className={`text-center w-1/8 font-bold uppercase ${
                     moto.deleted ? "text-red-600" : "text-green-600"
                   }`}
                 >
