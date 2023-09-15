@@ -102,15 +102,20 @@ const Profile = () => {
                     .filter((item) => !isNaN(item))
                     .reduce((a, b) => a + b, 0);
 
+                  const cantidadArticulos = arregloDeObjetos
+                    .map((item) => item?.cantidad)
+                    .filter((item) => !isNaN(item))
+                    .reduce((a, b) => a + b, 0);
+
+                  PrecioTotal *= cantidadArticulos;
+
                   return (
                     <tr
                       key={invoice.id}
                       className="bg-white hover:bg-gray-200 text-center"
                     >
                       <td className="py-2 px-4">{invoice.id}</td>
-                      <td className="py-2 px-4">
-                        {arregloDeObjetos.length - 2}
-                      </td>
+                      <td className="py-2 px-4">{cantidadArticulos}</td>
                       <td className="py-2 px-4">{PrecioTotal} $</td>
                     </tr>
                   );
