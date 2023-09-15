@@ -11,6 +11,24 @@ const orders = [
     date: "12/12/2022",
     montototal: 28530,
   },
+  {
+    id: 2,
+    comprobante: "EC-0003035",
+    client: "Genesis Rosario",
+    payment: "PayPal",
+    status: "failed",
+    date: "25/12/2022",
+    montototal: 42520,
+  },
+  {
+    id: 3,
+    comprobante: "EC-0004025",
+    client: "Emmanuel Morales",
+    payment: "PayPal",
+    status: "process",
+    date: "30/12/2022",
+    montototal: 12520,
+  },
 ];
 
 const Products_Admin = () => {
@@ -103,7 +121,9 @@ const Products_Admin = () => {
 
               <td className="text-center w-1/8 font-bold ml-1">{order?.id}</td>
 
-              <td className="text-center w-1/8">{order?.comprobante}</td>
+              <td className="text-center w-1/8 font-bold">
+                {order?.comprobante}
+              </td>
 
               <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
                 {order?.client}
