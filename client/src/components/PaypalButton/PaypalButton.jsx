@@ -9,7 +9,7 @@ import SignIn from "../../pages/SignIn/SignIn";
 export function PayPalButton() {
   const clientId =
     "AYzyXv7DvxmViou_tGpOeAhwnjs-MOxkOH0j7USow4U0ibl0Uj4PzHi4n7YoVTU1mywyWa3CNIt_G5Lz";
-  const { currentUser, products } = useContext(userAuth);
+  const { currentUser, products, user } = useContext(userAuth);
   const [purchaseId, setPurchaseId] = useState(null);
   const { precio, nombre, modelo } = useParams();
   const [isCancelled, setIsCancelled] = useState(false);
@@ -24,16 +24,30 @@ export function PayPalButton() {
 
   const moto = [];
   moto.push(JSON.parse(window.localStorage.getItem("moto")));
-  console.log(moto, "moto");
-  console.log(products, "products");
 
   useEffect(() => {
+    const date = new Date();
+    const fullYear = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const today = `${day}/${month}/${fullYear}`;
+
     if (isCompleted) {
       if (window.localStorage.getItem("moto") !== null) {
-        createBill(currentUser.uid, moto);
+        createBill(currentUser.uid, {
+          ...moto,
+          user,
+          today,
+          status: "success",
+        });
         window.localStorage.removeItem("moto");
       } else {
-        createBill(currentUser.uid, products);
+        createBill(currentUser.uid, {
+          ...products,
+          user,
+          today,
+          status: "success",
+        });
         clearCart(currentUser.uid);
       }
     }

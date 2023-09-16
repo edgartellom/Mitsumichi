@@ -5,7 +5,7 @@ import getUser from "../firebase/getUser";
 import getProfilePhoto from "../firebase/getProfilePhoto";
 import getAllUsers from "../firebase/getAllUsers";
 import getInvoicesByUser from "../firebase/getInvoicesByUser";
-
+import getAllInvoices from "../firebase/getAllInvoices";
 export const userAuth = createContext();
 
 const UserContext = ({ children }) => {
@@ -17,7 +17,7 @@ const UserContext = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [invoices, setInvoices] = useState({});
-
+  const [allInvoices, setAllInvoices] = useState([]);
   useEffect(() => {
     onAuthStateChanged(auth, async (userFirebase) => {
       if (userFirebase) {
@@ -45,6 +45,8 @@ const UserContext = ({ children }) => {
         const res = await getInvoicesByUser(user.id);
         console.log(res, "res");
         setInvoices((prev) => ({ ...prev, [user.id]: res }));
+        const allInvoices = await getAllInvoices();
+        setAllInvoices(allInvoices);
       });
     })();
   }, []);
@@ -63,6 +65,7 @@ const UserContext = ({ children }) => {
         setProducts,
         users,
         invoices,
+        allInvoices,
       }}
     >
       {children}
