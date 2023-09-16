@@ -5,7 +5,8 @@ import getUser from "../firebase/getUser";
 import getProfilePhoto from "../firebase/getProfilePhoto";
 import getAllUsers from "../firebase/getAllUsers";
 import getInvoicesByUser from "../firebase/getInvoicesByUser";
-
+import getAllInvoices from "../firebase/getAllInvoices";
+import addProduct from "../firebase/addProduct";
 export const userAuth = createContext();
 
 const UserContext = ({ children }) => {
@@ -17,6 +18,8 @@ const UserContext = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [invoices, setInvoices] = useState({});
+  const [allInvoices, setAllInvoices] = useState([]);
+  const [productsLocalStorage, setProductsLocalStorage] = useState([]);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (userFirebase) => {
@@ -28,6 +31,13 @@ const UserContext = ({ children }) => {
           const photo = await getProfilePhoto(user?.photoURL);
           setPhotoURL(photo);
           setIsRegistered(true);
+          JSON.parse(window.localStorage.getItem("products"))?.forEach(
+            async (product) => {
+              await addProduct(userFirebase.uid, product);
+            }
+          );
+          localStorage.removeItem("products");
+          setProductsLocalStorage([]);
         } else {
           // Handle the case when the user data is not available
           setIsRegistered(false);
@@ -38,13 +48,15 @@ const UserContext = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    setProductsLocalStorage(JSON.parse(localStorage.getItem("products")));
     (async () => {
       const response = await getAllUsers();
       setUsers(response);
       response.forEach(async (user) => {
         const res = await getInvoicesByUser(user.id);
-        console.log(res, "res");
         setInvoices((prev) => ({ ...prev, [user.id]: res }));
+        const allInvoices = await getAllInvoices();
+        setAllInvoices(allInvoices);
       });
     })();
   }, []);
@@ -63,6 +75,9 @@ const UserContext = ({ children }) => {
         setProducts,
         users,
         invoices,
+        allInvoices,
+        productsLocalStorage,
+        setProductsLocalStorage,
       }}
     >
       {children}
