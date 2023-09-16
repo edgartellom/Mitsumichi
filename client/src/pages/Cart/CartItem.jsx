@@ -6,12 +6,21 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/credenciales";
 
 const CartItem = ({ name, price, imagen, id }) => {
-  const { currentUser } = useContext(userAuth);
+  const { currentUser, setProductsLocalStorage } = useContext(userAuth);
   const [amount, setAmount] = useState(0);
 
   useEffect(() => {
     // Referencia al documento del carrito en Firestore
-    const carritoDocRef = doc(db, "carritos", currentUser.uid);
+    if (!currentUser) {
+      const productsFromCart =
+        JSON.parse(window.localStorage.getItem("products")) || [];
+      const productInCart = productsFromCart.find(
+        (product) => product.id === id
+      );
+      productInCart ? setAmount(productInCart.cantidad || 0) : setAmount(0);
+      return;
+    }
+    const carritoDocRef = doc(db, "carritos", currentUser?.uid);
 
     // Escucha cambios en el documento del carrito
     const unsubscribe = onSnapshot(carritoDocRef, (docSnapshot) => {
@@ -29,7 +38,56 @@ const CartItem = ({ name, price, imagen, id }) => {
 
     // Limpia la suscripción cuando el componente se desmonta
     return () => unsubscribe();
-  }, [currentUser.uid, id]);
+  }, [currentUser?.uid, id]);
+
+  const increaseAmountInLocalStorage = (productId) => {
+    // Obtiene la lista actual de productos del localStorage
+    const productsFromCart =
+      JSON.parse(window.localStorage.getItem("products")) || [];
+
+    // Busca el producto con el productId en la lista
+    const productToUpdate = productsFromCart.find(
+      (product) => product.id === productId
+    );
+
+    if (productToUpdate) {
+      // Si se encuentra el producto, aumenta la cantidad
+      productToUpdate.cantidad = (productToUpdate.cantidad || 0) + 1;
+      setAmount(productToUpdate.cantidad);
+    }
+    // Guarda la lista actualizada en el localStorage
+    window.localStorage.setItem("products", JSON.stringify(productsFromCart));
+    setProductsLocalStorage(productsFromCart);
+  };
+
+  const decreaseAmountInLocalStorage = (productId) => {
+    // Obtiene la lista actual de productos del localStorage
+    const productsFromCart =
+      JSON.parse(window.localStorage.getItem("products")) || [];
+
+    // Busca el producto con el productId en la lista
+    const productToUpdateIndex = productsFromCart.findIndex(
+      (product) => product.id === productId
+    );
+
+    if (productToUpdateIndex !== -1) {
+      // Si se encuentra el producto, disminuye la cantidad
+      productsFromCart[productToUpdateIndex].cantidad =
+        (productsFromCart[productToUpdateIndex].cantidad || 0) - 1;
+
+      // Si la cantidad llega a cero o es negativa, elimina el producto de la lista
+      if (productsFromCart[productToUpdateIndex].cantidad <= 0) {
+        productsFromCart.splice(productToUpdateIndex, 1);
+      }
+
+      // Guarda la lista actualizada en el localStorage
+      window.localStorage.setItem("products", JSON.stringify(productsFromCart));
+
+      // Actualiza el estado local (amount) o cualquier otra lógica necesaria
+      setAmount(productsFromCart[productToUpdateIndex]?.cantidad || 0);
+      setProductsLocalStorage(productsFromCart);
+    }
+  };
 
   return (
     <li className=" flex max-md:flex-col border-b-2 max-md:gap-0  gap-10 items-center border-orange-600 p-4 ">
@@ -46,18 +104,36 @@ const CartItem = ({ name, price, imagen, id }) => {
         </section>
       </article>
       <section className=" self-center">
-        <button
-          onClick={() => decrease(currentUser.uid, id)}
-          className=" hover:bg-[#8a2b06] hover:text-white font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
-        >
-          −
-        </button>
-        <button
-          onClick={() => increase(currentUser.uid, id)}
-          className=" hover:bg-[#8a2b06] hover:text-white  font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
-        >
-          +
-        </button>
+        {currentUser ? (
+          <button
+            onClick={() => decrease(currentUser?.uid, id)}
+            className=" hover:bg-[#8a2b06] hover:text-white font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
+          >
+            −
+          </button>
+        ) : (
+          <button
+            onClick={() => decreaseAmountInLocalStorage(id)}
+            className=" hover:bg-[#8a2b06] hover:text-white font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
+          >
+            −
+          </button>
+        )}
+        {currentUser ? (
+          <button
+            onClick={() => increase(currentUser?.uid, id)}
+            className=" hover:bg-[#8a2b06] hover:text-white  font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
+          >
+            +
+          </button>
+        ) : (
+          <button
+            onClick={() => increaseAmountInLocalStorage(id)}
+            className=" hover:bg-[#8a2b06] hover:text-white  font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
+          >
+            +
+          </button>
+        )}
       </section>
     </li>
   );

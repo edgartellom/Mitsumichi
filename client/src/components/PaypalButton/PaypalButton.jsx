@@ -34,7 +34,7 @@ export function PayPalButton() {
 
     if (isCompleted) {
       if (window.localStorage.getItem("moto") !== null) {
-        createBill(currentUser.uid, {
+        createBill(currentUser?.uid, {
           ...moto,
           user,
           today,
@@ -42,13 +42,13 @@ export function PayPalButton() {
         });
         window.localStorage.removeItem("moto");
       } else {
-        createBill(currentUser.uid, {
+        createBill(currentUser?.uid, {
           ...products,
           user,
           today,
           status: "success",
         });
-        clearCart(currentUser.uid);
+        clearCart(currentUser?.uid);
       }
     }
   }, [isCompleted]);
