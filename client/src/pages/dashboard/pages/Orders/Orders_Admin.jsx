@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { userAuth } from "../../../../context/Auth-context";
 
 const orders = [
   {
@@ -35,6 +36,8 @@ const Products_Admin = () => {
   //const [orders, setOrders] = useState([]);
   const [selectedOrders, setSelectedOrders] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const { allInvoices } = useContext(userAuth);
+  const invoicesToArr = Object.values(allInvoices);
   const selectedOrdersID = selectedOrders.map(
     (selectedOrder) => selectedOrder?.id
   );
@@ -75,7 +78,7 @@ const Products_Admin = () => {
     }
   };
 
-  console.log(screenWidth);
+  console.log(invoicesToArr, "invoices");
   return (
     <div className="min-h-full bg-slate-100 p-4">
       <h1>Administrador de Productos</h1>
@@ -108,58 +111,73 @@ const Products_Admin = () => {
             screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
           }`}
         >
-          {orders.map((order) => (
-            <tr className="hover:text-blue-400 h-[75px]" key={order?.id}>
-              <td className="text-center w-1/8">
-                <input
-                  type="checkbox"
-                  className="w-4 h-4 ml-1"
-                  onChange={() => toggleSelectOrder(order)}
-                  checked={selectedOrdersID.includes(order.id)}
-                />
-              </td>
+          {invoicesToArr.map((order, index) => {
+            let precioTOTAL = Object.values(invoicesToArr[index])
+              .map((item) => item?.precio)
+              .map(Number)
+              .filter((item) => !isNaN(item))
+              .reduce((a, b) => a + b, 0);
 
-              <td className="text-center w-1/8 font-bold ml-1">{order?.id}</td>
+            const cantidadArticulos = Object.values(invoicesToArr[index])
+              .map((item) => item?.cantidad)
+              .filter((item) => !isNaN(item))
+              .reduce((a, b) => a + b, 0);
 
-              <td className="text-center w-1/8 font-bold">
-                {order?.comprobante}
-              </td>
+            precioTOTAL *= cantidadArticulos;
 
-              <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
-                {order?.client}
-              </td>
+            return (
+              <tr className="hover:text-blue-400 h-[75px]" key={order?.id}>
+                <td className="text-center w-1/8">
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 ml-1"
+                    onChange={() => toggleSelectOrder(order)}
+                    checked={selectedOrdersID.includes(order?.id)}
+                  />
+                </td>
 
-              <td className="text-center w-1/8 font-bold uppercase">
-                {order?.payment}
-              </td>
+                <td className="text-center w-1/8 font-bold ml-1">
+                  {index + 1}
+                </td>
 
-              <td
-                className={`text-center w-1/8 font-bold uppercase ${
-                  order?.status === "sussess"
-                    ? "text-green-600"
+                <td className="text-center w-1/8 font-bold">{order?.id}</td>
+
+                <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                  {order?.user?.data?.username}
+                </td>
+
+                <td className="text-center w-1/8 font-bold uppercase">
+                  PAYPAL
+                </td>
+
+                <td
+                  className={`text-center w-1/8 font-bold uppercase ${
+                    order?.status === "success"
+                      ? "text-green-600"
+                      : order?.status === "failed"
+                      ? "text-red-600"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {order?.status === "success"
+                    ? "Pago Realizado"
                     : order?.status === "failed"
-                    ? "text-red-600"
-                    : "text-gray-500"
-                }`}
-              >
-                {order?.status === "sussess"
-                  ? "Pago Realizado"
-                  : order?.status === "failed"
-                  ? "Pago Fallido"
-                  : "Procesando..."}
-              </td>
+                    ? "Pago Fallido"
+                    : "Procesando..."}
+                </td>
 
-              <td className="text-center w-1/8 font-bold">{order?.date}</td>
+                <td className="text-center w-1/8 font-bold">{order?.today}</td>
 
-              <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
-                {parseFloat(order?.montototal).toLocaleString("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                  minimumFractionDigits: 2,
-                })}
-              </td>
-            </tr>
-          ))}
+                <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
+                  {parseFloat(precioTOTAL).toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 2,
+                  })}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
