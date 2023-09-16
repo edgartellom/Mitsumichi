@@ -31,10 +31,11 @@ const UserContext = ({ children }) => {
           const photo = await getProfilePhoto(user?.photoURL);
           setPhotoURL(photo);
           setIsRegistered(true);
-          console.log(productsLocalStorage, "productsLocalStorage");
-          productsLocalStorage.forEach(async (product) => {
-            await addProduct(userFirebase.uid, product);
-          });
+          JSON.parse(window.localStorage.getItem("products"))?.forEach(
+            async (product) => {
+              await addProduct(userFirebase.uid, product);
+            }
+          );
           localStorage.removeItem("products");
           setProductsLocalStorage([]);
         } else {

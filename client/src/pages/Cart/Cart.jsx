@@ -7,6 +7,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/credenciales";
 import Button from "../../components/UI/Button";
 import { useNavigate } from "react-router-dom";
+import SignIn from "../SignIn/SignIn";
 const Cart = ({ setShowCart }) => {
   const { currentUser, setProducts, products, productsLocalStorage } =
     useContext(userAuth);
@@ -90,12 +91,13 @@ const Cart = ({ setShowCart }) => {
     }, 0);
   }
   const orderClickHandler = () => {
+    if (!currentUser) return;
+
     const totalproducts = [
       ...new Set(products.map((product) => product.brand)),
     ].map((brand) => {
       return brand;
     });
-
     navigate(`/paypal-button/${totalAmount}/${totalproducts}`);
     setShowCart(false);
   };
