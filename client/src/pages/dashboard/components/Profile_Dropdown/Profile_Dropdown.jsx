@@ -6,6 +6,7 @@ import {
   IoPersonSharp,
   IoGrid,
   IoEllipseSharp,
+  IoHome,
 } from "react-icons/io5";
 
 import logOut from "../../../../firebase/logOut";
@@ -112,7 +113,16 @@ const Profile_Dropdown = ({ onClose, isOpen, topMargin }) => {
             <span>Profile</span>
           </Link>
 
-          {user?.role === "admin" && (
+          {user?.role === "admin" &&
+          location.pathname.includes("/dashboard") ? (
+            <a
+              href="/home"
+              className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
+            >
+              <IoHome size={20} />
+              <span>Home</span>
+            </a>
+          ) : (
             <a
               href="/dashboard"
               className="flex items-center gap-3 rounded-md py-2 px-3 hover:bg-[#c63c0554]"
