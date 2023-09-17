@@ -6,6 +6,47 @@ import { userAuth } from "../../context/Auth-context";
 import clearCart from "../../firebase/clearCart";
 import createBill from "../../firebase/createBill";
 import SignIn from "../../pages/SignIn/SignIn";
+import Swal from 'sweetalert2';
+
+
+function ErrorBoundary({ children }) {
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Ocurrió un error inesperado',
+        text: 'Por favor, inténtelo de nuevo más tarde.',
+      });
+    }
+  }, [error]);
+
+  if (error) {
+    return null; 
+  }
+
+  return children;
+}
+
+
+/* function ErrorBoundary({ children }) {
+  const [error, setError] = useState(null);
+
+  if (error) {
+    // Muestro mensaje de error.
+    return (
+      <div className="flex flex-col items-center justify-center h-screen text-red-600">
+        <p className="text-4xl font-bold">¡Ocurrió un error inesperado!</p>
+        <p className="text-lg">Por favor, inténtelo de nuevo más tarde.</p>
+      </div>
+    );
+  }
+
+  return children;
+} */
+
+
 export function PayPalButton() {
   const clientId =
     "AYzyXv7DvxmViou_tGpOeAhwnjs-MOxkOH0j7USow4U0ibl0Uj4PzHi4n7YoVTU1mywyWa3CNIt_G5Lz";
@@ -18,12 +59,20 @@ export function PayPalButton() {
 
   useEffect(() => {
     if (orderId !== null) {
-      // Mostrar una alerta con el ID de cancelación
-      alert(`Compra cancelada. ID de compra: ${orderId}`);
-      // Continuar con el proceso de pago de PayPal
-      setIsCompleted(false);
+      Swal.fire({
+        icon: 'error',
+        title: 'Compra cancelada',
+        text: `ID de compra: ${orderId}`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setIsCompleted(false); // Continua con el proceso de pago de PayPal
+          navigate("/home"); // Redirijo a "/home"
+        }
+      });
     }
-  }, [orderId]);
+  }, [navigate ,orderId]);
+  
+  
 
   const handlePaymentSuccess = (details) => {
     console.log("Pago realizado con éxito:", details);
@@ -31,6 +80,9 @@ export function PayPalButton() {
     setIsCompleted(true);
   };
 
+
+  //agrego c+odigo línea 57 ya que me arroja error código líena 58-59
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const moto = [];
   moto.push(JSON.parse(window.localStorage.getItem("moto")));
 
@@ -42,33 +94,42 @@ export function PayPalButton() {
     const today = `${day}/${month}/${fullYear}`;
 
     if (isCompleted) {
-      if (window.localStorage.getItem("moto") !== null) {
-        createBill(currentUser?.uid, {
-          ...moto,
-          user,
-          today,
-          status: "success",
+      try {
+        if (window.localStorage.getItem("moto") !== null) {
+          createBill(currentUser?.uid, {
+            ...moto,
+            user,
+            today,
+            status: "success",
+          });
+          window.localStorage.removeItem("moto");
+        } else {
+          createBill(currentUser?.uid, {
+            ...products,
+            user,
+            today,
+            status: "success",
+          });
+          clearCart(currentUser?.uid);
+        }
+      } catch (error) {
+        console.error("Error al crear la factura:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al crear la factura',
+          text: 'Hubo un error al crear la factura. Por favor, inténtelo de nuevo más tarde.',
         });
-        window.localStorage.removeItem("moto");
-      } else {
-        createBill(currentUser?.uid, {
-          ...products,
-          user,
-          today,
-          status: "success",
-        });
-        clearCart(currentUser?.uid);
       }
     }
   }, [currentUser?.uid, isCompleted, moto, products, user]);
 
   const handleCancel = () => {
-    const id = generateOrderId(); // Generar un ID único para la cancelación
+    const id = generateOrderId(); // Genera un ID único para la cancelación
     setOrderId(id);
   };
 
   const generateOrderId = () => {
-    return Math.random().toString(36).substring(7); // Generar un ID único
+    return Math.random().toString(36).substring(7); // Genera un ID único
   };
 
   if (!currentUser) {
@@ -101,25 +162,43 @@ export function PayPalButton() {
             <div>
               <PayPalButtons
                 createOrder={(_data, actions) => {
-                  return actions.order.create({
-                    application_context: {},
-                    purchase_units: [
-                      {
-                        reference_id: "Compra de prueba",
-                        description: `Compra de ${nombre} ${modelo}`,
-                        amount: {
-                          value: precio,
-                          item_total: {
+                  try {
+                    return actions.order.create({
+                      application_context: {},
+                      purchase_units: [
+                        {
+                          reference_id: "Compra de prueba",
+                          description: `Compra de ${nombre} ${modelo}`,
+                          amount: {
                             value: precio,
+                            item_total: {
+                              value: precio,
+                            },
                           },
                         },
-                      },
-                    ],
-                  });
+                      ],
+                    });
+                  } catch (error) {
+                    console.error("Error al crear la orden de PayPal:", error);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Error al crear la orden de pago',
+                      text: 'Hubo un error al crear la orden de pago. Por favor, inténtelo de nuevo más tarde.',
+                    });
+                  }
                 }}
                 onApprove={async (data, actions) => {
-                  const details = await actions.order.capture();
-                  handlePaymentSuccess(details, data);
+                  try {
+                    const details = await actions.order.capture();
+                    handlePaymentSuccess(details, data);
+                  } catch (error) {
+                    console.error("Error al aprobar el pago de PayPal:", error);
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Error al procesar el pago',
+                      text: 'Hubo un error al procesar el pago. Por favor, inténtelo de nuevo más tarde.',
+                    });
+                  }
                 }}
                 onCancel={handleCancel}
               />
