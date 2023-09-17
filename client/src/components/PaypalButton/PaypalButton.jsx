@@ -81,7 +81,7 @@ export function PayPalButton() {
   };
 
 
-  //agrego c+odigo línea 57 ya que me arroja error código líena 58-59
+  //agrego código línea 57 ya que me arroja error código líena 58-59
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const moto = [];
   moto.push(JSON.parse(window.localStorage.getItem("moto")));
