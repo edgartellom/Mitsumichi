@@ -6,7 +6,8 @@ import Button from "../UI/Button";
 
 const Card = ({ data }) => {
   const navigate = useNavigate();
-  const { currentUser } = useContext(userAuth);
+  const { currentUser, setProductsLocalStorage, productsLocalStorage } =
+    useContext(userAuth);
   const {
     brand: { name: brandName },
     tipo: { name: tipoName },
@@ -17,15 +18,61 @@ const Card = ({ data }) => {
   } = data;
 
   const addProducto = () => {
-    addProduct(currentUser.uid, {
-      brand: brandName,
-      tipo: tipoName,
-      imageUrl: imageUrl[0],
-      motoModel,
-      id,
-      precio,
-      cantidad: 1,
-    });
+    if (currentUser) {
+      // Si el usuario está autenticado, verifica si el producto ya está en el carrito
+      const existingProduct = productsLocalStorage.find(
+        (product) => product.id === id
+      );
+
+      if (existingProduct) {
+        // Si el producto ya está en el carrito, aumenta la cantidad
+        existingProduct.cantidad += 1;
+        setProductsLocalStorage([...productsLocalStorage]);
+      } else {
+        // Si el producto no está en el carrito, agrégalo
+        addProduct(currentUser.uid, {
+          brand: brandName,
+          tipo: tipoName,
+          imageUrl: imageUrl[0],
+          motoModel,
+          id,
+          precio,
+          cantidad: 1,
+        });
+      }
+    } else {
+      // Si el usuario no está autenticado, verifica si el producto ya está en el carrito local
+      const existingProducts =
+        JSON.parse(localStorage.getItem("products")) || [];
+
+      const existingProduct = existingProducts.find(
+        (product) => product.id === id
+      );
+
+      if (existingProduct) {
+        // Si el producto ya está en el carrito local, aumenta la cantidad
+        existingProduct.cantidad += 1;
+
+        // Actualiza el localStorage y el estado local
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+        setProductsLocalStorage(existingProducts);
+      } else {
+        // Si el producto no está en el carrito local, agrégalo
+        existingProducts.push({
+          brand: brandName,
+          tipo: tipoName,
+          imageUrl: imageUrl[0],
+          motoModel,
+          id,
+          precio,
+          cantidad: 1,
+        });
+
+        // Actualiza el localStorage y el estado local
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+        setProductsLocalStorage(existingProducts);
+      }
+    }
   };
 
   return (
