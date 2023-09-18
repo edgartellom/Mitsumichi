@@ -32,7 +32,7 @@ const addProduct = async (uid, producto) => {
         carritoDoc.exists() &&
           producto &&
           (await updateDoc(carritoDocRef, {
-            productos: arrayUnion(producto),
+            productos: arrayUnion(...producto),
           }));
       }
     } else {
