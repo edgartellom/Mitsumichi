@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import addProduct from "../../firebase/addProduct";
 import { userAuth } from "../../context/Auth-context";
 import Button from "../UI/Button";
+import increase from "../../firebase/increase";
 
 const Card = ({ data }) => {
   const navigate = useNavigate();
@@ -40,6 +41,8 @@ const Card = ({ data }) => {
           cantidad: 1,
         });
       }
+
+      increase(currentUser.uid, id);
     } else {
       // Si el usuario no está autenticado, verifica si el producto ya está en el carrito local
       const existingProducts =

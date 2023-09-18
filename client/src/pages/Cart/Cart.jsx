@@ -91,13 +91,16 @@ const Cart = ({ setShowCart }) => {
     }, 0);
   }
   const orderClickHandler = () => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      return;
+    }
 
     const totalproducts = [
       ...new Set(products.map((product) => product.brand)),
     ].map((brand) => {
       return brand;
     });
+
     navigate(`/paypal-button/${totalAmount}/${totalproducts}`);
     setShowCart(false);
   };
