@@ -12,7 +12,7 @@ const CartButton = ({ setShowCart }) => {
   useEffect(() => {
     // Configura un oyente de Firebase Firestore para el carrito del usuario actual
     if (currentUser) {
-      const cartDocRef = doc(db, "carritos", currentUser.uid);
+      const cartDocRef = doc(db, "carritos", currentUser?.uid);
       const unsubscribe = onSnapshot(cartDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const cartData = docSnapshot.data();

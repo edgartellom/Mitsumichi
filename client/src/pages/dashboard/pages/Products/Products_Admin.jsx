@@ -43,14 +43,14 @@ const Products_Admin = () => {
   };
 
   const toggleSelectMoto = (moto) => {
-    const motoId = moto.id;
+    const motoId = moto?.id;
     const isSelected = selectedMotos.some(
-      (selectedMoto) => selectedMoto.id === motoId
+      (selectedMoto) => selectedMoto?.id === motoId
     );
 
     if (isSelected) {
       setSelectedMotos((prevSelected) =>
-        prevSelected.filter((selectedMoto) => selectedMoto.id !== motoId)
+        prevSelected.filter((selectedMoto) => selectedMoto?.id !== motoId)
       );
     } else {
       setSelectedMotos((prevSelected) => [...prevSelected, moto]);
@@ -105,7 +105,7 @@ const Products_Admin = () => {
           }`}
         >
           {motos.map((moto) => (
-            <tr className="hover:text-blue-400 h-[75px]" key={moto.id}>
+            <tr className="hover:text-blue-400 h-[75px]" key={moto?.id}>
               <td className="text-center w-1/8">
                 <input
                   type="checkbox"
@@ -115,12 +115,12 @@ const Products_Admin = () => {
                 />
               </td>
               {screenWidth >= 900 && (
-                <td className="text-center w-1/8 font-bold ml-1">{moto.id}</td>
+                <td className="text-center w-1/8 font-bold ml-1">{moto?.id}</td>
               )}
               {screenWidth >= 768 && (
                 <td className="text-center w-1/8">
                   <img
-                    src={moto.imageUrl[0]}
+                    src={moto?.imageUrl[0]}
                     alt="Moto"
                     width="100"
                     className="mx-auto"
@@ -128,18 +128,18 @@ const Products_Admin = () => {
                 </td>
               )}
               <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
-                {moto.brand.name} - {moto.motoModel}
+                {moto?.brand?.name} - {moto?.motoModel}
               </td>
               {screenWidth >= 900 && (
                 <td className="text-center w-1/8 font-bold uppercase">
-                  {moto.tipo.name}
+                  {moto?.tipo?.name}
                 </td>
               )}
               <td className="text-center w-1/8 font-bold">
-                {moto.stock} {screenWidth >= 400 && "Unds"}
+                {moto?.stock} {screenWidth >= 400 && "Unds"}
               </td>
               <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
-                {parseFloat(moto.precio).toLocaleString("en-US", {
+                {parseFloat(moto?.precio).toLocaleString("en-US", {
                   style: "currency",
                   currency: "USD",
                   minimumFractionDigits: 2,
@@ -148,10 +148,10 @@ const Products_Admin = () => {
               {screenWidth >= 1220 && (
                 <td
                   className={`text-center w-1/8 font-bold uppercase ${
-                    moto.deleted ? "text-red-600" : "text-green-600"
+                    moto?.deleted ? "text-red-600" : "text-green-600"
                   }`}
                 >
-                  {moto.deleted ? "Inactivo" : "Activo"}
+                  {moto?.deleted ? "Inactivo" : "Activo"}
                 </td>
               )}
             </tr>

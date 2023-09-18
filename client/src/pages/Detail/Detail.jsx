@@ -53,8 +53,17 @@ const Detail = () => {
   };
 
   const navigateToPaypal = () => {
+    const motocycle = {
+      brand: brand.name,
+      motoModel: moto.motoModel,
+      year: moto.year,
+      precio: moto.precio,
+      imageUrl: moto.imageUrl[0],
+      cantidad: 1,
+      id: moto.id,
+    };
     navigate(`/paypal-button/${moto.precio}/${brand.name}`);
-    window.localStorage.setItem("moto", JSON.stringify(moto));
+    window.localStorage.setItem("moto", JSON.stringify(motocycle));
   };
 
   return (
