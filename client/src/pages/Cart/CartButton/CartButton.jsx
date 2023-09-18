@@ -5,13 +5,14 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase/credenciales";
 
 const CartButton = ({ setShowCart }) => {
-  const { currentUser } = useContext(userAuth);
+  const { currentUser, productsLocalStorage, setProductsLocalStorage } =
+    useContext(userAuth);
   const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
     // Configura un oyente de Firebase Firestore para el carrito del usuario actual
     if (currentUser) {
-      const cartDocRef = doc(db, "carritos", currentUser.uid);
+      const cartDocRef = doc(db, "carritos", currentUser?.uid);
       const unsubscribe = onSnapshot(cartDocRef, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const cartData = docSnapshot.data();
@@ -33,6 +34,11 @@ const CartButton = ({ setShowCart }) => {
     }
   }, [currentUser]);
 
+  const totalItems = productsLocalStorage?.reduce(
+    (total, product) => total + product.cantidad,
+    0
+  );
+
   return (
     <button
       onClick={() => setShowCart(true)}
@@ -43,7 +49,7 @@ const CartButton = ({ setShowCart }) => {
       </span>
       <span className=" max-sm:hidden max-lg:hidden">Your Cart</span>
       <span className=" bg-orange-700  max-sm:px-2 p-1/4 px-4 rounded ml-2 font-semibold ">
-        {cartItemCount}
+        {cartItemCount || totalItems || 0}
       </span>
     </button>
   );

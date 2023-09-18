@@ -52,6 +52,20 @@ const Detail = () => {
     setSelectedImage(index);
   };
 
+  const navigateToPaypal = () => {
+    const motocycle = {
+      brand: brand.name,
+      motoModel: moto.motoModel,
+      year: moto.year,
+      precio: moto.precio,
+      imageUrl: moto.imageUrl[0],
+      cantidad: 1,
+      id: moto.id,
+    };
+    navigate(`/paypal-button/${moto.precio}/${brand.name}`);
+    window.localStorage.setItem("moto", JSON.stringify(motocycle));
+  };
+
   return (
     <article>
       <Slider666 />
@@ -133,9 +147,7 @@ const Detail = () => {
                 </div>
                 <button
                   className="bg-transparent self-start text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-gray-500 to-blue-100 shadow-2xl"
-                  onClick={() =>
-                    navigate(`/paypal-button/${moto.precio}/${brand.name}`)
-                  }
+                  onClick={navigateToPaypal}
                 >
                   Comprar
                 </button>
