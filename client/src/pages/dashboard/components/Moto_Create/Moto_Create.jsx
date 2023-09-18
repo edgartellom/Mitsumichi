@@ -334,7 +334,6 @@ const Moto_Create = () => {
     setImage(files);
     setSelectedImages(files);
     setImagePreviews(previews);
-    // handleImageUploadCloudinary(files);
   };
   const handleImageUploadCloudinary = async (images) => {
     const cloudName = import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME;

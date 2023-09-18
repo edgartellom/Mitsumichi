@@ -60,7 +60,11 @@ const Users_Admin = () => {
           }`}
         >
           <tr>
-            <th className="w-1/7 text-center pt-1">
+            <th
+              className={`w-1/8 text-center pt-1 ${
+                screenWidth <= 768 ? "pl-2" : "pl-1"
+              }`}
+            >
               <label className="flex container items-center justify-center">
                 <input
                   type="checkbox"
@@ -120,7 +124,11 @@ const Users_Admin = () => {
                 }`}
                 key={id}
               >
-                <td className="text-center w-1/7">
+                <td
+                  className={`text-center w-1/7 ${
+                    screenWidth <= 768 ? "pl-2" : "pl-1"
+                  }`}
+                >
                   <label className="flex container items-center justify-center">
                     <input
                       type="checkbox"
