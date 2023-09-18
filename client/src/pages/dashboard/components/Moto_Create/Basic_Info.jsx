@@ -59,7 +59,7 @@ const Basic_Info = ({
     console.log(year);
     setFormData((prevData) => ({
       ...prevData,
-      year: year,
+      year: Number(year),
     }));
   };
 

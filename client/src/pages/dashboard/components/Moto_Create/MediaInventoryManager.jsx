@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import { Carousel } from "react-responsive-carousel";
 
@@ -30,8 +30,20 @@ const MediaInventoryManager = ({
   isPrecioValid,
   selectedImages,
   imagePreviews,
+  isButtonActive,
   handleSubmiMoto,
 }) => {
+  const [isTall, setIsTall] = useState(false);
+  console.log(isTall);
+
+  useEffect(() => {
+    // Calcula la altura del contenedor cuando el componente se monta
+    const contenedor = document.getElementById("miContenedor");
+    if (contenedor) {
+      setIsTall(contenedor.offsetHeight > 0);
+    }
+  }, []);
+
   const sortedColorOptions = optionsColor
     .slice()
     .sort((a, b) => a.label.localeCompare(b.label));
@@ -73,14 +85,17 @@ const MediaInventoryManager = ({
     console.log(precio);
     setFormData((prevData) => ({
       ...prevData,
-      precio: precio,
+      precio: Number(precio),
     }));
   };
 
   return (
     <div className="flex flex-col m-auto min-w-[100%] max-w-full min-h-[100%] max-h-[100%] gap-5 py-5 px-10 border-2 rounded-b-lg">
       <div className="flex flex-row">
-        <div className="input-wrapper flex flex-col w-[40%] border rounded p-2 justify-around">
+        <div
+          id="miContenedor"
+          className="flex flex-col items-center w-[40%] border rounded p-2"
+        >
           <label
             htmlFor="imageUrl"
             className="mb-1 text-lg font-semibold text-center uppercase"
@@ -93,15 +108,15 @@ const MediaInventoryManager = ({
           </label>
 
           {selectedImages.length > 0 && (
-            <div className="image-preview m-4">
+            <div
+              className={`flex flex-col image-preview m-4 ${
+                isTall ? "w-[60%]" : "w-[100%]"
+              }`}
+            >
               {selectedImages.length === 1 ? (
-                <img
-                  src={imagePreviews[0]}
-                  alt="Vista previa"
-                  className=" rounded-lg w-50 h-50"
-                />
+                <img src={imagePreviews[0]} alt="Vista previa" className="" />
               ) : (
-                <Carousel>
+                <Carousel className="flex flex-col">
                   {imagePreviews.map((preview, index) => (
                     <div key={index}>
                       <img src={preview} alt={`Vista previa ${index + 1}`} />
@@ -111,7 +126,10 @@ const MediaInventoryManager = ({
               )}
             </div>
           )}
-          <div className="flex flex-row justify-center">
+        </div>
+
+        <div className="flex flex-col justify-between w-[50%] mx-auto gap-4 py-5">
+          <div className="flex flex-row items-center justify-left my-4">
             <div className="flex items-center gap-2 mr-2">
               <input
                 type="file"
@@ -129,9 +147,6 @@ const MediaInventoryManager = ({
               </label>
             </div>
           </div>
-        </div>
-
-        <div className="flex flex-col w-[50%] mx-auto gap-4 py-5">
           <div className="input-wrapper flex flex-col">
             <label htmlFor="colorDisposible">Colores de las Motos</label>
             <div className="relative">
@@ -191,16 +206,22 @@ const MediaInventoryManager = ({
               </p>
             )}
           </div>
+          <div className="flex justify-center h-full w-full items-end">
+            <button
+              type="submit"
+              onClick={handleSubmiMoto}
+              disabled={!isButtonActive}
+              className={`mt-4 w-40 h-12 ${
+                !isButtonActive
+                  ? "bg-slate-300 text-3xl text-black font-bold px-4 mb-2 rounded-lg shadow-sm duration-300 shadow-[#808080] cursor-not-allowed"
+                  : "bg-[#C63D05] text-3xl text-white font-bold px-4 mb-2 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600] cursor-pointer"
+              }`}
+              // className="w-40 h-12 bg-[#C63D05] text-3xl text-white font-bold px-4 mb-2 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
+            >
+              CREAR
+            </button>
+          </div>
         </div>
-      </div>
-      <div className="flex justify-center pt-10 h-full w-full">
-        <button
-          type="submit"
-          onClick={handleSubmiMoto}
-          className="w-32 h-10 bg-[#C63D05] text-2xl text-white font-bold px-4 mb-2 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
-        >
-          CREAR
-        </button>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 
 import axios from "axios";
 
@@ -16,8 +16,8 @@ const Create_New_Moto = () => {
     marca: "",
     modelo: "",
     tipo: "",
-    year: 0,
-    precio: 0,
+    year: Number,
+    precio: Number,
     imageUrl: [],
     combustible: "",
     colorDisponible: [],
@@ -29,18 +29,32 @@ const Create_New_Moto = () => {
     },
   });
 
+  const [motos, setMotos] = useState([]);
+  const [motoExistente, setMotoExistente] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3001/motos?page=1&limit=10000"
+        );
+
+        setMotos(response.data.data);
+      } catch (error) {
+        console.error("Error al obtener las motos:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [selectedColors, setSelectedColors] = useState([]);
 
   const [image, setImage] = useState([""]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
-
   const [imageUploaded, setImageUploaded] = useState(false);
   // const [modalSpin, setModalSpin] = useState(false);
-
-  const [motos, setMotos] = useState([]);
-  const [motoExistente, setMotoExistente] = useState(false);
-
   //console.log(formData);
 
   // Variable para activar el boton de añadir si el formulario es valido
@@ -163,7 +177,7 @@ const Create_New_Moto = () => {
       isVelocidadesValid;
 
     console.log("Formulario", isFormDataValid);
-    //setIsButtonActive(isFormDataValid);
+    setIsButtonActive(isFormDataValid);
   }, [
     formData,
     isBrandValid,
@@ -359,9 +373,16 @@ const Create_New_Moto = () => {
                 // Esperar al menos 3 segundos antes de continuar
                 await new Promise((resolve) => setTimeout(resolve, 3000));
 
+                console.log(imageUrls);
+                const jsonData = JSON.stringify({
+                  ...formData,
+                  imageUrl: imageUrls,
+                });
+                console.log(jsonData);
+
                 const response = await axios.post(
                   "http://localhost:3001/motos",
-                  JSON.stringify({ ...formData, imageUrl: imageUrls }),
+                  jsonData,
                   {
                     headers: {
                       "Content-Type": "application/json",
@@ -369,6 +390,7 @@ const Create_New_Moto = () => {
                   }
                 );
 
+                console.log(response);
                 // Cerrar el cuadro de diálogo "Procesando..."
                 processingDialog.close();
 
@@ -408,7 +430,7 @@ const Create_New_Moto = () => {
                 setSelectedColors([]);
 
                 // Redirigir a la página de inicio u otra acción que desees realizar
-                window.location.href = "/dashboard";
+                window.location.href = "/dashboard/products-admin";
               } catch (error) {
                 // console.error(error);
                 Swal.fire({
@@ -516,6 +538,7 @@ const Create_New_Moto = () => {
               isPrecioValid={isPrecioValid}
               selectedImages={selectedImages}
               imagePreviews={imagePreviews}
+              isButtonActive={isButtonActive}
               handleSubmiMoto={handleSubmiMoto}
             />
           )}
