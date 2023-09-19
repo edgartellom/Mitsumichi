@@ -25,17 +25,20 @@ const UserContext = ({ children }) => {
     onAuthStateChanged(auth, async (userFirebase) => {
       if (userFirebase) {
         setCurrentUser(userFirebase);
-        const user = await getUser(userFirebase.uid);
+        const user = await getUser(userFirebase?.uid);
         if (user) {
           setUser(user);
           const photo = await getProfilePhoto(user?.photoURL);
           setPhotoURL(photo);
           setIsRegistered(true);
-          JSON.parse(window.localStorage.getItem("products"))?.forEach(
-            async (product) => {
-              await addProduct(userFirebase.uid, product);
-            }
+          // JSON.parse(window.localStorage.getItem("products"))?.forEach(
+          // async (product) => {
+          await addProduct(
+            userFirebase?.uid,
+            JSON.parse(window.localStorage.getItem("products"))
           );
+          //   }
+          // );
           localStorage.removeItem("products");
           setProductsLocalStorage([]);
         } else {
