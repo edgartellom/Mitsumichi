@@ -12,6 +12,7 @@ const getAllTipos = require("../controllers/getAllTipos");
 // const desableMoto = require("../controllers/disableMoto");
 // const restoreMoto = require("../controllers/restoreMoto");
 const marcarDesmarcarMoto = require("../controllers/marcarDesmarcarMoto");
+const editStockMoto = require("../controllers/editStockMoto");
 //-------------------------------------------------------
 
 const router = Router();
@@ -24,7 +25,7 @@ router.get("/motos/:id", getMotoByID);
 router.delete("/motos/:id", deleteMoto);
 //------------------------------------------
 // router.delete("/moto/:id", desableMoto); params
-// router.post("/moto/restaurar/:id", restoreMoto); params 
+// router.post("/moto/restaurar/:id", restoreMoto); params
 router.put("/moto/:id", marcarDesmarcarMoto); //body
 //------------------------------------------
 router.put("/motos/:id", editMoto);
@@ -35,5 +36,7 @@ router.post("/motos", createMoto);
 //Rutas para las Reviews
 router.get("/reviews", getAllReviews);
 router.post("/reviews", createReview);
+
+router.put("/editStock", editStockMoto);
 
 module.exports = router;
