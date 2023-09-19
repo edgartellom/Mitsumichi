@@ -8,6 +8,7 @@ import twitter from "../../assets/SocialIcons/twitter.png";
 import whatsapp from "../../assets/SocialIcons/whatsapp.png";
 import Wrapper from "../../helper/Wrapper";
 import { LoadingSpinner } from "../../components";
+import Rating666 from "../../components/Rating666/Rating666";
 
 const URL = "https://mitsumichi-production.up.railway.app/";
 
@@ -183,6 +184,7 @@ const Detail = () => {
           </section>
         )}
       </summary>
+      <Rating666/>
     </article>
   );
 };
