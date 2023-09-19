@@ -1,0 +1,126 @@
+.container {
+  --input-focus: #2d8cf0;
+  --input-out-of-focus: #ccc;
+  --bg-color: #fff;
+  --bg-color-alt: #666;
+  --main-color: #323232;
+  position: relative;
+  cursor: pointer;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+}
+
+.checkmark {
+  width: 25px;
+  height: 25px;
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  box-shadow: 1px 1px var(--main-color);
+  background-color: var(--input-out-of-focus);
+  transition: all 0.2s;
+}
+
+.checkmarklist {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 2px solid var(--main-color);
+  border-radius: 5px;
+  box-shadow: 0.5px 0.5px var(--main-color);
+  background-color: var(--input-out-of-focus);
+  transition: all 0.2s;
+}
+
+.container input:checked ~ .checkmark {
+  background-color: var(--input-focus);
+}
+
+.container input:checked ~ .checkmarklist {
+  background-color: var(--input-focus);
+}
+
+.checkmark:after {
+  content: "";
+  width: 7px;
+  height: 15px;
+  position: absolute;
+  top: 1.5px;
+  left: 7px;
+  display: none;
+  border: solid var(--bg-color);
+  border-width: 0 3.5px 3.5px 0;
+  transform: rotate(45deg);
+}
+
+.checkmarklist:after {
+  content: "";
+  width: 7px;
+  height: 12px;
+  position: absolute;
+  top: 2px;
+  left: 5.5px;
+  display: none;
+  border: solid var(--bg-color);
+  border-width: 0 3.5px 3.5px 0;
+  transform: rotate(45deg);
+}
+
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container input:checked ~ .checkmarklist:after {
+  display: block;
+}
+
+/* Para aplicar una sombra al texto */
+.text-with-text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Para dar una entrada suave a los elementos de la lista */
+.list-item {
+  opacity: 0; /* Inicialmente, los elementos estarán ocultos */
+  transform: translateY(20px); /* Empieza ligeramente desplazados hacia abajo */
+  transition: opacity 0.2s ease, transform 0.2s ease; /* Aplica transiciones suaves */
+}
+.list-item.visible {
+  opacity: 1; /* Mostrar elementos */
+  transform: translateY(0); /* Sin desplazamiento */
+}
+
+/* Deshabilitar la barra de desplazamiento predeterminada del navegador */
+body {
+  scrollbar-width: none;
+}
+
+/* Estilos para la barra de desplazamiento personalizada */
+::-webkit-scrollbar {
+  width: 10px; /* Ancho de la barra de desplazamiento */
+}
+
+:-webkit-scrollbar-track {
+  border-radius: 15px;
+  background-color: red;
+  transition: box-shadow 0.5s ease;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 10px;
+  background-color: gray;
+  border-radius: 15px;
+  transition: all 0.5s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #c76c46;
+  border-radius: 15px;
+}
