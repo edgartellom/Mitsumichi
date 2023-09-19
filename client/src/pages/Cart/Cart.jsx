@@ -69,7 +69,7 @@ const Cart = ({ setShowCart }) => {
     totalAmount = products?.reduce((curNumber, item) => {
       return curNumber + Number(item.precio) * item.cantidad;
     }, 0);
-  } else {
+  } else { 
     cartItems = (
       <ul className="  max-h-80 overflow-auto">
         {productsLocalStorage?.map((product) => {
