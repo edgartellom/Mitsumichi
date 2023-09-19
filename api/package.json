@@ -10,6 +10,7 @@
   "author": "Los-lobos-del-javascript",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/translate": "^8.0.2",
     "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
