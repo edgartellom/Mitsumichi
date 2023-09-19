@@ -54,11 +54,13 @@ const MediaInventoryManager = ({
       backgroundColor: state.data.value, // Usa el valor como color de fondo
       border: "1px ridge gray", // Borde redondeado
     }),
+
     multiValueLabel: (provided, state) => ({
       ...provided,
       color: state.data.value === "black" ? "white" : "black", // Cambia el color del texto para que sea visible
       fontWeight: "bold",
     }),
+
     multiValueRemove: (provided, state) => ({
       ...provided,
       color: state.data.value === "black" ? "white" : "black", // Cambia el color del icono para que sea visible

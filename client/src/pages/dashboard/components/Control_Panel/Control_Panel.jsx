@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 
 import { Link } from "react-router-dom";
@@ -14,7 +14,6 @@ const Control_Panel = ({
   const location = useLocation();
   const navigate = useNavigate();
   const [locationName, setLocationName] = useState("");
-
   const handlerHistory = () => {
     window.history.back();
   };
@@ -55,7 +54,7 @@ const Control_Panel = ({
   };
 
   return (
-    <div className="bg-[#ffffff] h-28 px-4 py-2 flex items-center justify-between border-b-2 border-gray-400">
+    <div className="bg-[#ffffff] h-28 px-4 py-2 flex items-center justify-between border-b-2 border-gray-400 relative">
       <div className="flex flex-col h-full justify-between ">
         <div className="flex items-center w-fit">
           <button
@@ -64,15 +63,19 @@ const Control_Panel = ({
           >
             <TiArrowBack size={40} />
           </button>
-
-          {location.pathname === "/dashboard/products-admin" && (
-            <button
-              onClick={redirectToCreate}
-              className="absolute right-5 bg-slate-100 text-[#C63D05] font-bold px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
-            >
-              ADD
+          <div className="flex flex-col right-[2%] top-[10%] absolute">
+            {location.pathname === "/dashboard/products-admin" && (
+              <button
+                onClick={redirectToCreate}
+                className="right-5 bg-slate-100 text-[#C63D05] font-bold px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
+              >
+                ADD
+              </button>
+            )}
+            <button className="right-5 bg-slate-100 text-[#C63D05] font-bold px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]">
+              Remove
             </button>
-          )}
+          </div>
         </div>
 
         <div className="text-[#252525] font-semibold">

@@ -5,9 +5,7 @@ import "../styles.css";
 
 const Products_Admin = () => {
   const [motos, setMotos] = useState([]);
-
   const [showItems, setShowItems] = useState([]);
-
   const [selectedMotos, setSelectedMotos] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
