@@ -72,9 +72,6 @@ const Control_Panel = ({
                 ADD
               </button>
             )}
-            <button className="right-5 bg-slate-100 text-[#C63D05] font-bold px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]">
-              Remove
-            </button>
           </div>
         </div>
 

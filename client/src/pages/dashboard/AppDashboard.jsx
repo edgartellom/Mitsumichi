@@ -27,7 +27,7 @@ function AppDashboard() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         {/* Rutas para Productos */}
-        <Route path="/products-admin" element={<Products_Admin />} />
+        <Route path="/products-admin/" element={<Products_Admin />} />
         <Route
           path="/products-admin/add-new-moto"
           element={<Create_New_Moto />}

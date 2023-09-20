@@ -9,7 +9,8 @@ import whatsapp from "../../assets/SocialIcons/whatsapp.png";
 import Wrapper from "../../helper/Wrapper";
 import { LoadingSpinner } from "../../components";
 
-const URL = "https://mitsumichi-production.up.railway.app/";
+// "https://mitsumichi-production.up.railway.app/"
+const URL = "http://localhost:3001/";
 
 const Detail = () => {
   const [isLoading, setIsLoading] = useState(true);
