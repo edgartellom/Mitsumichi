@@ -1,4 +1,4 @@
-const { Moto, Brand, Tipo } = require("../db.js");
+const { Moto, Brand, Tipo, Color, MotoColor } = require("../db.js");
 
 const Sequelize = require("sequelize");
 
@@ -157,8 +157,48 @@ async function createMoto(req, res) {
       imageUrl,
       combustible,
       fichaTecnica,
-      colorDisponible,
+      // colorDisponible,
     });
+
+    // Asociar los colores a la moto
+    for (const colorName of colorDisponible) {
+      try {
+        const existingColor = await Color.findOne({
+          where: Sequelize.where(
+            Sequelize.fn("lower", Sequelize.col("name")),
+            Sequelize.fn("lower", colorName)
+          ),
+        });
+
+        // Crear el color si no existe
+        let colorId;
+        if (!existingColor) {
+          const newColor = await Color.create({ name: colorName });
+          colorId = newColor.id;
+        } else {
+          colorId = existingColor.id;
+        }
+
+        // Asocia el color a la moto
+        await newMoto.addColor(newColor);
+
+        // Obtiene la relación entre la moto y el color (MotoColor)
+        const motoColor = await MotoColor.findOne({
+          where: {
+            motoId: newMoto.id,
+            colorId,
+          },
+        });
+
+        if (motoColor) {
+          // Suma el stock del color a la suma total
+          newMoto.stock += motoColor.stock;
+        }
+        await newMoto.save();
+      } catch (error) {
+        console.error(`Error al crear o asociar color: ${error}`);
+      }
+    }
 
     res.status(201).json(newMoto);
   } catch (error) {

@@ -2,17 +2,12 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "cartItem",
+    "moto_color",
     {
-      // Definición de campos del modelo CartDetail
-      precio: {
-        type: DataTypes.DECIMAL(8, 2),
-        allowNull: false,
-      },
-      cantidad: {
+      stock: {
         type: DataTypes.INTEGER,
-        defaultValue: 1,
         allowNull: false,
+        defaultValue: () => Math.floor(Math.random() * 5) + 1,
       },
     },
     {

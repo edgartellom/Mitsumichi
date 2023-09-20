@@ -23,9 +23,8 @@ module.exports = (sequelize) => {
       },
       precio: {
         type: DataTypes.DECIMAL(8, 2),
-        allowNull: true,
+        allowNull: false,
       },
-
       year: {
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -38,18 +37,18 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      colorDisponible: {
-        type: DataTypes.ARRAY(DataTypes.STRING),
-        allowNull: true,
-      },
+      // colorDisponible: {
+      //   type: DataTypes.ARRAY(DataTypes.STRING),
+      //   allowNull: true,
+      // },
       fichaTecnica: {
         type: DataTypes.JSON,
         allowNull: true,
       },
       stock: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: () => Math.floor(Math.random() * 5) + 1,
+        allowNull: true,
+        // defaultValue: () => Math.floor(Math.random() * 5) + 1,
       },
       //-------------------------------------------------------------
       deleted: {

@@ -2,7 +2,7 @@
 
 const Wrapper = ({ children }) => {
   return (
-    <div className=" bg-[#0000009d] fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-20">
+    <div className=" bg-[#0000009d] fixed top-0 left-0 w-screen h-screen flex justify-center items-center z-40">
       {children}
     </div>
   );

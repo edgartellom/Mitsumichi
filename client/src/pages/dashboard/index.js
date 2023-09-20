@@ -8,6 +8,9 @@ export { default as Control_Panel } from "./components/Control_Panel/Control_Pan
 export { default as CustomButton } from "./components/IU_Componentes/Buttons/CustomButton";
 export { default as Title_Label } from "./components/IU_Componentes/Label/Title_Label";
 export * from "./components/IU_Componentes";
+export { default as Basic_Info } from "./components/Moto_Create/Basic_Info";
+export { default as Data_Sheet } from "./components/Moto_Create/Data_Sheet";
+export { default as MediaInventoryManager } from "./components/Moto_Create/MediaInventoryManager";
 export { default as Moto_Create } from "./components/Moto_Create/Moto_Create";
 export { default as Navbar_Dashboard } from "./components/Navbar_Dashboard/Navbar_Dashboard";
 export { default as Profile_Dropdown } from "./components/Profile_Dropdown/Profile_Dropdown";

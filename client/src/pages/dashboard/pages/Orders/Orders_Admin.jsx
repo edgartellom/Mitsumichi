@@ -1,43 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+
 import { userAuth } from "../../../../context/Auth-context";
 
-const orders = [
-  {
-    id: 1,
-    comprobante: "EC-0002526",
-    client: "Hengers Rosario",
-    payment: "PayPal",
-    status: "sussess",
-    date: "12/12/2022",
-    montototal: 28530,
-  },
-  {
-    id: 2,
-    comprobante: "EC-0003035",
-    client: "Genesis Rosario",
-    payment: "PayPal",
-    status: "failed",
-    date: "25/12/2022",
-    montototal: 42520,
-  },
-  {
-    id: 3,
-    comprobante: "EC-0004025",
-    client: "Emmanuel Morales",
-    payment: "PayPal",
-    status: "process",
-    date: "30/12/2022",
-    montototal: 12520,
-  },
-];
+import axios from "axios";
+
+import "../styles.css";
 
 const Products_Admin = () => {
-  //const [orders, setOrders] = useState([]);
-  const [selectedOrders, setSelectedOrders] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
   const { allInvoices } = useContext(userAuth);
   const invoicesToArr = Object.values(allInvoices);
+
+  const [showItems, setShowItems] = useState([]);
+
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectedOrders, setSelectedOrders] = useState([]);
   const selectedOrdersID = selectedOrders.map(
     (selectedOrder) => selectedOrder?.id
   );
@@ -60,7 +36,7 @@ const Products_Admin = () => {
 
   const toggleSelectAll = () => {
     setSelectAll(!selectAll);
-    setSelectedOrders(selectAll ? [] : [...orders]);
+    setSelectedOrders(selectAll ? [] : [...allInvoices]);
   };
 
   const toggleSelectOrder = (order) => {
@@ -78,32 +54,65 @@ const Products_Admin = () => {
     }
   };
 
-  console.log(invoicesToArr, "invoices");
+  useEffect(() => {
+    if (allInvoices.length > 0) {
+      const animationDelay = 30;
+      allInvoices.forEach((_, index) => {
+        setTimeout(() => {
+          setShowItems((prevShowItems) => [...prevShowItems, index]);
+        }, animationDelay * index);
+      });
+    }
+  }, [allInvoices]);
+
   return (
-    <div className="min-h-full bg-slate-100 p-4">
-      <h1>Administrador de Productos</h1>
-      <table className={`w-full border-2 shadow-sm duration-300`}>
+    <div className="min-h-full bg-white pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter">
+      <table
+        className={`w-full rounded-md shadow-sm shadow-[#252525] overflow-hidden`}
+      >
         <thead
           className={`h-[40px] bg-[#C63D05] text-white ${
             screenWidth >= 1220 ? "text-2xl" : "text-lg"
           }`}
         >
           <tr className="">
-            <th className="w-1/8 text-center pt-2">
-              <input
+            <th className="w-1/8 text-center pt-1">
+              <label className="flex container items-center justify-center">
+                <input
+                  type="checkbox"
+                  onChange={toggleSelectAll}
+                  checked={selectAll}
+                />
+                <div className="checkmark"></div>
+              </label>
+              {/* <input
                 type="checkbox"
                 className="w-5 h-5 ml-1 mx-auto"
                 onChange={toggleSelectAll}
                 checked={selectAll}
-              />
+              /> */}
             </th>
-            <th className="text-center w-1/8 font-bold ml-1">ID</th>
-            <th className="text-center w-1/8 font-bold">NO COMPROVANTE</th>
-            <th className="text-center w-1/8 font-bold">CLIENTE</th>
-            <th className="text-center w-1/8 font-bold">PAYMENT</th>
-            <th className="text-center w-1/8 font-bold">ESTADO</th>
-            <th className="text-center w-1/8 font-bold">FECHA</th>
-            <th className="text-center w-1/8 font-bold mr-1">TOTAL</th>
+            <th className="text-center w-1/8 font-bold ml-1 text-with-text-shadow">
+              ID
+            </th>
+            <th className="text-center w-1/8 font-bold text-with-text-shadow">
+              NO COMPROVANTE
+            </th>
+            <th className="text-center w-1/8 font-bold text-with-text-shadow">
+              CLIENTE
+            </th>
+            <th className="text-center w-1/8 font-bold text-with-text-shadow">
+              PAYMENT
+            </th>
+            <th className="text-center w-1/8 font-bold text-with-text-shadow">
+              ESTADO
+            </th>
+            <th className="text-center w-1/8 font-bold text-with-text-shadow">
+              FECHA
+            </th>
+            <th className="text-center w-1/8 font-bold text-with-text-shadow mr-1">
+              TOTAL
+            </th>
           </tr>
         </thead>
         <tbody
@@ -113,34 +122,44 @@ const Products_Admin = () => {
         >
           {invoicesToArr.map((order, index) => {
             let precioTOTAL = Object.values(invoicesToArr[index])
-              .map((item) => item?.precio)
-              .map(Number)
-              .filter((item) => !isNaN(item))
+              .map((item) =>
+                item?.precio && item?.cantidad ? item.precio * item.cantidad : 0
+              )
               .reduce((a, b) => a + b, 0);
-
-            const cantidadArticulos = Object.values(invoicesToArr[index])
-              .map((item) => item?.cantidad)
-              .filter((item) => !isNaN(item))
-              .reduce((a, b) => a + b, 0);
-
-            precioTOTAL *= cantidadArticulos;
 
             return (
-              <tr className="hover:text-blue-400 h-[75px]" key={order?.id}>
+              <tr
+                className={`hover:text-blue-400 h-[75px] ${
+                  showItems.includes(index)
+                    ? "duration-200 opacity-100 translate-y-0"
+                    : "duration-200 opacity-0 translate-y-10"
+                }`}
+                key={order?.id}
+              >
                 <td className="text-center w-1/8">
-                  <input
+                  <label className="flex container items-center justify-center">
+                    <input
+                      type="checkbox"
+                      onChange={() => toggleSelectOrder(order)}
+                      checked={selectedOrdersID.includes(order?.id)}
+                    />
+                    <div className="checkmarklist"></div>
+                  </label>
+                  {/* <input
                     type="checkbox"
                     className="w-4 h-4 ml-1"
                     onChange={() => toggleSelectOrder(order)}
                     checked={selectedOrdersID.includes(order?.id)}
-                  />
+                  /> */}
                 </td>
 
                 <td className="text-center w-1/8 font-bold ml-1">
                   {index + 1}
                 </td>
 
-                <td className="text-center w-1/8 font-bold">{order?.id}</td>
+                <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                  {order?.id}
+                </td>
 
                 <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
                   {order?.user?.data?.username}
