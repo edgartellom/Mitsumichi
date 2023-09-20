@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 
 import {
@@ -9,6 +11,8 @@ import {
 import "../styles.css";
 
 const Products_Admin = () => {
+  const navigate = useNavigate();
+
   const [motos, setMotos] = useState([]);
   const [showItems, setShowItems] = useState([]);
   const [selectedMotos, setSelectedMotos] = useState([]);
@@ -194,7 +198,10 @@ const Products_Admin = () => {
                 <td className="text-center w-1/8 font-bold ml-1">{moto?.id}</td>
               )}
               {screenWidth >= 768 && (
-                <td className="text-center w-1/8">
+                <td
+                  className="text-center w-1/8"
+                  onClick={() => navigate(`${moto.id}`)}
+                >
                   {moto?.imageUrl[0] ? (
                     <img
                       src={moto?.imageUrl[0]}
@@ -209,7 +216,10 @@ const Products_Admin = () => {
                   )}
                 </td>
               )}
-              <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+              <td
+                className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+                onClick={() => navigate(`${moto.id}`)}
+              >
                 {moto?.brand?.name} - {moto?.motoModel}
               </td>
               {screenWidth >= 900 && (
