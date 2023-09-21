@@ -334,7 +334,6 @@ const Moto_Create = () => {
     setImage(files);
     setSelectedImages(files);
     setImagePreviews(previews);
-    // handleImageUploadCloudinary(files);
   };
   const handleImageUploadCloudinary = async (images) => {
     const cloudName = import.meta.env.VITE_REACT_APP_CLOUDINARY_CLOUD_NAME;
@@ -499,6 +498,11 @@ const Moto_Create = () => {
                 // Esperar al menos 3 segundos antes de continuar
                 await new Promise((resolve) => setTimeout(resolve, 3000));
 
+                console.log(imageUrls);
+                console.log(
+                  formData.JSON.stringify({ ...formData, imageUrl: imageUrls })
+                );
+
                 const response = await axios.post(
                   "http://localhost:3001/motos",
                   JSON.stringify({ ...formData, imageUrl: imageUrls }),
@@ -508,6 +512,7 @@ const Moto_Create = () => {
                     },
                   }
                 );
+                console.log(response);
 
                 // Cerrar el cuadro de diálogo "Procesando..."
                 processingDialog.close();
@@ -548,7 +553,7 @@ const Moto_Create = () => {
                 setSelectedColors([]);
 
                 // Redirigir a la página de inicio u otra acción que desees realizar
-                window.location.href = "/dashboard";
+                window.location.href = "/dashboard/products-admin";
               } catch (error) {
                 // console.error(error);
                 Swal.fire({

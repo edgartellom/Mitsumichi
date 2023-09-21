@@ -112,7 +112,9 @@ const Navbar_Dashboard = () => {
           <div className={`flex items-center ml-16 `}>
             <Title_Label pageTitle={pageTitle} />
           </div>
-
+          <div className="ml-4">
+            
+          </div>
           <div
             className={`flex flex-row-reverse h-full items-center pt-1 mr-5 duration-200`}
           >
@@ -206,6 +208,7 @@ const Navbar_Dashboard = () => {
                 <h1 className="mt-1 text-[#ffffff] text-[14px] ">
                   {user?.data?.username}
                 </h1>
+
                 <p
                   className={`text-[14px] font-bold ${
                     user?.role === "admin" ? "text-[#C63D05]" : "text-slate-400"
