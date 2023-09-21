@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
+import SearchBar from "../../SearchBar/SearchBar";
 
 import {
   MdOutlineDeleteForever,
@@ -17,6 +18,8 @@ const Products_Admin = () => {
   const [showItems, setShowItems] = useState([]);
   const [selectedMotos, setSelectedMotos] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [filteredMotos, setFilteredMotos] = useState([]);
+
   const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -79,6 +82,26 @@ const Products_Admin = () => {
       });
     }
   }, [motos]);
+
+  const handleSearch = (searchQuery) => {
+    const searchText = searchQuery.toLowerCase();
+    const filteredMotos = motos.filter((moto) => {
+      const motoId = moto.id ? moto.id.toString().toLowerCase() : "";
+      return (
+        motoId.includes(searchText) ||
+        (moto.motoModel && moto.motoModel.toLowerCase().includes(searchText)) ||
+        (moto.brand &&
+          moto.brand.name &&
+          moto.brand.name.toLowerCase().includes(searchText)) ||
+        (moto.tipo &&
+          moto.tipo.name &&
+          moto.tipo.name.toLowerCase().includes(searchText))
+      );
+    });
+    setFilteredMotos(filteredMotos);
+  };
+
+  console.log(screenWidth);
 
   return (
     <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
