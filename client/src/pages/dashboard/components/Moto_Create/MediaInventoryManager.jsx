@@ -54,11 +54,13 @@ const MediaInventoryManager = ({
       backgroundColor: state.data.value, // Usa el valor como color de fondo
       border: "1px ridge gray", // Borde redondeado
     }),
+
     multiValueLabel: (provided, state) => ({
       ...provided,
       color: state.data.value === "black" ? "white" : "black", // Cambia el color del texto para que sea visible
       fontWeight: "bold",
     }),
+
     multiValueRemove: (provided, state) => ({
       ...provided,
       color: state.data.value === "black" ? "white" : "black", // Cambia el color del icono para que sea visible
@@ -98,7 +100,7 @@ const MediaInventoryManager = ({
         >
           <label
             htmlFor="imageUrl"
-            className="mb-1 text-lg font-semibold text-center uppercase"
+            className="text-lg font-semibold text-[#c63d05] uppercase"
           >
             {selectedImages.length === 0
               ? "Por favor selecciona una imagen"
@@ -148,7 +150,12 @@ const MediaInventoryManager = ({
             </div>
           </div>
           <div className="input-wrapper flex flex-col">
-            <label htmlFor="colorDisposible">Colores de las Motos</label>
+            <label
+              htmlFor="colorDisposible"
+              className="pl-2 text-lg font-semibold text-[#c63d05] uppercase"
+            >
+              Colores de las Motos
+            </label>
             <div className="relative">
               <Select
                 options={sortedColorOptions}
@@ -182,7 +189,12 @@ const MediaInventoryManager = ({
           </div>
 
           <div className="input-wrapper flex flex-col">
-            <label htmlFor="precio">Precio</label>
+            <label
+              htmlFor="precio"
+              className="pl-2 text-lg font-semibold text-[#c63d05] uppercase"
+            >
+              Precio
+            </label>
             <div className="relative">
               <input
                 type="number"
