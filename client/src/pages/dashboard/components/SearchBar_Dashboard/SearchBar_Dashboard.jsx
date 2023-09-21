@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar_Dashboard = ({ onSearch }) => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchInputChange = (e) => {
@@ -22,5 +22,4 @@ const SearchBar = ({ onSearch }) => {
   );
 };
 
-export default SearchBar;
-
+export default SearchBar_Dashboard;
