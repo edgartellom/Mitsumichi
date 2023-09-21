@@ -43,7 +43,7 @@ const SignUp = () => {
 
   return (
     <Wrapper>
-      <form className="  animate-slide-down bg-white flex flex-col justify-center  items-center pb-7 pt-2 w-[700px] max-sm:h-screen   gap-6 rounded-lg max-sm:w-screen ">
+      <form className="   animate-slide-down bg-white flex flex-col justify-center  items-center pb-7 pt-2 w-[700px] max-sm:h-screen   gap-6 rounded-lg max-sm:w-screen ">
         <button
           type="button"
           onClick={() => logOut()}
