@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import SearchBar from "../../SearchBar/SearchBar";
 
 import "../styles.css";
 
@@ -10,6 +11,8 @@ const Products_Admin = () => {
 
   const [selectedMotos, setSelectedMotos] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [filteredMotos, setFilteredMotos] = useState([]);
+
   const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -60,8 +63,8 @@ const Products_Admin = () => {
     } else {
       setSelectedMotos((prevSelected) => [...prevSelected, moto]);
     }
-  };
-
+  };  
+  
   useEffect(() => {
     // Retardar la aparición de elementos para crear la animación de cascada
     if (motos.length > 0) {
@@ -74,11 +77,28 @@ const Products_Admin = () => {
     }
   }, [motos]);
 
+
+  const handleSearch = (searchQuery) => {
+    const searchText = searchQuery.toLowerCase();
+    const filteredMotos = motos.filter((moto) => {
+      const motoId = moto.id ? moto.id.toString().toLowerCase() : "";
+      return (
+        motoId.includes(searchText) ||
+        (moto.motoModel && moto.motoModel.toLowerCase().includes(searchText)) ||
+        (moto.brand && moto.brand.name && moto.brand.name.toLowerCase().includes(searchText)) ||
+        (moto.tipo && moto.tipo.name && moto.tipo.name.toLowerCase().includes(searchText))
+      );
+    });
+    setFilteredMotos(filteredMotos);
+  };
+
+  console.log(screenWidth);
+
   return (
-    <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter">
-      <table
-        className={`w-full rounded-md shadow-sm shadow-[#252525] overflow-hidden`}
-      >
+    <div className="min-h-full bg-slate-100 p-4">
+      <h1>Administrador de Productos</h1>
+      {/* <SearchBar onSearch={handleSearch} /> */}
+      <table className={`w-full border-2 shadow-sm duration-300`}>
         <thead
           className={`h-[40px] bg-[#C63D05] text-white ${
             screenWidth >= 1220 ? "text-2xl" : "text-lg"
@@ -178,7 +198,9 @@ const Products_Admin = () => {
                 <td className="text-center w-1/8 font-bold ml-1">{moto?.id}</td>
               )}
               {screenWidth >= 768 && (
-                <td className="text-center w-1/8">
+                <td
+                  className="text-center w-1/8"
+                >
                   {moto?.imageUrl[0] ? (
                     <img
                       src={moto?.imageUrl[0]}
@@ -193,7 +215,9 @@ const Products_Admin = () => {
                   )}
                 </td>
               )}
-              <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+              <td
+                className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+              >
                 {moto?.brand?.name} - {moto?.motoModel}
               </td>
               {screenWidth >= 900 && (
@@ -227,5 +251,6 @@ const Products_Admin = () => {
     </div>
   );
 };
+           
 
 export default Products_Admin;
