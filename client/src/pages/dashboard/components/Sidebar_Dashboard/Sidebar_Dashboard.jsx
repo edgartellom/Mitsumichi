@@ -287,14 +287,14 @@ const Sidebar_Dashboard = () => {
         >
           {currentUser ? (
             <>
-              <div className="flex border-2  border-[#C63D05] rounded-lg w-[100px] h-[100px] overflow-hidden">
+              <div className="flex border-2  border-[#C63D05] rounded-lg w-[150px] h-[150px] overflow-hidden">
                 <img src={photo} alt="" />
               </div>
-              <h2 className="text-white text-center font-bold pt-3">
+              <h2 className="text-white text-center text-[18px] font-bold pt-3">
                 {user?.data?.username}
               </h2>
 
-              <h1 className="mt-2 text-[#C63D05] text-[20px] font-bold">
+              <h1 className="mt-2 text-[#C63D05] text-[18px] font-bold">
                 {userRole}
               </h1>
             </>

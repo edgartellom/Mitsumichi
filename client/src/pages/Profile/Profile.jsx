@@ -97,17 +97,17 @@ const Profile = () => {
                 {invoices.map((invoice) => {
                   let arregloDeObjetos = Object.values(invoice);
                   let PrecioTotal = arregloDeObjetos
-                    .map((item) => item?.precio)
-                    .map(Number)
-                    .filter((item) => !isNaN(item))
+                    .map((item) =>
+                      item?.precio && item?.cantidad
+                        ? item.precio * item.cantidad
+                        : 0
+                    )
                     .reduce((a, b) => a + b, 0);
 
                   const cantidadArticulos = arregloDeObjetos
                     .map((item) => item?.cantidad)
                     .filter((item) => !isNaN(item))
                     .reduce((a, b) => a + b, 0);
-
-                  PrecioTotal *= cantidadArticulos;
 
                   return (
                     <tr
