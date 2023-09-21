@@ -13,6 +13,7 @@ const getAllTipos = require("../controllers/getAllTipos");
 // const restoreMoto = require("../controllers/restoreMoto");
 const marcarDesmarcarMoto = require("../controllers/marcarDesmarcarMoto");
 const editStockMoto = require("../controllers/editStockMoto");
+const getAllColors = require("../controllers/getAllColors");
 //-------------------------------------------------------
 
 const router = Router();
@@ -37,6 +38,7 @@ router.post("/motos", createMoto);
 router.get("/reviews", getAllReviews);
 router.post("/reviews", createReview);
 
+router.get("/colores", getAllColors);
 router.put("/editStock", editStockMoto);
 
 module.exports = router;
