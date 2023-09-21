@@ -198,7 +198,9 @@ const Products_Admin = () => {
                 <td className="text-center w-1/8 font-bold ml-1">{moto?.id}</td>
               )}
               {screenWidth >= 768 && (
-                <td className="text-center w-1/8">
+                <td
+                  className="text-center w-1/8"
+                >
                   {moto?.imageUrl[0] ? (
                     <img
                       src={moto?.imageUrl[0]}
@@ -212,53 +214,43 @@ const Products_Admin = () => {
                     ></div>
                   )}
                 </td>
-                {screenWidth >= 900 && (
-                  <td className="text-center w-1/8 font-bold ml-1">{moto?.id}</td>
-                )}
-                {screenWidth >= 768 && (
-                  <td className="text-center w-1/8">
-                    <img
-                      src={moto?.imageUrl[0]}
-                      alt="Moto"
-                      width="100"
-                      className="mx-auto"
-                    />
-                  </td>
-                )}
-                <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
-                  {moto?.brand?.name} - {moto?.motoModel}
+              )}
+              <td
+                className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+              >
+                {moto?.brand?.name} - {moto?.motoModel}
+              </td>
+              {screenWidth >= 900 && (
+                <td className="text-center w-1/8 font-bold uppercase">
+                  {moto?.tipo?.name}
                 </td>
-                {screenWidth >= 900 && (
-                  <td className="text-center w-1/8 font-bold uppercase">
-                    {moto?.tipo?.name}
-                  </td>
-                )}
-                <td className="text-center w-1/8 font-bold">
-                  {moto?.stock} {screenWidth >= 400 && "Unds"}
+              )}
+              <td className="text-center w-1/8 font-bold">
+                {moto?.stock} {screenWidth >= 400 && "Unds"}
+              </td>
+              <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
+                {parseFloat(moto?.precio).toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                  minimumFractionDigits: 2,
+                })}
+              </td>
+              {screenWidth >= 1220 && (
+                <td
+                  className={`text-center w-1/8 font-bold uppercase ${
+                    moto?.deleted ? "text-red-600" : "text-green-600"
+                  }`}
+                >
+                  {moto?.deleted ? "Inactivo" : "Activo"}
                 </td>
-                <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
-                  {parseFloat(moto?.precio).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    minimumFractionDigits: 2,
-                  })}
-                </td>
-                {screenWidth >= 1220 && (
-                  <td
-                    className={`text-center w-1/8 font-bold uppercase ${
-                      moto?.deleted ? "text-red-600" : "text-green-600"
-                    }`}
-                  >
-                    {moto?.deleted ? "Inactivo" : "Activo"}
-                  </td>
-                )}
-              </tr>
-            );
-          })}
+              )}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   );
 };
+           
 
 export default Products_Admin;
