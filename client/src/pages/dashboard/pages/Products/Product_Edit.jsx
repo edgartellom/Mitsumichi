@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Basic_Info_Product,
@@ -10,13 +10,30 @@ const Product_Edit = () => {
   const [activeTab, setActiveTab] = useState("BasicInfo");
   const { id } = useParams();
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    marca: "YAMAHA",
+    modelo: "YB-125",
+    tipo: "CUTER",
+    year: 2020,
+    precio: 3600,
+    imageUrl: [],
+    combustible: "NAFTRA",
+    colorDisponible: ["Rojo", "Blue"],
+    fichaTecnica: {
+      motor: "4 Tiempos",
+      pasajeros: "3",
+      cilindrada: "266",
+      velocidades: "6 Velocidades",
+    },
+  });
 
   useEffect(() => {
-    const fetchDataDetail = async () => {};
+    const fetchDataEdit_Product = async () => {};
 
-    fetchDataDetail();
+    fetchDataEdit_Product();
   }, [id]);
+
+  useLayoutEffect(() => {});
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
@@ -70,12 +87,12 @@ const Product_Edit = () => {
           {activeTab === "BasicInfo" && (
             <Basic_Info_Product formData={formData} />
           )}
-          {activeTab === "DataSheet" &&
-            "Hola" // <Data_Sheet_Product formData={formData} />
-          }
-          {
-            activeTab === "ImagesColorsStock" && "Hello" // <MediaInventoryManager_Product formData={formData} />
-          }
+          {activeTab === "DataSheet" && (
+            <Data_Sheet_Product formData={formData} />
+          )}
+          {activeTab === "ImagesColorsStock" && (
+            <MediaInventoryManager_Product formData={formData} />
+          )}
         </form>
       </div>
     </div>
