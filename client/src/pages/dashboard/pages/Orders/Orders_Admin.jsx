@@ -4,6 +4,11 @@ import { userAuth } from "../../../../context/Auth-context";
 
 import axios from "axios";
 
+import {
+  MdOutlineDeleteForever,
+  MdOutlineRestoreFromTrash,
+} from "react-icons/md";
+
 import "../styles.css";
 
 const Products_Admin = () => {
@@ -66,7 +71,19 @@ const Products_Admin = () => {
   }, [allInvoices]);
 
   return (
-    <div className="min-h-full bg-white pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter">
+    <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
+      <button
+        className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
+        onClick={""}
+      >
+        <div className="flex flex-row py-2 pr-2 items-center justify-between h-8 text-white hover:text-red-600 ">
+          <MdOutlineRestoreFromTrash size={30} />
+          <span className="">REMOVE</span>
+        </div>
+      </button>
+      <h1 className="pb-2 -pt-2 text-2xl font-bold text-[#c63d05] uppercase">
+        Lista de Ordenes
+      </h1>
       <table
         className={`w-full rounded-md shadow-sm shadow-[#252525] overflow-hidden`}
       >

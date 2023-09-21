@@ -463,9 +463,9 @@ const Create_New_Moto = () => {
 
   return (
     <div className="min-h-full max-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter">
-      <div className="">
+      <div className="flex flex-col">
         <div
-          className={`w-[full] min-h-full max-h-full border-b border-gray-200 rounded-md overflow-hidden`}
+          className={`w-[full] min-h-full max-h-full border-b border-gray-200 rounded-md -mb-2 z-0 overflow-hidden`}
         >
           <nav className="-mb-px flex gap-0">
             <a
@@ -506,7 +506,7 @@ const Create_New_Moto = () => {
           </nav>
         </div>
 
-        <form className="gap-2 min-w-full h-full">
+        <form className="gap-2 min-w-full h-full bg-white z-10 ">
           {activeTab === "BasicInfo" && (
             <Basic_Info
               formData={formData}

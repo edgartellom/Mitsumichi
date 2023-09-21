@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import SearchBar from "../../SearchBar/SearchBar";
+
+import {
+  MdOutlineDeleteForever,
+  MdOutlineRestoreFromTrash,
+} from "react-icons/md";
 
 import "../styles.css";
 
 const Products_Admin = () => {
+  const navigate = useNavigate();
+
   const [motos, setMotos] = useState([]);
-
   const [showItems, setShowItems] = useState([]);
-
   const [selectedMotos, setSelectedMotos] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [filteredMotos, setFilteredMotos] = useState([]);
 
   const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
-
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -63,8 +69,8 @@ const Products_Admin = () => {
     } else {
       setSelectedMotos((prevSelected) => [...prevSelected, moto]);
     }
-  };  
-  
+  };
+
   useEffect(() => {
     // Retardar la aparición de elementos para crear la animación de cascada
     if (motos.length > 0) {
@@ -77,7 +83,6 @@ const Products_Admin = () => {
     }
   }, [motos]);
 
-
   const handleSearch = (searchQuery) => {
     const searchText = searchQuery.toLowerCase();
     const filteredMotos = motos.filter((moto) => {
@@ -85,8 +90,12 @@ const Products_Admin = () => {
       return (
         motoId.includes(searchText) ||
         (moto.motoModel && moto.motoModel.toLowerCase().includes(searchText)) ||
-        (moto.brand && moto.brand.name && moto.brand.name.toLowerCase().includes(searchText)) ||
-        (moto.tipo && moto.tipo.name && moto.tipo.name.toLowerCase().includes(searchText))
+        (moto.brand &&
+          moto.brand.name &&
+          moto.brand.name.toLowerCase().includes(searchText)) ||
+        (moto.tipo &&
+          moto.tipo.name &&
+          moto.tipo.name.toLowerCase().includes(searchText))
       );
     });
     setFilteredMotos(filteredMotos);
@@ -95,10 +104,24 @@ const Products_Admin = () => {
   console.log(screenWidth);
 
   return (
-    <div className="min-h-full bg-slate-100 p-4">
-      <h1>Administrador de Productos</h1>
-      {/* <SearchBar onSearch={handleSearch} /> */}
-      <table className={`w-full border-2 shadow-sm duration-300`}>
+    <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
+      {selectedMotos.length > 0 && (
+        <button
+          className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
+          onClick={""}
+        >
+          <div className="flex flex-row py-2 pr-2 items-center justify-between h-8 text-white hover:text-red-600 ">
+            <MdOutlineRestoreFromTrash size={30} />
+            <span className="">REMOVE</span>
+          </div>
+        </button>
+      )}
+      <h1 className="pb-2 -pt-2 text-2xl font-bold text-[#c63d05] uppercase">
+        Lista de Productos
+      </h1>
+      <table
+        className={`w-full rounded-md shadow-sm shadow-[#252525] overflow-hidden`}
+      >
         <thead
           className={`h-[40px] bg-[#C63D05] text-white ${
             screenWidth >= 1220 ? "text-2xl" : "text-lg"
@@ -200,6 +223,7 @@ const Products_Admin = () => {
               {screenWidth >= 768 && (
                 <td
                   className="text-center w-1/8"
+                  onClick={() => navigate(`${moto.id}`)}
                 >
                   {moto?.imageUrl[0] ? (
                     <img
@@ -217,6 +241,7 @@ const Products_Admin = () => {
               )}
               <td
                 className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+                onClick={() => navigate(`${moto.id}`)}
               >
                 {moto?.brand?.name} - {moto?.motoModel}
               </td>
@@ -251,6 +276,5 @@ const Products_Admin = () => {
     </div>
   );
 };
-           
 
 export default Products_Admin;
