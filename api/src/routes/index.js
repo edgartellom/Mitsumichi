@@ -8,6 +8,7 @@ const createReview = require("../controllers/createReview");
 const getMotoByID = require("../controllers/getMotoByID");
 const editMoto = require("../controllers/editMoto");
 const getAllTipos = require("../controllers/getAllTipos");
+const sendEmail = require("../controllers/sendEmail");
 //-------------------------------------------------------
 // const desableMoto = require("../controllers/disableMoto");
 // const restoreMoto = require("../controllers/restoreMoto");
@@ -38,5 +39,7 @@ router.get("/reviews", getAllReviews);
 router.post("/reviews", createReview);
 
 router.put("/editStock", editStockMoto);
+
+router.post("/enviar-correo", sendEmail);
 
 module.exports = router;
