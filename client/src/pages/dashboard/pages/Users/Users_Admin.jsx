@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from "react";
+import updateUser from "../../../../firebase/updateUser";
 
 import {
   MdOutlineDeleteForever,
@@ -12,7 +13,7 @@ const Users_Admin = () => {
 
   const invoicesToArr = Object.values(invoices);
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -30,17 +31,25 @@ const Users_Admin = () => {
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setSelectedRows(selectAll ? [] : users.map((_, index) => index));
+
+    selectAll ? setSelectedUsers([]) : setSelectedUsers([...users]);
   };
 
-  const handleSelectRow = (index) => {
-    const newSelectedRows = [...selectedRows];
-    if (newSelectedRows.includes(index)) {
-      newSelectedRows.splice(newSelectedRows.indexOf(index), 1);
+  const handleSelectUser = (index) => {
+    const newSelectedUser = [...selectedUsers];
+
+    if (newSelectedUser.some((user) => user.id === users[index].id)) {
+      // Si el usuario ya está seleccionado, lo eliminamos de la lista
+      newSelectedUser.splice(
+        newSelectedUser.findIndex((user) => user.id === users[index].id),
+        1
+      );
     } else {
-      newSelectedRows.push(index);
+      // Si el usuario no está seleccionado, lo agregamos a la lista
+      newSelectedUser.push(users[index]);
     }
-    setSelectedRows(newSelectedRows);
+
+    setSelectedUsers(newSelectedUser);
   };
 
   useEffect(() => {
@@ -55,20 +64,60 @@ const Users_Admin = () => {
     }
   }, [users]);
 
+  console.log(selectedUsers, "users");
+
+  const changeUserStatus = async () => {
+    try {
+      // Crear un array de promesas para las actualizaciones de usuarios
+      const updatePromises = selectedUsers.map(async (user) => {
+        const updatedUser = {
+          ...user,
+          status: user.status === "active" ? "inactive" : "active",
+        };
+        await updateUser(updatedUser);
+      });
+
+      // Esperar a que todas las actualizaciones se completen
+      await Promise.all(updatePromises);
+
+      // Una vez que todas las actualizaciones se han completado con éxito, recargar la página
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al actualizar usuarios:", error);
+    }
+  };
+
   return (
     <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
-      <button
-        className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
-        onClick={""}
-      >
-        <div className="flex flex-row py-2 pr-2 items-center justify-between h-8 text-white hover:text-red-600 ">
-          <MdOutlineRestoreFromTrash size={30} />
-          <span className="">REMOVE</span>
-        </div>
-      </button>
+      {selectedUsers.length > 0 && (
+        <button
+          className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
+          onClick={changeUserStatus}
+        >
+          <div
+            className={`flex flex-row py-2 pr-2 items-center justify-between h-8 text-white ${
+              selectedUsers.some((user) => user.status === "inactive")
+                ? "hover:text-green-500"
+                : "hover:text-red-600"
+            } `}
+          >
+            {selectedUsers.some((moto) => moto.deleted) ? (
+              <>
+                <MdOutlineRestoreFromTrash size={30} />
+                <span className="">RESTORE</span>
+              </>
+            ) : (
+              <>
+                <MdOutlineDeleteForever size={30} />
+                <span className="">REMOVE</span>
+              </>
+            )}
+          </div>
+        </button>
+      )}
       <h1 className="pb-2 -pt-2 text-2xl font-bold text-[#c63d05] uppercase">
         Lista de Ordenes
-      </h1>{" "}
+      </h1>
       <table
         className={`w-full rounded-md shadow-sm shadow-[#252525] overflow-hidden`}
       >
@@ -150,14 +199,14 @@ const Users_Admin = () => {
                   <label className="flex container items-center justify-center">
                     <input
                       type="checkbox"
-                      checked={selectedRows.includes(index)}
-                      onChange={() => handleSelectRow(index)}
+                      checked={selectedUsers.includes(users[index])}
+                      onChange={() => handleSelectUser(index)}
                     />
                     <div className="checkmarklist"></div>
                   </label>
                   {/* <input
                     type="checkbox"
-                    checked={selectedRows.includes(index)}
+                    checked={selectedUser.includes(index)}
                     onChange={() => handleSelectRow(index)}
                     className="w-6 h-6 "
                   /> */}
@@ -179,9 +228,15 @@ const Users_Admin = () => {
                 <td className="text-center w-1/7 font-bold">
                   {invoicesToArr[index]?.length}
                 </td>
-                <td className="text-center w-1/7 text-green-600 font-bold uppercase">
-                  ACTIVE
-                </td>
+                {user?.status === "active" ? (
+                  <td className="text-center w-1/7 text-green-600 font-bold uppercase">
+                    ACTIVO
+                  </td>
+                ) : (
+                  <td className="text-center w-1/7 text-red-600 font-bold uppercase">
+                    INACTIVO
+                  </td>
+                )}
 
                 <td className="text-center w-1/7 font-bold text-blue-600 mr-1">
                   {parseFloat(precioTOTAL).toLocaleString("en-US", {

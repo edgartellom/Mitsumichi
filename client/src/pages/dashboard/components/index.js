@@ -16,4 +16,5 @@ export { default as Basic_Info_Product } from "./Product_Edit/Basic_Info_Product
 export { default as Data_Sheet_Product } from "./Product_Edit/Data_Sheet_Product";
 export { default as MediaInventoryManager_Product } from "./Product_Edit/MediaInventoryManager_Product";
 export { default as Profile_Dropdown } from "./Profile_Dropdown/Profile_Dropdown";
+export { default as SearchBar_Dashboard } from "./SearchBar_Dashboard/SearchBar_Dashboard";
 export { default as Sidebar_Dashboard } from "./Sidebar_Dashboard/Sidebar_Dashboard";
