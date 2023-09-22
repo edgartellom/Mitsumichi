@@ -15,8 +15,8 @@ const Data_Sheet_Product = ({ formData }) => {
         </label>
         <div className="relative">
           <input
-            type="number"
-            value={formData.fichaTecnica.motor}
+            type="text"
+            value={formData?.fichaTecnica?.motor}
             disabled={true}
             className={`border rounded px-3 py-2 w-full`}
           />
@@ -32,8 +32,8 @@ const Data_Sheet_Product = ({ formData }) => {
         </label>
         <div className="relative">
           <input
-            type="number"
-            value={formData.fichaTecnica.velocidades}
+            type="text"
+            value={formData?.fichaTecnica?.velocidades}
             disabled={true}
             className={`border rounded px-3 py-2 w-full`}
           />
@@ -50,7 +50,7 @@ const Data_Sheet_Product = ({ formData }) => {
         <div className="relative">
           <input
             type="number"
-            value={formData.fichaTecnica.pasajeros}
+            value={formData?.fichaTecnica?.pasajeros}
             disabled={true}
             className={`border rounded px-3 py-2 w-full`}
           />
@@ -67,7 +67,7 @@ const Data_Sheet_Product = ({ formData }) => {
         <div className="relative">
           <input
             type="number"
-            value={formData.fichaTecnica.cilindrada}
+            value={formData?.fichaTecnica?.cilindrada}
             disabled={true}
             className={`border rounded px-3 py-2 w-full `}
           />

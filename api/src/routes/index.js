@@ -28,7 +28,7 @@ router.delete("/motos/:id", deleteMoto);
 //------------------------------------------
 // router.delete("/moto/:id", desableMoto); params
 // router.post("/moto/restaurar/:id", restoreMoto); params
-router.put("/moto/:id", marcarDesmarcarMoto); //body
+router.put("/moto/marcar-desmarcar", marcarDesmarcarMoto); //body
 //------------------------------------------
 router.put("/motos/:id", editMoto);
 
