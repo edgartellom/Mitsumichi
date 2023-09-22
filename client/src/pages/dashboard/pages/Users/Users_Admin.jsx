@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import axios from "axios";
+import updateUser from "../../../../firebase/updateUser";
 
 import {
   MdOutlineDeleteForever,
@@ -29,34 +29,26 @@ const Users_Admin = () => {
     };
   }, []);
 
-  const handleMarkMotos = async () => {
-    // const usersToUpdate = selectedUsers.map((moto) => ({
-    //   id: user.id,
-    //   deleted: !user.deleted,
-    // }));
-    // try {
-    //   // Realizar la solicitud PUT al servidor para marcar/desmarcar motos
-    //   await axios.put(
-    //     "http://localhost:3001/user/marcar-desmarcar",
-    //     usersToUpdate
-    //   );
-    // } catch (error) {
-    //   console.error("Error al marcar/desmarcar user:", error);
-    // }
-  };
-
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-    setSelectedUsers(selectAll ? [] : users.map((_, index) => index));
+
+    selectAll ? setSelectedUsers([]) : setSelectedUsers([...users]);
   };
 
   const handleSelectUser = (index) => {
     const newSelectedUser = [...selectedUsers];
-    if (newSelectedUser.includes(index)) {
-      newSelectedUser.splice(newSelectedUser.indexOf(index), 1);
+
+    if (newSelectedUser.some((user) => user.id === users[index].id)) {
+      // Si el usuario ya está seleccionado, lo eliminamos de la lista
+      newSelectedUser.splice(
+        newSelectedUser.findIndex((user) => user.id === users[index].id),
+        1
+      );
     } else {
-      newSelectedUser.push(index);
+      // Si el usuario no está seleccionado, lo agregamos a la lista
+      newSelectedUser.push(users[index]);
     }
+
     setSelectedUsers(newSelectedUser);
   };
 
@@ -72,16 +64,39 @@ const Users_Admin = () => {
     }
   }, [users]);
 
+  console.log(selectedUsers, "users");
+
+  const changeUserStatus = async () => {
+    try {
+      // Crear un array de promesas para las actualizaciones de usuarios
+      const updatePromises = selectedUsers.map(async (user) => {
+        const updatedUser = {
+          ...user,
+          status: user.status === "active" ? "inactive" : "active",
+        };
+        await updateUser(updatedUser);
+      });
+
+      // Esperar a que todas las actualizaciones se completen
+      await Promise.all(updatePromises);
+
+      // Una vez que todas las actualizaciones se han completado con éxito, recargar la página
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al actualizar usuarios:", error);
+    }
+  };
+
   return (
     <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
       {selectedUsers.length > 0 && (
         <button
           className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
-          onClick={""}
+          onClick={changeUserStatus}
         >
           <div
             className={`flex flex-row py-2 pr-2 items-center justify-between h-8 text-white ${
-              selectedUsers.some((moto) => moto.deleted)
+              selectedUsers.some((user) => user.status === "inactive")
                 ? "hover:text-green-500"
                 : "hover:text-red-600"
             } `}
@@ -184,7 +199,7 @@ const Users_Admin = () => {
                   <label className="flex container items-center justify-center">
                     <input
                       type="checkbox"
-                      checked={selectedUsers.includes(index)}
+                      checked={selectedUsers.includes(users[index])}
                       onChange={() => handleSelectUser(index)}
                     />
                     <div className="checkmarklist"></div>
@@ -213,9 +228,15 @@ const Users_Admin = () => {
                 <td className="text-center w-1/7 font-bold">
                   {invoicesToArr[index]?.length}
                 </td>
-                <td className="text-center w-1/7 text-green-600 font-bold uppercase">
-                  ACTIVE
-                </td>
+                {user?.status === "active" ? (
+                  <td className="text-center w-1/7 text-green-600 font-bold uppercase">
+                    ACTIVO
+                  </td>
+                ) : (
+                  <td className="text-center w-1/7 text-red-600 font-bold uppercase">
+                    INACTIVO
+                  </td>
+                )}
 
                 <td className="text-center w-1/7 font-bold text-blue-600 mr-1">
                   {parseFloat(precioTOTAL).toLocaleString("en-US", {
