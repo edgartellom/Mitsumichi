@@ -42,6 +42,6 @@ router.post("/reviews", createReview);
 
 router.put("/editStock", editStockMoto);
 
-router.post("/enviar-correo", sendEmail);
+router.post("/send-email", sendEmail);
 
 module.exports = router;
