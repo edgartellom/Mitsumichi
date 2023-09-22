@@ -8,6 +8,7 @@ const createReview = require("../controllers/createReview");
 const getMotoByID = require("../controllers/getMotoByID");
 const editMoto = require("../controllers/editMoto");
 const getAllTipos = require("../controllers/getAllTipos");
+const getAllColors = require("../controllers/getAllColors");
 //-------------------------------------------------------
 // const desableMoto = require("../controllers/disableMoto");
 // const restoreMoto = require("../controllers/restoreMoto");
@@ -21,6 +22,7 @@ const router = Router();
 router.get("/motos", getAllMoto);
 router.get("/marcas", getAllBrands);
 router.get("/tipos", getAllTipos);
+router.get("/colores", getAllColors);
 router.get("/motos/:id", getMotoByID);
 router.delete("/motos/:id", deleteMoto);
 //------------------------------------------
