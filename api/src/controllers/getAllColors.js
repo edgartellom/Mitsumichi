@@ -1,23 +1,14 @@
-const { Moto, Color, MotoColor } = require('./models'); // Asegúrate de importar tus modelos correctamente
-
-// Controlador para cargar motos con colores
+const { Color } = require("../db");
 async function getAllColors(req, res) {
+  // Obtener los colores de motos de la base de datos después de haberlos creado
   try {
-    const motosConColores = await Moto.findAll({
-      include: [
-        {
-          model: MotoColor, // Modelo de la tabla intermedia (moto_color)
-          include: [Color], // Incluye el modelo Color dentro de la tabla intermedia
-          attributes: ['stock'], // Puedes seleccionar las columnas que deseas mostrar
-        },
-      ],
-    });
-
-    res.json(motosConColores);
+    const dbColors = await Color.findAll();
+    // Responder con la lista completa de colores de motos
+    res.status(200).json(dbColors);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error al obtener motos con colores.' });
+    res.status(500).json({ error: "Error al obtener los colores" });
   }
 }
 
-module.exports = { getAllColors };
+module.exports = getAllColors;

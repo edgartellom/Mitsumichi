@@ -22,9 +22,9 @@ const router = Router();
 router.get("/motos", getAllMoto);
 router.get("/marcas", getAllBrands);
 router.get("/tipos", getAllTipos);
+router.get("/colores", getAllColors);
 router.get("/motos/:id", getMotoByID);
 router.delete("/motos/:id", deleteMoto);
-router.get("/motoConColores", getAllColors);
 //------------------------------------------
 // router.delete("/moto/:id", desableMoto); params
 // router.post("/moto/restaurar/:id", restoreMoto); params
