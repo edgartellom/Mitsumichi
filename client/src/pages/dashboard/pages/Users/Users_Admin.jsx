@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from "react";
+import axios from "axios";
 
 import {
   MdOutlineDeleteForever,
@@ -12,7 +13,7 @@ const Users_Admin = () => {
 
   const invoicesToArr = Object.values(invoices);
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -28,19 +29,35 @@ const Users_Admin = () => {
     };
   }, []);
 
-  const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setSelectedRows(selectAll ? [] : users.map((_, index) => index));
+  const handleMarkMotos = async () => {
+    // const usersToUpdate = selectedUsers.map((moto) => ({
+    //   id: user.id,
+    //   deleted: !user.deleted,
+    // }));
+    // try {
+    //   // Realizar la solicitud PUT al servidor para marcar/desmarcar motos
+    //   await axios.put(
+    //     "http://localhost:3001/user/marcar-desmarcar",
+    //     usersToUpdate
+    //   );
+    // } catch (error) {
+    //   console.error("Error al marcar/desmarcar user:", error);
+    // }
   };
 
-  const handleSelectRow = (index) => {
-    const newSelectedRows = [...selectedRows];
-    if (newSelectedRows.includes(index)) {
-      newSelectedRows.splice(newSelectedRows.indexOf(index), 1);
+  const handleSelectAll = () => {
+    setSelectAll(!selectAll);
+    setSelectedUsers(selectAll ? [] : users.map((_, index) => index));
+  };
+
+  const handleSelectUser = (index) => {
+    const newSelectedUser = [...selectedUsers];
+    if (newSelectedUser.includes(index)) {
+      newSelectedUser.splice(newSelectedUser.indexOf(index), 1);
     } else {
-      newSelectedRows.push(index);
+      newSelectedUser.push(index);
     }
-    setSelectedRows(newSelectedRows);
+    setSelectedUsers(newSelectedUser);
   };
 
   useEffect(() => {
@@ -57,18 +74,35 @@ const Users_Admin = () => {
 
   return (
     <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
-      <button
-        className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
-        onClick={""}
-      >
-        <div className="flex flex-row py-2 pr-2 items-center justify-between h-8 text-white hover:text-red-600 ">
-          <MdOutlineRestoreFromTrash size={30} />
-          <span className="">REMOVE</span>
-        </div>
-      </button>
+      {selectedUsers.length > 0 && (
+        <button
+          className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
+          onClick={""}
+        >
+          <div
+            className={`flex flex-row py-2 pr-2 items-center justify-between h-8 text-white ${
+              selectedUsers.some((moto) => moto.deleted)
+                ? "hover:text-green-500"
+                : "hover:text-red-600"
+            } `}
+          >
+            {selectedUsers.some((moto) => moto.deleted) ? (
+              <>
+                <MdOutlineRestoreFromTrash size={30} />
+                <span className="">RESTORE</span>
+              </>
+            ) : (
+              <>
+                <MdOutlineDeleteForever size={30} />
+                <span className="">REMOVE</span>
+              </>
+            )}
+          </div>
+        </button>
+      )}
       <h1 className="pb-2 -pt-2 text-2xl font-bold text-[#c63d05] uppercase">
         Lista de Ordenes
-      </h1>{" "}
+      </h1>
       <table
         className={`w-full rounded-md shadow-sm shadow-[#252525] overflow-hidden`}
       >
@@ -150,14 +184,14 @@ const Users_Admin = () => {
                   <label className="flex container items-center justify-center">
                     <input
                       type="checkbox"
-                      checked={selectedRows.includes(index)}
-                      onChange={() => handleSelectRow(index)}
+                      checked={selectedUsers.includes(index)}
+                      onChange={() => handleSelectUser(index)}
                     />
                     <div className="checkmarklist"></div>
                   </label>
                   {/* <input
                     type="checkbox"
-                    checked={selectedRows.includes(index)}
+                    checked={selectedUser.includes(index)}
                     onChange={() => handleSelectRow(index)}
                     className="w-6 h-6 "
                   /> */}
