@@ -17,9 +17,7 @@ const sendEmail = async (req, res) => {
     res.status(200).json({ message: "Correo electrónico enviado con éxito." });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
