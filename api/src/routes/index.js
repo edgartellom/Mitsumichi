@@ -14,7 +14,6 @@ const getAllColors = require("../controllers/getAllColors");
 // const restoreMoto = require("../controllers/restoreMoto");
 const marcarDesmarcarMoto = require("../controllers/marcarDesmarcarMoto");
 const editStockMoto = require("../controllers/editStockMoto");
-const getAllColors = require("../controllers/getAllColors");
 //-------------------------------------------------------
 
 const router = Router();
@@ -23,9 +22,9 @@ const router = Router();
 router.get("/motos", getAllMoto);
 router.get("/marcas", getAllBrands);
 router.get("/tipos", getAllTipos);
+router.get("/colores", getAllColors);
 router.get("/motos/:id", getMotoByID);
 router.delete("/motos/:id", deleteMoto);
-router.get("/motoConColores", getAllColors);
 //------------------------------------------
 // router.delete("/moto/:id", desableMoto); params
 // router.post("/moto/restaurar/:id", restoreMoto); params
@@ -40,7 +39,6 @@ router.post("/motos", createMoto);
 router.get("/reviews", getAllReviews);
 router.post("/reviews", createReview);
 
-router.get("/colores", getAllColors);
 router.put("/editStock", editStockMoto);
 
 module.exports = router;
