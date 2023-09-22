@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
+
+import axios from "axios";
+
 import {
   Basic_Info_Product,
   Data_Sheet_Product,
@@ -7,28 +10,64 @@ import {
 } from "../../components";
 
 const Product_Edit = () => {
-  const [activeTab, setActiveTab] = useState("BasicInfo");
   const { id } = useParams();
+  const [activeTab, setActiveTab] = useState("BasicInfo");
 
   const [formData, setFormData] = useState({
-    marca: "YAMAHA",
-    modelo: "YB-125",
-    tipo: "CUTER",
-    year: 2020,
-    precio: 3600,
+    marca: "",
+    modelo: "",
+    tipo: "",
+    year: 0,
+    precio: 0,
     imageUrl: [],
-    combustible: "NAFTRA",
-    colorDisponible: ["Rojo", "Blue"],
+    combustible: "",
+    colorDisponible: [],
     fichaTecnica: {
-      motor: "4 Tiempos",
-      pasajeros: "3",
-      cilindrada: "266",
-      velocidades: "6 Velocidades",
+      motor: "",
+      pasajeros: "",
+      cilindrada: "",
+      velocidades: "",
     },
   });
 
   useEffect(() => {
-    const fetchDataEdit_Product = async () => {};
+    const fetchDataEdit_Product = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/motos/${id}`);
+
+        const responseBrand = await axios(`http://localhost:3001/marcas`);
+        const brandFound = responseBrand.data.find(
+          (e) => e.id === response.data.brandId
+        );
+
+        const responseTipo = await axios(`http://localhost:3001/tipos`);
+        const tipoFound = responseTipo.data.find(
+          (e) => e.id === response.data.tipoId
+        );
+
+        console.log(response.data);
+
+        // Mapea los datos recibidos del backend al objeto formData
+        setFormData({
+          marca: brandFound.name, // Convierte brandId a cadena si es necesario
+          modelo: response.data.motoModel,
+          tipo: tipoFound.name, // Convierte tipoId a cadena si es necesario
+          year: response.data.year,
+          precio: parseFloat(response.data.precio), // Convierte precio a número decimal si es necesario
+          imageUrl: response.data.imageUrl,
+          combustible: response.data.combustible,
+          //colorDisponible: [], // Debes proporcionar datos para esta propiedad si corresponde
+          fichaTecnica: {
+            motor: response.data.fichaTecnica.motor,
+            pasajeros: response.data.fichaTecnica.pasajeros,
+            cilindrada: response.data.fichaTecnica.cilindrada,
+            velocidades: response.data.fichaTecnica.velocidades,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     fetchDataEdit_Product();
   }, [id]);

@@ -48,9 +48,15 @@ const Products_Admin = () => {
       deleted: !moto.deleted,
     }));
 
+    const motoStatus = JSON.stringify(motosToUpdate);
+
+    console.log(motoStatus);
     try {
       // Realizar la solicitud PUT al servidor para marcar/desmarcar motos
-      await axios.put("http://localhost:3001/moto", motosToUpdate);
+      await axios.put(
+        "http://localhost:3001/moto/marcar-desmarcar",
+        motosToUpdate
+      );
 
       // Actualizar el estado de las motos en el cliente según la respuesta del servidor
       const updatedMotos = motos.map((moto) => {
@@ -178,7 +184,7 @@ const Products_Admin = () => {
         </button>
       )}
       <div className="absolute toggle-button-cover p-4 top-0 left-2 scale-95">
-        <div id="button-3" className="button r border-4 border-black">
+        <div id="button-3" className="button r border-4 border-[#252525]">
           <input
             className="checkbox"
             type="checkbox"
@@ -218,25 +224,7 @@ const Products_Admin = () => {
                   />
                   <div className="checkmark"></div>
                 </label>
-                {/* <div className="flex items-center space-x-2 absolute bg-transparent">
-                  <button
-                    className={`px-2 py-1 border ${
-                      activeMotos ? "border-green-500" : "border-red-600"
-                    } rounded-lg ${
-                      activeMotos ? "bg-green-200" : "bg-red-200"
-                    } hover:bg-gray-300`}
-                    onClick={toggleActiveMotos}
-                  >
-                    {activeMotos ? "Activas" : "Inactivas"}
-                  </button>
-                </div> */}
               </div>
-              {/* <input
-                type="checkbox"
-                className="w-5 h-5 ml-1 mx-auto"
-                onChange={toggleSelectAll}
-                checked={selectAll}
-              /> */}
             </th>
             {screenWidth >= 900 && (
               <th className="text-center w-1/8 font-bold ml-1 text-with-text-shadow">

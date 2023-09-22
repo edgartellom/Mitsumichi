@@ -27,14 +27,14 @@ const MediaInventoryManager_Product = ({ formData }) => {
             htmlFor="imageUrl"
             className="text-lg font-semibold text-[#c63d05] uppercase"
           >
-            Por favor selecciona una o varias imagenes
+            Imagenes
             {/* {selectedImages.length === 0
               ? "Por favor selecciona una imagen"
               : selectedImages.length > 1
               ? "Imagenes seleccionadas"
               : "Imagen seleccionada"} */}
           </label>
-
+          <img src={formData?.imageUrl[0]} alt="Vista previa" className="" />
           {/* {selectedImages.length > 0 && (
             <div
               className={`flex flex-col image-preview m-4 ${

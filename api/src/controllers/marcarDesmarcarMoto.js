@@ -3,6 +3,7 @@ const { Moto } = require("../db");
 async function marcarDesmarcarMotos(req, res) {
   try {
     const motosToUpdate = req.body; // El cuerpo de la solicitud contiene el arreglo de motos
+    console.log(motosToUpdate);
 
     for (const motoUpdate of motosToUpdate) {
       const { id, deleted } = motoUpdate;
