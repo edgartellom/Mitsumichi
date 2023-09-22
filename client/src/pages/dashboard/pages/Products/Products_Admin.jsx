@@ -19,7 +19,7 @@ const Products_Admin = () => {
   const [selectedMotos, setSelectedMotos] = useState([]);
   const [selectedMotoDeletedStates, setSelectedMotoDeletedStates] = useState(
     {}
-  ); // Estado adicional para rastrear estados 'deleted'
+  ); // Estado para rastrear estados 'deleted'
 
   const [selectAll, setSelectAll] = useState(false);
   const [activeMotos, setActiveMotos] = useState(true);
@@ -329,7 +329,7 @@ const Products_Admin = () => {
                 </td>
               )}
               <td className="text-center w-1/8 font-bold">
-                {moto?.stock} {screenWidth >= 400 && "Unds"}
+                {moto?.stock ? moto?.stock : 0} {screenWidth >= 400 && "Unds"}
               </td>
               <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
                 {parseFloat(moto?.precio).toLocaleString("en-US", {

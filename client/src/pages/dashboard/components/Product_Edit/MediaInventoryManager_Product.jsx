@@ -34,7 +34,13 @@ const MediaInventoryManager_Product = ({ formData }) => {
               ? "Imagenes seleccionadas"
               : "Imagen seleccionada"} */}
           </label>
-          <img src={formData?.imageUrl[0]} alt="Vista previa" className="" />
+          <Carousel className="flex flex-col">
+            {formData?.imageUrl.map((preview, index) => (
+              <div key={index}>
+                <img src={preview} alt={`Vista previa ${index + 1}`} />
+              </div>
+            ))}
+          </Carousel>
           {/* {selectedImages.length > 0 && (
             <div
               className={`flex flex-col image-preview m-4 ${
