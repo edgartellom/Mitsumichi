@@ -170,7 +170,7 @@ async function createMoto(req, res) {
         const motoColor = await MotoColor.findOne({
           where: {
             motoId: newMoto.id,
-            colorId,
+            colorId: color.id,
           },
         });
 
