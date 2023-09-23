@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand, Tipo } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
+const { Moto, Brand, Tipo, Color, Moto_Color } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -104,30 +104,41 @@ async function getAllMoto(req, res) {
       orderOptions.push(["id", "ASC"]);
     }
 
-    // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
+    // Obtener todos los motos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
     const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
       limit: limit,
       offset: offset,
       where: {
         ...filterOptions,
-        deleted: false, // Agrega esta condición
+        // Eliminamos la condición deleted: false para incluir todas las motos
+        // deleted: false, // Agrega esta condición
       },
       include: [
         { model: Brand, attributes: ["name"] },
         { model: Tipo, attributes: ["name"] },
+        { model: Color, attributes: ["name"] },
       ],
       order: orderOptions,
     });
 
+    // Obtén el conteo total de elementos sin incluir la relación con Color
+    const totalCount = await Moto.count({
+      where: {
+        ...filterOptions,
+        // Eliminamos la condición deleted: false para contar todas las motos
+        // deleted: false,
+      },
+    });
+
     // Calcular el total de páginas disponibles
-    const totalPages = Math.ceil(totalItems / limit);
+    const totalPages = Math.ceil(totalCount / limit);
 
     // Responder con la lista paginada de autos y la información de paginación
     res.status(200).json({
       data: dbMotos,
       currentPage: page,
       totalPages: totalPages,
-      totalItems: totalItems,
+      totalItems: totalCount,
     });
   } catch (error) {
     console.error(error);

@@ -9,6 +9,7 @@ import whatsapp from "../../assets/SocialIcons/whatsapp.png";
 import Wrapper from "../../helper/Wrapper";
 import { LoadingSpinner } from "../../components";
 
+// "http://localhost:3001/"
 const URL = "https://mitsumichi-production.up.railway.app/";
 
 const Detail = () => {
@@ -118,11 +119,11 @@ const Detail = () => {
                       </span>
                       <span className="text-lg font-semibold ">
                         Color Disponible:
-                        {moto.colorDisponible.map((color, index) => (
+                        {/* {moto.colors.map((color, index) => (
                           <span className="font-normal p-1" key={index}>
-                            {color},
+                            {color?.name},
                           </span>
-                        ))}
+                        ))} */}
                       </span>
                     </div>
 

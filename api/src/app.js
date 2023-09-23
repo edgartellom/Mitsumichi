@@ -10,6 +10,15 @@ require("./db.js");
 const server = express();
 
 server.name = "API";
+
+// const corsOptions = {
+//   origin: "http://localhost:3001/enviar-correo", // Reemplaza '*' con el dominio desde donde se realizarán las solicitudes
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true, // Habilita las credenciales CORS (cookies, encabezados personalizados, etc.)
+//   optionsSuccessStatus: 204, // Establece el código de estado para las solicitudes OPTIONS
+// };
+
+// server.use(cors(corsOptions));
 server.use(cors());
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));

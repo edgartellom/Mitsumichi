@@ -1,4 +1,4 @@
-const { Moto, Brand, Tipo } = require("../db.js");
+const { Moto, Brand, Tipo, Color, MotoColor } = require("../db.js");
 
 const Sequelize = require("sequelize");
 
@@ -41,13 +41,6 @@ async function createMoto(req, res) {
         .status(400)
         .json({ error: "El precio debe ser un número positivo" });
     }
-
-    // const estadoRegex = /^(nuevo|usado)$/i;
-    // if (!estadoRegex.test(estado)) {
-    //   return res
-    //     .status(400)
-    //     .json({ error: "El estado debe ser 'nuevo' o 'usado'" });
-    // }
 
     const currentYear = new Date().getFullYear();
     if (typeof year !== "number" || year < 2010 || year > currentYear) {
@@ -136,15 +129,6 @@ async function createMoto(req, res) {
       tipoId = existingTipo.id;
     }
 
-    // Crear el modelo si no existe
-    // let motoModelId;
-    // if (!existingModel) {
-    //   const newModel = await MotoModel.create({ name: modelo, brandId });
-    //   motoModelId = newModel.id;
-    // } else {
-    //   motoModelId = existingModel.id;
-    // }
-
     // Crear la nueva moto en la base de datos
     const newMoto = await Moto.create({
       id: newId,
@@ -157,10 +141,59 @@ async function createMoto(req, res) {
       imageUrl,
       combustible,
       fichaTecnica,
-      colorDisponible,
     });
 
-    res.status(201).json(newMoto);
+    // Asociar los colores a la moto
+    for (const colorName of colorDisponible) {
+      try {
+        const existingColor = await Color.findOne({
+          where: Sequelize.where(
+            Sequelize.fn("lower", Sequelize.col("name")),
+            Sequelize.fn("lower", colorName)
+          ),
+        });
+
+        // Crear el color si no existe
+        let colorId;
+        let newColor = null;
+        if (!existingColor) {
+          newColor = await Color.create({ name: colorName });
+          colorId = newColor.id;
+        } else {
+          colorId = existingColor.id;
+        }
+
+        // Asocia el color a la moto
+        if (newColor) {
+          await newMoto.addColor(newColor);
+        }
+
+        // Obtiene la relación entre la moto y el color (MotoColor)
+        const motoColor = await MotoColor.findOne({
+          where: {
+            motoId: newMoto.id,
+            colorId,
+          },
+        });
+
+        if (motoColor) {
+          // Suma el stock del color a la suma total
+          newMoto.stock += motoColor.stock;
+        }
+        await newMoto.save();
+      } catch (error) {
+        console.error(`Error al crear o asociar color: ${error}`);
+      }
+    }
+    const motoCreated = await Moto.findByPk(newMoto.id, {
+      include: [
+        { model: Brand, attributes: ["name"] },
+        { model: Tipo, attributes: ["name"] },
+        { model: Color, attributes: ["name"] },
+      ],
+    });
+
+    res.status(201).json(motoCreated);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error interno del servidor" });
@@ -168,34 +201,3 @@ async function createMoto(req, res) {
 }
 
 module.exports = createMoto;
-
-/* 
-    // Crear Brand (marca) si no existe
-    const [marcaBd, marcaCreada] = await Brand.findOrCreate({
-      where: { name: marca },
-    });
-
-    // Crear MotoModel (modelo) si no existe
-    const [modeloBd, modeloCreado] = await MotoModel.findOrCreate({
-      where: { name: modelo },
-      defaults: {
-        brandId: marcaBd.id,
-      },
-    });
-
-    // Crear la nueva moto en la base de datos
-    const [newMoto, motoCreated] = await Moto.findOrCreate({
-      where: { tipo },
-      defaults: {
-        motoModelId: modeloBd.id,
-        brandId: marcaBd.id,
-        tipo,
-        precio,
-        year,
-        imageUrl,
-        kilometraje,
-        combustible,
-        fichaTecnica,
-      },
-    });
-*/
