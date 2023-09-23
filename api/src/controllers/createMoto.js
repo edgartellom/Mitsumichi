@@ -154,18 +154,16 @@ async function createMoto(req, res) {
         });
 
         // Crear el color si no existe
-        let colorId;
-        let newColor = null;
+        let color;
         if (!existingColor) {
-          newColor = await Color.create({ name: colorName });
-          colorId = newColor.id;
+          color = await Color.create({ name: colorName });
         } else {
-          colorId = existingColor.id;
+          color = existingColor;
         }
 
         // Asocia el color a la moto
-        if (newColor) {
-          await newMoto.addColor(newColor);
+        if (color) {
+          await newMoto.addColor(color);
         }
 
         // Obtiene la relación entre la moto y el color (MotoColor)
