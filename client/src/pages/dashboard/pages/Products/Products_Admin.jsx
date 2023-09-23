@@ -17,13 +17,10 @@ const Products_Admin = () => {
   const [filteredMotos, setFilteredMotos] = useState([]);
   const [showItems, setShowItems] = useState([]);
   const [selectedMotos, setSelectedMotos] = useState([]);
-  const [selectedMotoDeletedStates, setSelectedMotoDeletedStates] = useState(
-    {}
-  ); // Estado para rastrear estados 'deleted'
 
   const [selectAll, setSelectAll] = useState(false);
   const [activeMotos, setActiveMotos] = useState(true);
-  const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
+  // const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
