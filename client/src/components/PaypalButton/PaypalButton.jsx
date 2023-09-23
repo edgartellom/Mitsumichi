@@ -30,22 +30,6 @@ function ErrorBoundary({ children }) {
 }
 
 
-/* function ErrorBoundary({ children }) {
-  const [error, setError] = useState(null);
-
-  if (error) {
-    // Muestro mensaje de error.
-    return (
-      <div className="flex flex-col items-center justify-center h-screen text-red-600">
-        <p className="text-4xl font-bold">¡Ocurrió un error inesperado!</p>
-        <p className="text-lg">Por favor, inténtelo de nuevo más tarde.</p>
-      </div>
-    );
-  }
-
-  return children;
-} */
-
 
 export function PayPalButton() {
   const clientId =
