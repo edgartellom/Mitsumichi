@@ -69,8 +69,12 @@ async function loadApiDataInDb() {
           });
 
           if (motoColor) {
+            const newStock = Math.floor(Math.random() * 5) + 1;
+            await motoColor.update({
+              stock: newStock,
+            });
             // Suma el stock del color a la suma total
-            newMoto.stock += motoColor.stock;
+            newMoto.stock += newStock;
           }
           await newMoto.save();
         } catch (error) {
