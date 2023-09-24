@@ -4,7 +4,7 @@ import logo from "./../../assets/Logo_Mitsumichi.png";
 import SideBar from "../SideBar/SideBar";
 import SignIn from "../../pages/SignIn/SignIn";
 import { userAuth } from "../../context/Auth-context";
-import logOut from "../../firebase/logOut";
+import SearchBar from "../SearchBar/SearchBar";
 import { Link, useNavigate } from "react-router-dom";
 import SignUp from "../../pages/SignUp/SignUp";
 import CartButton from "../../pages/Cart/CartButton/CartButton";

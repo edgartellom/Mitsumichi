@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand, Tipo } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
+const { Moto, Brand, Tipo, Color, MotoColor } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -104,19 +104,26 @@ async function getAllMoto(req, res) {
       orderOptions.push(["id", "ASC"]);
     }
 
-    // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
+    // Obtener todos los motos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
     const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
       limit: limit,
       offset: offset,
       where: {
         ...filterOptions,
-        deleted: false, // Agrega esta condición
+        // Eliminamos la condición deleted: false para incluir todas las motos
+        // deleted: false, // Agrega esta condición
       },
+      order: orderOptions,
       include: [
         { model: Brand, attributes: ["name"] },
         { model: Tipo, attributes: ["name"] },
+        // {
+        //   model: Color,
+        //   through: {
+        //     attributes: [],
+        //   },
+        // },
       ],
-      order: orderOptions,
     });
 
     // Calcular el total de páginas disponibles

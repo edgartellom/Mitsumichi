@@ -4,7 +4,7 @@ const { Moto } = require("../db");
 async function editMoto(req, res) {
   try {
     const motoId = req.params.id;
-    const { precio, imageUrl, stock } = req.body;
+    const { precio, imageUrl } = req.body;
 
     const moto = await Moto.findByPk(motoId);
 
@@ -14,7 +14,7 @@ async function editMoto(req, res) {
 
     // Actualizar información de la moto
 
-    await moto.update({ precio, imageUrl, stock });
+    await moto.update({ precio, imageUrl });
 
     res.json(moto);
   } catch (error) {

@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
+
+import {
+  MdOutlineDeleteForever,
+  MdOutlineRestoreFromTrash,
+} from "react-icons/md";
 
 import "../styles.css";
 
 const Products_Admin = () => {
+  const navigate = useNavigate();
+
   const [motos, setMotos] = useState([]);
-
+  const [filteredMotos, setFilteredMotos] = useState([]);
   const [showItems, setShowItems] = useState([]);
-
   const [selectedMotos, setSelectedMotos] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
+  const [selectedMotoDeletedStates, setSelectedMotoDeletedStates] = useState(
+    {}
+  ); // Estado para rastrear estados 'deleted'
 
+  const [selectAll, setSelectAll] = useState(false);
+  const [activeMotos, setActiveMotos] = useState(true);
+  const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -30,6 +42,37 @@ const Products_Admin = () => {
     fetchData();
   }, []);
 
+  const handleMarkMotos = async () => {
+    const motosToUpdate = selectedMotos.map((moto) => ({
+      id: moto.id,
+      deleted: !moto.deleted,
+    }));
+
+    const motoStatus = JSON.stringify(motosToUpdate);
+
+    console.log(motoStatus);
+    try {
+      // Realizar la solicitud PUT al servidor para marcar/desmarcar motos
+      await axios.put(
+        "http://localhost:3001/moto/marcar-desmarcar",
+        motosToUpdate
+      );
+
+      // Actualizar el estado de las motos en el cliente según la respuesta del servidor
+      const updatedMotos = motos.map((moto) => {
+        const updatedMoto = motosToUpdate.find(
+          (update) => update.id === moto.id
+        );
+        return updatedMoto ? { ...moto, deleted: !moto.deleted } : moto;
+      });
+
+      setMotos(updatedMotos);
+      setSelectedMotos([]); // Desmarcar todas las motos después de la operación
+    } catch (error) {
+      console.error("Error al marcar/desmarcar motos:", error);
+    }
+  };
+
   useEffect(() => {
     const handleWindowResize = () => {
       setScreenWidth(window.innerWidth);
@@ -42,24 +85,42 @@ const Products_Admin = () => {
     };
   }, []);
 
-  const toggleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setSelectedMotos(selectAll ? [] : [...motos]);
+  const toggleActiveMotos = () => {
+    setActiveMotos(!activeMotos);
   };
 
+  const toggleSelectAll = () => {
+    const newState = !selectAll;
+
+    setSelectAll(newState);
+
+    // Filtrar las motos según el estado activo/inactivo
+    const filteredMotos = motos.filter((moto) => moto.deleted === !activeMotos);
+
+    setSelectedMotos(newState ? filteredMotos : []);
+  };
+
+  // Función para marcar/desmarcar motos
   const toggleSelectMoto = (moto) => {
     const motoId = moto?.id;
     const isSelected = selectedMotos.some(
       (selectedMoto) => selectedMoto?.id === motoId
     );
 
-    if (isSelected) {
-      setSelectedMotos((prevSelected) =>
-        prevSelected.filter((selectedMoto) => selectedMoto?.id !== motoId)
-      );
+    // Crear una copia actualizada de las motos seleccionadas
+    let updatedSelectedMotos;
+
+    if (!isSelected) {
+      // Si la moto no está seleccionada, agrégala
+      updatedSelectedMotos = [...selectedMotos, moto];
     } else {
-      setSelectedMotos((prevSelected) => [...prevSelected, moto]);
+      // Si la moto ya está seleccionada, desmárcala
+      updatedSelectedMotos = selectedMotos.filter(
+        (selectedMoto) => selectedMoto.id !== motoId
+      );
     }
+
+    setSelectedMotos(updatedSelectedMotos);
   };
 
   useEffect(() => {
@@ -74,8 +135,72 @@ const Products_Admin = () => {
     }
   }, [motos]);
 
+  const handleSearch = (searchQuery) => {
+    const searchText = searchQuery.toLowerCase();
+    const filteredMotos = motos.filter((moto) => {
+      const motoId = moto.id ? moto.id.toString().toLowerCase() : "";
+      return (
+        motoId.includes(searchText) ||
+        (moto.motoModel && moto.motoModel.toLowerCase().includes(searchText)) ||
+        (moto.brand &&
+          moto.brand.name &&
+          moto.brand.name.toLowerCase().includes(searchText)) ||
+        (moto.tipo &&
+          moto.tipo.name &&
+          moto.tipo.name.toLowerCase().includes(searchText))
+      );
+    });
+    setFilteredMotos(filteredMotos);
+  };
+
+  //console.log(screenWidth);
+
   return (
-    <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter">
+    <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
+      {selectedMotos.length > 0 && (
+        <button
+          className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
+          onClick={handleMarkMotos}
+        >
+          <div
+            className={`flex flex-row py-2 pr-2 items-center justify-between h-8 text-white ${
+              selectedMotos.some((moto) => moto.deleted)
+                ? "hover:text-green-500"
+                : "hover:text-red-600"
+            } `}
+          >
+            {selectedMotos.some((moto) => moto.deleted) ? (
+              <>
+                <MdOutlineRestoreFromTrash size={30} />
+                <span className="">RESTORE</span>
+              </>
+            ) : (
+              <>
+                <MdOutlineDeleteForever size={30} />
+                <span className="">REMOVE</span>
+              </>
+            )}
+          </div>
+        </button>
+      )}
+      <div className="absolute toggle-button-cover p-4 top-0 left-2 scale-95">
+        <div id="button-3" className="button r border-4 border-[#252525]">
+          <input
+            className="checkbox"
+            type="checkbox"
+            onChange={toggleActiveMotos}
+            checked={!activeMotos}
+          />
+          <div className="knobs"></div>
+          <div className="layer"></div>
+        </div>
+        <h1 className="text-[#c63d05] text-[16px] font-semibold">
+          Select Status
+        </h1>
+      </div>
+      <h1 className="pb-2 -pt-2 text-3xl text-center font-bold text-[#c63d05] uppercase">
+        Lista de Productos
+      </h1>
       <table
         className={`w-full rounded-md shadow-sm shadow-[#252525] overflow-hidden`}
       >
@@ -90,20 +215,16 @@ const Products_Admin = () => {
                 screenWidth <= 768 ? "pl-2" : "pl-1"
               }`}
             >
-              <label className="flex container items-center justify-center">
-                <input
-                  type="checkbox"
-                  onChange={toggleSelectAll}
-                  checked={selectAll}
-                />
-                <div className="checkmark"></div>
-              </label>
-              {/* <input
-                type="checkbox"
-                className="w-5 h-5 ml-1 mx-auto"
-                onChange={toggleSelectAll}
-                checked={selectAll}
-              /> */}
+              <div className="flex justify-center font-bold text-center relative">
+                <label className="flex container items-center justify-center">
+                  <input
+                    type="checkbox"
+                    onChange={toggleSelectAll}
+                    checked={selectAll}
+                  />
+                  <div className="checkmark"></div>
+                </label>
+              </div>
             </th>
             {screenWidth >= 900 && (
               <th className="text-center w-1/8 font-bold ml-1 text-with-text-shadow">
@@ -178,7 +299,10 @@ const Products_Admin = () => {
                 <td className="text-center w-1/8 font-bold ml-1">{moto?.id}</td>
               )}
               {screenWidth >= 768 && (
-                <td className="text-center w-1/8">
+                <td
+                  className="text-center w-1/8"
+                  onClick={() => navigate(`${moto.id}`)}
+                >
                   {moto?.imageUrl[0] ? (
                     <img
                       src={moto?.imageUrl[0]}
@@ -193,7 +317,10 @@ const Products_Admin = () => {
                   )}
                 </td>
               )}
-              <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+              <td
+                className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+                onClick={() => navigate(`${moto.id}`)}
+              >
                 {moto?.brand?.name} - {moto?.motoModel}
               </td>
               {screenWidth >= 900 && (
@@ -202,7 +329,7 @@ const Products_Admin = () => {
                 </td>
               )}
               <td className="text-center w-1/8 font-bold">
-                {moto?.stock} {screenWidth >= 400 && "Unds"}
+                {moto?.stock ? moto?.stock : 0} {screenWidth >= 400 && "Unds"}
               </td>
               <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
                 {parseFloat(moto?.precio).toLocaleString("en-US", {
