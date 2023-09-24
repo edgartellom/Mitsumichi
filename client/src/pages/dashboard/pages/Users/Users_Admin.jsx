@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import updateUser from "../../../../firebase/updateUser";
+import Pagination from '../../components/Pagination/Pagination'
 
 import {
   MdOutlineDeleteForever,
@@ -16,6 +17,9 @@ const Users_Admin = () => {
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -85,6 +89,17 @@ const Users_Admin = () => {
     } catch (error) {
       console.error("Error al actualizar usuarios:", error);
     }
+  };
+
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+
+  // Calcular el índice de inicio y final para la página actual
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentUsers = users.slice(startIndex, endIndex);
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
   };
 
   return (
@@ -171,7 +186,7 @@ const Users_Admin = () => {
             screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
           }`}
         >
-          {users.map((user, index) => {
+          {currentUsers.map((user, index) => {
             const id = index + 1;
 
             const precioTOTAL = invoicesToArr[index]
@@ -249,6 +264,11 @@ const Users_Admin = () => {
             );
           })}
         </tbody>
+        <Pagination
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        currentPage={currentPage}
+      />
       </table>
     </div>
   );
