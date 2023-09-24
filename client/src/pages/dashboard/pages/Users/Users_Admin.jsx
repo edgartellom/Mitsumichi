@@ -72,7 +72,7 @@ const Users_Admin = () => {
       const updatePromises = selectedUsers.map(async (user) => {
         const updatedUser = {
           ...user,
-          status: user.status === "active" ? "inactive" : "active",
+          status: user.status === "active" ? "banned" : "active",
         };
         await updateUser(updatedUser);
       });
@@ -96,12 +96,12 @@ const Users_Admin = () => {
         >
           <div
             className={`flex flex-row py-2 pr-2 items-center justify-between h-8 text-white ${
-              selectedUsers.some((user) => user.status === "inactive")
+              selectedUsers.some((user) => user.status === "banned")
                 ? "hover:text-green-500"
                 : "hover:text-red-600"
             } `}
           >
-            {selectedUsers.some((moto) => moto.deleted) ? (
+            {selectedUsers.some((user) => user.status === "banned") ? (
               <>
                 <MdOutlineRestoreFromTrash size={30} />
                 <span className="">RESTORE</span>
@@ -230,11 +230,11 @@ const Users_Admin = () => {
                 </td>
                 {user?.status === "active" ? (
                   <td className="text-center w-1/7 text-green-600 font-bold uppercase">
-                    ACTIVO
+                    activo
                   </td>
                 ) : (
                   <td className="text-center w-1/7 text-red-600 font-bold uppercase">
-                    INACTIVO
+                    baneado
                   </td>
                 )}
 
