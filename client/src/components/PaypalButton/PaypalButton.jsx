@@ -47,8 +47,8 @@ export function PayPalButton() {
         text: `ID de compra: ${orderId}`,
       }).then((result) => {
         if (result.isConfirmed) {
-          setIsCompleted(false); // Continua con el proceso de pago de PayPal
-          navigate("/home"); // Redirijo a "/home"
+          setIsCompleted(false); 
+          navigate("/home"); 
         }
       });
     }
