@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { userAuth } from "../../../context/Auth-context";
 
 const Profile_Info = () => {
-  return (
-    <div className="border-t-2 border-[#c63d05]">
-      Soy la Información del Usuario
-    </div>
-  );
+  const { user } = useContext(userAuth);
+  return <div className="border-t-2 border-[#c63d05]"></div>;
 };
 
 export default Profile_Info;
