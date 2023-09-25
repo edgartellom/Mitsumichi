@@ -140,11 +140,6 @@ const Users_Admin = () => {
                 />
                 <div className="checkmark"></div>
               </label>
-              {/* <input
-                type="checkbox"
-                onChange={handleSelectAll}
-                className="w-6 h-6 "
-              /> */}
             </th>
             <th className="text-center w-1/7 font-bold ml-1 text-with-text-shadow">
               ID
@@ -204,12 +199,6 @@ const Users_Admin = () => {
                     />
                     <div className="checkmarklist"></div>
                   </label>
-                  {/* <input
-                    type="checkbox"
-                    checked={selectedUser.includes(index)}
-                    onChange={() => handleSelectRow(index)}
-                    className="w-6 h-6 "
-                  /> */}
                 </td>
                 <td className="text-center w-1/7 font-bold ml-1">{id}</td>
                 <td className="text-center w-1/7 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
