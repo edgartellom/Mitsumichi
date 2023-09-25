@@ -8,6 +8,7 @@ import createBill from "../../firebase/createBill";
 import SignIn from "../../pages/SignIn/SignIn";
 import Swal from "sweetalert2";
 import axios from "axios";
+import sgMail from "@sendgrid/mail"; // Agregamos la importación de sgMail
 
 function ErrorBoundary({ children }) {
   const [error, setError] = useState(null);
@@ -47,8 +48,8 @@ export function PayPalButton() {
         text: `ID de compra: ${orderId}`,
       }).then((result) => {
         if (result.isConfirmed) {
-          setIsCompleted(false); 
-          navigate("/home"); 
+          setIsCompleted(false);
+          navigate("/home");
         }
       });
     }
@@ -68,7 +69,8 @@ export function PayPalButton() {
     };
 
     try {
-      axios.post("http://localhost:3001/send-email", emailData);
+      // Utilizamos sgMail para enviar el correo electrónico
+      await sgMail.send(emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
@@ -199,7 +201,10 @@ export function PayPalButton() {
                     const details = await actions.order.capture();
                     handlePaymentSuccess(details, data);
                   } catch (error) {
-                    console.error("Error al aprobar el pago de PayPal:", error);
+                    console.error(
+                      "Error al aprobar el pago de PayPal:",
+                      error
+                    );
                     Swal.fire({
                       icon: "error",
                       title: "Error al procesar el pago",
