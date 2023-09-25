@@ -61,6 +61,7 @@ export function PayPalButton() {
 
     // Envía el correo electrónico al cliente
     const emailData = {
+      from: 'al3jandrocan0n@gmail.com',
       to: 'mitsumichipf@gmail.com', // Reemplaza con la dirección de correo electrónico del cliente
       subject: 'Confirmación de compra',
       text: '¡Gracias por su compra! Su pago se ha completado con éxito.',
@@ -118,6 +119,7 @@ export function PayPalButton() {
 
     // Envía el correo electrónico al cliente
     const emailData = {
+      from: 'al3jandrocan0n@gmail.com',
       to: 'mitsumichipf@gmail.com', 
       subject: 'Compra cancelada',
       text: 'Lamentablemente, su compra ha sido cancelada.',
