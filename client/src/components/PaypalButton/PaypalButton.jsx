@@ -6,8 +6,8 @@ import { userAuth } from "../../context/Auth-context";
 import clearCart from "../../firebase/clearCart";
 import createBill from "../../firebase/createBill";
 import SignIn from "../../pages/SignIn/SignIn";
-import Swal from 'sweetalert2';
-import sgMail from "@sendgrid/mail";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 function ErrorBoundary({ children }) {
   const [error, setError] = useState(null);
@@ -15,15 +15,15 @@ function ErrorBoundary({ children }) {
   useEffect(() => {
     if (error) {
       Swal.fire({
-        icon: 'error',
-        title: 'Ocurrió un error inesperado',
-        text: 'Por favor, inténtelo de nuevo más tarde.',
+        icon: "error",
+        title: "Ocurrió un error inesperado",
+        text: "Por favor, inténtelo de nuevo más tarde.",
       });
     }
   }, [error]);
 
   if (error) {
-    return null; 
+    return null;
   }
 
   return children;
@@ -42,8 +42,8 @@ export function PayPalButton() {
   useEffect(() => {
     if (orderId !== null) {
       Swal.fire({
-        icon: 'error',
-        title: 'Compra cancelada',
+        icon: "error",
+        title: "Compra cancelada",
         text: `ID de compra: ${orderId}`,
       }).then((result) => {
         if (result.isConfirmed) {
@@ -52,7 +52,7 @@ export function PayPalButton() {
         }
       });
     }
-  }, [navigate ,orderId]);
+  }, [navigate, orderId]);
 
   const handlePaymentSuccess = async (details) => {
     console.log("Pago realizado con éxito:", details);
@@ -61,14 +61,14 @@ export function PayPalButton() {
 
     // Envía el correo electrónico al cliente
     const emailData = {
-      from: 'al3jandrocan0n@gmail.com',
-      to: 'mitsumichipf@gmail.com', // Reemplaza con la dirección de correo electrónico del cliente
-      subject: 'Confirmación de compra',
-      text: '¡Gracias por su compra! Su pago se ha completado con éxito.',
+      from: "al3jandrocan0n@gmail.com",
+      to: "mitsumichipf@gmail.com", // Reemplaza con la dirección de correo electrónico del cliente
+      subject: "Confirmación de compra",
+      text: "¡Gracias por su compra! Su pago se ha completado con éxito.",
     };
 
     try {
-      await sgMail.send(emailData);
+      axios.post("http://localhost:3001/send-email", emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
@@ -105,9 +105,9 @@ export function PayPalButton() {
       } catch (error) {
         console.error("Error al crear la factura:", error);
         Swal.fire({
-          icon: 'error',
-          title: 'Error al crear la factura',
-          text: 'Hubo un error al crear la factura. Por favor, inténtelo de nuevo más tarde.',
+          icon: "error",
+          title: "Error al crear la factura",
+          text: "Hubo un error al crear la factura. Por favor, inténtelo de nuevo más tarde.",
         });
       }
     }
@@ -119,16 +119,19 @@ export function PayPalButton() {
 
     // Envía el correo electrónico al cliente
     const emailData = {
-      from: 'al3jandrocan0n@gmail.com',
-      to: 'mitsumichipf@gmail.com', 
-      subject: 'Compra cancelada',
-      text: 'Lamentablemente, su compra ha sido cancelada.',
+      from: "al3jandrocan0n@gmail.com",
+      to: "mitsumichipf@gmail.com",
+      subject: "Compra cancelada",
+      text: "Lamentablemente, su compra ha sido cancelada.",
     };
 
     try {
       await sgMail.send(emailData);
     } catch (error) {
-      console.error("Error al enviar el correo electrónico de cancelación:", error);
+      console.error(
+        "Error al enviar el correo electrónico de cancelación:",
+        error
+      );
     }
   };
 
@@ -185,9 +188,9 @@ export function PayPalButton() {
                   } catch (error) {
                     console.error("Error al crear la orden de PayPal:", error);
                     Swal.fire({
-                      icon: 'error',
-                      title: 'Error al crear la orden de pago',
-                      text: 'Hubo un error al crear la orden de pago. Por favor, inténtelo de nuevo más tarde.',
+                      icon: "error",
+                      title: "Error al crear la orden de pago",
+                      text: "Hubo un error al crear la orden de pago. Por favor, inténtelo de nuevo más tarde.",
                     });
                   }
                 }}
@@ -198,9 +201,9 @@ export function PayPalButton() {
                   } catch (error) {
                     console.error("Error al aprobar el pago de PayPal:", error);
                     Swal.fire({
-                      icon: 'error',
-                      title: 'Error al procesar el pago',
-                      text: 'Hubo un error al procesar el pago. Por favor, inténtelo de nuevo más tarde.',
+                      icon: "error",
+                      title: "Error al procesar el pago",
+                      text: "Hubo un error al procesar el pago. Por favor, inténtelo de nuevo más tarde.",
                     });
                   }
                 }}
