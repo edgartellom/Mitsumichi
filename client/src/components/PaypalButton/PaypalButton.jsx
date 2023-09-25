@@ -7,7 +7,7 @@ import clearCart from "../../firebase/clearCart";
 import createBill from "../../firebase/createBill";
 import SignIn from "../../pages/SignIn/SignIn";
 import Swal from 'sweetalert2';
-
+import sgMail from "@sendgrid/mail";
 
 function ErrorBoundary({ children }) {
   const [error, setError] = useState(null);
@@ -28,8 +28,6 @@ function ErrorBoundary({ children }) {
 
   return children;
 }
-
-
 
 export function PayPalButton() {
   const clientId =
@@ -55,20 +53,25 @@ export function PayPalButton() {
       });
     }
   }, [navigate ,orderId]);
-  
-  
 
-  const handlePaymentSuccess = (details) => {
+  const handlePaymentSuccess = async (details) => {
     console.log("Pago realizado con éxito:", details);
     setPurchaseId(details.purchase_units[0].payments.captures[0].id);
     setIsCompleted(true);
+
+    // Envía el correo electrónico al cliente
+    const emailData = {
+      to: 'mitsumichipf@gmail.com', // Reemplaza con la dirección de correo electrónico del cliente
+      subject: 'Confirmación de compra',
+      text: '¡Gracias por su compra! Su pago se ha completado con éxito.',
+    };
+
+    try {
+      await sgMail.send(emailData);
+    } catch (error) {
+      console.error("Error al enviar el correo electrónico:", error);
+    }
   };
-
-
-  //agrego código línea 57 ya que me arroja error código línea 58-59
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const moto = [];
-  moto.push(JSON.parse(window.localStorage.getItem("moto")));
 
   useEffect(() => {
     const date = new Date();
@@ -79,23 +82,25 @@ export function PayPalButton() {
 
     if (isCompleted) {
       try {
+        let dataToCreateBill;
         if (window.localStorage.getItem("moto") !== null) {
-          createBill(currentUser?.uid, {
-            ...moto,
+          dataToCreateBill = {
+            ...JSON.parse(window.localStorage.getItem("moto")),
             user,
             today,
             status: "success",
-          });
+          };
           window.localStorage.removeItem("moto");
         } else {
-          createBill(currentUser?.uid, {
+          dataToCreateBill = {
             ...products,
             user,
             today,
             status: "success",
-          });
+          };
           clearCart(currentUser?.uid);
         }
+        createBill(currentUser?.uid, dataToCreateBill);
       } catch (error) {
         console.error("Error al crear la factura:", error);
         Swal.fire({
@@ -105,11 +110,24 @@ export function PayPalButton() {
         });
       }
     }
-  }, [currentUser?.uid, isCompleted, moto, products, user]);
+  }, [currentUser?.uid, isCompleted, products, user]);
 
-  const handleCancel = () => {
+  const handleCancel = async () => {
     const id = generateOrderId(); // Genera un ID único para la cancelación
     setOrderId(id);
+
+    // Envía el correo electrónico al cliente
+    const emailData = {
+      to: 'mitsumichipf@gmail.com', 
+      subject: 'Compra cancelada',
+      text: 'Lamentablemente, su compra ha sido cancelada.',
+    };
+
+    try {
+      await sgMail.send(emailData);
+    } catch (error) {
+      console.error("Error al enviar el correo electrónico de cancelación:", error);
+    }
   };
 
   const generateOrderId = () => {
