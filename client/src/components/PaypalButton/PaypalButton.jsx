@@ -8,6 +8,7 @@ import createBill from "../../firebase/createBill";
 import SignIn from "../../pages/SignIn/SignIn";
 import Swal from "sweetalert2";
 import axios from "axios";
+import sgMail from "@sendgrid/mail"
 
 function ErrorBoundary({ children }) {
   const [error, setError] = useState(null);
@@ -47,8 +48,8 @@ export function PayPalButton() {
         text: `ID de compra: ${orderId}`,
       }).then((result) => {
         if (result.isConfirmed) {
-          setIsCompleted(false); // Continua con el proceso de pago de PayPal
-          navigate("/home"); // Redirijo a "/home"
+          setIsCompleted(false); 
+          navigate("/home"); 
         }
       });
     }
@@ -56,23 +57,27 @@ export function PayPalButton() {
 
   const handlePaymentSuccess = async (details) => {
     console.log("Pago realizado con éxito:", details);
-    setPurchaseId(details.purchase_units[0].payments.captures[0].id);
+    const capturedPurchaseId = details.purchase_units[0].payments.captures[0].id;
     setIsCompleted(true);
 
-    // Envía el correo electrónico al cliente
-    const emailData = {
-      from: "al3jandrocan0n@gmail.com",
-      to: "mitsumichipf@gmail.com", // Reemplaza con la dirección de correo electrónico del cliente
-      subject: "Confirmación de compra",
-      text: "¡Gracias por su compra! Su pago se ha completado con éxito.",
-    };
-
-    try {
-      axios.post("http://localhost:3001/send-email", emailData);
-    } catch (error) {
-      console.error("Error al enviar el correo electrónico:", error);
-    }
+    const userEmail = user?.email || ""; // Uso mail del Profile_Info
+    const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
+   // Envía el correo electrónico al cliente
+   const emailData = {
+    from: "mitsumichipf@gmail.com",
+    to: userEmail, // Acá debería tomarme el mail que registre el usuario.
+    subject: "Confirmación de compra",
+    text: `¡Gracias, ${userName}, por su compra de ${nombre}! Su pago se ha completado con éxito. ID de compra: ${capturedPurchaseId}`,
   };
+
+
+  try {
+    setPurchaseId(capturedPurchaseId); 
+    await axios.post("http://localhost:3001/send-email", emailData);
+  } catch (error) {
+    console.error("Error al enviar el correo electrónico:", error);
+  }
+};
 
   useEffect(() => {
     const date = new Date();
@@ -118,21 +123,22 @@ export function PayPalButton() {
     setOrderId(id);
 
     // Envía el correo electrónico al cliente
-    const emailData = {
-      from: "al3jandrocan0n@gmail.com",
-      to: "mitsumichipf@gmail.com",
+    const cancelEmailData = {
+      from: "mitsumichipf@gmail.com",
+      to: "7jimenez.w@gmail.com", 
       subject: "Compra cancelada",
-      text: "Lamentablemente, su compra ha sido cancelada.",
+      text: `Lamentablemente, su compra ha sido cancelada.ID de cancelación: ${id}`,
     };
-
+  
     try {
-      await sgMail.send(emailData);
+      await sgMail.send(cancelEmailData);
     } catch (error) {
       console.error(
         "Error al enviar el correo electrónico de cancelación:",
         error
       );
     }
+    setIsCompleted(false); // Restaurar el estado de la compra
   };
 
   const generateOrderId = () => {
