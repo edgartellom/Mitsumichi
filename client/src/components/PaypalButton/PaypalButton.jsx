@@ -123,11 +123,11 @@ export function PayPalButton() {
     // Envía el correo electrónico al cliente
     const cancelEmailData = {
       from: "mitsumichipf@gmail.com",
-      to: "7jimenez.w@gmail.com", // Reemplaza con la dirección de correo electrónico del cliente
+      to: "7jimenez.w@gmail.com", 
       subject: "Compra cancelada",
-      text: `Lamentablemente, su compra ha sido cancelada.ID de cancelación: ${orderId}`,
+      text: `Lamentablemente, su compra ha sido cancelada.ID de cancelación: ${id}`,
     };
-
+  
     try {
       await sgMail.send(cancelEmailData);
     } catch (error) {
