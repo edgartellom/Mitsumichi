@@ -4,7 +4,7 @@ import addProduct from "../../firebase/addProduct";
 import { userAuth } from "../../context/Auth-context";
 import Button from "../UI/Button";
 import increase from "../../firebase/increase";
-
+import axios from "axios";
 const Card = ({ data }) => {
   const navigate = useNavigate();
   const { currentUser, setProductsLocalStorage, productsLocalStorage } =
@@ -18,7 +18,10 @@ const Card = ({ data }) => {
     precio,
   } = data;
 
-  const addProducto = () => {
+  const addProducto = async () => {
+    const response = await axios.get(`motos/${id}`);
+    const stock = response.data.stock;
+
     if (currentUser) {
       // Si el usuario está autenticado, verifica si el producto ya está en el carrito
       const existingProduct = productsLocalStorage.find(
