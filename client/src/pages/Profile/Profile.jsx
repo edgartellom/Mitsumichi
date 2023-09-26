@@ -55,7 +55,6 @@ const Profile = () => {
               onClick={handleOpenFilePicker}
             >
               <PiCameraPlusFill size={40} />
-              {/* <img src={""} width={35} alt="" /> */}
             </button>
 
             <input

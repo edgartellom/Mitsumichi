@@ -2,10 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import { userAuth } from "../../../context/Auth-context";
 
 import getInvoicesByUser from "../../../firebase/getInvoicesByUser";
+import { Invoice } from "../../../components";
 
 const Profile_Orders = () => {
   const { user } = useContext(userAuth);
   const [invoices, setInvoices] = useState([]);
+  const [selectedInvoice, setSelectedInvoice] = useState(null); // Para almacenar los datos de la factura seleccionada
+  const [isModalOpen, setIsModalOpen] = useState(false); // Para controlar la visibilidad del modal
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -27,6 +30,16 @@ const Profile_Orders = () => {
       window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
+
+  const handleInvoiceClick = (invoice) => {
+    setSelectedInvoice(invoice);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedInvoice(null);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="bg-slate-50 min-h-full pl-4 pr-1 py-4 border-t-2 border-[#c63d05] justify-center overflow-y-scroll scrollbar-gutter relative">
@@ -73,7 +86,10 @@ const Profile_Orders = () => {
 
               return (
                 <tr className={`hover:text-blue-400 h-[75px]`} key={invoice.id}>
-                  <td className="text-center w-[20%] font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                  <td
+                    className="text-center w-[20%] font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+                    onClick={() => handleInvoiceClick(invoice)}
+                  >
                     {invoice.id}
                   </td>
                   <td className="text-center w-[60%] font-bold ">
@@ -99,6 +115,9 @@ const Profile_Orders = () => {
           </div>
         )}
       </table>
+      {isModalOpen && (
+        <Invoice facturaData={selectedInvoice} onClose={closeModal} />
+      )}
     </div>
   );
 };
