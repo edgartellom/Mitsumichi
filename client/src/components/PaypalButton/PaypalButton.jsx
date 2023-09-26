@@ -60,14 +60,14 @@ export function PayPalButton() {
     const capturedPurchaseId = details.purchase_units[0].payments.captures[0].id;
     setIsCompleted(true);
 
-    const userEmail = user?.email || ""; // Uso datos del Profile_Info
-
+    const userEmail = user?.email || ""; // Uso mail del Profile_Info
+    const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
    // Envía el correo electrónico al cliente
    const emailData = {
     from: "mitsumichipf@gmail.com",
     to: userEmail, // Acá debería tomarme el mail que registre el usuario.
     subject: "Confirmación de compra",
-    text: `¡Gracias por su compra de ${nombre}! Su pago se ha completado con éxito. ID de compra: ${capturedPurchaseId}`,
+    text: `¡Gracias, ${userName}, por su compra de ${nombre}! Su pago se ha completado con éxito. ID de compra: ${capturedPurchaseId}`,
   };
 
 
