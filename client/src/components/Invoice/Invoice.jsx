@@ -3,13 +3,14 @@ import { FaWindowClose, FaFileDownload } from "react-icons/fa";
 import Wrapper from "../../helper/Wrapper";
 import logoCerradoWhite from "../../assets/Logo_Mitsumichi_White.png";
 import logoCerradoBlack from "../../assets/Logo_Mitsumichi.png";
+
 const Invoice = ({ selectedInvoice, onClose }) => {
   return (
     <Wrapper>
       <div className="relative flex flex-col min-w-[80%] min-h-[85%] max-h-[85%] items-center justify-center p-4 overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-2xl text-red-700 transition-all hover:scale-110"
+          className="absolute top-4 right-4 text-2xl text-slate-100 transition-all hover:text-[#C63D05] hover:scale-110"
         >
           <FaWindowClose size={30} />
         </button>
@@ -98,9 +99,20 @@ const Invoice = ({ selectedInvoice, onClose }) => {
                 </tbody>
               </table>
               <ul className="mt-10 text-xl font-bold text-[#252525]">
-                <li className="border-b border-gray-300">Sub Total:</li>
-                <li className="border-b border-gray-300">Descuento:</li>
-                <li className="text-3xl mt-4">Total:</li>
+                <li className="flex flex-row justify-between border-b border-gray-300">
+                  <p>Sub Total:</p>
+                  <p className="pr-9">$15,500.00</p>
+                </li>
+
+                <li className="flex flex-row justify-between border-b border-gray-300">
+                  <p>Descuento:</p>
+                  <p className="pr-9">$0.00</p>
+                </li>
+
+                <li className="flex flex-row justify-between text-3xl mt-4">
+                  <p>Total:</p>
+                  <p className="pr-9">$15,500.00</p>
+                </li>
               </ul>
             </div>
 
