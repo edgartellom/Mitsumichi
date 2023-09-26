@@ -83,14 +83,18 @@ const Invoice = ({ selectedInvoice, onClose }) => {
                 </thead>
                 <tbody>
                   <tr className="border-b border-gray-300">
-                    <td className="text-center w-1/5">1</td>
+                    <td className="text-center w-1/5">
+                      <span>MIT000</span>1
+                    </td>
                     <td className="text-center w-1/5">YAMAHA R6 250cc</td>
                     <td className="text-center w-1/5">2</td>
                     <td className="text-center w-1/5">$3,500.00</td>
                     <td className="text-center w-1/5">$7,000.00</td>
                   </tr>
                   <tr>
-                    <td className="text-center w-1/5">2</td>
+                    <td className="text-center w-1/5">
+                      <span>MIT000</span>2
+                    </td>
                     <td className="text-center w-1/5">HONDA CBR 250cc</td>
                     <td className="text-center w-1/5">1</td>
                     <td className="text-center w-1/5">$8,500.00</td>
