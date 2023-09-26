@@ -60,17 +60,19 @@ export function PayPalButton() {
     const capturedPurchaseId = details.purchase_units[0].payments.captures[0].id;
     setIsCompleted(true);
 
+    const userEmail = user?.email || ""; // Uso datos del Profile_Info
+
    // Envía el correo electrónico al cliente
    const emailData = {
     from: "mitsumichipf@gmail.com",
-    to: "7jimenez.w@gmail.com", // Reemplaza con la dirección de correo electrónico del cliente
+    to: userEmail, // Acá debería tomarme el mail que registre el usuario.
     subject: "Confirmación de compra",
     text: `¡Gracias por su compra de ${nombre}! Su pago se ha completado con éxito. ID de compra: ${capturedPurchaseId}`,
   };
 
 
   try {
-    setPurchaseId(capturedPurchaseId); // Establecer purchaseId después de enviar el correo
+    setPurchaseId(capturedPurchaseId); 
     await axios.post("http://localhost:3001/send-email", emailData);
   } catch (error) {
     console.error("Error al enviar el correo electrónico:", error);
