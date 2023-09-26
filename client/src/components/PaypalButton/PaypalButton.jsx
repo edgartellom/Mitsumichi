@@ -8,7 +8,7 @@ import createBill from "../../firebase/createBill";
 import SignIn from "../../pages/SignIn/SignIn";
 import Swal from "sweetalert2";
 import axios from "axios";
-import sgMail from "@sendgrid/mail"; // Agregamos la importación de sgMail
+import sgMail from "@sendgrid/mail"; 
 
 function ErrorBoundary({ children }) {
   const [error, setError] = useState(null);
@@ -62,15 +62,16 @@ export function PayPalButton() {
 
     // Envía el correo electrónico al cliente
     const emailData = {
-      from: "al3jandrocan0n@gmail.com",
-      to: "mitsumichipf@gmail.com", // Reemplaza con la dirección de correo electrónico del cliente
+      from: "mitsumichipf@gmail.com",
+      to: "7jimenez.w@gmail.com", // Reemplaza con la dirección de correo electrónico del cliente
       subject: "Confirmación de compra",
       text: "¡Gracias por su compra! Su pago se ha completado con éxito.",
     };
 
     try {
       // Utilizamos sgMail para enviar el correo electrónico
-      await sgMail.send(emailData);
+      /* await sgMail.send(emailData); */
+      axios.post("http://localhost:3001/send-email", emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
@@ -121,7 +122,7 @@ export function PayPalButton() {
 
     // Envía el correo electrónico al cliente
     const emailData = {
-      from: "al3jandrocan0n@gmail.com",
+      from: "mitsumichipf@gmail.com",
       to: "mitsumichipf@gmail.com",
       subject: "Compra cancelada",
       text: "Lamentablemente, su compra ha sido cancelada.",
