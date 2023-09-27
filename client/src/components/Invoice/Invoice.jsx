@@ -1,25 +1,108 @@
-import React from "react";
-import { FaWindowClose, FaFileDownload } from "react-icons/fa";
+import React, { useState, useEffect, useContext } from "react";
+import { userAuth } from "../../context/Auth-context";
+
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+
 import Wrapper from "../../helper/Wrapper";
+
+import { FaWindowClose, FaFileDownload } from "react-icons/fa";
 import logoCerradoWhite from "../../assets/Logo_Mitsumichi_White.png";
 import logoCerradoBlack from "../../assets/Logo_Mitsumichi.png";
 
-const Invoice = ({ selectedInvoice, onClose }) => {
+const Invoice = ({ facturaData, onClose }) => {
+  const { user } = useContext(userAuth);
+  const [capturedImage, setCapturedImage] = useState(null); // Estado para la imagen capturada
+  console.log(facturaData);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const elementosComprados = Object.values(facturaData).filter(
+    (item) => item.brand && item.cantidad && item.precio && item.motoModel
+  );
+
+  const phoneNumber = parsePhoneNumberFromString(user?.data?.telefono);
+  console.log(elementosComprados);
+
+  // Función para formatear el ID
+  const formatID = (id) => {
+    // Obtener la longitud actual del ID
+    const idLength = id.toString().length;
+
+    // Calcular la cantidad de ceros necesarios
+    const zerosToAdd = Math.max(0, 5 - idLength); // Siempre habrá al menos 5 caracteres
+
+    // Se crea una cadena de ceros
+    const zeroString = "0".repeat(zerosToAdd);
+
+    // Y le damos formato al ID finalmente
+    const formattedID = `MIT${zeroString}${id}`;
+
+    return formattedID;
+  };
+
+  const subtotal = elementosComprados.reduce(
+    (total, producto) =>
+      total + parseFloat(producto.precio) * producto.cantidad,
+    0
+  );
+  const captureComponentAsPDF = () => {
+    const scaleWidth = 1; // Escala para la captura
+    const screenHeight = 2.8;
+
+    // Calcula el ancho y alto del contenedor multiplicado por la escala
+    const width =
+      document.getElementById("invoice-container").clientWidth * scaleWidth;
+    const height =
+      document.getElementById("invoice-container").clientHeight * screenHeight;
+
+    html2canvas(document.getElementById("invoice-container"), {
+      // Se configura el ancho y alto de la captura
+      width: width,
+      height: height,
+      scale: (scaleWidth, screenHeight),
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+
+      // Configura el documento PDF
+      const pdf = new jsPDF("p", "mm", "a4");
+      pdf.addImage(imgData, "PNG", 0, 0, 210, 297); // Tamaño A4: 210x297 mm
+
+      // Guarda o descarga el PDF
+      pdf.save("Mitsumichi-Factura.pdf");
+    });
+  };
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
+
   return (
     <Wrapper>
       <div className="relative flex flex-col min-w-[80%] min-h-[85%] max-h-[85%] items-center justify-center p-4 overflow-y-auto">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-2xl text-slate-100 transition-all hover:text-[#C63D05] hover:scale-110"
+        <div
+          className={`relative flex min-w-[80%] min-h-[85%] max-h-[85%] pb-16 py-4 px-10 bg-white rounded-md justify-between overflow-hidden`}
         >
-          <FaWindowClose size={30} />
-        </button>
-
-        <div className="relative flex min-w-[50%] max-w-[80%] min-h-[80%] pb-16 py-4 px-10 bg-white rounded-md justify-between overflow-hidden">
-          <p className="absolute font-semibold ">
-            Fecha de realización: 24/04/2022
-          </p>
-          <div>
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-2xl text-[#C63D05] transition duration-300 hover:text-[#252525] hover:scale-110"
+          >
+            <FaWindowClose size={30} />
+          </button>
+          <div id="invoice-container" className="relative ">
+            <p className="absolute left-4 ">
+              <span className="font-semibold">Fecha de realización: </span>
+              {facturaData?.today}
+            </p>
             <div className="flex flex-row mt-12 justify-between items-center w-[100%]">
               <div className="flex flex-row w-[500px] h-[250px] bg-[#C63D05] mx-5 rounded-md p-4">
                 <section className="flex w-[200px] items-center">
@@ -42,89 +125,159 @@ const Invoice = ({ selectedInvoice, onClose }) => {
                       <span className="text-2xl font-semibold">
                         No. Factura:{" "}
                       </span>
-                      EP2555515851
+                      {"MIT"}
+                      {facturaData?.id}
                     </li>
                     <br />
                     <li>
                       <span className="text-2xl font-semibold">Cliente: </span>
-                      Hengers Emmanuel Rosario Morales
+                      {user?.data?.name} {user?.data?.apellido}
                     </li>
                     <li>
                       <span className="text-2xl font-semibold">
                         Dirección:{" "}
                       </span>
-                      Concepción La Vega, República Dominicana
+                      {user?.data?.direccion}
                     </li>
                     <li>
                       <span className="text-2xl font-semibold">Tel: </span>
-                      +1(809)-252-5452
+                      {phoneNumber.formatInternational()}
                     </li>
                     <li>
                       <span className="text-2xl font-semibold">Email: </span>
-                      hengersrosario@example.com
+                      {user?.email}
                     </li>
                   </ul>
                 </section>
               </div>
             </div>
-
             <div className="flex flex-col mt-12 mx-5">
               <table className="w-full">
-                <thead className="bg-[#C63D05]">
+                <thead className="bg-[#C63D05] h-10">
                   <tr>
-                    <th className="text-white w-1/5">Id Producto</th>
-                    <th className="text-white w-1/5">
+                    <th className="text-white w-[10%] uppercase">
+                      Id Producto
+                    </th>
+                    <th className="text-white w-[35%] uppercase">
                       Descripción del Producto
                     </th>
-                    <th className="text-white w-1/5">Cantidad</th>
-                    <th className="text-white w-1/5">Precio Und</th>
-                    <th className="text-white w-1/5">Total</th>
+                    <th className="text-white w-[10%] uppercase">Categoria</th>
+                    <th className="text-white w-[10%] uppercase">Cantidad</th>
+                    <th className="text-white w-[10%] uppercase">Precio Und</th>
+                    <th className="text-white w-[10%] uppercase">Total</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-300">
-                    <td className="text-center w-1/5">
-                      <span>MIT000</span>1
-                    </td>
-                    <td className="text-center w-1/5">YAMAHA R6 250cc</td>
-                    <td className="text-center w-1/5">2</td>
-                    <td className="text-center w-1/5">$3,500.00</td>
-                    <td className="text-center w-1/5">$7,000.00</td>
-                  </tr>
-                  <tr>
-                    <td className="text-center w-1/5">
-                      <span>MIT000</span>2
-                    </td>
-                    <td className="text-center w-1/5">HONDA CBR 250cc</td>
-                    <td className="text-center w-1/5">1</td>
-                    <td className="text-center w-1/5">$8,500.00</td>
-                    <td className="text-center w-1/5">$8,500.00</td>
-                  </tr>
+                  {elementosComprados.length > 0 ? (
+                    elementosComprados.map((producto, index) => (
+                      <tr key={index} className="border-b border-gray-300 h-10">
+                        <td className="text-center w-[10%]">
+                          {formatID(producto?.id)}
+                        </td>
+                        <td className="text-center w-[35%] uppercase">
+                          {producto?.brand} {" - "} {producto?.motoModel}
+                        </td>
+                        <td className="text-center w-[10%] uppercase">
+                          {producto?.tipo}
+                        </td>
+                        <td className="text-center w-[10%]">
+                          {producto?.cantidad}{" "}
+                          {producto?.cantidad > 1 ? "Unds" : "Und"}
+                        </td>
+                        <td className="text-center w-[10%]">
+                          <div className="flex flex-row w-full justify-between px-5 ">
+                            <p>$</p>
+                            <p>
+                              {parseFloat(producto?.precio).toLocaleString(
+                                "en-US",
+                                {
+                                  currency: "USD",
+                                  minimumFractionDigits: 2,
+                                }
+                              )}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="text-center w-[10%]">
+                          <div className="flex flex-row w-full justify-between px-5 ">
+                            <p>$</p>
+                            <p>
+                              {parseFloat(
+                                producto?.precio * producto?.cantidad
+                              ).toLocaleString("en-US", {
+                                currency: "USD",
+                                minimumFractionDigits: 2,
+                              })}
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5">No hay datos de factura disponibles.</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
-              <ul className="mt-10 text-xl font-bold text-[#252525]">
-                <li className="flex flex-row justify-between border-b border-gray-300">
-                  <p>Sub Total:</p>
-                  <p className="pr-9">$15,500.00</p>
+              <ul className="mt-10 font-bold text-[#252525]">
+                <li className="flex flex-row justify-between border-b border-gray-300 h-10">
+                  <div className="flex flex-row w-full justify-between ">
+                    <section className="w-[100%]">
+                      <p>Sub Total:</p>
+                    </section>
+                    <section className="flex flex-row w-48 justify-between pl-12 pr-5">
+                      <p>$</p>
+                      <p>
+                        {parseFloat(subtotal).toLocaleString("en-US", {
+                          currency: "USD",
+                          minimumFractionDigits: 2,
+                        })}
+                      </p>
+                    </section>
+                  </div>
                 </li>
 
-                <li className="flex flex-row justify-between border-b border-gray-300">
-                  <p>Descuento:</p>
-                  <p className="pr-9">$0.00</p>
+                <li className="flex flex-row justify-between border-b border-gray-300 h-10">
+                  <div className="flex flex-row w-full justify-between">
+                    <section className="w-[100%]">
+                      <p>Descuento:</p>
+                    </section>
+                    <section className="flex flex-row w-48 justify-between pl-12 pr-5">
+                      <p>$</p>
+                      <p>
+                        {parseFloat(0).toLocaleString("en-US", {
+                          currency: "USD",
+                          minimumFractionDigits: 2,
+                        })}
+                      </p>
+                    </section>
+                  </div>
                 </li>
 
                 <li className="flex flex-row justify-between text-3xl mt-4">
-                  <p>Total:</p>
-                  <p className="pr-9">$15,500.00</p>
+                  <div className="flex flex-row w-full justify-between">
+                    <section className="w-[100%]">
+                      <p>Total:</p>
+                    </section>
+                    <section className="flex flex-row w-60 justify-between pl-12 pr-5">
+                      <p>$</p>
+                      <p>
+                        {parseFloat(subtotal).toLocaleString("en-US", {
+                          currency: "USD",
+                          minimumFractionDigits: 2,
+                        })}
+                      </p>
+                    </section>
+                  </div>
                 </li>
               </ul>
             </div>
-
-            <div className="flex flex-row w-[100%] mt-5 rounded-md p-4">
+            <div className="flex flex-row w-[100%] items-center mt-5 rounded-md p-4">
               <section className="flex w-[200px] items-center">
                 <img src={logoCerradoBlack} alt="" width={150} />
               </section>
-              <section className="flex flex-col w-[100%]">
+              <section className="flex flex-col text-lg w-[100%]">
                 <p className="text-justify pb-5">
                   Eres parte esencial de lo que hacemos en{" "}
                   <span className="font-semibold">MITSUMICHI</span>; por eso,
@@ -137,8 +290,11 @@ const Invoice = ({ selectedInvoice, onClose }) => {
               </section>
             </div>
           </div>
-
-          <button className="absolute bottom-4 right-4 flex items-center justify-center bg-[#C63D05] p-2 rounded-lg duration-300 text-lg font-semibold text-white shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]">
+          <button
+            type="button"
+            onClick={captureComponentAsPDF}
+            className="absolute bottom-4 right-4 flex items-center justify-center bg-[#C63D05] p-2 rounded-lg duration-300 text-lg font-semibold text-white shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
+          >
             <span className="mr-2">Descargar</span> <FaFileDownload size={20} />
           </button>
         </div>
