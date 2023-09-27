@@ -62,7 +62,7 @@ export function PayPalButton() {
 
     const userEmail = user?.email || ""; // Uso mail del Profile_Info
     const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
-    
+
    // Envía el correo electrónico al cliente
    const emailData = {
     from: "mitsumichipf@gmail.com",
@@ -122,25 +122,23 @@ export function PayPalButton() {
   const handleCancel = async () => {
     const id = generateOrderId(); // Genera un ID único para la cancelación
     setOrderId(id);
+    const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
 
     // Envía el correo electrónico al cliente
     const cancelEmailData = {
       from: "mitsumichipf@gmail.com",
       to: "7jimenez.w@gmail.com", 
       subject: "Compra cancelada",
-      text: `Lamentablemente, su compra ha sido cancelada.ID de cancelación: ${id}`,
+      text: `Hola  ${userName}, lamentablemente, su compra ha sido cancelada. ID de cancelación: ${id}. Te esperamos pronto.`,
     };
   
-    try {
-      await sgMail.send(cancelEmailData);
-    } catch (error) {
-      console.error(
-        "Error al enviar el correo electrónico de cancelación:",
-        error
-      );
-    }
-    setIsCompleted(false); // Restaurar el estado de la compra
-  };
+     try {
+    await axios.post("http://localhost:3001/send-email", cancelEmailData);
+  } catch (error) {
+    console.error("Error al enviar el correo electrónico de cancelación:", error);
+  }
+  setIsCompleted(false); // Restaurar el estado de la compra
+};
 
   const generateOrderId = () => {
     return Math.random().toString(36).substring(7); // Genera un ID único
