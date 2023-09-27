@@ -4,6 +4,7 @@ import decrease from "../../firebase/decrease";
 import { userAuth } from "../../context/Auth-context";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/credenciales";
+import axios from "axios";
 
 const CartItem = ({ name, price, imagen, id }) => {
   const { currentUser, setProductsLocalStorage } = useContext(userAuth);
@@ -40,8 +41,11 @@ const CartItem = ({ name, price, imagen, id }) => {
     return () => unsubscribe();
   }, [currentUser?.uid, id]);
 
-  const increaseAmountInLocalStorage = (productId) => {
+  const increaseAmountInLocalStorage = async (productId) => {
     // Obtiene la lista actual de productos del localStorage
+    const response = await axios.get(`motos/${id}`);
+    const stock = response.data.stock;
+    if (amount >= stock) return;
     const productsFromCart =
       JSON.parse(window.localStorage.getItem("products")) || [];
 
@@ -89,6 +93,13 @@ const CartItem = ({ name, price, imagen, id }) => {
     }
   };
 
+  const increaseProductAmount = async () => {
+    const response = await axios.get(`motos/${id}`);
+    const stock = response.data.stock;
+    if (amount >= stock) return;
+    increase(currentUser?.uid, id);
+  };
+
   return (
     <li className=" flex max-md:flex-col border-b-2 max-md:gap-0  gap-10 items-center border-orange-600 p-4 ">
       <figure>
@@ -121,7 +132,7 @@ const CartItem = ({ name, price, imagen, id }) => {
         )}
         {currentUser ? (
           <button
-            onClick={() => increase(currentUser?.uid, id)}
+            onClick={increaseProductAmount}
             className=" hover:bg-[#8a2b06] hover:text-white  font-inherit font-bold text-1.25rem text-orange-600 border border-solid border-orange-600 w-12 text-center rounded-md bg-transparent cursor-pointer ml-4 my-1"
           >
             +

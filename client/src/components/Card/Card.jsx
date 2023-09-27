@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import addProduct from "../../firebase/addProduct";
 import { userAuth } from "../../context/Auth-context";
 import Button from "../UI/Button";
 import increase from "../../firebase/increase";
 import axios from "axios";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase/credenciales";
 const Card = ({ data }) => {
   const navigate = useNavigate();
   const { currentUser, setProductsLocalStorage, productsLocalStorage } =
@@ -17,6 +19,39 @@ const Card = ({ data }) => {
     id,
     precio,
   } = data;
+
+  const [amount, setAmount] = useState(0);
+
+  useEffect(() => {
+    // Referencia al documento del carrito en Firestore
+    if (!currentUser) {
+      const productsFromCart =
+        JSON.parse(window.localStorage.getItem("products")) || [];
+      const productInCart = productsFromCart.find(
+        (product) => product.id === id
+      );
+      productInCart ? setAmount(productInCart.cantidad || 0) : setAmount(0);
+      return;
+    }
+    const carritoDocRef = doc(db, "carritos", currentUser?.uid);
+
+    // Escucha cambios en el documento del carrito
+    const unsubscribe = onSnapshot(carritoDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        const productos = data.productos || [];
+        // Encuentra el producto en el carrito por su id
+        const productInCart = productos.find((product) => product.id === id);
+        productInCart ? setAmount(productInCart.cantidad || 0) : setAmount(0);
+      } else {
+        // El carrito no existe para este usuario
+        setAmount(0);
+      }
+    });
+
+    // Limpia la suscripción cuando el componente se desmonta
+    return () => unsubscribe();
+  }, [currentUser?.uid, id]);
 
   const addProducto = async () => {
     const response = await axios.get(`motos/${id}`);
