@@ -23,6 +23,7 @@ const SignUp = () => {
       await registerNewUser({
         data,
         role: "user",
+        status: "active",
         photoURL: currentUser.photoURL,
         id: currentUser.uid,
         email: currentUser.email,
