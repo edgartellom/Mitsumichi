@@ -62,6 +62,7 @@ export function PayPalButton() {
 
     const userEmail = user?.email || ""; // Uso mail del Profile_Info
     const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
+    
    // Envía el correo electrónico al cliente
    const emailData = {
     from: "mitsumichipf@gmail.com",
