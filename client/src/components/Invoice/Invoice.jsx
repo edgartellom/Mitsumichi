@@ -18,7 +18,6 @@ const Invoice = ({ selectedInvoice, onClose }) => {
       setInvoices(invoices);
     })();
   }, [user]);
-
   console.log(invoices)
   return (
     <Wrapper>
@@ -29,7 +28,6 @@ const Invoice = ({ selectedInvoice, onClose }) => {
         >
           <FaWindowClose size={30} />
         </button>
-
         <div className="relative flex min-w-[50%] max-w-[80%] min-h-[80%] pb-16 py-4 px-10 bg-white rounded-md justify-between overflow-hidden">
           <p className="absolute font-semibold ">
             Fecha de realización: {invoices[0]?.today}
