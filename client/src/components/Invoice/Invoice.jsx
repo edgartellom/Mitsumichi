@@ -24,8 +24,7 @@ const Invoice = ({ selectedInvoice, onClose }) => {
       <div className="relative flex flex-col min-w-[80%] min-h-[85%] max-h-[85%] items-center justify-center p-4 overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-2xl text-slate-100 transition-all hover:text-[#C63D05] hover:scale-110"
-        >
+          className="absolute top-4 right-4 text-2xl text-slate-100 transition-all hover:text-[#C63D05] hover:scale-110">
           <FaWindowClose size={30} />
         </button>
         <div className="relative flex min-w-[50%] max-w-[80%] min-h-[80%] pb-16 py-4 px-10 bg-white rounded-md justify-between overflow-hidden">
