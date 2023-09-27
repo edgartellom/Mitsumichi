@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { userAuth } from "../../../../context/Auth-context";
-
+import Pagination from "../../components/Pagination/Pagination";
 import axios from "axios";
 
 import {
@@ -24,6 +24,10 @@ const Products_Admin = () => {
   );
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
 
   useEffect(() => {}, []);
 
@@ -69,6 +73,17 @@ const Products_Admin = () => {
       });
     }
   }, [allInvoices]);
+
+  const totalPages = Math.ceil(invoicesToArr.length / itemsPerPage);
+
+  // Calcular el índice de inicio y final para la página actual
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentOrders = invoicesToArr.slice(startIndex, endIndex);
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+  };
 
   return (
     <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
@@ -137,7 +152,7 @@ const Products_Admin = () => {
             screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
           }`}
         >
-          {invoicesToArr.map((order, index) => {
+          {currentOrders.map((order, index) => {
             let precioTOTAL = Object.values(invoicesToArr[index])
               .map((item) =>
                 item?.precio && item?.cantidad ? item.precio * item.cantidad : 0
@@ -216,6 +231,11 @@ const Products_Admin = () => {
           })}
         </tbody>
       </table>
+      <Pagination
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        currentPage={currentPage}
+      />
     </div>
   );
 };
