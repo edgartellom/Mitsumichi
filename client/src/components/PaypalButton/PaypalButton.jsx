@@ -123,12 +123,14 @@ export function PayPalButton() {
   const handleCancel = async () => {
     const id = generateOrderId(); // Genera un ID único para la cancelación
     setOrderId(id);
+
+    const userEmail = user?.email || "";
     const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
 
     // Envía el correo electrónico al cliente
     const cancelEmailData = {
       from: "mitsumichipf@gmail.com",
-      to: "7jimenez.w@gmail.com",
+      to: userEmail,
       subject: "Compra cancelada",
       text: `Hola ${userName}, lamentablemente, tu compra ha sido cancelada. 
     No te preocupes, estaremos aquí para ayudarte con tu próxima compra. 
