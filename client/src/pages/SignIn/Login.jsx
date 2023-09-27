@@ -64,7 +64,7 @@ const Login = ({ setShowLogin }) => {
                 message: "El campo es obligatorio",
               },
               pattern: {
-                value: /^[\w\.-]+@[\w\.-]+\.\w+$/,
+                value: /^[\w.-]+@[\w.-]+\.\w+$/,
                 message: "Ingresa un email valido",
               },
             })}
