@@ -7,7 +7,6 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/credenciales";
 import Button from "../../components/UI/Button";
 import { useNavigate } from "react-router-dom";
-import SignIn from "../SignIn/SignIn";
 const Cart = ({ setShowCart }) => {
   const { currentUser, setProducts, products, productsLocalStorage } =
     useContext(userAuth);
@@ -69,7 +68,7 @@ const Cart = ({ setShowCart }) => {
     totalAmount = products?.reduce((curNumber, item) => {
       return curNumber + Number(item.precio) * item.cantidad;
     }, 0);
-  } else { 
+  } else {
     cartItems = (
       <ul className="  max-h-80 overflow-auto">
         {productsLocalStorage?.map((product) => {
