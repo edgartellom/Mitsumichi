@@ -29,7 +29,7 @@ const Footer = () => {
             <tbody className="  col-span-2  max-sm:gap-2">
               <tr className=" flex flex-col">
                 <td>
-                  <a href="/about" target="_blank">
+                  <a href="/about-us" target="_blank">
                     Empresa
                   </a>
                 </td>
