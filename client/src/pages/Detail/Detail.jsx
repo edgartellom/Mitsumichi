@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Slider666 from "../../components/Slider666/Slider666";
 import facebook from "../../assets/SocialIcons/facebook.png";
 import twitter from "../../assets/SocialIcons/twitter.png";
 import whatsapp from "../../assets/SocialIcons/whatsapp.png";
 import Wrapper from "../../helper/Wrapper";
 import { LoadingSpinner } from "../../components";
-
+import increase from "../../firebase/increase";
+import axios from "axios";
+import addProduct from "../../firebase/addProduct";
+import { userAuth } from "../../context/Auth-context";
 // "http://localhost:3001/"
 const URL = "https://mitsumichi-production.up.railway.app/";
 
@@ -20,6 +22,8 @@ const Detail = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { currentUser, setProductsLocalStorage, productsLocalStorage } =
+    useContext(userAuth);
 
   useEffect(() => {
     const fetchDataDetail = async () => {
@@ -65,6 +69,71 @@ const Detail = () => {
     };
     navigate(`/paypal-button/${moto.precio}/${brand.name}`);
     window.localStorage.setItem("moto", JSON.stringify(motocycle));
+  };
+
+  const [amount, setAmount] = useState(0);
+
+  const addProducto = async () => {
+    const response = await axios.get(`motos/${id}`);
+    const stock = response.data.stock;
+    console.log(stock);
+    if (currentUser) {
+      // Si el usuario está autenticado, verifica si el producto ya está en el carrito
+      const existingProduct = productsLocalStorage.find(
+        (product) => product.id === id
+      );
+
+      if (existingProduct) {
+        // Si el producto ya está en el carrito, aumenta la cantidad
+        existingProduct.cantidad += 1;
+        setProductsLocalStorage([...productsLocalStorage]);
+      } else {
+        // Si el producto no está en el carrito, agrégalo
+        addProduct(currentUser.uid, {
+          brand: brandName,
+          tipo: tipoName,
+          imageUrl: imageUrl[0],
+          motoModel,
+          id,
+          precio,
+          cantidad: 1,
+        });
+      }
+
+      increase(currentUser.uid, id);
+    } else {
+      // Si el usuario no está autenticado, verifica si el producto ya está en el carrito local
+      const existingProducts =
+        JSON.parse(localStorage.getItem("products")) || [];
+
+      const existingProduct = existingProducts.find(
+        (product) => product.id === id
+      );
+
+      if (existingProduct) {
+        // Si el producto ya está en el carrito local, aumenta la cantidad
+        existingProduct.cantidad += 1;
+        // Actualiza el localStorage y el estado local
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+        setProductsLocalStorage(existingProducts);
+      } else {
+        // Si el producto no está en el carrito local, agrégalo
+
+        existingProducts.push({
+          brand: brandName,
+          tipo: tipoName,
+          imageUrl: imageUrl[0],
+          motoModel,
+          id,
+          precio,
+          cantidad: 1,
+        });
+
+        // Actualiza el localStorage y el estado local
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+        setProductsLocalStorage(existingProducts);
+      }
+    }
   };
 
   return (
