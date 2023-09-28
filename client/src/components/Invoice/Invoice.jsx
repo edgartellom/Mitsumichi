@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaWindowClose, FaFileDownload } from "react-icons/fa";
 import Wrapper from "../../helper/Wrapper";
 import logoCerradoWhite from "../../assets/Logo_Mitsumichi_White.png";
 import logoCerradoBlack from "../../assets/Logo_Mitsumichi.png";
+import { useContext } from "react";
+import { userAuth } from "../../context/Auth-context";
+import getInvoicesByUser from "../../firebase/getInvoicesByUser"
+
 
 const Invoice = ({ selectedInvoice, onClose }) => {
+  const {user}=useContext(userAuth)
+  
+  const [invoices, setInvoices] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const invoices = await getInvoicesByUser(user?.id);
+      setInvoices(invoices);
+    })();
+  }, [user]);
+  console.log(invoices)
   return (
     <Wrapper>
       <div className="relative flex flex-col min-w-[80%] min-h-[85%] max-h-[85%] items-center justify-center p-4 overflow-y-auto">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-2xl text-slate-100 transition-all hover:text-[#C63D05] hover:scale-110"
-        >
+          className="absolute top-4 right-4 text-2xl text-slate-100 transition-all hover:text-[#C63D05] hover:scale-110">
           <FaWindowClose size={30} />
         </button>
-
         <div className="relative flex min-w-[50%] max-w-[80%] min-h-[80%] pb-16 py-4 px-10 bg-white rounded-md justify-between overflow-hidden">
           <p className="absolute font-semibold ">
-            Fecha de realización: 24/04/2022
+            Fecha de realización: {invoices[0]?.today}
           </p>
           <div>
             <div className="flex flex-row mt-12 justify-between items-center w-[100%]">
@@ -40,28 +52,30 @@ const Invoice = ({ selectedInvoice, onClose }) => {
                   <ul className="text-xl">
                     <li>
                       <span className="text-2xl font-semibold">
-                        No. Factura:{" "}
+                        No. Factura:{" "} 
                       </span>
-                      EP2555515851
+                      {invoices[0]?.id}
                     </li>
                     <br />
-                    <li>
+                    <li className="capitalize">
                       <span className="text-2xl font-semibold">Cliente: </span>
-                      Hengers Emmanuel Rosario Morales
+                      {user?.data?.name} {" "} {user?.data.apellido}
+
                     </li>
-                    <li>
+                    <li className="capitalize">
                       <span className="text-2xl font-semibold">
                         Dirección:{" "}
                       </span>
-                      Concepción La Vega, República Dominicana
+                      {user?.data.direccion}
                     </li>
                     <li>
                       <span className="text-2xl font-semibold">Tel: </span>
-                      +1(809)-252-5452
+                      {user?.data.telefono}
                     </li>
                     <li>
                       <span className="text-2xl font-semibold">Email: </span>
-                      hengersrosario@example.com
+                      {user?.email}
+                      
                     </li>
                   </ul>
                 </section>
@@ -69,56 +83,63 @@ const Invoice = ({ selectedInvoice, onClose }) => {
             </div>
 
             <div className="flex flex-col mt-12 mx-5">
-              <table className="w-full">
-                <thead className="bg-[#C63D05]">
-                  <tr>
-                    <th className="text-white w-1/5">Id Producto</th>
-                    <th className="text-white w-1/5">
-                      Descripción del Producto
-                    </th>
-                    <th className="text-white w-1/5">Cantidad</th>
-                    <th className="text-white w-1/5">Precio Und</th>
-                    <th className="text-white w-1/5">Total</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-gray-300">
-                    <td className="text-center w-1/5">
-                      <span>MIT000</span>1
-                    </td>
-                    <td className="text-center w-1/5">YAMAHA R6 250cc</td>
-                    <td className="text-center w-1/5">2</td>
-                    <td className="text-center w-1/5">$3,500.00</td>
-                    <td className="text-center w-1/5">$7,000.00</td>
-                  </tr>
-                  <tr>
-                    <td className="text-center w-1/5">
-                      <span>MIT000</span>2
-                    </td>
-                    <td className="text-center w-1/5">HONDA CBR 250cc</td>
-                    <td className="text-center w-1/5">1</td>
-                    <td className="text-center w-1/5">$8,500.00</td>
-                    <td className="text-center w-1/5">$8,500.00</td>
-                  </tr>
-                </tbody>
-              </table>
-              <ul className="mt-10 text-xl font-bold text-[#252525]">
-                <li className="flex flex-row justify-between border-b border-gray-300">
-                  <p>Sub Total:</p>
-                  <p className="pr-9">$15,500.00</p>
-                </li>
+  <table className="w-full">
+    <thead className="bg-[#C63D05]">
+      <tr>
+        <th className="text-white w-1/5">Id Producto</th>
+        <th className="text-white w-1/5">Descripción del Producto</th>
+        <th className="text-white w-1/5">Cantidad</th>
+        <th className="text-white w-1/5">Precio Und</th>
+        <th className="text-white w-1/5">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {invoices.map((producto, index) => (
+        <tr key={index} className="border-b border-gray-300">
+          <td className="text-center w-1/5">
+            <span>{producto?.id}</span>
+            
+          </td>
+          <td className="text-center w-1/5">{producto?.motoModel} {" "} {producto?.brand}</td>
+          <td className="text-center w-1/5">{producto.cantidad}</td>
+          <td className="text-center w-1/5">${producto.precio}</td>
+          <td className="text-center w-1/5">
+            ${parseFloat(producto.precio) * parseFloat(producto.cantidad)}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <ul className="mt-10 text-xl font-bold text-[#252525]">
+    {/* Calcula el Sub Total sumando los totales de todos los productos */}
+    <li className="flex flex-row justify-between border-b border-gray-300">
+      <p>Sub Total:</p>
+      <p className="pr-9">
+        ${invoices.reduce(
+          (subtotal, producto) =>
+            subtotal + parseFloat(producto.precio) * parseFloat(producto.cantidad),
+          0
+        ).toFixed(2)}
+      </p>
+    </li>
+    <li className="flex flex-row justify-between border-b border-gray-300">
+      <p>Descuento:</p>
+      <p className="pr-9">$0.00</p>
+    </li>
+    {/* Calcula el Total sumando el Sub Total y el Descuento */}
+    <li className="flex flex-row justify-between text-3xl mt-4">
+      <p>Total:</p>
+      <p className="pr-9">
+        ${invoices.reduce(
+          (subtotal, producto) =>
+            subtotal + parseFloat(producto.precio) * parseFloat(producto.cantidad),
+          0
+        ).toFixed(2)}
+      </p>
+    </li>
+  </ul>
+</div>
 
-                <li className="flex flex-row justify-between border-b border-gray-300">
-                  <p>Descuento:</p>
-                  <p className="pr-9">$0.00</p>
-                </li>
-
-                <li className="flex flex-row justify-between text-3xl mt-4">
-                  <p>Total:</p>
-                  <p className="pr-9">$15,500.00</p>
-                </li>
-              </ul>
-            </div>
 
             <div className="flex flex-row w-[100%] mt-5 rounded-md p-4">
               <section className="flex w-[200px] items-center">
