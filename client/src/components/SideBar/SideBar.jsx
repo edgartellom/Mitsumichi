@@ -43,6 +43,8 @@ const SideBar = ({ routesArray }) => {
     );
   }
 
+  const filteredRoutes = routesArray.filter((route) => route !== "null");
+
   return (
     <aside className=" py-3   hidden max-md:block z-10">
       <button className="ml-5" onClick={() => setOpen(true)}>
@@ -94,7 +96,7 @@ const SideBar = ({ routesArray }) => {
               />
             </svg>
           </button>
-          {routesArray?.map((route) => (
+          {filteredRoutes?.map((route) => (
             <li
               onClick={() => onClickHandler(route)}
               key={route}

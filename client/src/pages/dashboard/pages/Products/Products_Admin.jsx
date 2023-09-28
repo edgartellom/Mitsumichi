@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from '../../components/Pagination/Pagination'
+import Pagination from "../../components/Pagination/Pagination";
 import axios from "axios";
 
 import {
@@ -23,14 +23,12 @@ const Products_Admin = () => {
   // const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 7;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/motos?page=1&limit=10000"
-        );
+        const response = await axios.get("motos?page=1&limit=10000");
         setMotos(response.data.data);
       } catch (error) {
         console.error("Error al obtener las motos:", error);
@@ -50,7 +48,6 @@ const Products_Admin = () => {
     setCurrentPage(selectedPage);
   };
 
-
   const handleMarkMotos = async () => {
     const motosToUpdate = selectedMotos.map((moto) => ({
       id: moto.id,
@@ -62,10 +59,7 @@ const Products_Admin = () => {
     console.log(motoStatus);
     try {
       // Realizar la solicitud PUT al servidor para marcar/desmarcar motos
-      await axios.put(
-        "http://localhost:3001/moto/marcar-desmarcar",
-        motosToUpdate
-      );
+      await axios.put("moto/marcar-desmarcar", motosToUpdate);
 
       // Actualizar el estado de las motos en el cliente según la respuesta del servidor
       const updatedMotos = motos.map((moto) => {
@@ -316,7 +310,7 @@ const Products_Admin = () => {
                     <img
                       src={moto?.imageUrl[0]}
                       alt="Moto"
-                      className="mx-auto w-[100px] duration-200 hover:scale-[0.95]"
+                      className="mx-auto h-[75px] duration-200 hover:scale-[0.95]"
                     />
                   ) : (
                     <div

@@ -19,7 +19,7 @@ const addProduct = async (uid, producto) => {
           const existe = conteo.find((p) => p.id === producto.id);
 
           if (existe) {
-            existe.cantidad += producto.cantidad;
+            existe.cantidad + producto.cantidad;
           } else {
             conteo.push(producto);
           }
