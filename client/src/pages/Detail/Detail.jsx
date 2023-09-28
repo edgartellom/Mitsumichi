@@ -11,8 +11,11 @@ import increase from "../../firebase/increase";
 import axios from "axios";
 import addProduct from "../../firebase/addProduct";
 import { userAuth } from "../../context/Auth-context";
+import CartIcon from "../Cart/CartButton/CartIcon";
+import { set } from "date-fns";
 // "http://localhost:3001/"
-const URL = "https://mitsumichi-production.up.railway.app/";
+//"https://mitsumichi-production.up.railway.app/"
+const URL = "http://localhost:3001/";
 
 const Detail = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -76,6 +79,7 @@ const Detail = () => {
   const addProducto = async () => {
     const response = await axios.get(`motos/${id}`);
     const stock = response.data.stock;
+
     console.log(stock);
     if (currentUser) {
       // Si el usuario está autenticado, verifica si el producto ya está en el carrito
@@ -90,13 +94,13 @@ const Detail = () => {
       } else {
         // Si el producto no está en el carrito, agrégalo
         addProduct(currentUser.uid, {
-          brand: brandName,
-          tipo: tipoName,
-          imageUrl: imageUrl[0],
-          motoModel,
-          id,
-          precio,
+          brand: brand.name,
+          motoModel: moto.motoModel,
+          year: moto.year,
+          precio: moto.precio,
+          imageUrl: moto.imageUrl[0],
           cantidad: 1,
+          id: moto.id,
         });
       }
 
@@ -105,28 +109,30 @@ const Detail = () => {
       // Si el usuario no está autenticado, verifica si el producto ya está en el carrito local
       const existingProducts =
         JSON.parse(localStorage.getItem("products")) || [];
-
       const existingProduct = existingProducts.find(
-        (product) => product.id === id
+        (product) => product.id == id
       );
-
+      console.log(existingProduct, "holas");
       if (existingProduct) {
         // Si el producto ya está en el carrito local, aumenta la cantidad
+
+        if (existingProduct.cantidad >= stock) {
+          return;
+        }
         existingProduct.cantidad += 1;
         // Actualiza el localStorage y el estado local
         localStorage.setItem("products", JSON.stringify(existingProducts));
         setProductsLocalStorage(existingProducts);
       } else {
         // Si el producto no está en el carrito local, agrégalo
-
         existingProducts.push({
-          brand: brandName,
-          tipo: tipoName,
-          imageUrl: imageUrl[0],
-          motoModel,
-          id,
-          precio,
+          brand: brand.name,
+          motoModel: moto.motoModel,
+          year: moto.year,
+          precio: moto.precio,
+          imageUrl: moto.imageUrl[0],
           cantidad: 1,
+          id: moto.id,
         });
 
         // Actualiza el localStorage y el estado local
@@ -221,6 +227,12 @@ const Detail = () => {
                 >
                   Comprar
                 </button>
+                <span
+                  onClick={addProducto}
+                  className=" bg-orange-500 p-1 rounded-lg cursor-pointer  max-sm:w-7 w-10 hover:scale-110 mr-2"
+                >
+                  <CartIcon />
+                </span>
               </div>
             </section>
             <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
