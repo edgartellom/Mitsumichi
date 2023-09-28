@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from '../../components/Pagination/Pagination'
+import Pagination from "../../components/Pagination/Pagination";
 import axios from "axios";
 
 import {
@@ -23,7 +23,7 @@ const Products_Admin = () => {
   // const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 7;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +49,6 @@ const Products_Admin = () => {
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage);
   };
-
 
   const handleMarkMotos = async () => {
     const motosToUpdate = selectedMotos.map((moto) => ({
@@ -316,7 +315,7 @@ const Products_Admin = () => {
                     <img
                       src={moto?.imageUrl[0]}
                       alt="Moto"
-                      className="mx-auto w-[100px] duration-200 hover:scale-[0.95]"
+                      className="mx-auto h-[75px] duration-200 hover:scale-[0.95]"
                     />
                   ) : (
                     <div
