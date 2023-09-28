@@ -39,7 +39,7 @@ const Navbar = () => {
     `${!currentUser ? "INICIAR SESION" : "SALIR"}`,
     "HOME",
     "PROFILE",
-    `${user?.role === "admin" && "DASHBOARD"}`,
+    `${user?.role === "admin" ? "DASHBOARD" : null}`,
     "SERVICE AND SUPPORT",
     "ABOUT-US",
   ];
