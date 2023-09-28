@@ -38,6 +38,8 @@ const Rating = ({setShowReview, selectedItem}) => {
     // Aquí puedes implementar la lógica para guardar los datos, por ejemplo, hacer una solicitud a una API.
     // Puedes usar selectedRating y feedback para enviar los datos que el usuario ingresó.
     await createReview(currentUser?.uid, {selectedRating, feedback})
+    setShowReview(false)
+    window.alert("Gracias por tu valoración")
   };
 
   return (
