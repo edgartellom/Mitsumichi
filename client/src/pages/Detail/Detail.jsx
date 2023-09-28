@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Slider666 from "../../components/Slider666/Slider666";
 import facebook from "../../assets/SocialIcons/facebook.png";
 import twitter from "../../assets/SocialIcons/twitter.png";
 import whatsapp from "../../assets/SocialIcons/whatsapp.png";
 import Wrapper from "../../helper/Wrapper";
 import { LoadingSpinner } from "../../components";
-
-// "http://localhost:3001/"
-const URL = "https://mitsumichi-production.up.railway.app/";
-
+import CartIcon from "../Cart/CartButton/CartIcon";
+import increase from "../../firebase/increase";
+import axios from "axios";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase/credenciales";
+import addProduct from "../../firebase/addProduct";
+// "
+//"https://mitsumichi-production.up.railway.app/"
+const URL = "http://localhost:3001/";
+import { userAuth } from "../../context/Auth-context";
 const Detail = () => {
+  const { currentUser, setProductsLocalStorage, productsLocalStorage } =
+    useContext(userAuth);
   const [isLoading, setIsLoading] = useState(true);
   const [moto, setMoto] = useState({});
   const [brand, setBrand] = useState("");
@@ -20,6 +27,107 @@ const Detail = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const [amount, setAmount] = useState(0);
+
+  useEffect(() => {
+    // Referencia al documento del carrito en Firestore
+    if (!currentUser) {
+      const productsFromCart =
+        JSON.parse(window.localStorage.getItem("products")) || [];
+      const productInCart = productsFromCart.find(
+        (product) => product.id === id
+      );
+      productInCart ? setAmount(productInCart.cantidad || 0) : setAmount(0);
+      return;
+    }
+    const carritoDocRef = doc(db, "carritos", currentUser?.uid);
+
+    // Escucha cambios en el documento del carrito
+    const unsubscribe = onSnapshot(carritoDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+        const productos = data.productos || [];
+        // Encuentra el producto en el carrito por su id
+        const productInCart = productos.find((product) => product.id === id);
+        productInCart ? setAmount(productInCart.cantidad || 0) : setAmount(0);
+      } else {
+        // El carrito no existe para este usuario
+        setAmount(0);
+      }
+    });
+
+    // Limpia la suscripción cuando el componente se desmonta
+    return () => unsubscribe();
+  }, [currentUser?.uid, id]);
+
+  const addProducto = async () => {
+    const response = await axios.get(`motos/${id}`);
+    const stock = response.data.stock;
+    const motocycle = {
+      brand: brand.name,
+      motoModel: moto.motoModel,
+      year: moto.year,
+      precio: moto.precio,
+      imageUrl: moto.imageUrl[0],
+      cantidad: 1,
+      id: moto.id,
+    };
+
+    if (currentUser) {
+      // Si el usuario está autenticado, verifica si el producto ya está en el carrito
+      const existingProductIndex = productsLocalStorage.findIndex(
+        (product) => product.id === id
+      );
+
+      if (existingProductIndex !== -1) {
+        // Si el producto ya está en el carrito, aumenta la cantidad
+        productsLocalStorage[existingProductIndex].cantidad += 1;
+        setProductsLocalStorage([...productsLocalStorage]);
+      } else {
+        // Si el producto no está en el carrito, agrégalo
+        addProduct(currentUser.uid, motocycle);
+      }
+
+      increase(currentUser.uid, id);
+    } else {
+      // Si el usuario no está autenticado, verifica si el producto ya está en el carrito local
+      const existingProducts =
+        JSON.parse(localStorage.getItem("products")) || [];
+
+      const existingProductIndex = existingProducts.findIndex(
+        (product) => product.id === id
+      );
+
+      if (existingProductIndex !== -1) {
+        // Si el producto ya está en el carrito local, aumenta la cantidad
+        existingProducts[existingProductIndex].cantidad += 1;
+
+        // Verifica si la cantidad supera el stock disponible
+        if (existingProducts[existingProductIndex].cantidad > stock) {
+          // No permitas agregar más si se supera el stock
+          return;
+        }
+
+        // Actualiza el localStorage y el estado local
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+        setProductsLocalStorage(existingProducts);
+      } else {
+        // Si el producto no está en el carrito local, agrégalo
+        existingProducts.push(motocycle);
+
+        // Verifica si la cantidad a agregar supera el stock disponible
+        if (motocycle.cantidad > stock) {
+          // No permitas agregar más si se supera el stock
+          return;
+        }
+
+        // Actualiza el localStorage y el estado local
+        localStorage.setItem("products", JSON.stringify(existingProducts));
+        setProductsLocalStorage(existingProducts);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchDataDetail = async () => {
@@ -49,9 +157,9 @@ const Detail = () => {
     fetchDataDetail();
   }, [id]);
 
-  const handleImageClick = (index) => {
-    setSelectedImage(index);
-  };
+  // const handleImageClick = (index) => {
+  //   setSelectedImage(index);
+  // };
 
   const navigateToPaypal = () => {
     const motocycle = {
@@ -94,7 +202,7 @@ const Detail = () => {
                   className=" rounded-lg shadow-lg"
                 />
                 <aside className=" flex flex-wrap flex-col-reverse gap-3 max-md:gap-10 items-center justify-center">
-                  <section className=" flex gap-2">
+                  {/* <section className=" flex gap-2">
                     {moto.imageUrl.map((image, index) => (
                       <img
                         key={index}
@@ -105,7 +213,7 @@ const Detail = () => {
                         className="rounded-lg shadow-lg cursor-pointer"
                       />
                     ))}
-                  </section>
+                  </section> */}
                   <summary className="flex  ">
                     <div className="flex flex-col">
                       <span className="text-lg font-semibold mb-2">
@@ -118,7 +226,7 @@ const Detail = () => {
                         Año: {moto.year}
                       </span>
                       <span className="text-lg font-semibold ">
-                        Color Disponible:
+                        {/* Color Disponible: */}
                         {/* {moto.colors.map((color, index) => (
                           <span className="font-normal p-1" key={index}>
                             {color?.name},
@@ -152,6 +260,12 @@ const Detail = () => {
                 >
                   Comprar
                 </button>
+                <span
+                  onClick={addProducto}
+                  className=" bg-orange-400 p-1 rounded-lg w-10 cursor-pointer  mr-2"
+                >
+                  <CartIcon />
+                </span>
               </div>
             </section>
             <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
