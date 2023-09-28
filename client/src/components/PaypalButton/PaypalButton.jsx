@@ -157,7 +157,7 @@ export function PayPalButton() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen z-0">
+    <div className="flex justify-center items-center h-[calc(100vh-424.2px)]">
       <PayPalScriptProvider options={{ "client-id": clientId }}>
         <div className="w-full md:w-1/2">
           {isCompleted ? (
@@ -179,7 +179,7 @@ export function PayPalButton() {
               </div>
             </div>
           ) : (
-            <div>
+            <div className="flex w-full items-center justify-center">
               <PayPalButtons
                 createOrder={(_data, actions) => {
                   try {
@@ -221,6 +221,7 @@ export function PayPalButton() {
                   }
                 }}
                 onCancel={handleCancel}
+                className="w-1/2 -z-0"
               />
             </div>
           )}
