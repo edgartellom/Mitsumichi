@@ -15,9 +15,11 @@ const Profile_Reviews = () => {
       try {
         const invoicesByUser = await getInvoicesByUser(user?.id);
         if (invoicesByUser) {
-          const shoppingArrayAll = Object.values(invoicesByUser[0]);
-          const shoppingArray = shoppingArrayAll.filter(item => item.hasOwnProperty('brand'));
-          setShopping(shoppingArray);
+          const invoicesToArray = invoicesByUser.map((e) => Object.values(e))
+          const invoicesFiltered = invoicesToArray.map((e) => e.filter(item => item.hasOwnProperty('brand')))
+          .flat()
+          console.log(invoicesFiltered);
+          setShopping(invoicesFiltered);
         } else {
           setShopping([]);
         }

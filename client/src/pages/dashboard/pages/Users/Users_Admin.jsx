@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import updateUser from "../../../../firebase/updateUser";
+import Pagination from "../../components/Pagination/Pagination";
 
 import {
   MdOutlineDeleteForever,
@@ -10,12 +11,14 @@ import { userAuth } from "../../../../context/Auth-context";
 const Users_Admin = () => {
   const { users, invoices } = useContext(userAuth);
   const [showItems, setShowItems] = useState([]);
-
   const invoicesToArr = Object.values(invoices);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -85,6 +88,17 @@ const Users_Admin = () => {
     } catch (error) {
       console.error("Error al actualizar usuarios:", error);
     }
+  };
+
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+
+  // Calcular el índice de inicio y final para la página actual
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentUsers = users.slice(startIndex, endIndex);
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
   };
 
   return (
@@ -166,10 +180,10 @@ const Users_Admin = () => {
             screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
           }`}
         >
-          {users.map((user, index) => {
-            const id = index + 1;
+          {currentUsers.map((user, index) => {
+            const displayedIndex = (currentPage - 1) * itemsPerPage + index + 1;
 
-            const precioTOTAL = invoicesToArr[index]
+            const precioTOTAL = invoicesToArr[displayedIndex]
               ?.map((item) => item[0]?.precio)
               .map(Number)
               .filter((item) => !isNaN(item))
@@ -184,7 +198,7 @@ const Users_Admin = () => {
                     ? "duration-200 opacity-100 translate-y-0"
                     : "duration-200 opacity-0 translate-y-10"
                 }`}
-                key={id}
+                key={displayedIndex}
               >
                 <td
                   className={`text-center w-1/7 ${
@@ -200,7 +214,9 @@ const Users_Admin = () => {
                     <div className="checkmarklist"></div>
                   </label>
                 </td>
-                <td className="text-center w-1/7 font-bold ml-1">{id}</td>
+                <td className="text-center w-1/7 font-bold ml-1">
+                  {displayedIndex}
+                </td>
                 <td className="text-center w-1/7 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
                   {user?.data?.name}
                 </td>
@@ -239,6 +255,11 @@ const Users_Admin = () => {
           })}
         </tbody>
       </table>
+      <Pagination
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        currentPage={currentPage}
+      />
     </div>
   );
 };

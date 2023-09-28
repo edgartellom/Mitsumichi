@@ -74,9 +74,7 @@ const Moto_Create = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/motos?page=1&limit=10000"
-        );
+        const response = await axios.get("motos?page=1&limit=10000");
 
         setMotos(response.data.data);
       } catch (error) {
@@ -504,7 +502,7 @@ const Moto_Create = () => {
                 );
 
                 const response = await axios.post(
-                  "http://localhost:3001/motos",
+                  "motos",
                   JSON.stringify({ ...formData, imageUrl: imageUrls }),
                   {
                     headers: {

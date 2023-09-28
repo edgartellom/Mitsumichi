@@ -137,7 +137,7 @@ export function PayPalButton() {
     };
   
     try {
-      await sgMail.send(cancelEmailData);
+     /*  await sgMail.send(cancelEmailData); */
       await axios.post("send-email", cancelEmailData)
     } catch (error) {
       console.error(
@@ -310,7 +310,7 @@ export function PayPalButton() {
     try {
       await sgMail.send(emailData);
       setPurchaseId(capturedPurchaseId);
-      await axios.post("http://localhost:3001/send-email", emailData);
+      await axios.post("send-email", emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
@@ -373,7 +373,6 @@ export function PayPalButton() {
     };
 
     try {
-      await sgMail.send(cancelEmailData);
       await axios.post("http://localhost:3001/send-email", cancelEmailData);
     } catch (error) {
       console.error(
@@ -393,7 +392,7 @@ export function PayPalButton() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen z-0">
+    <div className="flex justify-center items-center h-[calc(100vh-424.2px)]">
       <PayPalScriptProvider options={{ "client-id": clientId }}>
         <div className="w-full md:w-1/2">
           {isCompleted ? (
@@ -415,7 +414,7 @@ export function PayPalButton() {
               </div>
             </div>
           ) : (
-            <div>
+            <div className="flex w-full items-center justify-center">
               <PayPalButtons
                 createOrder={(_data, actions) => {
                   try {
@@ -457,6 +456,7 @@ export function PayPalButton() {
                   }
                 }}
                 onCancel={handleCancel}
+                className="w-1/2 -z-0"
               />
             </div>
           )}

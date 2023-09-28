@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Pagination from "../../components/Pagination/Pagination";
 import axios from "axios";
 
 import {
@@ -22,14 +22,13 @@ const Products_Admin = () => {
   const [activeMotos, setActiveMotos] = useState(true);
   // const selectedMotoIds = selectedMotos.map((selectedMoto) => selectedMoto.id);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/motos?page=1&limit=10000"
-        );
-
+        const response = await axios.get("motos?page=1&limit=10000");
         setMotos(response.data.data);
       } catch (error) {
         console.error("Error al obtener las motos:", error);
@@ -38,6 +37,16 @@ const Products_Admin = () => {
 
     fetchData();
   }, []);
+
+  const totalPages = Math.ceil(motos.length / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentMotos = motos.slice(startIndex, endIndex);
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+  };
 
   const handleMarkMotos = async () => {
     const motosToUpdate = selectedMotos.map((moto) => ({
@@ -50,10 +59,7 @@ const Products_Admin = () => {
     console.log(motoStatus);
     try {
       // Realizar la solicitud PUT al servidor para marcar/desmarcar motos
-      await axios.put(
-        "http://localhost:3001/moto/marcar-desmarcar",
-        motosToUpdate
-      );
+      await axios.put("moto/marcar-desmarcar", motosToUpdate);
 
       // Actualizar el estado de las motos en el cliente según la respuesta del servidor
       const updatedMotos = motos.map((moto) => {
@@ -263,7 +269,7 @@ const Products_Admin = () => {
             screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
           }`}
         >
-          {motos.map((moto, index) => (
+          {currentMotos.map((moto, index) => (
             <tr
               className={`hover:text-blue-400 h-[75px] ${
                 showItems.includes(index)
@@ -304,7 +310,7 @@ const Products_Admin = () => {
                     <img
                       src={moto?.imageUrl[0]}
                       alt="Moto"
-                      className="mx-auto w-[100px] duration-200 hover:scale-[0.95]"
+                      className="mx-auto h-[75px] duration-200 hover:scale-[0.95]"
                     />
                   ) : (
                     <div
@@ -348,6 +354,11 @@ const Products_Admin = () => {
           ))}
         </tbody>
       </table>
+      <Pagination
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+        currentPage={currentPage}
+      />
     </div>
   );
 };
