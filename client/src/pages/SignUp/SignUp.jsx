@@ -7,6 +7,8 @@ import updateUser from "../../firebase/updateUser";
 import registerNewUser from "../../firebase/registerNewUser";
 import Wrapper from "../../helper/Wrapper";
 import logOut from "../../firebase/logOut";
+
+
 const SignUp = () => {
   const { currentUser } = useContext(userAuth);
   const {
