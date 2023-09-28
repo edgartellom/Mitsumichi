@@ -1,6 +1,5 @@
 const { Moto, Color } = require("../db");
 
-// Controlador para actualizar una moto por su ID
 async function editMoto(req, res) {
   try {
     const motoId = req.params.id;
@@ -9,7 +8,7 @@ async function editMoto(req, res) {
     const moto = await Moto.findByPk(motoId);
 
     if (!moto) {
-      throw res.status(404).json({ error: "Moto no encontrada" });
+      return res.status(404).json({ error: "Moto no encontrada" });
     }
 
     // Actualizar información de la moto

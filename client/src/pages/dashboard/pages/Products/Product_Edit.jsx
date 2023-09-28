@@ -33,14 +33,14 @@ const Product_Edit = () => {
   useEffect(() => {
     const fetchDataEdit_Product = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/motos/${id}`);
+        const response = await axios.get(`motos/${id}`);
 
-        const responseBrand = await axios(`http://localhost:3001/marcas`);
+        const responseBrand = await axios(`marcas`);
         const brandFound = responseBrand.data.find(
           (e) => e.id === response.data.brandId
         );
 
-        const responseTipo = await axios(`http://localhost:3001/tipos`);
+        const responseTipo = await axios(`tipos`);
         const tipoFound = responseTipo.data.find(
           (e) => e.id === response.data.tipoId
         );

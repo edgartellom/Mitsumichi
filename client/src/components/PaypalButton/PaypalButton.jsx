@@ -70,12 +70,12 @@ export function PayPalButton() {
       to: userEmail, // Acá debería tomarme el mail que registre el usuario.
       subject: "Confirmación de compra",
       text: `¡Hola ${userName}, gracias por tu compra de ${nombre}! Tu pago se ha completado con éxito. 
-    ID de compra: ${capturedPurchaseId}. Esperamos que disfrutes de tu producto.`
+    ID de compra: ${capturedPurchaseId}. Esperamos que disfrutes de tu producto.`,
     };
 
     try {
       setPurchaseId(capturedPurchaseId);
-      await axios.post("http://localhost:3001/send-email", emailData);
+      await axios.post("send-email", emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
@@ -138,7 +138,7 @@ export function PayPalButton() {
     };
 
     try {
-      await axios.post("http://localhost:3001/send-email", cancelEmailData);
+      await axios.post("send-email", cancelEmailData);
     } catch (error) {
       console.error(
         "Error al enviar el correo electrónico de cancelación:",

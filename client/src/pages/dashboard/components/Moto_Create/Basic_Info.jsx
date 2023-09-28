@@ -131,7 +131,8 @@ const Basic_Info = ({
         </div>
         {isModelValid === false && (
           <p className="text-xs italic text-red-500">
-            Debe tener entre 5 y 25 caracteres (sin contar espacios)
+            Debe tener entre 5 y 50 caracteres y solo se permiten letras,
+            números, "-", y "/".
           </p>
         )}
       </div>

@@ -6,6 +6,7 @@ import { Invoice } from "../../../components";
 
 const Profile_Orders = () => {
   const { user } = useContext(userAuth);
+
   const [invoices, setInvoices] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null); // Para almacenar los datos de la factura seleccionada
   const [isModalOpen, setIsModalOpen] = useState(false); // Para controlar la visibilidad del modal
