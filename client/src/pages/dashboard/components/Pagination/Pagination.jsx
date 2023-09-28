@@ -8,7 +8,7 @@ const Pagination = ({ totalPages, onPageChange, currentPage }) => {
   };
 
   return (
-    <section className="flex pb-5 gap-3 flex-wrap m-auto justify-center items-center">
+    <div className="flex pt-4 gap-3 flex-wrap m-auto justify-center items-center">
       <ReactPaginate
         className=" flex flex-wrap justify-center items-center gap-2"
         pageCount={totalPages}
@@ -26,7 +26,7 @@ const Pagination = ({ totalPages, onPageChange, currentPage }) => {
         renderOnZeroPageCount={null}
         forcePage={currentPage - 1} // Utiliza currentPage desde el estado de Redux
       />
-    </section>
+    </div>
   );
 };
 
