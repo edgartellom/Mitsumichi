@@ -1,4 +1,4 @@
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/credenciales";
 
 const getUser = async (uid) => {

@@ -9,7 +9,7 @@ import loginWithEmailAndPassword from "../../firebase/loginWithEmailPassword";
 import { useForm } from "react-hook-form";
 import { userAuth } from "../../context/Auth-context";
 
-const Login = ({ onClose }) => {
+const Login = ({ setShowLogin }) => {
   const { setLoading } = useContext(userAuth);
   const [isLoggingIn, setIsloggingIn] = useState(false);
   const [loginErro, setLoginError] = useState(null);
@@ -29,14 +29,14 @@ const Login = ({ onClose }) => {
     if (isLoggingIn) {
       await registerUser(email, password);
     } else {
-      const response = await loginWithEmailAndPassword(email, password);
-      window.location.reload();
-      setLoading(true);
-      if (!response) {
+      try {
+        const response = await loginWithEmailAndPassword(email, password);
+        if (!response) throw new Error("Parece que aun no estas registrado");
+        setLoading(true);
+      } catch (error) {
         setLoginError("Parece que aun no estas registrado");
         return;
       }
-      setLoading(true);
     }
   };
 
@@ -44,11 +44,11 @@ const Login = ({ onClose }) => {
     <Wrapper>
       <form
         onSubmit={handleSubmit(sumbitHandler)}
-        className=" bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
+        className="  animate-slide-down bg-white flex flex-col justify-center items-center pb-7 pt-2 w-[500px]   gap-6 rounded-lg max-sm:h-screen "
       >
         <button
           type="button"
-          onClick={onClose}
+          onClick={() => setShowLogin(false)}
           className=" self-end mr-5 font-bold text-xl "
         >
           X
@@ -64,7 +64,7 @@ const Login = ({ onClose }) => {
                 message: "El campo es obligatorio",
               },
               pattern: {
-                value: /^[\w\.-]+@[\w\.-]+\.\w+$/,
+                value: /^[\w.-]+@[\w.-]+\.\w+$/,
                 message: "Ingresa un email valido",
               },
             })}

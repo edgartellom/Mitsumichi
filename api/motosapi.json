@@ -1,5 +1,4 @@
 [
-  
   {
     "id": "001",
     "marca": "Yumbo",
@@ -18,7 +17,7 @@
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "125",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
@@ -29,8 +28,8 @@
     "year": "2022",
     "precio": "2900",
     "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2022/06/Color-2-T72min.png",
       "https://delcar.com.uy/wp-content/uploads/2022/06/Color-3-T72min.png",
+      "https://delcar.com.uy/wp-content/uploads/2022/06/Color-2-T72min.png",
       "https://delcar.com.uy/wp-content/uploads/2022/06/Color-1-T72min.png"
     ],
 
@@ -40,7 +39,7 @@
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "125",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
@@ -181,12 +180,11 @@
     "year": "2023",
     "precio": "11100",
     "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2021/01/2020_YZF320-A_DPBMC_USA_S1_RGB-scaled.jpeg",
-      "https://delcar.com.uy/wp-content/uploads/2023/08/3fd9d6be69b9968ab21f211641b82b44_full_size.jpg"
+      "https://delcar.com.uy/wp-content/uploads/2021/01/2020_YZF320-A_DPBMC_USA_S1_RGB-scaled.jpeg"
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Azul", "Negro"],
+    "colorDisponible": ["Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -251,38 +249,16 @@
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Negro", "Rojo", "Azul", "Negro"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "cilindrada": "124",
-      "velocidades": "N/A"
-    }
-  },
-  {
-    "id": "013",
-    "marca": "Yumbo",
-    "modelo": "CITY 125 X",
-    "tipo": "Scooter",
-    "year": "2023",
-    "precio": "1500",
-    "imageUrl": [
-      "https://delcar.com.uy/wp-content/uploads/2022/11/CityX-celeste-gris.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2022/11/CITYX2.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2022/11/CITYX1.jpg"
-    ],
-
-    "combustible": "Nafta",
     "colorDisponible": ["Negro", "Rojo", "Azul"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "124",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
-    "id": "014",
+    "id": "013",
     "marca": "Yumbo",
     "modelo": "CLASSIC III 125",
     "tipo": "Street",
@@ -295,7 +271,7 @@
     ],
 
     "combustible": "Nafta",
-    "colorDisponible": ["Negro", "Rojo", "Azul"],
+    "colorDisponible": ["Negro", "Rojo", "Blanco"],
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
@@ -304,7 +280,7 @@
     }
   },
   {
-    "id": "015",
+    "id": "014",
     "marca": "Keeway",
     "modelo": "RK 125 E",
     "tipo": "Street",
@@ -326,7 +302,7 @@
     }
   },
   {
-    "id": "016",
+    "id": "015",
     "marca": "Keeway",
     "modelo": "RK 200",
     "tipo": "Street",
@@ -349,7 +325,7 @@
     }
   },
   {
-    "id": "017",
+    "id": "016",
     "marca": "Apache",
     "modelo": "RR 310 4V",
     "tipo": "Naked",
@@ -370,16 +346,13 @@
     }
   },
   {
-    "id": "018",
+    "id": "017",
     "marca": "Apache",
     "modelo": "APACHE 200FI ABS",
     "tipo": "Naked",
     "year": "2022",
     "precio": "5690",
-    "imageUrl": [
-      "https://tvs.com.uy/wp-content/uploads/2022/11/2.jpg",
-      "https://tvs.com.uy/wp-content/uploads/2023/06/miniatura--e1686589762951.png"
-    ],
+    "imageUrl": ["https://tvs.com.uy/wp-content/uploads/2022/11/2.jpg"],
 
     "combustible": "Nafta",
     "colorDisponible": ["Azul"],
@@ -391,38 +364,16 @@
     }
   },
   {
-    "id": "019",
-    "marca": "Zanella",
-    "modelo": "ZR 125",
-    "tipo": "Enduro",
-    "year": "2023",
-    "precio": "1999",
-    "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2014/10/ZR-125-negro.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2014/10/ZR-125-roja.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2014/10/ZR-125-blanca.jpg"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
-    }
-  },
-  {
-    "id": "020",
+    "id": "018",
     "marca": "Zanella",
     "modelo": "ZR 200",
     "tipo": "Enduro",
     "year": "2023",
     "precio": "2599",
     "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2017/02/ZR-200-NEGRA-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2017/02/ZR-200-roja-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2017/02/ZR200-2016-W.jpg"
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411282/Zanellas/msedge_1mr6uDklGx_naikhg.png",
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411274/Zanellas/msedge_KANUDPGpfT_wkpgdm.png",
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411275/Zanellas/msedge_34keNUXJYH_gmgpmg.png"
     ],
 
     "combustible": "Nafta",
@@ -435,16 +386,16 @@
     }
   },
   {
-    "id": "021",
+    "id": "019",
     "marca": "Zanella",
     "modelo": "Sapucai 200",
     "tipo": "Street",
     "year": "2023",
     "precio": "1699",
     "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2014/10/Sapucai-200-negra-scaled.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2014/10/Zanella-200-roja-scaled.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2014/10/Sapucai-200-blanca-1-scaled.jpg"
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411277/Zanellas/msedge_kEjI7JLFJ0_ixkqbp.png",
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411278/Zanellas/msedge_sEmiIkAjML_icohd1.png",
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411276/Zanellas/msedge_n0nDYIwEKz_x5pkrn.png"
     ],
 
     "combustible": "Nafta",
@@ -452,22 +403,22 @@
     "fichaTecnica": {
       "motor": "4 tiempos",
       "pasajeros": "2",
-      "Cilindrada": "200",
-      "Velocidades": "5"
+      "cilindrada": "200",
+      "velocidades": "5"
     }
   },
   {
-    "id": "022",
+    "id": "020",
     "marca": "Zanella",
     "modelo": "RX Z7",
     "tipo": "Street",
     "year": "2022",
     "precio": "2180",
     "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2022/06/z7ng.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2022/06/z7r.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2022/06/z7bl.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2022/06/z7az.jpg"
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411273/Zanellas/msedge_c6vpgQDG9A_lgbmme.png",
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411272/Zanellas/msedge_DwOwPnlfHP_npgar7.png",
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411271/Zanellas/msedge_5tfrqGoCzK_pshwl6.png",
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411281/Zanellas/msedge_ZC4Y5AkCac_ctbxia.png"
     ],
 
     "combustible": "Nafta",
@@ -480,14 +431,14 @@
     }
   },
   {
-    "id": "023",
+    "id": "021",
     "marca": "Zanella",
     "modelo": "Ceccato 250",
     "tipo": "Street",
     "year": "2023",
     "precio": "3399",
     "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2018/10/ceccato-250-azul-1.jpg"
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411271/Zanellas/msedge_1veUweQKrd_jypaqq.png"
     ],
 
     "combustible": "Nafta",
@@ -500,14 +451,14 @@
     }
   },
   {
-    "id": "024",
+    "id": "022",
     "marca": "Zanella",
     "modelo": "RX 125",
     "tipo": "Street",
     "year": "2022",
     "precio": "1500",
     "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2020/12/ZANELLA-RX-125cc-RAYOS-DISCO.jpg"
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411274/Zanellas/msedge_HHwpW2anC1_ppuqzz.png"
     ],
 
     "combustible": "Nafta",
@@ -520,36 +471,14 @@
     }
   },
   {
-    "id": "025",
-    "marca": "Zanella",
-    "modelo": "Sapucai Vintage",
-    "tipo": "Street",
-    "year": "2023",
-    "precio": "1500",
-    "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-negra-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-roja-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-blanca-scaled-1.jpg"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
-    }
-  },
-  {
-    "id": "026",
+    "id": "023",
     "marca": "Zanella",
     "modelo": "ZB 110 G4",
     "tipo": "CUB",
     "year": "2023",
     "precio": "1425",
     "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2020/10/z1-blanca.jpg"
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411272/Zanellas/msedge_9eELvR3hf2_goch6r.png"
     ],
 
     "combustible": "Nafta",
@@ -562,14 +491,14 @@
     }
   },
   {
-    "id": "027",
+    "id": "024",
     "marca": "Zanella",
     "modelo": "ZB 110 LE",
     "tipo": "CUB",
     "year": "2023",
     "precio": "1210",
     "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2020/12/zb-le-110-gris-negro.jpg"
+      "https://res.cloudinary.com/dzsjk3zxn/image/upload/v1693411273/Zanellas/msedge_90RuE9OgDB_lqr8ay.png"
     ],
 
     "combustible": "Nafta",
@@ -582,32 +511,10 @@
     }
   },
   {
-    "id": "028",
-    "marca": "Zanella",
-    "modelo": "Sapucai 125",
-    "tipo": "Street",
-    "year": "2023",
-    "precio": "1499",
-    "imageUrl": [
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-negra-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-roja-1-scaled-1.jpg",
-      "https://motostore.com.uy/wp-content/uploads/2021/03/Sapucai-125-blanca-scaled-1.jpg"
-    ],
-
-    "combustible": "Nafta",
-    "colorDisponible": ["Negra", "Roja", "Blanca"],
-    "fichaTecnica": {
-      "motor": "4 tiempos",
-      "pasajeros": "2",
-      "Cilindrada": "125",
-      "Velocidades": "5"
-    }
-  },
-  {
-    "id": "030",
+    "id": "025",
     "marca": "Honda",
     "modelo": "CG 110",
-    "tipo": "street",
+    "tipo": "Street",
     "year": "2023",
     "precio": "1590",
     "imageUrl": [
@@ -625,7 +532,7 @@
     }
   },
   {
-    "id": "031",
+    "id": "026",
     "marca": "Honda",
     "modelo": "NAVI 110 K",
     "tipo": "Scooter",
@@ -647,16 +554,16 @@
     }
   },
   {
-    "id": "032",
+    "id": "027",
     "marca": "Honda",
     "modelo": "CB125 F TWISTER",
-    "tipo": "street",
+    "tipo": "Street",
     "year": "2023",
     "precio": "2490",
     "imageUrl": [
       "https://delcar.com.uy/wp-content/uploads/2021/02/BF-125F-Azul-Lateral-Derecha-1080x670-1-1.jpg",
       "https://delcar.com.uy/wp-content/uploads/2021/02/HONDA-CB-12516432-e1520888425111-1.jpg",
-      "https://delcar.com.uy/wp-content/uploads/2021/02/HONDA-CB-12516432-e1520888425111-1.jpg"
+      "https://delcar.com.uy/wp-content/uploads/2021/02/gris-metalico.png"
     ],
 
     "combustible": "Nafta",
@@ -669,7 +576,7 @@
     }
   },
   {
-    "id": "033",
+    "id": "028",
     "marca": "Honda",
     "modelo": "WAVE 110 S",
     "tipo": "CUB",
@@ -691,7 +598,7 @@
     }
   },
   {
-    "id": "034",
+    "id": "029",
     "marca": "Honda",
     "modelo": "CB1 125",
     "tipo": "Street",
@@ -713,7 +620,7 @@
     }
   },
   {
-    "id": "035",
+    "id": "030",
     "marca": "Honda",
     "modelo": "DIO 110",
     "tipo": "Scooter",
@@ -731,11 +638,11 @@
       "motor": "4 tiempos",
       "pasajeros": "2",
       "cilindrada": "109",
-      "velocidades": "N/A"
+      "velocidades": "-"
     }
   },
   {
-    "id": "036",
+    "id": "031",
     "marca": "Honda",
     "modelo": "XR 125 L",
     "tipo": "On-Off Road",
@@ -756,7 +663,7 @@
     }
   },
   {
-    "id": "037",
+    "id": "032",
     "marca": "Honda",
     "modelo": "X - BLADE 160",
     "tipo": "Naked",
@@ -778,7 +685,7 @@
     }
   },
   {
-    "id": "038",
+    "id": "033",
     "marca": "Honda",
     "modelo": "XR 190 L",
     "tipo": "On-Off Road",
@@ -800,7 +707,7 @@
     }
   },
   {
-    "id": "039",
+    "id": "034",
     "marca": "Honda",
     "modelo": "CB 250 TWISTER",
     "tipo": "Naked",
@@ -822,7 +729,7 @@
     }
   },
   {
-    "id": "040",
+    "id": "035",
     "marca": "Honda",
     "modelo": "CB 500X",
     "tipo": "On-Off Road",
@@ -844,7 +751,7 @@
     }
   },
   {
-    "id": "041",
+    "id": "036",
     "marca": "Honda",
     "modelo": "CB 300 F",
     "tipo": "Naked",
@@ -866,7 +773,7 @@
     }
   },
   {
-    "id": "042",
+    "id": "037",
     "marca": "Honda",
     "modelo": "CB 190 R",
     "tipo": "Naked",
@@ -888,7 +795,7 @@
     }
   },
   {
-    "id": "043",
+    "id": "038",
     "marca": "Honda",
     "modelo": "CB 650 R",
     "tipo": "Naked",
@@ -910,7 +817,7 @@
     }
   },
   {
-    "id": "044",
+    "id": "039",
     "marca": "Honda",
     "modelo": "XRE 300 ABS",
     "tipo": "On-Off Road",
@@ -928,6 +835,155 @@
       "pasajeros": "2",
       "cilindrada": "261",
       "velocidades": "5"
+    }
+  },
+  {
+    "id": "040",
+    "marca": "Honda",
+    "modelo": "XR 250 TORNADO",
+    "tipo": "On-Off Road",
+    "year": "2023",
+    "precio": "7990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2023/03/xr250-765x466-1.png",
+      "https://delcar.com.uy/wp-content/uploads/2023/03/D_NQ_NP_746809-MLA46478079822_062021-O.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2023/03/honda_xr-250-tornado_2008_1_08052021_32154_960_720.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Rojo", "Negro", "Blanco"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "249",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "041",
+    "marca": "Honda",
+    "modelo": "PCX 150",
+    "tipo": "Scooter",
+    "year": "2023",
+    "precio": "5990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/02/5f81c966ccae800b497a10121.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Plateado"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "149",
+      "velocidades": "-"
+    }
+  },
+  {
+    "id": "042",
+    "marca": "Benelli",
+    "modelo": "TNT 150 i",
+    "tipo": "Naked",
+    "year": "2023",
+    "precio": "3590",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/01/5e2afca6a3322e8d9a9f4a03c.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/ae6516d305799ad9dc0d9546eeb5a86c-hd.png",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/da89842132be6d1b897a0dfd8adbdbda-hd.png"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Blanco", "Negro", "Rojo"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "150",
+      "velocidades": "5"
+    }
+  },
+  {
+    "id": "043",
+    "marca": "Benelli",
+    "modelo": "180 S",
+    "tipo": "Naked",
+    "year": "2023",
+    "precio": "4490",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/01/180S_2.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/180s-negra2-1.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/180S_3.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Blanco", "Negro", "Rojo"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "180",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "044",
+    "marca": "Benelli",
+    "modelo": "TRK 251",
+    "tipo": "Off Road",
+    "year": "2023",
+    "precio": "6990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/02/5dd6c3a36b61e0af88e33f9c9.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/02/trk251_28.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Negro", "Rojo"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "250",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "045",
+    "marca": "Benelli",
+    "modelo": "302 S",
+    "tipo": "Naked",
+    "year": "2023",
+    "precio": "8790",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/01/2000000003.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/01/302s_gallery_8.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Negro", "Blanco"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "2",
+      "cilindrada": "300",
+      "velocidades": "6"
+    }
+  },
+  {
+    "id": "046",
+    "marca": "Benelli",
+    "modelo": "502c",
+    "tipo": "Custom",
+    "year": "2023",
+    "precio": "11990",
+    "imageUrl": [
+      "https://delcar.com.uy/wp-content/uploads/2021/04/502c_gal12.jpg",
+      "https://delcar.com.uy/wp-content/uploads/2021/04/502c_gal2.jpg"
+    ],
+
+    "combustible": "Nafta",
+    "colorDisponible": ["Azul", "Negro"],
+    "fichaTecnica": {
+      "motor": "4 tiempos",
+      "pasajeros": "1",
+      "cilindrada": "500",
+      "velocidades": "6"
     }
   }
 ]

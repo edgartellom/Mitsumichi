@@ -1,59 +1,84 @@
+import React, { useState } from "react";
 import logo from "../../assets/Logo_Mitsumichi_Cat_White.png";
 import face from "../../assets/footer_img/face.gif";
 import insta from "../../assets/footer_img/insta.gif";
 import mail from "../../assets/footer_img/mail.gif";
 
 const Footer = () => {
+  const [showConstructionMessage, setShowConstructionMessage] = useState(false); //  le paso (false) así al principio no se mostrará ningún mensaje de construcción.
+
+  const handleEnlaceClick = () => {
+    setShowConstructionMessage(true);
+  };
+
   return (
-    <footer className="bg-black text-white    flex flex-col">
+    <footer className="bg-black text-white  flex flex-col">
       <section>
         <div className=" flex flex-wrap justify-around items-center">
           <aside>
-            <picture className="flex justify-center mb-5 items-center pt-10 ">
+            <picture className="flex justify-center mb-5 items-center pt-10">
               <img src={logo} width={170} alt="logo" />
             </picture>
           </aside>
-          <table className="  flex flex-col gap- justify-center max-sm:pl-10">
-            <thead className=" text-orange-700">
-              <th className=" text-xl">Enlaces de interés</th>
+          <table className=" grid grid-cols-4">
+            <thead className=" col-start-2 col-span-3 text-orange-700">
+              <tr>
+                <th className=" pb-5 text-xl">Enlaces de interés</th>
+              </tr>
             </thead>
-            <tbody className=" flex  gap-20 max-sm:gap-2">
-              <td>
-                <tr>
-                  <a href="/about" target="_blank">
+            <tbody className="  col-span-2  max-sm:gap-2">
+              <tr className=" flex flex-col">
+                <td>
+                  <a href="/about-us" target="_blank">
                     Empresa
                   </a>
-                </tr>
-                <tr>
-                  <a>Preguntas frecuentes </a>
-                </tr>
-                <tr>
+                </td>
+                <td>
                   <a
-                    href="mailto:busquedas@elixircars.com"
+                    href="#"
+                    onClick={() => handleEnlaceClick("PreguntasFrecuentes")}
+                  >
+                    Preguntas frecuentes
+                  </a>
+                </td>
+
+                <td>
+                  <a
+                    href="mailto:mitsumichipf@gmail.com"
                     target="_blank"
                     rel="noreferrer"
                   >
                     ¿Quieres trabajar con nosotros?
                   </a>
-                </tr>
-                <tr>
-                  <a>Formularios</a>
-                </tr>
-                <tr>
-                  <a>Facturas</a>
-                </tr>
-              </td>
-              <td>
-                <tr>
-                  <a>Términos y Condiciones</a>
-                </tr>
-                <tr>
-                  <a>Política de privacidad </a>
-                </tr>
-                <tr>
-                  <a>Cookies</a>
-                </tr>
-                <tr>
+                </td>
+                <td>
+                  <a href="#" onClick={() => handleEnlaceClick("Formularios")}>
+                    Formularios
+                  </a>
+                </td>
+                <td>
+                  <a href="#" onClick={() => handleEnlaceClick("Facturas")}>
+                    Facturas
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+            <tbody className=" col-span-2">
+              <tr className=" flex flex-col">
+                <td>
+                  <a
+                    href="#"
+                    onClick={() => handleEnlaceClick("Política de privacidad")}
+                  >
+                    Política de privacidad
+                  </a>
+                </td>
+                <td>
+                  <a href="#" onClick={() => handleEnlaceClick("Cookies")}>
+                    Cookies
+                  </a>
+                </td>
+                <td>
                   <a
                     href="https://outlook.office.com/mail/"
                     target="_blank"
@@ -61,11 +86,18 @@ const Footer = () => {
                   >
                     Acceso empleados
                   </a>
-                </tr>
-                <tr>
-                  <a>Atención a publicaciones fraudulentas</a>
-                </tr>
-              </td>
+                </td>
+                <td>
+                  <a
+                    href="#"
+                    onClick={() =>
+                      handleEnlaceClick("Atención a publicaciones fraudulentas")
+                    }
+                  >
+                    Atención a publicaciones fraudulentas
+                  </a>
+                </td>
+              </tr>
             </tbody>
           </table>
           <section className=" flex justify-center max-sm:hidden max-lg:hidden max-md:hidden">
@@ -118,7 +150,11 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://gmail.com" target="_blank" rel="noreferrer">
+                <a
+                  href="mailto:mitsumichipf@gmail.com"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <img
                     src={mail}
                     className="w-8 h-8 rounded-lg"
@@ -134,6 +170,20 @@ const Footer = () => {
           <p className="  text-orange-700">Todos los derechos reservados.</p>
         </summary>
       </section>
+      {showConstructionMessage && (
+        <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-700 bg-opacity-75">
+          <div className="bg-black p-4 rounded-lg">
+            <h1 className="text-xl font-bold mb-2">Enlace en construcción</h1>
+            <p>Estamos trabajando en ello ¡Vuelve pronto!</p>
+            <button
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setShowConstructionMessage(false)}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </footer>
   );
 };

@@ -7,8 +7,7 @@ import updateUser from "../../firebase/updateUser";
 import registerNewUser from "../../firebase/registerNewUser";
 import Wrapper from "../../helper/Wrapper";
 import logOut from "../../firebase/logOut";
-
-const SignUp = ({ onClose }) => {
+const SignUp = () => {
   const { currentUser } = useContext(userAuth);
   const {
     register,
@@ -23,6 +22,9 @@ const SignUp = ({ onClose }) => {
       await updateUser(tmp);
       await registerNewUser({
         data,
+        role: "user",
+        status: "active",
+        photoURL: currentUser.photoURL,
         id: currentUser.uid,
         email: currentUser.email,
       });
@@ -37,15 +39,15 @@ const SignUp = ({ onClose }) => {
 
   const signInHandler = () => {
     logOut();
-    window.location.reload();
+    window.history.back();
   };
 
   return (
     <Wrapper>
-      <form className=" bg-white flex flex-col justify-center  items-center pb-7 pt-2 w-[700px] max-sm:h-screen   gap-6 rounded-lg max-sm:w-screen ">
+      <form className="   animate-slide-down bg-white flex flex-col justify-center  items-center pb-7 pt-2 w-[700px] max-sm:h-screen   gap-6 rounded-lg max-sm:w-screen ">
         <button
           type="button"
-          onClick={onClose}
+          onClick={() => logOut()}
           className=" self-end mr-5 font-bold text-xl cursor-pointer"
         >
           X

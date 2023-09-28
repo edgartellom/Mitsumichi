@@ -1,82 +1,33 @@
-import React, { useState, useEffect } from "react";
+import ReactPaginate from "react-paginate";
+import { useSelector } from "react-redux";
 
-const Paginated = ({ currentPage, totalPages, onPageChange }) => {
-  const [inputdInputPage] = useState(currentPage);
-
-  useEffect(() => {
-    // setInputPage;
-  }, [currentPage]);
-
-  function handlePageInput(event) {
-    let page = parseInt(event.target.value);
-    page = isNaN(page) ? 1 : Math.max(1, Math.min(page, totalPages));
-    // setInputPage(page);
-  }
-
-  function handlePageSubmit(event) {
-    event.preventDefault();
-    onPageChange(inputPage);
-  }
-
-  function getPageNumbers() {
-    const pages = [];
-    const maxPageVisible = 5;
-    const maxPage = Math.min(totalPages, maxPageVisible);
-
-    if (totalPages <= maxPageVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      if (currentPage <= 3) {
-        for (let i = 1; i <= maxPage; i++) {
-          pages.push(i);
-        }
-      } else if (currentPage >= totalPages - 2) {
-        for (let i = totalPages - maxPage + 1; i <= totalPages; i++) {
-          pages.push(i);
-        }
-      } else {
-        for (let i = currentPage - 2; i <= currentPage + 2; i++) {
-          pages.push(i);
-        }
-      }
-    }
-
-    return pages;
-  }
+const Paginated = ({ totalPages, onPageChange }) => {
+  const { currentPage } = useSelector((state) => state.motoList);
+  const handlePageChange = (selectedPage) => {
+    onPageChange(selectedPage + 1);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Desplaza hacia arriba
+  };
 
   return (
-    <div className="flex pb-5 gap-3 flex-wrap m-auto justify-center items-center text-black">
-      <button
-        className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-      >
-        Anterior
-      </button>
-
-      {getPageNumbers().map((page) => (
-        <button
-          key={page}
-          className={`bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 ${
-            currentPage === page ? "bg-gold" : "hover:bg-gold"
-          }`}
-          onClick={() => onPageChange(page)}
-          disabled={currentPage === page}
-        >
-          {page}
-        </button>
-      ))}
-
-      <button
-        className="bg-gray-200 border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-[#FFD700] hover:text-black shadow transition duration-300 hover:bg-gold"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-      >
-        Siguiente
-      </button>
-    </div>
+    <section className="flex pb-5 gap-3 flex-wrap m-auto justify-center items-center">
+      <ReactPaginate
+        className=" flex flex-wrap justify-center items-center gap-2"
+        pageCount={totalPages}
+        pageRangeDisplayed={window.innerWidth < 768 ? 2 : 4}
+        marginPagesDisplayed={1}
+        onPageChange={({ selected }) => handlePageChange(selected)}
+        activeClassName=" bg-orange-600"
+        pageClassName="bg-[#0006] cursor-pointer border-none font-semibold  p-2 px-4 text-xl  rounded-md  duration-300 hover:bg-gray-400"
+        previousClassName=" bg-[#000] text-white border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-700 font-semibold hover:text-black shadow transition duration-300 hover:bg-gold"
+        nextClassName=" bg-[#000] text-white border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-700 font-semibold hover:text-black shadow transition duration-300 hover:bg-gold "
+        previousLabel="<"
+        nextLabel=">"
+        breakLabel="..."
+        breakClassName=" cursor-pointer text-xl py-2 px-4 font-semibold"
+        renderOnZeroPageCount={null}
+        forcePage={currentPage - 1} // Utiliza currentPage desde el estado de Redux
+      />
+    </section>
   );
 };
 

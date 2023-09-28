@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Moto, Brand } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
+const { Moto, Brand, Tipo, Color, MotoColor } = require("../db"); // Asegurarse de importar los modelos moto, brand desde db.js
 
 async function getAllMoto(req, res) {
   try {
@@ -19,9 +19,21 @@ async function getAllMoto(req, res) {
       maxYear,
       sortByBrand,
       sortByPrice,
+      search,
     } = req.query;
 
     let filterOptions = {};
+
+    if (search) {
+      filterOptions = {
+        ...filterOptions,
+        [Op.or]: [
+          { "$brand.name$": { [Op.iLike]: `%${search}%` } },
+          { motoModel: { [Op.iLike]: `%${search}%` } },
+          { "$tipo.name$": { [Op.iLike]: `%${search}%` } },
+        ],
+      };
+    }
 
     // Si brand está presente en la solicitud
 
@@ -46,7 +58,10 @@ async function getAllMoto(req, res) {
 
     if (tipo) {
       // Realizamos la consulta para obtener los autos filtrados por el tipo
-      filterOptions = { ...filterOptions, tipo: { [Op.iLike]: tipo } };
+      const tipoFound = await Tipo.findOne({
+        where: { name: { [Op.iLike]: tipo } },
+      });
+      filterOptions = { ...filterOptions, tipoId: tipoFound.id };
     }
 
     if (minPrice && maxPrice) {
@@ -76,19 +91,39 @@ async function getAllMoto(req, res) {
 
     let orderOptions = [];
 
-    if (sortByBrand) {
-      orderOptions.push([{ model: Brand }, "name", sortByBrand]);
-    }
-    if (sortByPrice) {
-      orderOptions.push(["precio", sortByPrice]);
+    if (sortByBrand && ["ASC", "DESC"].includes(sortByBrand.toUpperCase())) {
+      orderOptions.push([{ model: Brand }, "name", sortByBrand.toUpperCase()]);
+      // orderOptions.push(["motoModel", sortByBrand.toUpperCase()]);
     }
 
-    // Obtener todos los autos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
+    if (sortByPrice && ["ASC", "DESC"].includes(sortByPrice.toUpperCase())) {
+      orderOptions.push(["precio", sortByPrice.toUpperCase()]);
+    }
+
+    if (orderOptions.length === 0) {
+      orderOptions.push(["id", "ASC"]);
+    }
+
+    // Obtener todos los motos de la base de datos con el límite y el offset adecuados, y contar el total de elementos.
     const { rows: dbMotos, count: totalItems } = await Moto.findAndCountAll({
       limit: limit,
       offset: offset,
-      where: filterOptions,
-      include: [{ model: Brand, attributes: ["name"] }],
+      where: {
+        ...filterOptions,
+        // Eliminamos la condición deleted: false para incluir todas las motos
+        // deleted: false, // Agrega esta condición
+      },
+      order: orderOptions,
+      include: [
+        { model: Brand, attributes: ["name"] },
+        { model: Tipo, attributes: ["name"] },
+        // {
+        //   model: Color,
+        //   through: {
+        //     attributes: [],
+        //   },
+        // },
+      ],
     });
 
     // Calcular el total de páginas disponibles

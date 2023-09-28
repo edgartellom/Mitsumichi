@@ -1,9 +1,18 @@
 import RootLayot from "./helper/RootLayout";
-import { Home, LandingPage } from "./pages";
+import {
+  AppDashboard,
+  Home,
+  LandingPage,
+  Detail,
+  About,
+  ServiceAndSupport,
+} from "./pages";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import UserContext from "./context/Auth-context";
-import About from "./pages/About/About";
 import Error404 from "./pages/Error404/Error404";
+import PayPalButton from "./components/PaypalButton/PaypalButton.jsx"; // quité {PayPalButton}
+import Profile from "./pages/Profile/Profile";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -15,12 +24,32 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
+        path: "/dashboard/*",
+        element: <AppDashboard />,
+      },
+      {
         path: "/home",
         element: <Home />,
       },
       {
-        path: "/about us",
+        path: "/about-us",
         element: <About />,
+      },
+      {
+        path: "/service and support",
+        element: <ServiceAndSupport />,
+      },
+      {
+        path: "/detail/:id",
+        element: <Detail />,
+      },
+      {
+        path: "/paypal-button/:precio/:nombre",
+        element: <PayPalButton />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
