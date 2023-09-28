@@ -35,9 +35,7 @@ const Create_New_Moto = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/motos?page=1&limit=10000"
-        );
+        const response = await axios.get("motos?page=1&limit=10000");
 
         setMotos(response.data.data);
       } catch (error) {
@@ -98,11 +96,11 @@ const Create_New_Moto = () => {
     //console.log("Marca", validBrand, marca);
 
     // Validación de propiedad modelo
-    const modeloRegex = /^[A-Za-z0-9]+(\s[A-Za-z0-9]+)*$/;
+    const modeloRegex = /^[A-Za-z0-9/-]+(\s[A-Za-z0-9/-]+)*$/;
     const validCarModel =
       modeloRegex.test(modelo) &&
       modelo.trim().length >= 5 &&
-      modelo.trim().length <= 25;
+      modelo.trim().length <= 50;
     setIsModelValid(validCarModel);
 
     // Validación de propiedad tipo
@@ -380,15 +378,11 @@ const Create_New_Moto = () => {
                 });
                 console.log(jsonData);
 
-                const response = await axios.post(
-                  "http://localhost:3001/motos",
-                  jsonData,
-                  {
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                  }
-                );
+                const response = await axios.post("motos", jsonData, {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                });
 
                 console.log(response);
                 // Cerrar el cuadro de diálogo "Procesando..."

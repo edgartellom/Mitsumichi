@@ -28,9 +28,7 @@ const Products_Admin = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/motos?page=1&limit=10000"
-        );
+        const response = await axios.get("motos?page=1&limit=10000");
         setMotos(response.data.data);
       } catch (error) {
         console.error("Error al obtener las motos:", error);
@@ -61,10 +59,7 @@ const Products_Admin = () => {
     console.log(motoStatus);
     try {
       // Realizar la solicitud PUT al servidor para marcar/desmarcar motos
-      await axios.put(
-        "http://localhost:3001/moto/marcar-desmarcar",
-        motosToUpdate
-      );
+      await axios.put("moto/marcar-desmarcar", motosToUpdate);
 
       // Actualizar el estado de las motos en el cliente según la respuesta del servidor
       const updatedMotos = motos.map((moto) => {
