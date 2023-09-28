@@ -18,8 +18,13 @@ import addProduct from "../../firebase/addProduct";
 const URL = "http://localhost:3001/";
 import { userAuth } from "../../context/Auth-context";
 const Detail = () => {
-  const { currentUser, setProductsLocalStorage, productsLocalStorage } =
-    useContext(userAuth);
+  const {
+    currentUser,
+    setProductsLocalStorage,
+    productsLocalStorage,
+    products,
+    setProducts,
+  } = useContext(userAuth);
   const [isLoading, setIsLoading] = useState(true);
   const [moto, setMoto] = useState({});
   const [brand, setBrand] = useState("");
@@ -61,66 +66,55 @@ const Detail = () => {
     return () => unsubscribe();
   }, [currentUser?.uid, id]);
 
-  const addProducto = async () => {
-    const response = await axios.get(`motos/${id}`);
-    const stock = response.data.stock;
-    const motocycle = {
-      brand: brand.name,
-      motoModel: moto.motoModel,
-      year: moto.year,
-      precio: moto.precio,
-      imageUrl: moto.imageUrl[0],
-      cantidad: 1,
-      id: moto.id,
-    };
-
+  const addProducto = () => {
     if (currentUser) {
       // Si el usuario está autenticado, verifica si el producto ya está en el carrito
-      const existingProductIndex = productsLocalStorage.findIndex(
-        (product) => product.id === id
-      );
-
-      if (existingProductIndex !== -1) {
+      const existingProduct = products.find((product) => product.id === id);
+      console.log(products, "existingProduct");
+      if (existingProduct) {
         // Si el producto ya está en el carrito, aumenta la cantidad
-        productsLocalStorage[existingProductIndex].cantidad += 1;
+        existingProduct.cantidad += 1;
         setProductsLocalStorage([...productsLocalStorage]);
       } else {
         // Si el producto no está en el carrito, agrégalo
-        addProduct(currentUser.uid, motocycle);
+        addProduct(currentUser.uid, {
+          brand: brand.name,
+          motoModel: moto.motoModel,
+          year: moto.year,
+          precio: moto.precio,
+          imageUrl: moto.imageUrl[0],
+          cantidad: 1,
+          id: moto.id,
+        });
       }
-
       increase(currentUser.uid, id);
     } else {
       // Si el usuario no está autenticado, verifica si el producto ya está en el carrito local
       const existingProducts =
         JSON.parse(localStorage.getItem("products")) || [];
 
-      const existingProductIndex = existingProducts.findIndex(
+      const existingProduct = existingProducts.find(
         (product) => product.id === id
       );
 
-      if (existingProductIndex !== -1) {
+      if (existingProduct) {
         // Si el producto ya está en el carrito local, aumenta la cantidad
-        existingProducts[existingProductIndex].cantidad += 1;
-
-        // Verifica si la cantidad supera el stock disponible
-        if (existingProducts[existingProductIndex].cantidad > stock) {
-          // No permitas agregar más si se supera el stock
-          return;
-        }
+        existingProduct.cantidad += 1;
 
         // Actualiza el localStorage y el estado local
         localStorage.setItem("products", JSON.stringify(existingProducts));
         setProductsLocalStorage(existingProducts);
       } else {
         // Si el producto no está en el carrito local, agrégalo
-        existingProducts.push(motocycle);
-
-        // Verifica si la cantidad a agregar supera el stock disponible
-        if (motocycle.cantidad > stock) {
-          // No permitas agregar más si se supera el stock
-          return;
-        }
+        existingProducts.push({
+          brand: brand.name,
+          motoModel: moto.motoModel,
+          year: moto.year,
+          precio: moto.precio,
+          imageUrl: moto.imageUrl[0],
+          cantidad: 1,
+          id: moto.id,
+        });
 
         // Actualiza el localStorage y el estado local
         localStorage.setItem("products", JSON.stringify(existingProducts));
