@@ -64,17 +64,18 @@ export function PayPalButton() {
 
     const userEmail = user?.email || ""; // Uso mail del Profile_Info
     const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
-    // Envía el correo electrónico al cliente
+    
+
     const emailData = {
       from: "mitsumichipf@gmail.com",
-      to: userEmail, // Acá debería tomarme el mail que registre el usuario.
+      to: userEmail, 
       subject: "Confirmación de compra",
       text: `¡Gracias, ${userName}, por su compra de ${nombre}! Su pago se ha completado con éxito. ID de compra: ${capturedPurchaseId}`,
     };
 
     try {
       setPurchaseId(capturedPurchaseId);
-      await axios.post("send-email", emailData);
+      await axios.post("http://localhost:3001/send-email", emailData); // await axios.post("http//:localhost:3001/send-email", emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
@@ -151,7 +152,7 @@ export function PayPalButton() {
     // Envía el correo electrónico al cliente
     const cancelEmailData = {
       from: "mitsumichipf@gmail.com",
-      to: currentUser,
+      to: userEmail,
       subject: "Compra cancelada",
       text: `Hola ${userName}, lamentablemente, tu compra ha sido cancelada. 
   No te preocupes, estaremos aquí para ayudarte con tu próxima compra. 
@@ -159,7 +160,7 @@ export function PayPalButton() {
     };
 
     try {
-      await axios.post("send-email", cancelEmailData);
+      await axios.post("http://localhost:3001/send-email", cancelEmailData); //await axios.post("http://localhost:3001/send-email", cancelEmailData);
     } catch (error) {
       console.error(
         "Error al enviar el correo electrónico de cancelación:",
@@ -252,4 +253,3 @@ export function PayPalButton() {
 }
 
 export default PayPalButton; 
-
