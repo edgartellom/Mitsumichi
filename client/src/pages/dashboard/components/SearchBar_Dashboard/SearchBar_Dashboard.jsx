@@ -20,7 +20,9 @@ const SearchBar_Dashboard = ({ handleSearch }) => {
             ? "marca, modelo o categoria"
             : location.pathname === "/dashboard/users-admin"
             ? "nombre, apellido o email"
-            : "numero de orden, cliente"
+            : location.pathname === "/dashboard/orders-admin"
+            ? "numero de orden, cliente"
+            : "cliente, marca o modelo"
         }`}
         value={searchQuery}
         onChange={handleSearchInputChange}

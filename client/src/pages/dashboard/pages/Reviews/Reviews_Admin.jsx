@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 import getAllReviews from "../../../../firebase/getAllReviews";
 import deleteReviewById from "../../../../firebase/deleteReviewById";
+import { Pagination, SearchBar_Dashboard } from "../../components";
 
 const Reviews_Admin = () => {
   const [reviews, setReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
+  console.log(reviews);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+
+  const totalPages = Math.ceil(filteredReviews.length / itemsPerPage);
+
+  // Calcular el índice de inicio y final para la página actual
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentReviews = filteredReviews.slice(startIndex, endIndex);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -14,12 +26,37 @@ const Reviews_Admin = () => {
     fetchReviews();
   }, []);
 
+  useEffect(() => {
+    setFilteredReviews(reviews);
+  }, [reviews]);
+
   const handleDeleteReview = async (reviewId) => {
     await deleteReviewById(reviewId);
 
     // Después de eliminar la revisión, volvemos a cargar las revisiones actualizadas
     const updatedReviews = await getAllReviews();
     setReviews(updatedReviews);
+  };
+
+  const handlePageChange = (selectedPage) => {
+    setCurrentPage(selectedPage);
+  };
+
+  const handleSearch = (searchQuery) => {
+    const searchText = searchQuery.toLowerCase();
+    const filteredReviews = reviews.filter((review) => {
+      const reviewId = review.id ? review.id.toString().toLowerCase() : "";
+      return (
+        reviewId.includes(searchText) ||
+        (review.id &&
+          review?.userReview?.name.toLowerCase().includes(searchText)) ||
+        review?.selectedItem?.brand.toLowerCase().includes(searchText) ||
+        review?.selectedItem?.motoModel.toLowerCase().includes(searchText)
+      );
+    });
+
+    // Establece filteredusers en todas las users si la búsqueda está vacía
+    setFilteredReviews(searchQuery === "" ? reviews : filteredReviews);
   };
 
   return (
@@ -37,8 +74,11 @@ const Reviews_Admin = () => {
           </tr>
         </thead>
         <tbody>
-          {reviews.map((element) => (
-            <tr key={element.id} className="group hover:bg-gray-200 text-center">
+          {currentReviews.map((element) => (
+            <tr
+              key={element.id}
+              className="group hover:bg-gray-200 text-center"
+            >
               <td className="py-2 px-4">{element.id}</td>
               <td className="flex py-2 px-4 justify-center">
                 <img
@@ -69,9 +109,20 @@ const Reviews_Admin = () => {
           ))}
         </tbody>
       </table>
+      <div className="flex flex-row justify-between">
+        <section className="flex w-[30%]">
+          <SearchBar_Dashboard handleSearch={handleSearch} />
+        </section>
+        <section className=" w-[70%]">
+          <Pagination
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        </section>
+      </div>
     </div>
   );
 };
 
 export default Reviews_Admin;
-
