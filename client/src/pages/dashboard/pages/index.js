@@ -5,4 +5,5 @@ export { default as Create_New_Moto } from "./Products/Create_New_Moto";
 export { default as Product_Edit } from "./Products/Product_Edit";
 export { default as Products_Admin } from "./Products/Products_Admin";
 export { default as Reviews_Admin } from "./Reviews/Reviews_Admin";
+export { default as EditUser } from "./Users/EditUser";
 export { default as Users_Admin } from "./Users/Users_Admin";

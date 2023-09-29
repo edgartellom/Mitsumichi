@@ -120,7 +120,7 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col">
             <h1 className="text-center mb-4 text-1xl uppercase">
-              Analisis de Ventas Mensuales
+              Analisis de Ventas Semanales
             </h1>
             <Column_Chart
               options={columnChartOptions}
@@ -153,7 +153,7 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col">
             <h1 className="text-center mb-4 text-2xl uppercase">
-              Analisis de Ventas Mensuales
+              Analisis de Ventas Semanales
             </h1>
             <Column_Chart
               options={columnChartOptions}

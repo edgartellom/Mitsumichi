@@ -20,7 +20,6 @@ const Create_New_Moto = () => {
     precio: Number,
     imageUrl: [],
     combustible: "",
-    colorDisponible: [],
     fichaTecnica: {
       motor: "",
       pasajeros: "",
@@ -30,7 +29,7 @@ const Create_New_Moto = () => {
   });
 
   const [motos, setMotos] = useState([]);
-  const [motoExistente, setMotoExistente] = useState(false);
+  // const [motoExistente, setMotoExistente] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +45,7 @@ const Create_New_Moto = () => {
     fetchData();
   }, []);
 
-  const [selectedColors, setSelectedColors] = useState([]);
+  // const [selectedColors, setSelectedColors] = useState([]);
 
   const [image, setImage] = useState([""]);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -64,7 +63,7 @@ const Create_New_Moto = () => {
   const [isYearValid, setIsYearValid] = useState(true);
   const [isTipoValid, setIsTipoValid] = useState(true);
   const [isPrecioValid, setIsPrecioValid] = useState(true);
-  const [isColorValid, setIsColorValid] = useState(true);
+  // const [isColorValid, setIsColorValid] = useState(true);
   const [isCombustibleValid, setIsCombustibleValid] = useState(true);
 
   // Variables de Validación de la Ficha Tecnica
@@ -74,16 +73,8 @@ const Create_New_Moto = () => {
   const [isVelocidadesValid, setIsVelocidadesValid] = useState(true);
 
   useLayoutEffect(() => {
-    const {
-      marca,
-      modelo,
-      tipo,
-      year,
-      precio,
-      combustible,
-      colorDisponible,
-      fichaTecnica,
-    } = formData;
+    const { marca, modelo, tipo, year, precio, combustible, fichaTecnica } =
+      formData;
 
     // Validación de propiedad marca
     const brandRegex = /^[A-Za-z\s]*[A-Za-z][A-Za-z\s]*(?!\s*$)/;
@@ -129,10 +120,10 @@ const Create_New_Moto = () => {
     setIsCombustibleValid(validCombustible);
     //console.log("Combustible", validCombustible, combustible);
 
-    // Validación de propiedad color
-    const validColorDisponible = colorDisponible && colorDisponible.length > 0;
-    setIsColorValid(validColorDisponible);
-    //console.log("Colors:", validColorDisponible, colorDisponible);
+    // // Validación de propiedad color
+    // const validColorDisponible = colorDisponible && colorDisponible.length > 0;
+    // setIsColorValid(validColorDisponible);
+    // //console.log("Colors:", validColorDisponible, colorDisponible);
 
     /*--------------------------------------------------------------------------------------------*/
     // Validación de propiedad fichaTecnica:
@@ -168,7 +159,6 @@ const Create_New_Moto = () => {
       isCombustibleValid &&
       isPrecioValid &&
       isYearValid &&
-      isColorValid &&
       isMotorValid &&
       isPasajerosValid &&
       isCilindradaValid &&
@@ -184,7 +174,6 @@ const Create_New_Moto = () => {
     isPrecioValid,
     isTipoValid,
     isYearValid,
-    isColorValid,
     isMotorValid,
     isPasajerosValid,
     isCilindradaValid,
@@ -408,7 +397,6 @@ const Create_New_Moto = () => {
                   precio: 0,
                   imageUrl: [],
                   combustible: "",
-                  colorDisponible: [],
                   fichaTecnica: {
                     motor: "",
                     pasajeros: "",
@@ -421,7 +409,6 @@ const Create_New_Moto = () => {
                 setMotos([]);
                 setSelectedImages([]);
                 setImagePreviews([]);
-                setSelectedColors([]);
 
                 // Redirigir a la página de inicio u otra acción que desees realizar
                 window.location.href = "/dashboard/products-admin";
@@ -527,8 +514,6 @@ const Create_New_Moto = () => {
               formData={formData}
               setFormData={setFormData}
               handleImageChange={handleImageChange}
-              setSelectedColors={setSelectedColors}
-              isColorValid={isColorValid}
               isPrecioValid={isPrecioValid}
               selectedImages={selectedImages}
               imagePreviews={imagePreviews}

@@ -8,12 +8,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyACaP7rwvM_Zuw-O96Bxz4Me6RudVxane8",
-  authDomain: "mitsumitchirunrun.firebaseapp.com",
-  projectId: "mitsumitchirunrun",
-  storageBucket: "mitsumitchirunrun.appspot.com",
-  messagingSenderId: "959201491732",
-  appId: "1:959201491732:web:33bd7ceb2a2aa22a32a001",
+  apiKey: "AIzaSyD53xikEJduqhM17l4pYdH0CGhWt6ArF6o",
+  authDomain: "mitsu-31d63.firebaseapp.com",
+  projectId: "mitsu-31d63",
+  storageBucket: "mitsu-31d63.appspot.com",
+  messagingSenderId: "424757301659",
+  appId: "1:424757301659:web:1da1431a075978710b513e",
 };
 
 // Initialize Firebase

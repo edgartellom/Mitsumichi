@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Review = ({ name, description, starCount, userImage }) => {
   // Calcula el porcentaje de estrellas llenas
@@ -11,14 +11,10 @@ const Review = ({ name, description, starCount, userImage }) => {
           src={`https://png.pngtree.com/thumb_back/fh260/background/20201027/pngtree-yellow-orange-gradient-background-image_433766.jpg`}
           alt={`${name}'s Review`}
           className="object-cover h-32 w-full"
-          style={{ clipPath: 'polygon(0 0, 100% 0, 100% 56%, 0 100%)' }}
+          style={{ clipPath: "polygon(0 0, 100% 0, 100% 56%, 0 100%)" }}
         />
         <div className="absolute top-2 right-2 p-1 rounded-full shadow-md">
-          <img
-            src={userImage}
-            alt={name}
-            className="h-12 w-12 rounded-full"
-          />
+          <img src={userImage} alt={name} width={65} className="rounded-full" />
         </div>
       </div>
       <div className="px-4 py-2">
@@ -29,7 +25,7 @@ const Review = ({ name, description, starCount, userImage }) => {
               <span
                 key={index}
                 className={`text-xl ${
-                  index < starCount ? 'text-yellow-400' : 'text-gray-400'
+                  index < starCount ? "text-yellow-400" : "text-gray-400"
                 }`}
               >
                 &#9733;

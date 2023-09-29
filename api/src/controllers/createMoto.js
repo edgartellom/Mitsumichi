@@ -13,7 +13,7 @@ async function createMoto(req, res) {
       imageUrl,
       combustible,
       fichaTecnica,
-      colorDisponible,
+      //colorDisponible,
     } = req.body;
 
     console.log(req.body);
@@ -27,8 +27,8 @@ async function createMoto(req, res) {
       !year ||
       !imageUrl ||
       !combustible ||
-      !fichaTecnica ||
-      !colorDisponible
+      !fichaTecnica
+      // !colorDisponible
     ) {
       return res.status(400).json({
         error:
@@ -144,50 +144,50 @@ async function createMoto(req, res) {
     });
 
     // Asociar los colores a la moto
-    for (const colorName of colorDisponible) {
-      try {
-        const existingColor = await Color.findOne({
-          where: Sequelize.where(
-            Sequelize.fn("lower", Sequelize.col("name")),
-            Sequelize.fn("lower", colorName)
-          ),
-        });
+    // for (const colorName of colorDisponible) {
+    //   try {
+    //     const existingColor = await Color.findOne({
+    //       where: Sequelize.where(
+    //         Sequelize.fn("lower", Sequelize.col("name")),
+    //         Sequelize.fn("lower", colorName)
+    //       ),
+    //     });
 
-        // Crear el color si no existe
-        let color;
-        if (!existingColor) {
-          color = await Color.create({ name: colorName });
-        } else {
-          color = existingColor;
-        }
+    //     // Crear el color si no existe
+    //     let color;
+    //     if (!existingColor) {
+    //       color = await Color.create({ name: colorName });
+    //     } else {
+    //       color = existingColor;
+    //     }
 
-        // Asocia el color a la moto
-        if (color) {
-          await newMoto.addColor(color);
-        }
+    //     // Asocia el color a la moto
+    //     if (color) {
+    //       await newMoto.addColor(color);
+    //     }
 
-        // Obtiene la relación entre la moto y el color (MotoColor)
-        const motoColor = await MotoColor.findOne({
-          where: {
-            motoId: newMoto.id,
-            colorId: color.id,
-          },
-        });
+    //     // Obtiene la relación entre la moto y el color (MotoColor)
+    //     const motoColor = await MotoColor.findOne({
+    //       where: {
+    //         motoId: newMoto.id,
+    //         colorId: color.id,
+    //       },
+    //     });
 
-        if (motoColor) {
-          // Suma el stock del color a la suma total
-          newMoto.stock += motoColor.stock;
-        }
-        await newMoto.save();
-      } catch (error) {
-        console.error(`Error al crear o asociar color: ${error}`);
-      }
-    }
+    //     if (motoColor) {
+    //       // Suma el stock del color a la suma total
+    //       newMoto.stock += motoColor.stock;
+    //     }
+    //     await newMoto.save();
+    //   } catch (error) {
+    //     console.error(`Error al crear o asociar color: ${error}`);
+    //   }
+    // }
     const motoCreated = await Moto.findByPk(newMoto.id, {
       include: [
         { model: Brand, attributes: ["name"] },
         { model: Tipo, attributes: ["name"] },
-        { model: Color, attributes: ["name"] },
+        // { model: Color, attributes: ["name"] },
       ],
     });
 
