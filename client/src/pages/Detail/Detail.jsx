@@ -15,6 +15,7 @@ import CartIcon from "../Cart/CartButton/CartIcon";
 import { set } from "date-fns";
 import getAllReviews from "../../firebase/getAllReviews";
 import Review from "../../components/Review/Review";
+import Swal from 'sweetalert2';
 // "http://localhost:3001/"
 //"https://mitsumichi-production.up.railway.app/"
 // const URL = "http://localhost:3001/";
@@ -155,8 +156,11 @@ const Detail = () => {
       }
     } else {
       // Producto sin stock
-      setIsInStock(false); // Actualiza el estado para deshabilitar el botón
-      alert("Este producto está sin stock");
+      Swal.fire({
+        icon: 'error',
+        title: 'Este producto está sin stock',
+        text: 'Lo sentimos, pero este producto está agotado.',
+      });
     }
   };
 
