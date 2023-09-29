@@ -252,33 +252,34 @@ const Detail = () => {
           </div>
         </section>
       )}
-      <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400">
-        <span className="mr-6">Compartir</span>
-        <div className="flex flex-row">
-          <img
-            src={facebook}
-            alt="facebook.png"
-            width={20}
-            height={20}
-            className="flex mx-4 cursor-pointer backdrop-brightness-2xl"
-          />
-          <img
-            src={twitter}
-            alt="twitter.png"
-            width={20}
-            height={20}
-            className="mx-4 cursor-pointer"
-          />
-          <img
-            src={whatsapp}
-            alt="whatsapp.png"
-            width={20}
-            height={20}
-            className="mx-4 cursor-pointer"
-            style={{ filter: "grayscale(100%)" }}
-          />
-        </div>
-      </div>
+      <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400 justify-center items-center">
+  <span className="mr-6">Compartir</span>
+  <div className="flex flex-row">
+    <img
+      src={facebook}
+      alt="facebook.png"
+      width={20}
+      height={20}
+      className="flex mx-4 cursor-pointer backdrop-brightness-2xl"
+    />
+    <img
+      src={twitter}
+      alt="twitter.png"
+      width={20}
+      height={20}
+      className="mx-4 cursor-pointer"
+    />
+    <img
+      src={whatsapp}
+      alt="whatsapp.png"
+      width={20}
+      height={20}
+      className="mx-4 cursor-pointer"
+      style={{ filter: "grayscale(100%)" }}
+    />
+  </div>
+</div>
+
       <div className="py-4 container mb-5 pb-6 text-center">
         <h1 className="p-5 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-[#FA6600] to-red-600 shadow-2xl">
           Lo que dicen nuestros compradores:
