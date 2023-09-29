@@ -8,8 +8,6 @@ import registerNewUser from "../../firebase/registerNewUser";
 import Wrapper from "../../helper/Wrapper";
 import logOut from "../../firebase/logOut";
 
-
-
 const SignUp = () => {
   const { currentUser, user } = useContext(userAuth);
   const {
@@ -190,7 +188,7 @@ const SignUp = () => {
                   message: "El campo es obligatorio",
                 },
                 pattern: {
-                  value: /^[A-Za-z0-9\-]+$/i,
+                  value: /^[A-Za-z0-9-]+$/i,
                   message: "Documento invalido",
                 },
               })}
@@ -214,7 +212,7 @@ const SignUp = () => {
                   message: "El campo es obligatorio",
                 },
                 pattern: {
-                  value: /^[A-Za-z0-9\s\-\,\#\.]+$/,
+                  value: /^[A-Za-z0-9\s\-,#.]+$/,
                   message: "Direccion invalida",
                 },
               })}

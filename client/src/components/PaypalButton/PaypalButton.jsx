@@ -74,7 +74,7 @@ export function PayPalButton() {
 
     try {
       setPurchaseId(capturedPurchaseId);
-      await axios.post("http://localhost:3001/send-email", emailData);
+      await axios.post("send-email", emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
@@ -159,7 +159,7 @@ export function PayPalButton() {
     };
 
     try {
-      await axios.post("http://localhost:3001/send-email", cancelEmailData);
+      await axios.post("send-email", cancelEmailData);
     } catch (error) {
       console.error(
         "Error al enviar el correo electrónico de cancelación:",
