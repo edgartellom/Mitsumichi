@@ -17,7 +17,7 @@ const Paginated = ({ totalPages, onPageChange }) => {
         marginPagesDisplayed={1}
         onPageChange={({ selected }) => handlePageChange(selected)}
         activeClassName=" bg-orange-600"
-        pageClassName="bg-[#0006] cursor-pointer border-none font-semibold  p-2 px-4 text-xl  rounded-md  duration-300 hover:bg-gray-400"
+        pageClassName="bg-[#0006] cursor-pointer border-none font-semibold  py-2 text-xl  rounded-md  duration-300 hover:bg-gray-400"
         previousClassName=" bg-[#000] text-white border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-700 font-semibold hover:text-black shadow transition duration-300 hover:bg-gold"
         nextClassName=" bg-[#000] text-white border-none cursor-pointer text-xl py-2 px-4 rounded-md hover:bg-orange-700 font-semibold hover:text-black shadow transition duration-300 hover:bg-gold "
         previousLabel="<"
@@ -26,6 +26,11 @@ const Paginated = ({ totalPages, onPageChange }) => {
         breakClassName=" cursor-pointer text-xl py-2 px-4 font-semibold"
         renderOnZeroPageCount={null}
         forcePage={currentPage - 1} // Utiliza currentPage desde el estado de Redux
+        pageLinkClassName=" cursor-pointer border-none font-semibold p-2 px-4 text-xl rounded-md duration-300 hover:bg-gray-400"
+        onPageActive={(e) => {
+          e.preventDefault();
+          handlePageChange(e.currentTarget.getAttribute("data-page")); // Utiliza el data-page para obtener el número de página
+        }}
       />
     </section>
   );
