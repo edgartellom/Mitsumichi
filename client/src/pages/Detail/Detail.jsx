@@ -279,17 +279,29 @@ const Detail = () => {
           />
         </div>
       </div>
-      <div class="py-4 container mb-5 pb-6 text-center">
-        <h1 class="p-5 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-[#FA6600] to-red-600 shadow-2xl">
+      <div className="py-4 container mb-5 pb-6 text-center">
+        <h1 className="p-5 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-[#FA6600] to-red-600 shadow-2xl">
           Lo que dicen nuestros compradores:
         </h1>
       </div>
       <div className="flex flex-wrap gap-3 pb-6 justify-center">
-        {!filteredReviews.length ? (<span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
-          Aun no hay reviews de este modelo
-        </span>)
-          : filteredReviews.map((rev) => (<Review name={rev?.userReview?.name} userImage={rev?.userReview?.photoURL} description={rev.feedback} starCount={rev.selectedRating} />))}
-      </div>
+  {!filteredReviews.length ? (
+    <span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
+      Aún no hay reviews de este modelo
+    </span>
+  ) : (
+    filteredReviews.map((rev) => (
+      <Review
+        key={rev.id} // Asegúrate de tener una clave única en el mapeo
+        name={rev?.userReview?.name}
+        userImage={rev?.userReview?.photoURL}
+        description={rev.feedback}
+        starCount={rev.selectedRating}
+      />
+    ))
+  )}
+</div>
+
     </article>
   );
 };
