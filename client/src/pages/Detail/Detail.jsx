@@ -252,6 +252,7 @@ const Detail = () => {
           </div>
         </section>
       )}
+
       <div className="py-1 flex flex-col text-left text-sm text-gray-700 border-t border-b border-gray-400">
         <span className="text-center text-lg pb-2">Compartir</span>
         <div className="flex flex-row w-full justify-center">
@@ -279,12 +280,15 @@ const Detail = () => {
           />
         </div>
       </div>
+      
       <div className="py-4 mb-5 pb-6 text-center">
+
         <h1 className="p-5 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-[#FA6600] to-red-600 shadow-2xl">
           Lo que dicen nuestros compradores:
         </h1>
       </div>
       <div className="flex flex-wrap gap-3 pb-6 justify-center">
+
         {!filteredReviews.length ? (
           <span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
             Aún no hay reviews de este modelo
@@ -306,6 +310,7 @@ const Detail = () => {
           )
         )}
       </div>
+
     </article>
   );
 };
