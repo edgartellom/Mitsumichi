@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import Button from "../../components/UI/Button";
 import { userAuth } from "../../context/Auth-context";
 import { useForm } from "react-hook-form";
@@ -7,13 +7,17 @@ import updateUser from "../../firebase/updateUser";
 import registerNewUser from "../../firebase/registerNewUser";
 import Wrapper from "../../helper/Wrapper";
 import logOut from "../../firebase/logOut";
+import sgMail from "@sendgrid/mail";
+import axios from "axios";
+
 const SignUp = () => {
-  const { currentUser } = useContext(userAuth);
+  const { currentUser, user } = useContext(userAuth);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
 
   const handleFinish = async (data) => {
     if (data) {
@@ -28,9 +32,28 @@ const SignUp = () => {
         id: currentUser.uid,
         email: currentUser.email,
       });
+
+      const username = data.username;
+      const msg = {
+        to: currentUser.email,
+        from: "mitsumichipf@gmail.com",
+        subject: "¡Registro Completo en Nuestro Sitio!",
+        text: `¡Hola ${username}! Gracias por registrarte con nosotros. Tu registro en nuestro sitio se ha completado exitosamente. Esperamos que disfrutes de nuestra plataforma y de todas sus funcionalidades. Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. ¡Bienvenido!`,
+      };
+      
+  
+      try {
+        await axios.post("send-email", msg);
+        /* await sgMail.send(msg); */
+        console.log("Email enviado de manera exitoso");
+      } catch (error) {
+        console.error("Error sending email:", error);
+      }
     }
+  
     window.location.reload();
   };
+  
 
   const validateUsername = async (username) => {
     const exists = await existsUsername(username);
@@ -185,7 +208,7 @@ const SignUp = () => {
                   message: "El campo es obligatorio",
                 },
                 pattern: {
-                  value: /^[A-Za-z0-9\-]+$/i,
+                  value: /^[A-Za-z0-9-]+$/i,
                   message: "Documento invalido",
                 },
               })}
@@ -209,7 +232,7 @@ const SignUp = () => {
                   message: "El campo es obligatorio",
                 },
                 pattern: {
-                  value: /^[A-Za-z0-9\s\-\,\#\.]+$/,
+                  value: /^[A-Za-z0-9\s\-,#.]+$/,
                   message: "Direccion invalida",
                 },
               })}

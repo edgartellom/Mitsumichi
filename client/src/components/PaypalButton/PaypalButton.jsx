@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+ import React, { useContext, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams, useNavigate } from "react-router-dom";
 import Button from "../../components/UI/Button";
@@ -39,6 +39,7 @@ export function PayPalButton() {
   const { precio, nombre, modelo } = useParams();
   const [isCompleted, setIsCompleted] = useState(false);
   const navigate = useNavigate();
+  const { id, stock } = useParams();
 
   useEffect(() => {
     if (orderId !== null) {
@@ -56,29 +57,41 @@ export function PayPalButton() {
   }, [navigate, orderId]);
 
   const handlePaymentSuccess = async (details) => {
-    console.log("Pago realizado con éxito:", details);
+    // console.log("Pago realizado con éxito:", details);
     const capturedPurchaseId =
       details.purchase_units[0].payments.captures[0].id;
     setIsCompleted(true);
 
     const userEmail = user?.email || ""; // Uso mail del Profile_Info
     const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
+    
 
-    // Envía el correo electrónico al cliente
     const emailData = {
       from: "mitsumichipf@gmail.com",
-      to: userEmail, // Acá debería tomarme el mail que registre el usuario.
+      to: userEmail, 
       subject: "Confirmación de compra",
-      text: `¡Hola ${userName}, gracias por tu compra de ${nombre}! Tu pago se ha completado con éxito. 
-    ID de compra: ${capturedPurchaseId}. Esperamos que disfrutes de tu producto.`
+      text: `¡Gracias, ${userName}, por su compra de ${nombre}! Su pago se ha completado con éxito. ID de compra: ${capturedPurchaseId}`,
     };
 
     try {
       setPurchaseId(capturedPurchaseId);
-      await axios.post("http://localhost:3001/send-email", emailData);
+      await axios.post("send-email", emailData); // await axios.post("http//:localhost:3001/send-email", emailData);
     } catch (error) {
       console.error("Error al enviar el correo electrónico:", error);
     }
+  };
+
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateStock = async (id, stock) => {
+    if (products.length > 0) {
+      products.forEach(async (product) => {
+        await axios.put(`editStock`, [
+          { motoId: product.id, newStock: product.stock - product.cantidad },
+        ]);
+      });
+    }
+    await axios.put(`editStock`, [{ motoId: id, newStock: stock }]);
   };
 
   useEffect(() => {
@@ -108,7 +121,16 @@ export function PayPalButton() {
           };
           clearCart(currentUser?.uid);
         }
-        createBill(currentUser?.uid, dataToCreateBill);
+        console.log(products, "productsssssss");
+        if (products.length > 0) {
+          products.forEach(async (product) => {
+            await updateStock(product.id, product.stock - product.cantidad);
+          });
+          createBill(currentUser?.uid, dataToCreateBill);
+        } else {
+          updateStock(id, stock - 1);
+          createBill(currentUser?.uid, dataToCreateBill);
+        }
       } catch (error) {
         console.error("Error al crear la factura:", error);
         Swal.fire({
@@ -118,13 +140,13 @@ export function PayPalButton() {
         });
       }
     }
-  }, [currentUser?.uid, isCompleted, products, user]);
+  }, [currentUser?.uid, id, isCompleted, products, stock, updateStock, user]);
 
   const handleCancel = async () => {
     const id = generateOrderId(); // Genera un ID único para la cancelación
     setOrderId(id);
 
-    const userEmail = user?.email || "";
+    const userEmail = user?.email || ""; // Uso mail del Profile_Info
     const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
 
     // Envía el correo electrónico al cliente
@@ -133,12 +155,12 @@ export function PayPalButton() {
       to: userEmail,
       subject: "Compra cancelada",
       text: `Hola ${userName}, lamentablemente, tu compra ha sido cancelada. 
-    No te preocupes, estaremos aquí para ayudarte con tu próxima compra. 
-    ID de cancelación: ${id}. ¡Te esperamos pronto!`,
+  No te preocupes, estaremos aquí para ayudarte con tu próxima compra. 
+  ID de cancelación: ${id}. ¡Te esperamos pronto!`,
     };
 
     try {
-      await axios.post("http://localhost:3001/send-email", cancelEmailData);
+      await axios.post("send-email", cancelEmailData); //await axios.post("http://localhost:3001/send-email", cancelEmailData);
     } catch (error) {
       console.error(
         "Error al enviar el correo electrónico de cancelación:",
@@ -230,4 +252,4 @@ export function PayPalButton() {
   );
 }
 
-export default PayPalButton;
+export default PayPalButton; 

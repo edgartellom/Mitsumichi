@@ -37,9 +37,11 @@ const Navbar = () => {
 
   const routes = [
     `${!currentUser ? "INICIAR SESION" : "SALIR"}`,
-    "MOTOCICLETAS",
-    "ABOUT US",
-    "SERVICIOS Y SOPORTE",
+    "HOME",
+    "PROFILE",
+    `${user?.role === "admin" ? "DASHBOARD" : null}`,
+    "SERVICE AND SUPPORT",
+    "ABOUT-US",
   ];
 
   if (loading) {

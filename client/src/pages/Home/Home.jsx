@@ -30,11 +30,16 @@ const Home = () => {
 
   return (
     <>
-      <section className="p-3 bg-[#000000cc]  flex justify-around max-md:flex-col">
-        <Filters marcas={brands} tipos={tipos} />
-        <SearchBar />
-        <Sorts />
-      </section>
+      <section className="p-3 bg-[#000000cc] flex justify-around max-md:flex-col items-center">
+  <div className="w-[400px] h-8 flex-shrink-0">
+    <Filters marcas={brands} tipos={tipos} />
+  </div>
+  <SearchBar className="w-[200px] flex-shrink-0" />
+  <div className="w-[500px] h-8 flex-shrink-0">
+  <Sorts className="w-[200px] flex-shrink-0" />
+  </div>
+</section>
+
 
       <Cards data={motos} />
       <Paginated

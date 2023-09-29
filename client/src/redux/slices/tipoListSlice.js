@@ -15,7 +15,7 @@ const tipoSlice = createSlice({
 
 export const fetchTipos = () => async (dispatch) => {
   try {
-    const response = await axios.get("/tipos");
+    const response = await axios.get("tipos");
     const jsonData = await response.data;
     const tipos = jsonData.map((tipo) => tipo.name);
     dispatch(tipoSlice.actions.setTipos(tipos));

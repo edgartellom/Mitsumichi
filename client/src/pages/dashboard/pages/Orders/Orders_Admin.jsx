@@ -26,10 +26,7 @@ const Products_Admin = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-
-
-  useEffect(() => {}, []);
+  const itemsPerPage = 7;
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -153,6 +150,7 @@ const Products_Admin = () => {
           }`}
         >
           {currentOrders.map((order, index) => {
+            const displayedIndex = (currentPage - 1) * itemsPerPage + index + 1;
             let precioTOTAL = Object.values(invoicesToArr[index])
               .map((item) =>
                 item?.precio && item?.cantidad ? item.precio * item.cantidad : 0
@@ -166,7 +164,7 @@ const Products_Admin = () => {
                     ? "duration-200 opacity-100 translate-y-0"
                     : "duration-200 opacity-0 translate-y-10"
                 }`}
-                key={order?.id}
+                key={displayedIndex}
               >
                 <td className="text-center w-1/8">
                   <label className="flex container items-center justify-center">
@@ -186,7 +184,7 @@ const Products_Admin = () => {
                 </td>
 
                 <td className="text-center w-1/8 font-bold ml-1">
-                  {index + 1}
+                  {displayedIndex}
                 </td>
 
                 <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
