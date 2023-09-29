@@ -17,6 +17,12 @@ const Rating = ({setShowReview, selectedItem}) => {
   const [hoveredRating, setHoveredRating] = useState(undefined);
   const [feedback, setFeedback] = useState("");
 
+  const userReview = {
+    id: currentUser.uid,
+    name : currentUser.displayName,
+    photoURL : currentUser.photoURL,
+  }
+
   const handleRatingClick = (value) => {
     setSelectedRating(value);
   };
@@ -35,11 +41,13 @@ const Rating = ({setShowReview, selectedItem}) => {
 
   const guardarDatos = async (e) => {
     e.preventDefault();
-    // Aquí puedes implementar la lógica para guardar los datos, por ejemplo, hacer una solicitud a una API.
-    // Puedes usar selectedRating y feedback para enviar los datos que el usuario ingresó.
-    await createReview(currentUser?.uid, {selectedRating, feedback})
-    setShowReview(false)
-    window.alert("Gracias por tu valoración")
+    if (!feedback.trim()) {
+      window.alert("Por favor, ingresa tu comentario antes de enviar la valoración.");
+      return;
+    }
+    await createReview(currentUser?.uid, { selectedRating, feedback, selectedItem, userReview });
+    setShowReview(false);
+    window.alert("Gracias por tu valoración");
   };
 
   return (
