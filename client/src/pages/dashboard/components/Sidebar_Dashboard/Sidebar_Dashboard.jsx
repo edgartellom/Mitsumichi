@@ -23,20 +23,6 @@ import { CustomButton } from "../IU_Componentes";
 
 import "./styles.css";
 
-// const user = {
-//   name: "Hengers Emmanuel Rosario Morales",
-//   avatar: "https://avatars.githubusercontent.com/u/106262730?v=4",
-//   role: {
-//     value: "superAdmin",
-//     label: "S. Administrador",
-//   },
-//   email: "hengersrosario@example.com",
-//   phone: "+10987654321",
-//   status: "enabled",
-//   orders: "8",
-//   reviews: "23",
-// };
-
 const Sidebar_Dashboard = () => {
   const location = useLocation(); // Obtiene la ruta actual
 
@@ -72,11 +58,11 @@ const Sidebar_Dashboard = () => {
       route: "/dashboard/reviews-admin",
       icon: <IoThumbsUpSharp size={40} />,
     },
-    {
-      text: "OFFERS",
-      route: "/dashboard/offers-admin",
-      icon: <IoPricetag size={40} />,
-    },
+    // {
+    //   text: "OFFERS",
+    //   route: "/dashboard/offers-admin",
+    //   icon: <IoPricetag size={40} />,
+    // },
   ];
 
   useEffect(() => {
@@ -248,14 +234,14 @@ const Sidebar_Dashboard = () => {
               isActive={activeRoute === buttonsItems[4].route}
             />
 
-            <CustomButton
+            {/* <CustomButton
               icon={<IoPricetag size={40} />}
               text={buttonsItems[5].text}
               route={buttonsItems[5].route}
               showIcon={openMenu}
               showText={showItems}
               isActive={activeRoute === buttonsItems[5].route}
-            />
+            /> */}
           </div>
         )}
       </div>
@@ -352,7 +338,7 @@ const Sidebar_Dashboard = () => {
             showText={showItems}
             isActive={activeRoute === buttonsItems[4].route}
           />
-
+          {/* 
           <CustomButton
             icon={<IoPricetag size={40} />}
             text={buttonsItems[5].text}
@@ -360,7 +346,7 @@ const Sidebar_Dashboard = () => {
             showIcon={openMenu}
             showText={showItems}
             isActive={activeRoute === buttonsItems[5].route}
-          />
+          /> */}
         </div>
 
         {showItems && (

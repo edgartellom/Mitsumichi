@@ -17,7 +17,7 @@ import getAllReviews from "../../firebase/getAllReviews";
 import Review from "../../components/Review/Review";
 // "http://localhost:3001/"
 //"https://mitsumichi-production.up.railway.app/"
-const URL = "http://localhost:3001/";
+// const URL = "http://localhost:3001/";
 
 const Detail = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +26,7 @@ const Detail = () => {
   const [tipo, setTipo] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
   const [reviews, setReviews] = useState([]);
+  console.log(reviews);
   const navigate = useNavigate();
   const { id } = useParams();
   const [isInStock, setIsInStock] = useState(true);
@@ -33,40 +34,39 @@ const Detail = () => {
   const { currentUser, setProductsLocalStorage, productsLocalStorage } =
     useContext(userAuth);
 
-    useEffect(() => {
-      const fetchDataDetail = async () => {
-        try {
-          const response = await axios(`${URL}motos/${id}`);
-          setMoto(response.data);
-    
-          const responseBrand = await axios(`${URL}marcas`);
-          const brandFound = responseBrand.data.find(
-            (e) => e.id === response.data.brandId
-          );
-          setBrand(brandFound);
-    
-          const responseTipo = await axios(`${URL}tipos`);
-          const tipoFound = responseTipo.data.find(
-            (e) => e.id === response.data.tipoId
-          );
-          setTipo(tipoFound);
-    
-          // Actualiza isInStock basado en el stock de la moto
-          setIsInStock(response.data.stock > 0);
-    
-          setIsLoading(false);
-          const allReviews =  await getAllReviews();
-        setReviews(allReviews)
+  useEffect(() => {
+    const fetchDataDetail = async () => {
+      try {
+        const response = await axios(`motos/${id}`);
+        setMoto(response.data);
+
+        const responseBrand = await axios(`marcas`);
+        const brandFound = responseBrand.data.find(
+          (e) => e.id === response.data.brandId
+        );
+        setBrand(brandFound);
+
+        const responseTipo = await axios(`tipos`);
+        const tipoFound = responseTipo.data.find(
+          (e) => e.id === response.data.tipoId
+        );
+        setTipo(tipoFound);
+
+        // Actualiza isInStock basado en el stock de la moto
+        setIsInStock(response.data.stock > 0);
+
+        setIsLoading(false);
+        const allReviews = await getAllReviews();
+        setReviews(allReviews);
         console.log(allReviews);
       } catch (error) {
-          console.log("Error fetching data:", error);
-          setIsLoading(false);
-        }
-      };
-    
-      fetchDataDetail();
-    }, [id]);
-    
+        console.log("Error fetching data:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchDataDetail();
+  }, [id]);
 
   const handleImageClick = (index) => {
     setSelectedImage(index);
@@ -90,14 +90,14 @@ const Detail = () => {
   const addProducto = async () => {
     const response = await axios.get(`motos/${id}`);
     const stock = response.data.stock;
-  
+
     if (stock > 0) {
       if (currentUser) {
         // Si el usuario está autenticado, verifica si el producto ya está en el carrito
         const existingProduct = productsLocalStorage.find(
           (product) => product.id === id
         );
-  
+
         if (existingProduct) {
           // Si el producto ya está en el carrito, aumenta la cantidad
           existingProduct.cantidad += 1;
@@ -115,7 +115,7 @@ const Detail = () => {
             stock: moto.stock,
           });
         }
-  
+
         increase(currentUser.uid, id);
       } else {
         // Si el usuario no está autenticado, verifica si el producto ya está en el carrito local
@@ -124,7 +124,7 @@ const Detail = () => {
         const existingProduct = existingProducts.find(
           (product) => product.id == id
         );
-  
+
         if (existingProduct) {
           // Si el producto ya está en el carrito local, aumenta la cantidad
           if (existingProduct.cantidad >= stock) {
@@ -147,7 +147,7 @@ const Detail = () => {
             id: moto.id,
             stock: moto.stock,
           });
-  
+
           // Actualiza el localStorage y el estado local
           localStorage.setItem("products", JSON.stringify(existingProducts));
           setProductsLocalStorage(existingProducts);
@@ -160,11 +160,13 @@ const Detail = () => {
     }
   };
 
-  const filteredReviews = reviews.filter((e)=>(e.selectedItem?.motoModel === moto.motoModel))
+  const filteredReviews = reviews.filter(
+    (e) => e.selectedItem?.motoModel === moto.motoModel
+  );
   console.log(filteredReviews);
 
   return (
-    <article>
+    <article className="w-full">
       <Slider666 />
       {isLoading ? (
         <Wrapper>
@@ -217,9 +219,7 @@ const Detail = () => {
                 </div>
                 <div className="w-1 border bg-black mx-4"></div>
                 <div className="pl-4">
-                  <h3 className="text-xl font-semibold mb-2">
-                    Ficha Técnica
-                  </h3>
+                  <h3 className="text-xl font-semibold mb-2">Ficha Técnica</h3>
                   <p>Motor: {moto.fichaTecnica.motor}</p>
                   <p>Pasajeros: {moto.fichaTecnica.pasajeros}</p>
                   <p>Cilindrada: {moto.fichaTecnica.cilindrada}</p>
@@ -252,56 +252,64 @@ const Detail = () => {
           </div>
         </section>
       )}
-      <div className="mt-3 mb-3 pt-3 pb-3 flex text-left text-sm text-gray-600 border-t border-b border-gray-400 justify-center items-center">
-  <span className="mr-6">Compartir</span>
-  <div className="flex flex-row">
-    <img
-      src={facebook}
-      alt="facebook.png"
-      width={20}
-      height={20}
-      className="flex mx-4 cursor-pointer backdrop-brightness-2xl"
-    />
-    <img
-      src={twitter}
-      alt="twitter.png"
-      width={20}
-      height={20}
-      className="mx-4 cursor-pointer"
-    />
-    <img
-      src={whatsapp}
-      alt="whatsapp.png"
-      width={20}
-      height={20}
-      className="mx-4 cursor-pointer"
-      style={{ filter: "grayscale(100%)" }}
-    />
-  </div>
-</div>
 
-      <div className="py-4 container mb-5 pb-6 text-center">
+      <div className="py-1 flex flex-col text-left text-sm text-gray-700 border-t border-b border-gray-400">
+        <span className="text-center text-lg pb-2">Compartir</span>
+        <div className="flex flex-row w-full justify-center">
+          <img
+            src={facebook}
+            alt="facebook.png"
+            width={20}
+            height={20}
+            className="flex mx-4 cursor-pointer backdrop-brightness-2xl"
+          />
+          <img
+            src={twitter}
+            alt="twitter.png"
+            width={20}
+            height={20}
+            className="mx-4 cursor-pointer"
+          />
+          <img
+            src={whatsapp}
+            alt="whatsapp.png"
+            width={20}
+            height={20}
+            className="mx-4 cursor-pointer"
+            style={{ filter: "grayscale(100%)" }}
+          />
+        </div>
+      </div>
+      
+      <div className="py-4 mb-5 pb-6 text-center">
+
         <h1 className="p-5 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-[#FA6600] to-red-600 shadow-2xl">
           Lo que dicen nuestros compradores:
         </h1>
       </div>
       <div className="flex flex-wrap gap-3 pb-6 justify-center">
-  {!filteredReviews.length ? (
-    <span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
-      Aún no hay reviews de este modelo
-    </span>
-  ) : (
-    filteredReviews.map((rev) => (
-      <Review
-        key={rev.id} // Asegúrate de tener una clave única en el mapeo
-        name={rev?.userReview?.name}
-        userImage={rev?.userReview?.photoURL}
-        description={rev.feedback}
-        starCount={rev.selectedRating}
-      />
-    ))
-  )}
-</div>
+
+        {!filteredReviews.length ? (
+          <span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
+            Aún no hay reviews de este modelo
+          </span>
+        ) : (
+          filteredReviews.map(
+            (rev) => (
+              console.log(rev),
+              (
+                <Review
+                  key={rev.id} // Asegúrate de tener una clave única en el mapeo
+                  name={rev?.userReview?.name}
+                  userImage={rev?.userReview?.photoURL}
+                  description={rev.feedback}
+                  starCount={rev.selectedRating}
+                />
+              )
+            )
+          )
+        )}
+      </div>
 
     </article>
   );

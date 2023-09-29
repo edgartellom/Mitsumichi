@@ -4,29 +4,28 @@ import { Carousel } from "react-responsive-carousel";
 
 import { BsXCircle, BsCheckCircle } from "react-icons/bs";
 
-const optionsColor = [
-  // Opciones de color
-  { value: "yellow", label: "Amarillo" },
-  { value: "white", label: "Blanco" },
-  { value: "black", label: "Negro" },
-  { value: "gray", label: "Gris" },
-  { value: "red", label: "Rojo" },
-  { value: "pink", label: "Rosa" },
-  { value: "blue", label: "Azul" },
-  { value: "green", label: "Verde" },
-  { value: "orange", label: "Naranja" },
-  { value: "brown", label: "Marrón" },
-  { value: "silver", label: "Plata" },
-  { value: "gold", label: "Oro" },
-  { value: "purple", label: "Morado" },
-  { value: "beige", label: "Beige" },
-];
+// const optionsColor = [
+//   // Opciones de color
+//   { value: "yellow", label: "Amarillo" },
+//   { value: "white", label: "Blanco" },
+//   { value: "black", label: "Negro" },
+//   { value: "gray", label: "Gris" },
+//   { value: "red", label: "Rojo" },
+//   { value: "pink", label: "Rosa" },
+//   { value: "blue", label: "Azul" },
+//   { value: "green", label: "Verde" },
+//   { value: "orange", label: "Naranja" },
+//   { value: "brown", label: "Marrón" },
+//   { value: "silver", label: "Plata" },
+//   { value: "gold", label: "Oro" },
+//   { value: "purple", label: "Morado" },
+//   { value: "beige", label: "Beige" },
+// ];
 
 const MediaInventoryManager = ({
   formData,
   setFormData,
   handleImageChange,
-  isColorValid,
   isPrecioValid,
   selectedImages,
   imagePreviews,
@@ -44,43 +43,43 @@ const MediaInventoryManager = ({
     }
   }, []);
 
-  const sortedColorOptions = optionsColor
-    .slice()
-    .sort((a, b) => a.label.localeCompare(b.label));
+  // const sortedColorOptions = optionsColor
+  //   .slice()
+  //   .sort((a, b) => a.label.localeCompare(b.label));
 
-  const customStyles = {
-    multiValue: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.data.value, // Usa el valor como color de fondo
-      border: "1px ridge gray", // Borde redondeado
-    }),
+  // const customStyles = {
+  //   multiValue: (provided, state) => ({
+  //     ...provided,
+  //     backgroundColor: state.data.value, // Usa el valor como color de fondo
+  //     border: "1px ridge gray", // Borde redondeado
+  //   }),
 
-    multiValueLabel: (provided, state) => ({
-      ...provided,
-      color: state.data.value === "black" ? "white" : "black", // Cambia el color del texto para que sea visible
-      fontWeight: "bold",
-    }),
+  //   multiValueLabel: (provided, state) => ({
+  //     ...provided,
+  //     color: state.data.value === "black" ? "white" : "black", // Cambia el color del texto para que sea visible
+  //     fontWeight: "bold",
+  //   }),
 
-    multiValueRemove: (provided, state) => ({
-      ...provided,
-      color: state.data.value === "black" ? "white" : "black", // Cambia el color del icono para que sea visible
+  //   multiValueRemove: (provided, state) => ({
+  //     ...provided,
+  //     color: state.data.value === "black" ? "white" : "black", // Cambia el color del icono para que sea visible
 
-      ":hover": {
-        backgroundColor: "rgba(0, 0, 0, 0.2)",
-        color: state.data.value === "white" ? "black" : "white",
-      },
-    }),
-  };
+  //     ":hover": {
+  //       backgroundColor: "rgba(0, 0, 0, 0.2)",
+  //       color: state.data.value === "white" ? "black" : "white",
+  //     },
+  //   }),
+  // };
 
-  const handleColorSelection = (selectedOptions) => {
-    const selectedColors = selectedOptions.map((option) => option.value);
-    console.log(selectedColors);
-    //setSelectedColors(selectedColors);
-    setFormData((prevData) => ({
-      ...prevData,
-      colorDisponible: selectedColors,
-    }));
-  };
+  // const handleColorSelection = (selectedOptions) => {
+  //   const selectedColors = selectedOptions.map((option) => option.value);
+  //   console.log(selectedColors);
+  //   //setSelectedColors(selectedColors);
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     colorDisponible: selectedColors,
+  //   }));
+  // };
 
   const handlePrecioChange = (event) => {
     const precio = event.target.value;
@@ -149,7 +148,8 @@ const MediaInventoryManager = ({
               </label>
             </div>
           </div>
-          <div className="input-wrapper flex flex-col">
+
+          {/* <div className="input-wrapper flex flex-col">
             <label
               htmlFor="colorDisposible"
               className="pl-2 text-lg font-semibold text-[#c63d05] uppercase"
@@ -186,7 +186,7 @@ const MediaInventoryManager = ({
                 Selecciona al menos un color
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="input-wrapper flex flex-col">
             <label

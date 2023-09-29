@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 
 import { Link } from "react-router-dom";
 
-const Control_Panel = ({
-  showBackButton,
-  showSearchBar,
-  showRoutes,
-  showAdditionalButtons,
-}) => {
+const Control_Panel = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [locationName, setLocationName] = useState("");
@@ -67,7 +61,7 @@ const Control_Panel = ({
             {location.pathname === "/dashboard/products-admin" && (
               <button
                 onClick={redirectToCreate}
-                className="right-5 bg-slate-100 text-[#C63D05] font-bold px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
+                className="mt-10 right-5 bg-slate-100 text-2xl text-[#C63D05] font-bold px-4 py-1 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
               >
                 ADD
               </button>

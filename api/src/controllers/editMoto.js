@@ -1,9 +1,10 @@
-const { Moto, Color } = require("../db");
+const { Moto } = require("../db");
 
 async function editMoto(req, res) {
+  console.log(req.body);
   try {
     const motoId = req.params.id;
-    const { precio, imageUrl, colorDisponible } = req.body;
+    const { precio, imageUrl } = req.body;
 
     const moto = await Moto.findByPk(motoId);
 
@@ -11,23 +12,9 @@ async function editMoto(req, res) {
       return res.status(404).json({ error: "Moto no encontrada" });
     }
 
-    // Actualizar información de la moto
-    let colors = [];
-    if (Array.isArray(colorDisponible) && colorDisponible.length > 0) {
-      for (colorName of colorDisponible) {
-        const [colorBd, colorCreado] = await Color.findOrCreate({
-          where: { name: colorName },
-        });
-        colors.push(colorBd.id);
-      }
-    }
-    await moto.setColors(colors);
     await moto.update({ precio, imageUrl });
 
-    const motoBd = await Moto.findByPk(motoId, {
-      include: [{ model: Color, attributes: ["name"] }],
-    });
-    res.json(motoBd);
+    res.json({ message: "Moto actualizada exitosamente" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "No se pudo actualizar la moto" });

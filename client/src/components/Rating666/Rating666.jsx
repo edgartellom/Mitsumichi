@@ -1,14 +1,14 @@
-import React, { useState, useContext } from 'react';
-import { FaStar } from 'react-icons/fa';
-import createReview from '../../firebase/createReview';
-import { userAuth } from '../../context/Auth-context';
+import React, { useState, useContext } from "react";
+import { FaStar } from "react-icons/fa";
+import createReview from "../../firebase/createReview";
+import { userAuth } from "../../context/Auth-context";
 
 const colors = {
   orange: "#FA6600",
-  grey: "#A9A9A9"
+  grey: "#A9A9A9",
 };
 
-const Rating = ({setShowReview, selectedItem}) => {
+const Rating = ({ setShowReview, selectedItem }) => {
   console.log(selectedItem);
   const { currentUser, products, user } = useContext(userAuth);
 
@@ -19,9 +19,9 @@ const Rating = ({setShowReview, selectedItem}) => {
 
   const userReview = {
     id: currentUser.uid,
-    name : currentUser.displayName,
-    photoURL : currentUser.photoURL,
-  }
+    name: currentUser.displayName,
+    photoURL: currentUser.photoURL,
+  };
 
   const handleRatingClick = (value) => {
     setSelectedRating(value);
@@ -42,21 +42,39 @@ const Rating = ({setShowReview, selectedItem}) => {
   const guardarDatos = async (e) => {
     e.preventDefault();
     if (!feedback.trim()) {
-      window.alert("Por favor, ingresa tu comentario antes de enviar la valoración.");
+      window.alert(
+        "Por favor, ingresa tu comentario antes de enviar la valoración."
+      );
       return;
     }
-    await createReview(currentUser?.uid, { selectedRating, feedback, selectedItem, userReview });
+    await createReview(currentUser?.uid, {
+      selectedRating,
+      feedback,
+      selectedItem,
+      userReview,
+    });
     setShowReview(false);
     window.alert("Gracias por tu valoración");
   };
 
   return (
     <div className="flex flex-col items-center w-full max-w-md mx-auto">
-      <button onClick={()=>{setShowReview(false)}}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-</svg>
+      <button
+        onClick={() => {
+          setShowReview(false);
+        }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          fill="currentColor"
+          className="bi bi-x-circle"
+          viewBox="0 0 16 16"
+        >
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+          <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+        </svg>
       </button>
       <div className="text-2xl font-semibold mb-2">{`Review de ${selectedItem.brand} ${selectedItem.motoModel}`}</div>
       <div className="flex justify-center p-4 gap-2">
@@ -64,7 +82,11 @@ const Rating = ({setShowReview, selectedItem}) => {
           <FaStar
             key={index}
             size={24}
-            color={(hoveredRating || selectedRating) > index ? colors.orange : colors.grey}
+            color={
+              (hoveredRating || selectedRating) > index
+                ? colors.orange
+                : colors.grey
+            }
             onClick={() => handleRatingClick(index + 1)}
             onMouseOver={() => handleRatingHover(index + 1)}
             onMouseLeave={handleRatingLeave}
