@@ -12,6 +12,10 @@ import axios from "axios";
 import addProduct from "../../firebase/addProduct";
 import { userAuth } from "../../context/Auth-context";
 import CartIcon from "../Cart/CartButton/CartIcon";
+import { set } from "date-fns";
+import getAllReviews from "../../firebase/getAllReviews";
+import Review from "../../components/Review/Review";
+// "http://localhost:3001/"
 //"https://mitsumichi-production.up.railway.app/"
 const URL = "http://localhost:3001/";
 
@@ -21,6 +25,7 @@ const Detail = () => {
   const [brand, setBrand] = useState("");
   const [tipo, setTipo] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
   const [isInStock, setIsInStock] = useState(true);
@@ -50,7 +55,10 @@ const Detail = () => {
           setIsInStock(response.data.stock > 0);
     
           setIsLoading(false);
-        } catch (error) {
+          const allReviews =  await getAllReviews();
+        setReviews(allReviews)
+        console.log(allReviews);
+      } catch (error) {
           console.log("Error fetching data:", error);
           setIsLoading(false);
         }
@@ -151,7 +159,10 @@ const Detail = () => {
       alert("Este producto está sin stock");
     }
   };
-  
+
+  const filteredReviews = reviews.filter((e)=>(e.selectedItem?.motoModel === moto.motoModel))
+  console.log(filteredReviews);
+
   return (
     <article>
       <Slider666 />
@@ -267,6 +278,17 @@ const Detail = () => {
             style={{ filter: "grayscale(100%)" }}
           />
         </div>
+      </div>
+      <div class="py-4 container mb-5 pb-6 text-center">
+        <h1 class="p-5 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-[#FA6600] to-red-600 shadow-2xl">
+          Lo que dicen nuestros compradores:
+        </h1>
+      </div>
+      <div className="flex flex-wrap gap-3 pb-6 justify-center">
+        {!filteredReviews.length ? (<span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
+          Aun no hay reviews de este modelo
+        </span>)
+          : filteredReviews.map((rev) => (<Review name={rev?.userReview?.name} userImage={rev?.userReview?.photoURL} description={rev.feedback} starCount={rev.selectedRating} />))}
       </div>
     </article>
   );

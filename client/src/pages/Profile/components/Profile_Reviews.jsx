@@ -18,8 +18,20 @@ const Profile_Reviews = () => {
           const invoicesToArray = invoicesByUser.map((e) => Object.values(e))
           const invoicesFiltered = invoicesToArray.map((e) => e.filter(item => item.hasOwnProperty('brand')))
           .flat()
-          console.log(invoicesFiltered);
-          setShopping(invoicesFiltered);
+          const uniqueObjetos = {};
+          const invoicesSinDuplicados = invoicesFiltered.filter((obj) => {
+            // Genera una clave única para cada objeto basada en sus propiedades
+            const clave = obj.brand + obj.motoModel + obj.tipo;
+            
+            // Si la clave no existe en el objeto auxiliar, marca el objeto como único
+            if (!uniqueObjetos[clave]) {
+                uniqueObjetos[clave] = true;
+                return true;
+            }
+            
+            return false; // Si la clave ya existe, el objeto es duplicado
+        });
+          setShopping(invoicesSinDuplicados);
         } else {
           setShopping([]);
         }
