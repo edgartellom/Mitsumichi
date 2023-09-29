@@ -44,7 +44,7 @@ const router = createBrowserRouter([
         element: <Detail />,
       },
       {
-        path: "/paypal-button/:precio/:nombre",
+        path: "/paypal-button/:precio/:nombre/:id/:stock",
         element: <PayPalButton />,
       },
       {

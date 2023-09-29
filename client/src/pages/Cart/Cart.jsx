@@ -60,6 +60,7 @@ const Cart = ({ setShowCart }) => {
               price={product.precio}
               imagen={product.imageUrl}
               amount={product.cantidad}
+              stock={product.stock}
             />
           );
         })}
@@ -80,6 +81,7 @@ const Cart = ({ setShowCart }) => {
               price={product.precio}
               imagen={product.imageUrl}
               amount={product.cantidad}
+              stock={product.stock}
             />
           );
         })}
@@ -100,7 +102,21 @@ const Cart = ({ setShowCart }) => {
       return brand;
     });
 
-    navigate(`/paypal-button/${totalAmount}/${totalproducts}`);
+    const productsId = [...new Set(products.map((product) => product.id))].map(
+      (id) => {
+        return id;
+      }
+    );
+
+    const productStocks = [
+      ...new Set(products.map((product) => product.stock)),
+    ].map((stock) => {
+      return stock;
+    });
+
+    navigate(
+      `/paypal-button/${totalAmount}/${totalproducts}/${productsId}/${productStocks}`
+    );
     setShowCart(false);
   };
 
