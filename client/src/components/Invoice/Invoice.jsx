@@ -32,6 +32,8 @@ const Invoice = ({ facturaData, onClose }) => {
     (item) => item.brand && item.cantidad && item.precio && item.motoModel
   );
 
+  console.log(facturaData);
+
   const phoneNumber = parsePhoneNumberFromString(user?.data?.telefono);
   console.log(elementosComprados);
 

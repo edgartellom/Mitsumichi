@@ -8,12 +8,19 @@ import {
 } from "react-icons/md";
 
 import { userAuth } from "../../../../context/Auth-context";
+import { SearchBar_Dashboard } from "../../components";
 const Users_Admin = () => {
   const { users, invoices } = useContext(userAuth);
+
   const [showItems, setShowItems] = useState([]);
   const invoicesToArr = Object.values(invoices);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [filteredusers, setFilteredUsers] = useState([{}]);
+
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, [users]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -90,15 +97,31 @@ const Users_Admin = () => {
     }
   };
 
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredusers.length / itemsPerPage);
 
   // Calcular el índice de inicio y final para la página actual
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentUsers = users.slice(startIndex, endIndex);
+  const currentUsers = filteredusers.slice(startIndex, endIndex);
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage);
+  };
+
+  const handleSearch = (searchQuery) => {
+    const searchText = searchQuery.toLowerCase();
+    const filteredusers = users.filter((user) => {
+      const userId = user.id ? user.id.toString().toLowerCase() : "";
+      return (
+        userId.includes(searchText) ||
+        (user?.data?.username &&
+          user?.data?.name.toLowerCase().includes(searchText)) ||
+        (user?.role && user?.role.toLowerCase().includes(searchText))
+      );
+    });
+
+    // Establece filteredusers en todas las users si la búsqueda está vacía
+    setFilteredUsers(searchQuery === "" ? users : filteredusers);
   };
 
   return (
@@ -140,126 +163,142 @@ const Users_Admin = () => {
             screenWidth >= 1220 ? "text-2xl" : "text-lg"
           }`}
         >
-          <tr>
-            <th
-              className={`w-1/8 text-center pt-1 ${
-                screenWidth <= 768 ? "pl-2" : "pl-1"
-              }`}
-            >
-              <label className="flex container items-center justify-center">
-                <input
-                  type="checkbox"
-                  onChange={handleSelectAll}
-                  checked={selectAll}
-                />
-                <div className="checkmark"></div>
-              </label>
-            </th>
-            <th className="text-center w-1/7 font-bold ml-1 text-with-text-shadow">
-              ID
-            </th>
-            <th className="text-center w-1/7 font-bold text-with-text-shadow">
-              USUARIO
-            </th>
-            <th className="text-center w-1/7 font-bold text-with-text-shadow">
-              ROL
-            </th>
-            <th className="text-center w-1/7 font-bold text-with-text-shadow">
-              ORDENES
-            </th>
-            <th className="text-center w-1/7 font-bold text-with-text-shadow">
-              ESTATUS
-            </th>
-            <th className="text-center w-1/7 font-bold text-with-text-shadow">
-              TOTAL
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          className={`bg-white duration-300 ${
-            screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
-          }`}
-        >
-          {currentUsers.map((user, index) => {
-            const displayedIndex = (currentPage - 1) * itemsPerPage + index + 1;
-
-            const precioTOTAL = invoicesToArr[displayedIndex]
-              ?.map((item) => item[0]?.precio)
-              .map(Number)
-              .filter((item) => !isNaN(item))
-              .reduce((a, b) => a + b, 0);
-
-            console.log(precioTOTAL, "precioTOTAL");
-
-            return (
-              <tr
-                className={`hover:text-blue-400 h-[75px] ${
-                  showItems.includes(index)
-                    ? "duration-200 opacity-100 translate-y-0"
-                    : "duration-200 opacity-0 translate-y-10"
+          {currentUsers.length === 0 ? null : (
+            <tr>
+              <th
+                className={`w-1/8 text-center pt-1 ${
+                  screenWidth <= 768 ? "pl-2" : "pl-1"
                 }`}
-                key={displayedIndex}
               >
-                <td
-                  className={`text-center w-1/7 ${
-                    screenWidth <= 768 ? "pl-2" : "pl-1"
+                <label className="flex container items-center justify-center">
+                  <input
+                    type="checkbox"
+                    onChange={handleSelectAll}
+                    checked={selectAll}
+                  />
+                  <div className="checkmark"></div>
+                </label>
+              </th>
+              <th className="text-center w-1/7 font-bold ml-1 text-with-text-shadow">
+                ID
+              </th>
+              <th className="text-center w-1/7 font-bold text-with-text-shadow">
+                USUARIO
+              </th>
+              <th className="text-center w-1/7 font-bold text-with-text-shadow">
+                ROL
+              </th>
+              <th className="text-center w-1/7 font-bold text-with-text-shadow">
+                ORDENES
+              </th>
+              <th className="text-center w-1/7 font-bold text-with-text-shadow">
+                ESTATUS
+              </th>
+              <th className="text-center w-1/7 font-bold text-with-text-shadow">
+                TOTAL
+              </th>
+            </tr>
+          )}
+        </thead>
+        {currentUsers.length === 0 ? (
+          <h1 className="p-4 uppercase text-center text-red-600 font-semibold">
+            No hay Usuarios con esta Descripción
+          </h1>
+        ) : (
+          <tbody
+            className={`bg-white duration-300 ${
+              screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
+            }`}
+          >
+            {currentUsers.map((user, index) => {
+              const displayedIndex =
+                (currentPage - 1) * itemsPerPage + index + 1;
+
+              const precioTOTAL = invoicesToArr[displayedIndex]
+                ?.map((item) => item[0]?.precio)
+                .map(Number)
+                .filter((item) => !isNaN(item))
+                .reduce((a, b) => a + b, 0);
+
+              console.log(precioTOTAL, "precioTOTAL");
+
+              return (
+                <tr
+                  className={`hover:text-blue-400 h-[75px] ${
+                    showItems.includes(index)
+                      ? "duration-200 opacity-100 translate-y-0"
+                      : "duration-200 opacity-0 translate-y-10"
                   }`}
+                  key={displayedIndex}
                 >
-                  <label className="flex container items-center justify-center">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(users[index])}
-                      onChange={() => handleSelectUser(index)}
-                    />
-                    <div className="checkmarklist"></div>
-                  </label>
-                </td>
-                <td className="text-center w-1/7 font-bold ml-1">
-                  {displayedIndex}
-                </td>
-                <td className="text-center w-1/7 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
-                  {user?.data?.name}
-                </td>
-                {user?.role === "admin" ? (
-                  <td className="text-center w-1/7 font-bold uppercase">
-                    Administrador
+                  <td
+                    className={`text-center w-1/7 ${
+                      screenWidth <= 768 ? "pl-2" : "pl-1"
+                    }`}
+                  >
+                    <label className="flex container items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.includes(users[index])}
+                        onChange={() => handleSelectUser(index)}
+                      />
+                      <div className="checkmarklist"></div>
+                    </label>
                   </td>
-                ) : (
-                  <td className="text-center w-1/7 font-bold uppercase">
-                    Usuario
+                  <td className="text-center w-1/7 font-bold ml-1">
+                    {displayedIndex}
                   </td>
-                )}
+                  <td className="text-center w-1/7 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                    {user?.data?.name}
+                  </td>
+                  {user?.role === "admin" ? (
+                    <td className="text-center w-1/7 font-bold uppercase">
+                      Administrador
+                    </td>
+                  ) : (
+                    <td className="text-center w-1/7 font-bold uppercase">
+                      Usuario
+                    </td>
+                  )}
 
-                <td className="text-center w-1/7 font-bold">
-                  {invoicesToArr[index]?.length}
-                </td>
-                {user?.status === "active" ? (
-                  <td className="text-center w-1/7 text-green-600 font-bold uppercase">
-                    activo
+                  <td className="text-center w-1/7 font-bold">
+                    {invoicesToArr[index]?.length}
                   </td>
-                ) : (
-                  <td className="text-center w-1/7 text-red-600 font-bold uppercase">
-                    baneado
-                  </td>
-                )}
+                  {user?.status === "active" ? (
+                    <td className="text-center w-1/7 text-green-600 font-bold uppercase">
+                      activo
+                    </td>
+                  ) : (
+                    <td className="text-center w-1/7 text-red-600 font-bold uppercase">
+                      baneado
+                    </td>
+                  )}
 
-                <td className="text-center w-1/7 font-bold text-blue-600 mr-1">
-                  {parseFloat(precioTOTAL).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    minimumFractionDigits: 2,
-                  })}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
+                  <td className="text-center w-1/7 font-bold text-blue-600 mr-1">
+                    {parseFloat(precioTOTAL).toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      minimumFractionDigits: 2,
+                    })}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        )}
       </table>
-      <Pagination
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-        currentPage={currentPage}
-      />
+      <div className="flex flex-row justify-between">
+        <section className="flex w-[30%]">
+          <SearchBar_Dashboard handleSearch={handleSearch} />
+        </section>
+        <section className=" w-[70%]">
+          <Pagination
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        </section>
+      </div>
     </div>
   );
 };

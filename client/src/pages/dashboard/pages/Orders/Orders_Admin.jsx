@@ -10,6 +10,7 @@ import {
 } from "react-icons/md";
 
 import "../styles.css";
+import { SearchBar_Dashboard } from "../../components";
 
 const Products_Admin = () => {
   const { allInvoices } = useContext(userAuth);
@@ -22,6 +23,12 @@ const Products_Admin = () => {
   const selectedOrdersID = selectedOrders.map(
     (selectedOrder) => selectedOrder?.id
   );
+
+  const [filteredInvoices, setFilteredInvoices] = useState([]);
+
+  useEffect(() => {
+    setFilteredInvoices(allInvoices);
+  }, [allInvoices]);
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -71,15 +78,31 @@ const Products_Admin = () => {
     }
   }, [allInvoices]);
 
-  const totalPages = Math.ceil(invoicesToArr.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredInvoices.length / itemsPerPage);
 
   // Calcular el índice de inicio y final para la página actual
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentOrders = invoicesToArr.slice(startIndex, endIndex);
+  const currentOrders = filteredInvoices.slice(startIndex, endIndex);
 
   const handlePageChange = (selectedPage) => {
     setCurrentPage(selectedPage);
+  };
+
+  const handleSearch = (searchQuery) => {
+    const searchText = searchQuery.toLowerCase();
+    const filteredInvoices = allInvoices.filter((invoices) => {
+      const invoiceId = invoices.id ? invoices.id.toString().toLowerCase() : "";
+      return (
+        invoiceId.includes(searchText) ||
+        (invoices.user?.data?.name &&
+          invoices?.user?.data?.username.toLowerCase().includes(searchText)) ||
+        invoices?.invoiceNumber.includes(searchText)
+      );
+    });
+
+    // Establece filteredusers en todas las users si la búsqueda está vacía
+    setFilteredInvoices(searchQuery === "" ? allInvoices : filteredInvoices);
   };
 
   return (
@@ -104,136 +127,157 @@ const Products_Admin = () => {
             screenWidth >= 1220 ? "text-2xl" : "text-lg"
           }`}
         >
-          <tr className="">
-            <th className="w-1/8 text-center pt-1">
-              <label className="flex container items-center justify-center">
-                <input
-                  type="checkbox"
-                  onChange={toggleSelectAll}
-                  checked={selectAll}
-                />
-                <div className="checkmark"></div>
-              </label>
-              {/* <input
+          {currentOrders.length === 0 ? null : (
+            <tr className="">
+              <th className="w-1/8 text-center pt-1">
+                <label className="flex container items-center justify-center">
+                  <input
+                    type="checkbox"
+                    onChange={toggleSelectAll}
+                    checked={selectAll}
+                  />
+                  <div className="checkmark"></div>
+                </label>
+                {/* <input
                 type="checkbox"
                 className="w-5 h-5 ml-1 mx-auto"
                 onChange={toggleSelectAll}
                 checked={selectAll}
               /> */}
-            </th>
-            <th className="text-center w-1/8 font-bold ml-1 text-with-text-shadow">
-              ID
-            </th>
-            <th className="text-center w-1/8 font-bold text-with-text-shadow">
-              NO COMPROVANTE
-            </th>
-            <th className="text-center w-1/8 font-bold text-with-text-shadow">
-              CLIENTE
-            </th>
-            <th className="text-center w-1/8 font-bold text-with-text-shadow">
-              PAYMENT
-            </th>
-            <th className="text-center w-1/8 font-bold text-with-text-shadow">
-              ESTADO
-            </th>
-            <th className="text-center w-1/8 font-bold text-with-text-shadow">
-              FECHA
-            </th>
-            <th className="text-center w-1/8 font-bold text-with-text-shadow mr-1">
-              TOTAL
-            </th>
-          </tr>
+              </th>
+              <th className="text-center w-1/8 font-bold ml-1 text-with-text-shadow">
+                ID
+              </th>
+              <th className="text-center w-1/8 font-bold text-with-text-shadow">
+                NO COMPROVANTE
+              </th>
+              <th className="text-center w-1/8 font-bold text-with-text-shadow">
+                CLIENTE
+              </th>
+              <th className="text-center w-1/8 font-bold text-with-text-shadow">
+                PAYMENT
+              </th>
+              <th className="text-center w-1/8 font-bold text-with-text-shadow">
+                ESTADO
+              </th>
+              <th className="text-center w-1/8 font-bold text-with-text-shadow">
+                FECHA
+              </th>
+              <th className="text-center w-1/8 font-bold text-with-text-shadow mr-1">
+                TOTAL
+              </th>
+            </tr>
+          )}
         </thead>
-        <tbody
-          className={`bg-white duration-300 ${
-            screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
-          }`}
-        >
-          {currentOrders.map((order, index) => {
-            const displayedIndex = (currentPage - 1) * itemsPerPage + index + 1;
-            let precioTOTAL = Object.values(invoicesToArr[index])
-              .map((item) =>
-                item?.precio && item?.cantidad ? item.precio * item.cantidad : 0
-              )
-              .reduce((a, b) => a + b, 0);
+        {currentOrders.length === 0 ? (
+          <h1 className="p-4 uppercase text-center text-red-600 font-semibold">
+            No hay productos con esta DESCRIPCIÓN
+          </h1>
+        ) : (
+          <tbody
+            className={`bg-white duration-300 ${
+              screenWidth >= 1220 ? "" : "duration-300 text-[14px]"
+            }`}
+          >
+            {currentOrders.map((order, index) => {
+              const displayedIndex =
+                (currentPage - 1) * itemsPerPage + index + 1;
+              let precioTOTAL = Object.values(invoicesToArr[index])
+                .map((item) =>
+                  item?.precio && item?.cantidad
+                    ? item.precio * item.cantidad
+                    : 0
+                )
+                .reduce((a, b) => a + b, 0);
 
-            return (
-              <tr
-                className={`hover:text-blue-400 h-[75px] ${
-                  showItems.includes(index)
-                    ? "duration-200 opacity-100 translate-y-0"
-                    : "duration-200 opacity-0 translate-y-10"
-                }`}
-                key={displayedIndex}
-              >
-                <td className="text-center w-1/8">
-                  <label className="flex container items-center justify-center">
-                    <input
-                      type="checkbox"
-                      onChange={() => toggleSelectOrder(order)}
-                      checked={selectedOrdersID.includes(order?.id)}
-                    />
-                    <div className="checkmarklist"></div>
-                  </label>
-                  {/* <input
+              return (
+                <tr
+                  className={`hover:text-blue-400 h-[75px] ${
+                    showItems.includes(index)
+                      ? "duration-200 opacity-100 translate-y-0"
+                      : "duration-200 opacity-0 translate-y-10"
+                  }`}
+                  key={displayedIndex}
+                >
+                  <td className="text-center w-1/8">
+                    <label className="flex container items-center justify-center">
+                      <input
+                        type="checkbox"
+                        onChange={() => toggleSelectOrder(order)}
+                        checked={selectedOrdersID.includes(order?.id)}
+                      />
+                      <div className="checkmarklist"></div>
+                    </label>
+                    {/* <input
                     type="checkbox"
                     className="w-4 h-4 ml-1"
                     onChange={() => toggleSelectOrder(order)}
                     checked={selectedOrdersID.includes(order?.id)}
                   /> */}
-                </td>
+                  </td>
 
-                <td className="text-center w-1/8 font-bold ml-1">
-                  {displayedIndex}
-                </td>
+                  <td className="text-center w-1/8 font-bold ml-1">
+                    {displayedIndex}
+                  </td>
 
-                <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
-                  {order?.id}
-                </td>
+                  <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                    {"MIT"}
+                    {order?.id}
+                  </td>
 
-                <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
-                  {order?.user?.data?.username}
-                </td>
+                  <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                    {order?.user?.data?.username}
+                  </td>
 
-                <td className="text-center w-1/8 font-bold uppercase">
-                  PAYPAL
-                </td>
+                  <td className="text-center w-1/8 font-bold uppercase">
+                    PAYPAL
+                  </td>
 
-                <td
-                  className={`text-center w-1/8 font-bold uppercase ${
-                    order?.status === "success"
-                      ? "text-green-600"
+                  <td
+                    className={`text-center w-1/8 font-bold uppercase ${
+                      order?.status === "success"
+                        ? "text-green-600"
+                        : order?.status === "failed"
+                        ? "text-red-600"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {order?.status === "success"
+                      ? "Pago Realizado"
                       : order?.status === "failed"
-                      ? "text-red-600"
-                      : "text-gray-500"
-                  }`}
-                >
-                  {order?.status === "success"
-                    ? "Pago Realizado"
-                    : order?.status === "failed"
-                    ? "Pago Fallido"
-                    : "Procesando..."}
-                </td>
+                      ? "Pago Fallido"
+                      : "Procesando..."}
+                  </td>
 
-                <td className="text-center w-1/8 font-bold">{order?.today}</td>
+                  <td className="text-center w-1/8 font-bold">
+                    {order?.today}
+                  </td>
 
-                <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
-                  {parseFloat(precioTOTAL).toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                    minimumFractionDigits: 2,
-                  })}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
+                  <td className="text-center w-1/8 font-bold text-blue-600 mr-1">
+                    {parseFloat(precioTOTAL).toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      minimumFractionDigits: 2,
+                    })}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        )}
       </table>
-      <Pagination
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-        currentPage={currentPage}
-      />
+      <div className="flex flex-row justify-between">
+        <section className="flex w-[30%]">
+          <SearchBar_Dashboard handleSearch={handleSearch} />
+        </section>
+        <section className=" w-[70%]">
+          <Pagination
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        </section>
+      </div>
     </div>
   );
 };

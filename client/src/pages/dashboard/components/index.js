@@ -12,6 +12,7 @@ export { default as Data_Sheet } from "./Moto_Create/Data_Sheet";
 export { default as MediaInventoryManager } from "./Moto_Create/MediaInventoryManager";
 export { default as Moto_Create } from "./Moto_Create/Moto_Create";
 export { default as Navbar_Dashboard } from "./Navbar_Dashboard/Navbar_Dashboard";
+export { default as Pagination } from "./Pagination/Pagination";
 export { default as Basic_Info_Product } from "./Product_Edit/Basic_Info_Product";
 export { default as Data_Sheet_Product } from "./Product_Edit/Data_Sheet_Product";
 export { default as MediaInventoryManager_Product } from "./Product_Edit/MediaInventoryManager_Product";

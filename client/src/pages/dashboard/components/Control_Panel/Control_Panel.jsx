@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { TiArrowBack } from "react-icons/ti";
 
 import { Link } from "react-router-dom";
 
-const Control_Panel = ({
-  showBackButton,
-  showSearchBar,
-  showRoutes,
-  showAdditionalButtons,
-}) => {
+const Control_Panel = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [locationName, setLocationName] = useState("");
