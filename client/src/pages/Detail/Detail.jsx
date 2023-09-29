@@ -236,7 +236,7 @@ const Detail = () => {
             <div className="flex">
               <p className="text-3xl font-bold">USD {moto.precio}</p>
             </div>
-            <button
+            {/* <button
               className={`bg-transparent self-start text-black border-2 border-black mb-0 font-semibold font-arial text-base leading-4 tracking-normal p-3 mr-3 w-28 rounded-md hover:bg-gradient-to-r from-gray-500 to-blue-100 shadow-2xl ${
                 isInStock ? "" : "cursor-not-allowed opacity-50"
               }`}
@@ -244,7 +244,7 @@ const Detail = () => {
               disabled={!isInStock}
             >
               {isInStock ? "Comprar" : "Sin stock"}
-            </button>
+            </button> */}
             <span
               onClick={addProducto}
               className={`bg-orange-500 p-1 rounded-lg cursor-pointer max-sm:w-7 w-10 hover:scale-110 mr-2 ${
@@ -284,15 +284,13 @@ const Detail = () => {
           />
         </div>
       </div>
-      
-      <div className="py-4 mb-5 pb-6 text-center">
 
+      <div className="py-4 mb-5 pb-6 text-center">
         <h1 className="p-5 text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-600 via-[#FA6600] to-red-600 shadow-2xl">
           Lo que dicen nuestros compradores:
         </h1>
       </div>
       <div className="flex flex-wrap gap-3 pb-6 justify-center">
-
         {!filteredReviews.length ? (
           <span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
             Aún no hay reviews de este modelo
@@ -314,7 +312,6 @@ const Detail = () => {
           )
         )}
       </div>
-
     </article>
   );
 };
