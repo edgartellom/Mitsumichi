@@ -67,7 +67,7 @@ const Control_Panel = ({
             {location.pathname === "/dashboard/products-admin" && (
               <button
                 onClick={redirectToCreate}
-                className="right-5 bg-slate-100 text-[#C63D05] font-bold px-4 mb-8 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
+                className="mt-10 right-5 bg-slate-100 text-2xl text-[#C63D05] font-bold px-4 py-1 rounded-lg shadow-sm duration-300 hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#ff6600]"
               >
                 ADD
               </button>
