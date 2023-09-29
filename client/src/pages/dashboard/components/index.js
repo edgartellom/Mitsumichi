@@ -7,6 +7,7 @@ export { default as Control_Panel } from "./Control_Panel/Control_Panel";
 export { default as CustomButton } from "./IU_Componentes/Buttons/CustomButton";
 export { default as Title_Label } from "./IU_Componentes/Label/Title_Label";
 export * from "./IU_Componentes";
+export { default as Invoice_Dashboard } from "./Invoice_Dashboard/Invoice_Dashboard";
 export { default as Basic_Info } from "./Moto_Create/Basic_Info";
 export { default as Data_Sheet } from "./Moto_Create/Data_Sheet";
 export { default as MediaInventoryManager } from "./Moto_Create/MediaInventoryManager";

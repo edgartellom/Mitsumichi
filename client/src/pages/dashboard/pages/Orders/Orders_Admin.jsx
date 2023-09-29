@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { userAuth } from "../../../../context/Auth-context";
 import Pagination from "../../components/Pagination/Pagination";
-import axios from "axios";
 
 import {
   MdOutlineDeleteForever,
@@ -10,30 +9,29 @@ import {
 } from "react-icons/md";
 
 import "../styles.css";
-import { SearchBar_Dashboard } from "../../components";
+import { Invoice_Dashboard, SearchBar_Dashboard } from "../../components";
 
 const Products_Admin = () => {
   const { allInvoices } = useContext(userAuth);
-  const invoicesToArr = Object.values(allInvoices);
+
+  const invoicesToArr = allInvoices ? Object.values(allInvoices) : [];
 
   const [showItems, setShowItems] = useState([]);
 
-  const [selectAll, setSelectAll] = useState(false);
-  const [selectedOrders, setSelectedOrders] = useState([]);
-  const selectedOrdersID = selectedOrders.map(
-    (selectedOrder) => selectedOrder?.id
-  );
+  const [selectedInvoice, setSelectedInvoice] = useState(null); // Para almacenar los datos de la factura seleccionada
 
   const [filteredInvoices, setFilteredInvoices] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // Para controlar la visibilidad del modal
+
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     setFilteredInvoices(allInvoices);
   }, [allInvoices]);
-
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -47,25 +45,25 @@ const Products_Admin = () => {
     };
   }, []);
 
-  const toggleSelectAll = () => {
-    setSelectAll(!selectAll);
-    setSelectedOrders(selectAll ? [] : [...allInvoices]);
-  };
+  // const toggleSelectAll = () => {
+  //   setSelectAll(!selectAll);
+  //   setSelectedOrders(selectAll ? [] : [...allInvoices]);
+  // };
 
-  const toggleSelectOrder = (order) => {
-    const orderId = order?.id;
-    const isSelected = selectedOrders.some(
-      (selectedOrder) => selectedOrder.id === orderId
-    );
+  // const toggleSelectOrder = (order) => {
+  //   const orderId = order?.id;
+  //   const isSelected = selectedOrders.some(
+  //     (selectedOrder) => selectedOrder.id === orderId
+  //   );
 
-    if (isSelected) {
-      setSelectedOrders((prevSelected) =>
-        prevSelected.filter((selectedOrder) => selectedOrder?.id !== orderId)
-      );
-    } else {
-      setSelectedOrders((prevSelected) => [...prevSelected, order]);
-    }
-  };
+  //   if (isSelected) {
+  //     setSelectedOrders((prevSelected) =>
+  //       prevSelected.filter((selectedOrder) => selectedOrder?.id !== orderId)
+  //     );
+  //   } else {
+  //     setSelectedOrders((prevSelected) => [...prevSelected, order]);
+  //   }
+  // };
 
   useEffect(() => {
     if (allInvoices.length > 0) {
@@ -76,7 +74,7 @@ const Products_Admin = () => {
         }, animationDelay * index);
       });
     }
-  }, [allInvoices]);
+  }, []);
 
   const totalPages = Math.ceil(filteredInvoices.length / itemsPerPage);
 
@@ -105,9 +103,19 @@ const Products_Admin = () => {
     setFilteredInvoices(searchQuery === "" ? allInvoices : filteredInvoices);
   };
 
+  const handleInvoiceClick = (invoice) => {
+    setSelectedInvoice(invoice);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedInvoice(null);
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="min-h-full pl-4 pr-1 py-4 justify-center overflow-y-scroll scrollbar-gutter relative">
-      <button
+      {/* <button
         className="absolute duration-200 top-4 right-2 bg-[#303030] font-bold rounded-lg shadow-sm hover:shadow-sm shadow-[#202020] hover:text-gray-900 hover:bg-[#252525] cursor-pointer"
         onClick={""}
       >
@@ -115,7 +123,7 @@ const Products_Admin = () => {
           <MdOutlineRestoreFromTrash size={30} />
           <span className="">REMOVE</span>
         </div>
-      </button>
+      </button> */}
       <h1 className="pb-2 -pt-2 text-2xl font-bold text-[#c63d05] uppercase">
         Lista de Ordenes
       </h1>
@@ -129,7 +137,7 @@ const Products_Admin = () => {
         >
           {currentOrders.length === 0 ? null : (
             <tr className="">
-              <th className="w-1/8 text-center pt-1">
+              {/* <th className="w-1/8 text-center pt-1">
                 <label className="flex container items-center justify-center">
                   <input
                     type="checkbox"
@@ -138,14 +146,14 @@ const Products_Admin = () => {
                   />
                   <div className="checkmark"></div>
                 </label>
-                {/* <input
+                 <input
                 type="checkbox"
                 className="w-5 h-5 ml-1 mx-auto"
                 onChange={toggleSelectAll}
                 checked={selectAll}
-              /> */}
-              </th>
-              <th className="text-center w-1/8 font-bold ml-1 text-with-text-shadow">
+              /> 
+              </th> */}
+              <th className="text-center w-1/8 font-bold pl-2 text-with-text-shadow">
                 ID
               </th>
               <th className="text-center w-1/8 font-bold text-with-text-shadow">
@@ -171,7 +179,7 @@ const Products_Admin = () => {
         </thead>
         {currentOrders.length === 0 ? (
           <h1 className="p-4 uppercase text-center text-red-600 font-semibold">
-            No hay productos con esta DESCRIPCIÓN
+            No exixten productos con esta DESCRIPCIÓN
           </h1>
         ) : (
           <tbody
@@ -182,13 +190,24 @@ const Products_Admin = () => {
             {currentOrders.map((order, index) => {
               const displayedIndex =
                 (currentPage - 1) * itemsPerPage + index + 1;
-              let precioTOTAL = Object.values(invoicesToArr[index])
-                .map((item) =>
-                  item?.precio && item?.cantidad
-                    ? item.precio * item.cantidad
-                    : 0
-                )
-                .reduce((a, b) => a + b, 0);
+
+              let precioTOTAL = 0;
+
+              if (
+                invoicesToArr &&
+                index >= 0 &&
+                invoicesToArr.length > index &&
+                invoicesToArr[index] &&
+                typeof invoicesToArr[index] === "object"
+              ) {
+                precioTOTAL = Object.values(invoicesToArr[index])
+                  .map((item) =>
+                    item?.precio && item?.cantidad
+                      ? item.precio * item.cantidad
+                      : 0
+                  )
+                  .reduce((a, b) => a + b, 0);
+              }
 
               return (
                 <tr
@@ -199,7 +218,7 @@ const Products_Admin = () => {
                   }`}
                   key={displayedIndex}
                 >
-                  <td className="text-center w-1/8">
+                  {/* <td className="text-center w-1/8">
                     <label className="flex container items-center justify-center">
                       <input
                         type="checkbox"
@@ -208,19 +227,22 @@ const Products_Admin = () => {
                       />
                       <div className="checkmarklist"></div>
                     </label>
-                    {/* <input
+                   <input
                     type="checkbox"
                     className="w-4 h-4 ml-1"
                     onChange={() => toggleSelectOrder(order)}
                     checked={selectedOrdersID.includes(order?.id)}
-                  /> */}
-                  </td>
+                  /> 
+                  </td> */}
 
-                  <td className="text-center w-1/8 font-bold ml-1">
+                  <td className="text-center w-1/8 font-bold pl-2">
                     {displayedIndex}
                   </td>
 
-                  <td className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                  <td
+                    onClick={() => handleInvoiceClick(order)}
+                    className="text-center w-1/8 font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+                  >
                     {"MIT"}
                     {order?.id}
                   </td>
@@ -278,6 +300,9 @@ const Products_Admin = () => {
           />
         </section>
       </div>
+      {isModalOpen && (
+        <Invoice_Dashboard facturaData={selectedInvoice} onClose={closeModal} />
+      )}
     </div>
   );
 };

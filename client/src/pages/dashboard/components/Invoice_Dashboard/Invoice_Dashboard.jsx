@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-import { userAuth } from "../../context/Auth-context";
+import { userAuth } from "../../../../context/Auth-context";
 
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { format, parse } from "date-fns";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-import Wrapper from "../../helper/Wrapper";
+import Wrapper from "../../../../helper/Wrapper";
 
 import { FaWindowClose, FaFileDownload } from "react-icons/fa";
-import logoCerradoWhite from "../../assets/Logo_Mitsumichi_White.png";
-import logoCerradoBlack from "../../assets/Logo_Mitsumichi.png";
+import logoCerradoWhite from "../../../../assets/Logo_Mitsumichi_White.png";
+import logoCerradoBlack from "../../../../assets/Logo_Mitsumichi.png";
 
 function convertirFechaLarga(fechaStr) {
   // Parsea la cadena de fecha en un objeto de fecha
@@ -22,18 +22,20 @@ function convertirFechaLarga(fechaStr) {
   return fechaLarga;
 }
 
-const Invoice = ({ facturaData, onClose }) => {
-  const { user } = useContext(userAuth);
+const Invoice_Dashboard = ({ facturaData, onClose }) => {
   const fechaStr = facturaData?.today;
+
   const fechaLarga = convertirFechaLarga(fechaStr);
+
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const elementosComprados = Object.values(facturaData).filter(
     (item) => item.brand && item.cantidad && item.precio && item.motoModel
   );
 
-  const phoneNumber = parsePhoneNumberFromString(user?.data?.telefono);
-  console.log(elementosComprados);
+  const phoneNumber = parsePhoneNumberFromString(
+    facturaData?.user?.data?.telefono || ""
+  ); // facturaData?.user?.data?.telefono
 
   // Función para formatear el ID
   const formatID = (id) => {
@@ -143,13 +145,14 @@ const Invoice = ({ facturaData, onClose }) => {
                   <section>
                     <p>
                       <span className="text-2xl font-semibold">Cliente: </span>
-                      {user?.data?.name} {user?.data?.apellido}
+                      {facturaData?.user?.data?.name}{" "}
+                      {facturaData?.user?.data?.apellido}
                     </p>
                     <p>
                       <span className="text-2xl font-semibold">
                         Dirección:{" "}
                       </span>
-                      {user?.data?.direccion}
+                      {facturaData?.user?.data?.direccion}
                     </p>
                     <p>
                       <span className="text-2xl font-semibold">Tel: </span>
@@ -157,7 +160,7 @@ const Invoice = ({ facturaData, onClose }) => {
                     </p>
                     <p>
                       <span className="text-2xl font-semibold">Email: </span>
-                      {user?.email}
+                      {facturaData?.user?.email}
                     </p>
                   </section>
                 </div>
@@ -322,4 +325,4 @@ const Invoice = ({ facturaData, onClose }) => {
   );
 };
 
-export default Invoice;
+export default Invoice_Dashboard;

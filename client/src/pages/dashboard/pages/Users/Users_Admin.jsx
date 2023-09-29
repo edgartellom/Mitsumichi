@@ -9,14 +9,17 @@ import {
 
 import { userAuth } from "../../../../context/Auth-context";
 import { SearchBar_Dashboard } from "../../components";
+import EditUser from "./EditUser";
+
 const Users_Admin = () => {
   const { users, invoices } = useContext(userAuth);
-
   const [showItems, setShowItems] = useState([]);
   const invoicesToArr = Object.values(invoices);
   const [selectAll, setSelectAll] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [filteredusers, setFilteredUsers] = useState([{}]);
+  const [selectedUserToEdit, setSelectedUserToEdit] = useState(null); // Para almacenar los datos de la factura seleccionada
+  const [isModalOpen, setIsModalOpen] = useState(false); // Para controlar la visibilidad del modal
 
   useEffect(() => {
     setFilteredUsers(users);
@@ -74,8 +77,6 @@ const Users_Admin = () => {
     }
   }, [users]);
 
-  console.log(selectedUsers, "users");
-
   const changeUserStatus = async () => {
     try {
       // Crear un array de promesas para las actualizaciones de usuarios
@@ -122,6 +123,16 @@ const Users_Admin = () => {
 
     // Establece filteredusers en todas las users si la búsqueda está vacía
     setFilteredUsers(searchQuery === "" ? users : filteredusers);
+  };
+
+  const handleInvoiceClick = (invoice) => {
+    setSelectedUserToEdit(invoice);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedUserToEdit(null);
+    setIsModalOpen(false);
   };
 
   return (
@@ -214,13 +225,20 @@ const Users_Admin = () => {
               const displayedIndex =
                 (currentPage - 1) * itemsPerPage + index + 1;
 
-              const precioTOTAL = invoicesToArr[displayedIndex]
-                ?.map((item) => item[0]?.precio)
-                .map(Number)
-                .filter((item) => !isNaN(item))
-                .reduce((a, b) => a + b, 0);
+              const userId = users[index]?.id; // ID del usuario actual
+              const userInvoices = invoices[userId]; // Facturas del usuario actual
 
-              console.log(precioTOTAL, "precioTOTAL");
+              let precioTOTAL = 0;
+
+              if (userInvoices && userInvoices.length > 0) {
+                precioTOTAL = userInvoices
+                  .map((item) =>
+                    item?.precio && item?.cantidad
+                      ? item?.precio * item?.cantidad
+                      : 0
+                  )
+                  .reduce((a, b) => a + b, 0);
+              }
 
               return (
                 <tr
@@ -248,7 +266,10 @@ const Users_Admin = () => {
                   <td className="text-center w-1/7 font-bold ml-1">
                     {displayedIndex}
                   </td>
-                  <td className="text-center w-1/7 font-bold uppercase hover:text-[#C63D05] cursor-pointer">
+                  <td
+                    onClick={() => handleInvoiceClick(user)}
+                    className="text-center w-1/7 font-bold uppercase hover:text-[#C63D05] cursor-pointer"
+                  >
                     {user?.data?.name}
                   </td>
                   {user?.role === "admin" ? (
@@ -299,6 +320,9 @@ const Users_Admin = () => {
           />
         </section>
       </div>
+      {isModalOpen && (
+        <EditUser userData={selectedUserToEdit} onClose={closeModal} />
+      )}
     </div>
   );
 };
