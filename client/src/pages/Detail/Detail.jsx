@@ -26,6 +26,7 @@ const Detail = () => {
   const [tipo, setTipo] = useState("");
   const [selectedImage, setSelectedImage] = useState(0);
   const [reviews, setReviews] = useState([]);
+  console.log(reviews);
   const navigate = useNavigate();
   const { id } = useParams();
   const [isInStock, setIsInStock] = useState(true);
@@ -286,18 +287,23 @@ const Detail = () => {
       <div className="flex flex-wrap gap-3 pb-6 justify-center">
         {!filteredReviews.length ? (
           <span className="text-xl font-bold text-gray-700 bg-gray-200 p-2 rounded-md">
-            Aun no hay reviews de este modelo
+            Aún no hay reviews de este modelo
           </span>
         ) : (
-          filteredReviews.map((rev) => (
-            <Review
-              key={rev?.id}
-              name={rev?.userReview?.name}
-              userImage={rev?.userReview?.photoURL}
-              description={rev.feedback}
-              starCount={rev.selectedRating}
-            />
-          ))
+          filteredReviews.map(
+            (rev) => (
+              console.log(rev),
+              (
+                <Review
+                  key={rev.id} // Asegúrate de tener una clave única en el mapeo
+                  name={rev?.userReview?.name}
+                  userImage={rev?.userReview?.photoURL}
+                  description={rev.feedback}
+                  starCount={rev.selectedRating}
+                />
+              )
+            )
+          )
         )}
       </div>
     </article>
