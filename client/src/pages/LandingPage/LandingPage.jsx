@@ -18,7 +18,7 @@ const LandingPage = () => {
           </div>
           <SideBar routesArray={routes} />
           <ul className=" flex gap-10 px-10 flex-wrap max-md:hidden ">
-            <Link to="/about">About us</Link>
+            <Link to="/about-us">About us</Link>
             <Link to="/service and support">servicio y soporte</Link>
           </ul>
         </nav>

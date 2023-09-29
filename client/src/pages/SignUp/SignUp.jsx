@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import Button from "../../components/UI/Button";
 import { userAuth } from "../../context/Auth-context";
 import { useForm } from "react-hook-form";
@@ -9,15 +9,17 @@ import Wrapper from "../../helper/Wrapper";
 import logOut from "../../firebase/logOut";
 
 
+
 const SignUp = () => {
-  const { currentUser } = useContext(userAuth);
+  const { currentUser, user } = useContext(userAuth);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handleFinish = async (data) => {
+
+  const handleFinish = async (data) =>  {
     if (data) {
       const tmp = { ...currentUser };
       tmp.processCompleted = true;
@@ -31,6 +33,7 @@ const SignUp = () => {
         email: currentUser.email,
       });
     }
+
     window.location.reload();
   };
 
