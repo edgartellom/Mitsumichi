@@ -69,8 +69,9 @@ const Detail = () => {
       imageUrl: moto.imageUrl[0],
       cantidad: 1,
       id: moto.id,
+      stock: moto.stock,
     };
-    navigate(`/paypal-button/${moto.precio}/${brand.name}`);
+    navigate(`/paypal-button/${moto.precio}/${brand.name}/${id}/${moto.stock}`);
     window.localStorage.setItem("moto", JSON.stringify(motocycle));
   };
 
@@ -79,7 +80,6 @@ const Detail = () => {
   const addProducto = async () => {
     const response = await axios.get(`motos/${id}`);
     const stock = response.data.stock;
-
     console.log(stock);
     if (currentUser) {
       // Si el usuario está autenticado, verifica si el producto ya está en el carrito
@@ -101,6 +101,7 @@ const Detail = () => {
           imageUrl: moto.imageUrl[0],
           cantidad: 1,
           id: moto.id,
+          stock: moto.stock,
         });
       }
 
@@ -133,6 +134,7 @@ const Detail = () => {
           imageUrl: moto.imageUrl[0],
           cantidad: 1,
           id: moto.id,
+          stock: moto.stock,
         });
 
         // Actualiza el localStorage y el estado local
