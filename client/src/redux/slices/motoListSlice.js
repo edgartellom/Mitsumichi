@@ -85,7 +85,7 @@ export const fetchMotos = (limit) => async (dispatch, getState) => {
 
     const { currentPage, filters, searchQuery, sorts } = getState().motoList;
 
-    const response = await axios.get("/motos", {
+    const response = await axios.get("motos", {
       params: {
         limit: limit,
         page: currentPage,

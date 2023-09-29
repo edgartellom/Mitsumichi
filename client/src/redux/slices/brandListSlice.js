@@ -15,7 +15,7 @@ const brandSlice = createSlice({
 
 export const fetchBrands = () => async (dispatch) => {
   try {
-    const response = await axios.get("/marcas");
+    const response = await axios.get("marcas");
     const jsonData = await response.data;
     const marcas = jsonData.map((marca) => marca.name);
     dispatch(brandSlice.actions.setBrands(marcas));
