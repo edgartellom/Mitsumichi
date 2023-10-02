@@ -1,4 +1,4 @@
- import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useParams, useNavigate } from "react-router-dom";
 import Button from "../../components/UI/Button";
@@ -64,11 +64,10 @@ export function PayPalButton() {
 
     const userEmail = user?.email || ""; // Uso mail del Profile_Info
     const userName = user?.data?.username || ""; // Uso nombre del Profile_Info
-    
 
     const emailData = {
       from: "mitsumichipf@gmail.com",
-      to: userEmail, 
+      to: userEmail,
       subject: "Confirmación de compra",
       text: `¡Gracias, ${userName}, por su compra de ${nombre}! Su pago se ha completado con éxito. ID de compra: ${capturedPurchaseId}`,
     };
@@ -81,7 +80,6 @@ export function PayPalButton() {
     }
   };
 
-  
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateStock = async (id, stock) => {
     if (products.length > 0) {
@@ -179,7 +177,7 @@ export function PayPalButton() {
   }
 
   return (
-    <div className="flex justify-center items-center h-screen z-0">
+    <div className="flex relative  justify-center items-center h-screen z-0">
       <PayPalScriptProvider options={{ "client-id": clientId }}>
         <div className="w-full md:w-1/2">
           {isCompleted ? (
@@ -252,4 +250,4 @@ export function PayPalButton() {
   );
 }
 
-export default PayPalButton; 
+export default PayPalButton;
